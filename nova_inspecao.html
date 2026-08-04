@@ -33,6 +33,7 @@
 
 
 
+
 <div class="content">
 
 
@@ -42,7 +43,9 @@
 
 
 
+
 <div class="card">
+
 
 
 <label>Obra</label>
@@ -54,6 +57,7 @@ Carregando obras...
 </option>
 
 </select>
+
 
 
 
@@ -77,6 +81,7 @@ Carregando obras...
 
 
 
+
 <label>Data da Inspeção</label>
 
 <input type="date" id="data">
@@ -85,7 +90,8 @@ Carregando obras...
 
 
 
-<label>Responsável</label>
+
+<label>Responsável Técnico</label>
 
 <input 
 id="responsavel"
@@ -96,12 +102,16 @@ placeholder="Nome do inspetor">
 
 
 
+
 <label>Observações</label>
 
-<textarea 
+<textarea
 id="observacao"
 placeholder="Descreva a inspeção">
 </textarea>
+
+
+
 
 
 
@@ -121,7 +131,9 @@ placeholder="Descreva a inspeção">
 
 
 
+
 <br><br>
+
 
 
 <button onclick="salvarInspecao()">
@@ -131,10 +143,13 @@ placeholder="Descreva a inspeção">
 </button>
 
 
+
 </div>
 
 
+
 </div>
+
 
 
 
@@ -142,37 +157,118 @@ placeholder="Descreva a inspeção">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
 <script src="js/supabase.js"></script>
+
+
+
 
 
 
 <script>
 
 
-// carregar obras no select
+
+
+
+// Data automática
+
+document.getElementById("data").value =
+new Date().toISOString().split("T")[0];
+
+
+
+
+
+
+
+// Buscar obras cadastradas
+
 
 async function carregarObras(){
+
+
+
+if(typeof banco === "undefined"){
+
+
+alert("❌ Erro de conexão com banco");
+
+
+return;
+
+
+}
+
+
+
 
 
 const {data,error}=await banco
 
 .from("obras")
 
-.select("*");
+.select("*")
+
+.order("id",{ascending:false});
 
 
 
-const select=document.getElementById("obra");
+
+
+
+const select =
+document.getElementById("obra");
+
 
 
 select.innerHTML="";
 
 
 
-if(data){
+
+
+
+if(error){
+
+
+console.log(error);
+
+
+select.innerHTML =
+"<option>Erro ao carregar obras</option>";
+
+
+return;
+
+
+}
+
+
+
+
+
+
+if(!data || data.length === 0){
+
+
+select.innerHTML =
+"<option>Nenhuma obra cadastrada</option>";
+
+
+return;
+
+
+}
+
+
+
+
+
 
 
 data.forEach(obra=>{
+
 
 
 select.innerHTML += `
@@ -186,14 +282,15 @@ ${obra.nome}
 `;
 
 
+
 });
 
 
-}
-
-
 
 }
+
+
+
 
 
 
@@ -203,10 +300,16 @@ carregarObras();
 
 
 
-// salvar inspeção
+
+
+
+
+// Salvar inspeção
 
 
 async function salvarInspecao(){
+
+
 
 
 
@@ -242,24 +345,58 @@ document.getElementById("status").value;
 
 
 
-const {data,error}=await banco
+
+
+
+if(!obra_id){
+
+
+alert("Selecione uma obra");
+
+
+return;
+
+
+}
+
+
+
+
+if(!responsavel){
+
+
+alert("Informe o responsável técnico");
+
+
+return;
+
+
+}
+
+
+
+
+
+
+
+const {error}=await banco
 
 .from("inspecoes")
 
 .insert([{
 
 
-obra_id:obra_id,
+obra_id: Number(obra_id),
 
-tipo:tipo,
+tipo: tipo,
 
-data_inspecao:data_inspecao,
+data_inspecao: data_inspecao,
 
-responsavel:responsavel,
+responsavel: responsavel,
 
-observacao:observacao,
+observacao: observacao,
 
-status:status
+status: status
 
 
 }]);
@@ -268,13 +405,18 @@ status:status
 
 
 
+
+
 if(error){
+
 
 
 console.log(error);
 
 
+
 alert("❌ Erro ao salvar inspeção");
+
 
 
 }
@@ -282,21 +424,30 @@ alert("❌ Erro ao salvar inspeção");
 else{
 
 
+
 alert("✅ Inspeção cadastrada com sucesso!");
+
 
 
 window.location.href="inspecoes.html";
 
 
+
+}
+
+
+
+
+
 }
 
 
 
-}
 
 
 
 </script>
+
 
 
 </body>
