@@ -56,7 +56,9 @@
 
 
 <button onclick="location.href='novaobra.html'">
+
 ➕ Nova Obra
+
 </button>
 
 
@@ -67,9 +69,16 @@
 
 
 
+<!-- Supabase -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script src="supabase.js"></script>
+
+<!-- Conexão Banco -->
+
+<script src="js/supabase.js"></script>
+
+
 
 
 
@@ -79,10 +88,31 @@
 async function carregarObras(){
 
 
+
+if(typeof banco === "undefined"){
+
+document.getElementById("listaObras").innerHTML =
+"<p>❌ Erro: banco não conectado.</p>";
+
+console.log("supabase.js não carregou");
+
+return;
+
+}
+
+
+
+
+
 const {data, error} = await banco
+
 .from("obras")
+
 .select("*")
+
 .order("id", {ascending:false});
+
+
 
 
 
@@ -90,12 +120,17 @@ let lista = document.getElementById("listaObras");
 
 
 
+
+
 if(error){
 
+
 lista.innerHTML =
-"<p>Erro ao carregar obras</p>";
+"<p>❌ Erro ao carregar obras.</p>";
+
 
 console.log(error);
+
 
 return;
 
@@ -103,14 +138,21 @@ return;
 
 
 
-if(data.length === 0){
+
+
+if(!data || data.length === 0){
+
 
 lista.innerHTML =
 "<p>Nenhuma obra cadastrada ainda.</p>";
 
+
 return;
 
+
 }
+
+
 
 
 
@@ -119,7 +161,10 @@ lista.innerHTML="";
 
 
 
+
+
 data.forEach(obra => {
+
 
 
 lista.innerHTML += `
@@ -128,7 +173,10 @@ lista.innerHTML += `
 <div class="card">
 
 
-<h2>🏢 ${obra.nome}</h2>
+<h2>
+🏢 ${obra.nome}
+</h2>
+
 
 
 <p>
@@ -136,14 +184,17 @@ lista.innerHTML += `
 </p>
 
 
+
 <p>
 👷 Responsável: ${obra.responsavel}
 </p>
 
 
+
 <p>
 📅 Início: ${obra.data_inicio}
 </p>
+
 
 
 <p>
@@ -167,11 +218,14 @@ lista.innerHTML += `
 
 
 
+
+
 carregarObras();
 
 
 
 </script>
+
 
 
 </body>
