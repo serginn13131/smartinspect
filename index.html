@@ -22,23 +22,34 @@
 <h2>🏗 SmartInspect AI</h2>
 
 <a href="index.html">📊 Dashboard</a>
+
+<a href="criar.html">➕ Criar</a>
+
 <a href="obras.html">🏢 Obras</a>
+
 <a href="inspecoes.html">📋 Inspeções</a>
+
 <a href="estoque.html">📦 Estoque</a>
+
 <a href="ia.html">🤖 IA</a>
+
 <a href="relatorios.html">📄 Relatórios</a>
+
 <a href="equipe.html">👷 Equipe</a>
 
+
 </div>
+
 
 
 
 <div class="content">
 
 
-<h1>Dashboard</h1>
+<h1>📊 Dashboard</h1>
 
-<p>Sistema inteligente de gestão de obras</p>
+<p>Sistema inteligente de gestão de obras com Inteligência Artificial</p>
+
 
 
 
@@ -48,106 +59,154 @@
 <div class="card">
 
 <h2 id="obras">0</h2>
-<p>Obras Ativas</p>
+
+<p>🏢 Obras Ativas</p>
 
 </div>
+
 
 
 
 <div class="card">
 
 <h2 id="inspecoes">0</h2>
-<p>Inspeções Realizadas</p>
+
+<p>📋 Inspeções Realizadas</p>
 
 </div>
+
 
 
 
 <div class="card">
 
 <h2 id="problemas">0</h2>
-<p>Não Conformidades</p>
+
+<p>⚠️ Problemas Encontrados</p>
 
 </div>
+
 
 
 
 <div class="card">
 
-<h2 id="estoque">0%</h2>
-<p>Estoque Disponível</p>
+<h2 id="usuarios">0</h2>
 
-</div>
-
-
-</div>
-
-
+<p>👷 Usuários</p>
 
 </div>
 
 
 
-<!-- Biblioteca Supabase -->
+</div>
+
+
+
+
+
+<div class="card">
+
+<h2>🚀 Acesso rápido</h2>
+
+<p>
+Cadastre obras, realize inspeções,
+envie fotos para análise da IA e gere relatórios técnicos.
+</p>
+
+
+<button onclick="location.href='criar.html'">
+➕ Novo Cadastro
+</button>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+<!-- Supabase -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
-<!-- Conexão com banco -->
 
 <script src="supabase.js"></script>
 
 
-<!-- Funções do sistema -->
 
 <script>
 
 
-async function carregarDashboard(){
+async function carregarDados(){
 
 
-    // Obras
-    let obras = await db
-    .from("obras")
-    .select("*");
+try{
 
 
-    document.getElementById("obras").innerHTML =
-    obras.data ? obras.data.length : 0;
+let obras = await db
+.from("obras")
+.select("*");
 
 
-
-    // Inspeções
-
-    let inspecoes = await db
-    .from("inspecoes")
-    .select("*");
-
-
-    document.getElementById("inspecoes").innerHTML =
-    inspecoes.data ? inspecoes.data.length : 0;
+document.getElementById("obras").innerHTML =
+obras.data ? obras.data.length : 0;
 
 
 
-    // Problemas encontrados
-
-    let problemas = await db
-    .from("nao_conformidades")
-    .select("*");
+let inspecoes = await db
+.from("inspecoes")
+.select("*");
 
 
-    document.getElementById("problemas").innerHTML =
-    problemas.data ? problemas.data.length : 0;
+document.getElementById("inspecoes").innerHTML =
+inspecoes.data ? inspecoes.data.length : 0;
+
+
+
+let problemas = await db
+.from("nao_conformidades")
+.select("*");
+
+
+document.getElementById("problemas").innerHTML =
+problemas.data ? problemas.data.length : 0;
+
+
+
+let usuarios = await db
+.from("usuarios")
+.select("*");
+
+
+document.getElementById("usuarios").innerHTML =
+usuarios.data ? usuarios.data.length : 0;
+
+
+
+}
+
+catch(error){
+
+console.log("Banco ainda não conectado");
+
+}
 
 
 
 }
 
 
-carregarDashboard();
+
+carregarDados();
 
 
 </script>
+
 
 
 </body>
