@@ -1,50 +1,65 @@
-import OpenAI from "openai";
+export default async function handler(req, res) {
+
+try {
+
+const { pergunta } = req.body;
 
 
-export default async function handler(req,res){
+const resposta = await fetch(
 
-
-try{
-
-
-const openai = new OpenAI({
-
-apiKey: process.env.OPENAI_API_KEY
-
-});
-
-
-
-const {pergunta} = req.body;
-
-
-
-const resposta = await openai.chat.completions.create({
-
-model:"gpt-4.1-mini",
-
-messages:[
+`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
 
 {
 
-role:"system",
+method:"POST",
 
-content:
-"Você é o SmartInspect AI, especialista em engenharia civil, inspeção de obras e construção. Responda de forma técnica e objetiva."
+headers:{
+
+"Content-Type":"application/json"
 
 },
 
+body: JSON.stringify({
+
+contents:[
+
 {
 
-role:"user",
+parts:[
 
-content:pergunta
+{
+
+text:
+`Você é o SmartInspect AI, especialista em engenharia civil, inspeção de obras e construção.
+
+Pergunta:
+${pergunta}`
 
 }
 
 ]
 
-});
+}
+
+]
+
+})
+
+}
+
+);
+
+
+
+const dados = await resposta.json();
+
+
+
+if(dados.error){
+
+throw new Error(dados.error.message);
+
+}
 
 
 
@@ -52,7 +67,7 @@ res.status(200).json({
 
 resposta:
 
-resposta.choices[0].message.content
+dados.candidates[0].content.parts[0].text
 
 });
 
@@ -64,13 +79,11 @@ resposta.choices[0].message.content
 console.log(error);
 
 
-
 res.status(500).json({
 
 resposta:"Erro na IA: " + error.message
 
 });
-
 
 
 }
