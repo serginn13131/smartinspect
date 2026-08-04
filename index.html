@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SmartInspect AI</title>
+<title>Dashboard - SmartInspect AI</title>
 
 <link rel="stylesheet" href="css/style.css">
 
@@ -22,34 +22,39 @@
 <h2>🏗 SmartInspect AI</h2>
 
 <a href="index.html">📊 Dashboard</a>
-
 <a href="criar.html">➕ Criar</a>
-
 <a href="obras.html">🏢 Obras</a>
-
 <a href="inspecoes.html">📋 Inspeções</a>
-
 <a href="estoque.html">📦 Estoque</a>
-
 <a href="ia.html">🤖 IA</a>
-
 <a href="relatorios.html">📄 Relatórios</a>
-
 <a href="equipe.html">👷 Equipe</a>
 
-
 </div>
-
 
 
 
 <div class="content">
 
 
-<h1>📊 Dashboard</h1>
+<h1>📊 Dashboard Inteligente</h1>
 
-<p>Sistema inteligente de gestão de obras com Inteligência Artificial</p>
+<p>
+Bem-vindo ao centro de controle do SmartInspect AI
+</p>
 
+
+
+<div class="card">
+
+<h2>🚀 SmartInspect AI</h2>
+
+<p>
+Sistema inteligente para gerenciamento de inspeções,
+controle de qualidade e acompanhamento de obras.
+</p>
+
+</div>
 
 
 
@@ -58,151 +63,155 @@
 
 <div class="card">
 
-<h2 id="obras">0</h2>
+<h2>🏢</h2>
 
-<p>🏢 Obras Ativas</p>
+<h3>Obras</h3>
+
+<p id="totalObras">
+0
+</p>
+
+<span>Obras cadastradas</span>
 
 </div>
-
 
 
 
 <div class="card">
 
-<h2 id="inspecoes">0</h2>
+<h2>📋</h2>
 
-<p>📋 Inspeções Realizadas</p>
-
-</div>
-
-
-
-
-<div class="card">
-
-<h2 id="problemas">0</h2>
-
-<p>⚠️ Problemas Encontrados</p>
-
-</div>
-
-
-
-
-<div class="card">
-
-<h2 id="usuarios">0</h2>
-
-<p>👷 Usuários</p>
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-<div class="card">
-
-<h2>🚀 Acesso rápido</h2>
+<h3>Inspeções</h3>
 
 <p>
-Cadastre obras, realize inspeções,
-envie fotos para análise da IA e gere relatórios técnicos.
+0
+</p>
+
+<span>Inspeções realizadas</span>
+
+</div>
+
+
+
+<div class="card">
+
+<h2>⚠️</h2>
+
+<h3>Não Conformidades</h3>
+
+<p>
+0
+</p>
+
+<span>Problemas encontrados</span>
+
+</div>
+
+
+
+<div class="card">
+
+<h2>👷</h2>
+
+<h3>Equipe</h3>
+
+<p>
+SmartInspect Team
+</p>
+
+<span>Equipe de desenvolvimento</span>
+
+</div>
+
+
+</div>
+
+
+
+<div class="card">
+
+
+<h2>👨‍💻 Desenvolvimento</h2>
+
+
+<p>
+<b>Desenvolvedor:</b> SERGINN
 </p>
 
 
-<button onclick="location.href='criar.html'">
-➕ Novo Cadastro
-</button>
+<p>
+<b>Equipe:</b> SmartInspect AI Development Team
+</p>
+
+
+<p>
+<b>Tecnologias:</b>
+HTML5 • CSS3 • JavaScript • Supabase • PostgreSQL • Inteligência Artificial
+</p>
 
 
 </div>
 
 
 
+
+<div class="card">
+
+
+<h2>📌 Status do Projeto</h2>
+
+
+<ul>
+
+<li>✅ Interface desenvolvida</li>
+
+<li>✅ Banco de dados conectado</li>
+
+<li>✅ Cadastro de obras funcionando</li>
+
+<li>🔄 Dashboard em evolução</li>
+
+<li>🤖 IA em desenvolvimento</li>
+
+</ul>
+
+
 </div>
 
 
 
 
+</div>
 
-
-<!-- Supabase -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script src="supabase.js"></script>
-
+<script src="js/supabase.js"></script>
 
 
 <script>
 
 
-async function carregarDados(){
+async function carregarDashboard(){
 
 
-try{
-
-
-let obras = await db
+const {data,error}=await banco
 .from("obras")
 .select("*");
 
 
-document.getElementById("obras").innerHTML =
-obras.data ? obras.data.length : 0;
+if(!error){
 
-
-
-let inspecoes = await db
-.from("inspecoes")
-.select("*");
-
-
-document.getElementById("inspecoes").innerHTML =
-inspecoes.data ? inspecoes.data.length : 0;
-
-
-
-let problemas = await db
-.from("nao_conformidades")
-.select("*");
-
-
-document.getElementById("problemas").innerHTML =
-problemas.data ? problemas.data.length : 0;
-
-
-
-let usuarios = await db
-.from("usuarios")
-.select("*");
-
-
-document.getElementById("usuarios").innerHTML =
-usuarios.data ? usuarios.data.length : 0;
-
-
+document.getElementById("totalObras").innerHTML =
+data.length;
 
 }
-
-catch(error){
-
-console.log("Banco ainda não conectado");
-
-}
-
 
 
 }
 
 
-
-carregarDados();
+carregarDashboard();
 
 
 </script>
@@ -212,4 +221,3 @@ carregarDados();
 </body>
 
 </html>
-```
