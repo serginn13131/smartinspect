@@ -324,26 +324,46 @@ document.getElementById("resposta").innerHTML=
 
 
 
-async function analisarFoto(){
+async function analisarFoto() {
 
+    const arquivo = document.getElementById("foto").files[0];
 
+    if (!arquivo) {
+        alert("Selecione uma imagem.");
+        return;
+    }
 
-const arquivo =
+    document.getElementById("resposta").innerHTML =
+        "📷 Enviando imagem para análise...";
 
-document.getElementById("foto").files[0];
+    const formData = new FormData();
+    formData.append("foto", arquivo);
 
+    try {
 
+        const resposta = await fetch("/api/analisar-imagem", {
+            method: "POST",
+            body: formData
+        });
 
+        const dados = await resposta.json();
 
+        document.getElementById("resposta").innerHTML = `
+            <h3>🤖 SmartInspect AI</h3>
 
-if(!arquivo){
+            <hr>
 
+            ${dados.resposta}
+        `;
 
-alert("Selecione uma imagem");
+    } catch (erro) {
 
+        console.log(erro);
 
-return;
+        document.getElementById("resposta").innerHTML =
+            "❌ Erro ao analisar a imagem.";
 
+    }
 
 }
 
