@@ -43,11 +43,13 @@
 
 
 
+
 <div id="listaObras">
 
 <p>Carregando obras...</p>
 
 </div>
+
 
 
 
@@ -87,10 +89,14 @@ async function carregarObras(){
 
 if(typeof banco === "undefined"){
 
+
 document.getElementById("listaObras").innerHTML =
+
 "❌ Banco não conectado";
 
+
 return;
+
 
 }
 
@@ -98,44 +104,58 @@ return;
 
 
 
-const {data, error} = await banco
+const {data,error}=await banco
 
 .from("obras")
 
 .select("*")
 
-.order("id", {ascending:false});
+.order("id",{ascending:false});
 
 
 
 
-let lista = document.getElementById("listaObras");
+
+let lista=document.getElementById("listaObras");
+
+
 
 
 
 
 if(error){
 
-lista.innerHTML =
-"❌ Erro ao carregar obras";
 
 console.log(error);
 
+
+lista.innerHTML =
+"❌ Erro ao carregar obras";
+
+
 return;
+
 
 }
 
 
 
 
-if(data.length === 0){
+
+
+if(!data || data.length === 0){
+
 
 lista.innerHTML =
 "Nenhuma obra cadastrada";
 
+
 return;
 
+
 }
+
+
 
 
 
@@ -147,7 +167,10 @@ lista.innerHTML="";
 
 
 
-data.forEach(obra => {
+
+data.forEach(obra=>{
+
+
 
 
 
@@ -158,36 +181,57 @@ lista.innerHTML += `
 
 
 <h2>
+
 🏢 ${obra.nome}
+
 </h2>
 
 
 
 <p>
+
 📍 ${obra.endereco}
+
 </p>
 
 
 
 <p>
-👷 Responsável: ${obra.responsavel}
+
+👷 Responsável:
+${obra.responsavel}
+
 </p>
 
 
 
 <p>
-📅 Início: ${obra.data_inicio}
+
+📅 Início:
+${obra.data_inicio}
+
 </p>
 
 
 
 <p>
-📌 Status: ${obra.status}
+
+📌 Status:
+${obra.status}
+
 </p>
 
 
 
 <br>
+
+
+
+<button onclick="abrirObra(${obra.id})">
+
+🏢 Ver detalhes
+
+</button>
 
 
 
@@ -206,7 +250,10 @@ lista.innerHTML += `
 
 
 
+
+
 });
+
 
 
 
@@ -218,13 +265,32 @@ lista.innerHTML += `
 
 
 
+function abrirObra(id){
+
+
+window.location.href =
+"detalhes_obra.html?id=" + id;
+
+
+}
+
+
+
+
+
+
+
+
+
 async function deletarObra(id){
 
 
 
-let confirmar = confirm(
+let confirmar =
+confirm(
 "⚠️ Tem certeza que deseja excluir esta obra?"
 );
+
 
 
 
@@ -238,13 +304,15 @@ return;
 
 
 
-const {error} = await banco
+
+const {error}=await banco
 
 .from("obras")
 
 .delete()
 
-.eq("id", id);
+.eq("id",id);
+
 
 
 
@@ -281,11 +349,13 @@ carregarObras();
 
 
 
+
 carregarObras();
 
 
 
 </script>
+
 
 
 
