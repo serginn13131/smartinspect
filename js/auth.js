@@ -199,3 +199,43 @@ controlarMenu();
 }
 
 );
+// ======================================
+// BLOQUEIO DE PÁGINAS POR CARGO
+// ======================================
+
+function protegerPagina(paginaAtual){
+
+
+const usuario = getUsuario();
+
+
+if(!usuario){
+
+window.location.href="login.html";
+
+return;
+
+}
+
+
+
+if(!temPermissao(paginaAtual)){
+
+
+alert("❌ Você não tem permissão para acessar esta área");
+
+
+window.location.href="index.html";
+
+
+return false;
+
+
+}
+
+
+
+return true;
+
+
+}
