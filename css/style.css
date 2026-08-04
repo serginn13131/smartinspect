@@ -313,6 +313,120 @@ font-size:16px;
 padding:10px;
 
 }
+   .login-background{
+
+min-height:100vh;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+background:
+
+linear-gradient(
+rgba(0,0,0,0.55),
+rgba(0,0,0,0.55)
+),
+
+url("../imagens/logo.png");
+
+background-size:cover;
+
+background-position:center;
+
+}
+
+
+
+.login-card{
+
+
+background:white;
+
+width:380px;
+
+padding:40px;
+
+border-radius:20px;
+
+text-align:center;
+
+box-shadow:0px 10px 35px rgba(0,0,0,0.35);
+
+
+}
+
+
+
+.login-logo{
+
+width:120px;
+
+margin-bottom:15px;
+
+}
+
+
+
+.login-card h1{
+
+color:#1f4e79;
+
+}
+
+
+
+.login-card input{
+
+
+width:100%;
+
+padding:12px;
+
+border-radius:8px;
+
+border:1px solid #ccc;
+
+box-sizing:border-box;
+
+
+}
+
+
+
+.login-card button{
+
+
+width:100%;
+
+padding:14px;
+
+border:none;
+
+border-radius:10px;
+
+background:#1f6feb;
+
+color:white;
+
+font-size:16px;
+
+cursor:pointer;
+
+
+}
+
+
+
+.login-card button:hover{
+
+
+background:#1555b0;
+
+
+}
 
 
 
