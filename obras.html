@@ -79,7 +79,7 @@
 async function carregarObras(){
 
 
-const {data, error} = await db
+const {data, error} = await banco
 .from("obras")
 .select("*")
 .order("id", {ascending:false});
