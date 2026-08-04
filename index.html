@@ -35,10 +35,9 @@
 <div class="content">
 
 
-<h1>📊 Dashboard</h1>
+<h1>Dashboard</h1>
 
-<p>Sistema inteligente de gestão e inspeção de obras</p>
-
+<p>Sistema inteligente de gestão de obras</p>
 
 
 
@@ -49,10 +48,9 @@
 
 <h2 id="obras">0</h2>
 
-<p>🏢 Obras Ativas</p>
+<p>Obras Ativas</p>
 
 </div>
-
 
 
 
@@ -60,10 +58,9 @@
 
 <h2 id="inspecoes">0</h2>
 
-<p>📋 Inspeções Realizadas</p>
+<p>Inspeções Realizadas</p>
 
 </div>
-
 
 
 
@@ -71,10 +68,9 @@
 
 <h2 id="problemas">0</h2>
 
-<p>⚠️ Não Conformidades</p>
+<p>Não Conformidades</p>
 
 </div>
-
 
 
 
@@ -82,7 +78,10 @@
 
 <h2 id="estoque">0%</h2>
 
-<p>📦 Estoque Disponível</p>
+<p>Estoque Disponível</p>
+
+</div>
+
 
 </div>
 
@@ -90,116 +89,6 @@
 
 </div>
 
-
-
-
-
-
-<div class="card">
-
-<h2>🏗 SmartInspect AI</h2>
-
-<p>
-
-Plataforma inteligente para controle de qualidade,
-inspeções técnicas e gerenciamento de obras.
-
-</p>
-
-</div>
-
-
-
-
-
-
-<div class="card">
-
-<h2>⚙️ Stack Tecnológico</h2>
-
-
-<p>
-🌐 Frontend: HTML5, CSS3 e JavaScript
-</p>
-
-
-<p>
-☁ Banco de Dados: Supabase PostgreSQL
-</p>
-
-
-<p>
-🔐 Segurança: Row Level Security (RLS)
-</p>
-
-
-<p>
-🤖 Inteligência Artificial aplicada à inspeção
-</p>
-
-
-</div>
-
-
-
-
-
-
-<div class="card">
-
-<h2>🚀 Status do Projeto</h2>
-
-
-<ul>
-
-<li>✅ Interface desenvolvida</li>
-
-<li>✅ Banco de dados conectado</li>
-
-<li>✅ Cadastro de obras funcionando</li>
-
-<li>🔄 Dashboard dinâmico</li>
-
-<li>🤖 IA em desenvolvimento</li>
-
-
-</ul>
-
-
-</div>
-
-
-
-
-
-<footer class="rodape">
-
-
-<p>
-🚀 SmartInspect AI
-</p>
-
-
-<p>
-Desenvolvido por <strong>Sérgio and Gabriel</strong>
-</p>
-
-
-<p>
-SmartInspect AI Development Team
-</p>
-
-
-<p>
-Versão 1.0.1 • Sistema de Inspeção Inteligente de Obras com auxílio de IA
-</p>
-
-
-</footer>
-
-
-
-</div>
 
 
 
@@ -210,7 +99,7 @@ Versão 1.0.1 • Sistema de Inspeção Inteligente de Obras com auxílio de IA
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 
-<!-- Conexão Banco -->
+<!-- Conexão com banco -->
 
 <script src="js/supabase.js"></script>
 
@@ -224,12 +113,11 @@ async function carregarDashboard(){
 
 
 
-// TOTAL DE OBRAS
+// Obras
 
 const {data: obras, error: erroObras} = await banco
 .from("obras")
 .select("*");
-
 
 
 if(!erroObras){
@@ -242,14 +130,11 @@ obras.length;
 
 
 
-
-
-// TOTAL DE INSPEÇÕES
+// Inspeções
 
 const {data: inspecoes, error: erroInspecoes} = await banco
 .from("inspecoes")
 .select("*");
-
 
 
 if(!erroInspecoes){
@@ -262,15 +147,11 @@ inspecoes.length;
 
 
 
-
-
-
-// TOTAL DE NÃO CONFORMIDADES
+// Problemas
 
 const {data: problemas, error: erroProblemas} = await banco
 .from("nao_conformidades")
 .select("*");
-
 
 
 if(!erroProblemas){
@@ -289,8 +170,27 @@ problemas.length;
 carregarDashboard();
 
 
-
 </script>
+
+
+
+
+
+<footer class="rodape">
+
+<p>
+🚀 SmartInspect AI
+</p>
+
+<p>
+Desenvolvido por <strong>Sérgio and Gabriel</strong> | SmartInspect AI Development Team
+</p>
+
+<p>
+Versão 1.0.1 • Sistema de Inspeção Inteligente de Obras com Auxílio de IA
+</p>
+
+</footer>
 
 
 
