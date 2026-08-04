@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -7,9 +6,233 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Dashboard - SmartInspect AI</title>
+<title>SmartInspect AI | Gestão de Obras</title>
 
-<link rel="stylesheet" href="css/style.css">
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",Arial,sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+    color:#333;
+}
+
+
+/* MENU */
+
+.sidebar{
+
+position:fixed;
+width:260px;
+height:100vh;
+background:#0066CC;
+color:white;
+padding:25px;
+
+}
+
+
+.logo{
+
+font-size:25px;
+font-weight:bold;
+margin-bottom:40px;
+
+}
+
+
+.menu a{
+
+display:block;
+color:white;
+text-decoration:none;
+padding:15px;
+border-radius:10px;
+margin-bottom:10px;
+
+}
+
+
+.menu a:hover{
+
+background:#0052a3;
+
+}
+
+
+
+/* CONTEUDO */
+
+.main{
+
+margin-left:260px;
+padding:30px;
+
+}
+
+
+
+header{
+
+background:white;
+padding:25px;
+border-radius:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 5px 15px #ddd;
+
+}
+
+
+
+.user{
+
+background:#0066CC;
+color:white;
+padding:10px 20px;
+border-radius:20px;
+
+}
+
+
+
+/* CARDS */
+
+.cards{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-top:30px;
+
+}
+
+
+.card{
+
+background:white;
+padding:25px;
+border-radius:15px;
+box-shadow:0 5px 15px #ddd;
+
+}
+
+
+.card h3{
+
+color:#0066CC;
+margin-bottom:15px;
+
+}
+
+
+.numero{
+
+font-size:35px;
+font-weight:bold;
+
+}
+
+
+
+/* MODULOS */
+
+
+.modules{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+margin-top:30px;
+
+}
+
+
+.module{
+
+background:white;
+padding:25px;
+border-radius:15px;
+border-left:5px solid #0066CC;
+
+}
+
+
+
+/* TABELA */
+
+
+table{
+
+width:100%;
+background:white;
+margin-top:30px;
+border-radius:15px;
+overflow:hidden;
+border-collapse:collapse;
+
+}
+
+
+th{
+
+background:#0066CC;
+color:white;
+padding:15px;
+
+}
+
+
+td{
+
+padding:15px;
+border-bottom:1px solid #eee;
+
+}
+
+
+.status{
+
+padding:6px 12px;
+border-radius:20px;
+background:#22c55e;
+color:white;
+
+}
+
+
+
+/* RESPONSIVO */
+
+
+@media(max-width:800px){
+
+.sidebar{
+
+position:relative;
+width:100%;
+height:auto;
+
+}
+
+
+.main{
+
+margin-left:0;
+
+}
+
+}
+
+
+</style>
+
 
 </head>
 
@@ -19,91 +242,80 @@
 
 <div class="sidebar">
 
-<h2>🏗 SmartInspect AI</h2>
 
-<a href="index.html">📊 Dashboard</a>
-<a href="criar.html">➕ Criar</a>
-<a href="obras.html">🏢 Obras</a>
-<a href="inspecoes.html">📋 Inspeções</a>
-<a href="estoque.html">📦 Estoque</a>
-<a href="ia.html">🤖 IA</a>
-<a href="relatorios.html">📄 Relatórios</a>
-<a href="equipe.html">👷 Equipe</a>
+<div class="logo">
+
+🏗️ SmartInspect AI
+
+</div>
+
+
+<div class="menu">
+
+<a href="#">📊 Dashboard</a>
+
+<a href="#">🏢 Obras</a>
+
+<a href="#">📋 Inspeções</a>
+
+<a href="#">📦 Estoque</a>
+
+<a href="#">👷 Equipes</a>
+
+<a href="#">🤖 Inteligência Artificial</a>
+
+<a href="#">📄 Relatórios</a>
+
+<a href="#">⚙️ Configurações</a>
+
+</div>
+
 
 </div>
 
 
 
-<div class="content">
+
+<div class="main">
 
 
-<h1>📊 Dashboard Inteligente</h1>
+<header>
 
-<p>
-Bem-vindo ao centro de controle do SmartInspect AI
-</p>
+<div>
 
+<h1>Dashboard</h1>
 
-
-<div class="card">
-
-<h2>🚀 SmartInspect AI</h2>
-
-<p>
-Sistema inteligente para gerenciamento de inspeções,
-controle de qualidade e acompanhamento de obras.
-</p>
+<p>Controle inteligente da construção civil</p>
 
 </div>
 
 
+<div class="user">
 
-<div class="cards">
-
-
-<div class="card">
-
-<h2>🏢</h2>
-
-<h3>Obras</h3>
-
-<p id="totalObras">
-0
-</p>
-
-<span>Obras cadastradas</span>
+Administrador
 
 </div>
 
 
+</header>
+
+
+
+
+<section class="cards">
+
 
 <div class="card">
 
-<h2>📋</h2>
+<h3>🏗 Obras Ativas</h3>
 
-<h3>Inspeções</h3>
+<div class="numero">
 
-<p>
-0
-</p>
-
-<span>Inspeções realizadas</span>
+24
 
 </div>
 
-
-
-<div class="card">
-
-<h2>⚠️</h2>
-
-<h3>Não Conformidades</h3>
-
-<p>
-0
-</p>
-
-<span>Problemas encontrados</span>
+<p>Projetos em andamento</p>
 
 </div>
 
@@ -111,18 +323,15 @@ controle de qualidade e acompanhamento de obras.
 
 <div class="card">
 
-<h2>👷</h2>
+<h3>📋 Inspeções</h3>
 
-<h3>Equipe</h3>
+<div class="numero">
 
-<p>
-SmartInspect Team
-</p>
-
-<span>Equipe de desenvolvimento</span>
+156
 
 </div>
 
+<p>Realizadas este mês</p>
 
 </div>
 
@@ -130,25 +339,15 @@ SmartInspect Team
 
 <div class="card">
 
+<h3>⚠ Problemas</h3>
 
-<h2>👨‍💻 Desenvolvimento</h2>
+<div class="numero">
 
+12
 
-<p>
-<b>Desenvolvedor:</b> SERGINN
-</p>
+</div>
 
-
-<p>
-<b>Equipe:</b> SmartInspect AI Development Team
-</p>
-
-
-<p>
-<b>Tecnologias:</b>
-HTML5 • CSS3 • JavaScript • Supabase • PostgreSQL • Inteligência Artificial
-</p>
-
+<p>Não conformidades</p>
 
 </div>
 
@@ -157,65 +356,188 @@ HTML5 • CSS3 • JavaScript • Supabase • PostgreSQL • Inteligência Arti
 
 <div class="card">
 
+<h3>📦 Estoque</h3>
 
-<h2>📌 Status do Projeto</h2>
+<div class="numero">
+
+87%
+
+</div>
+
+<p>Nível médio disponível</p>
+
+</div>
 
 
-<ul>
+</section>
 
-<li>✅ Interface desenvolvida</li>
 
-<li>✅ Banco de dados conectado</li>
 
-<li>✅ Cadastro de obras funcionando</li>
 
-<li>🔄 Dashboard em evolução</li>
+<h2 style="margin-top:40px">
 
-<li>🤖 IA em desenvolvimento</li>
+Módulos do Sistema
 
-</ul>
+</h2>
 
+
+
+<section class="modules">
+
+
+<div class="module">
+
+<h2>🏢 Gestão de Obras</h2>
+
+<p>
+Controle de cronograma, responsáveis,
+documentos e progresso.
+</p>
+
+</div>
+
+
+
+<div class="module">
+
+<h2>📷 Inspeção com IA</h2>
+
+<p>
+Analise fotos, encontre falhas
+e gere recomendações.
+</p>
+
+</div>
+
+
+
+<div class="module">
+
+<h2>📦 Controle de Estoque</h2>
+
+<p>
+Entrada, saída e consumo
+de materiais.
+</p>
 
 </div>
 
 
 
 
+<div class="module">
+
+<h2>📄 Relatórios PDF</h2>
+
+<p>
+Relatórios técnicos automáticos
+com assinatura digital.
+</p>
+
 </div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script src="js/supabase.js"></script>
-
-
-<script>
+</section>
 
 
-async function carregarDashboard(){
 
 
-const {data,error}=await banco
-.from("obras")
-.select("*");
+
+<h2 style="margin-top:40px">
+
+Últimas Obras
+
+</h2>
 
 
-if(!error){
 
-document.getElementById("totalObras").innerHTML =
-data.length;
-
-}
+<table>
 
 
-}
+<tr>
+
+<th>Obra</th>
+
+<th>Responsável</th>
+
+<th>Status</th>
+
+<th>Progresso</th>
+
+</tr>
 
 
-carregarDashboard();
+
+<tr>
+
+<td>Residencial Alpha</td>
+
+<td>Eng. Carlos</td>
+
+<td>
+
+<span class="status">
+Em andamento
+</span>
+
+</td>
+
+<td>75%</td>
 
 
-</script>
+</tr>
 
+
+
+<tr>
+
+<td>Condomínio Verde</td>
+
+<td>Eng. João</td>
+
+<td>
+
+<span class="status">
+Em andamento
+</span>
+
+</td>
+
+<td>42%</td>
+
+
+</tr>
+
+
+
+
+<tr>
+
+<td>Centro Comercial</td>
+
+<td>Eng. Maria</td>
+
+<td>
+
+<span class="status">
+Concluída
+</span>
+
+</td>
+
+<td>100%</td>
+
+
+</tr>
+
+
+</table>
+
+
+
+
+</div>
 
 
 </body>
