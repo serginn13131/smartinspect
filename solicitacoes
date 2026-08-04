@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Solicitações - SmartInspect AI</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="sidebar">
+
+
+<h2>🏗 SmartInspect AI</h2>
+
+
+<a href="index.html">📊 Dashboard</a>
+<a href="obras.html">🏢 Obras</a>
+<a href="inspecoes.html">📋 Inspeções</a>
+<a href="estoque.html">📦 Estoque</a>
+<a href="ia.html">🤖 IA</a>
+<a href="relatorios.html">📄 Relatórios</a>
+<a href="equipe.html">👷 Equipe</a>
+<a href="solicitacoes.html">👤 Solicitações</a>
+
+
+<br>
+
+
+<a href="#" onclick="sair()">
+
+🚪 Sair
+
+</a>
+
+
+</div>
+
+
+
+
+
+<div class="content">
+
+
+
+<h1>👤 Solicitações de Acesso</h1>
+
+
+<p>
+
+Usuários aguardando aprovação
+
+</p>
+
+
+
+
+
+<div id="listaSolicitacoes">
+
+
+<p>
+
+Carregando solicitações...
+
+</p>
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+
+<script src="js/auth.js"></script>
+
+
+
+
+
+
+<script>
+
+
+verificarLogin();
+
+
+
+
+
+
+async function carregarSolicitacoes(){
+
+
+
+
+
+const {data,error}=await banco
+
+.from("usuarios")
+
+.select("*")
+
+.eq("status","pendente")
+
+.order("id",{ascending:false});
+
+
+
+
+
+
+const lista=document.getElementById("listaSolicitacoes");
+
+
+
+
+
+if(error){
+
+
+console.log(error);
+
+
+lista.innerHTML="❌ Erro ao carregar solicitações";
+
+
+return;
+
+
+}
+
+
+
+
+
+
+
+if(!data || data.length===0){
+
+
+lista.innerHTML="✅ Nenhuma solicitação pendente";
+
+
+return;
+
+
+}
+
+
+
+
+
+
+
+
+lista.innerHTML="";
+
+
+
+
+
+
+
+data.forEach(usuario=>{
+
+
+
+
+
+lista.innerHTML += `
+
+
+
+<div class="card">
+
+
+
+<h2>
+
+👤 ${usuario.nome}
+
+</h2>
+
+
+
+<p>
+
+📧 ${usuario.email}
+
+</p>
+
+
+
+<p>
+
+🏷 Cargo:
+
+${usuario.nivel_acesso}
+
+</p>
+
+
+
+<p>
+
+⏳ Status:
+
+${usuario.status}
+
+</p>
+
+
+
+
+
+<br>
+
+
+
+
+
+<button onclick="aceitarUsuario(${usuario.id})">
+
+✅ Aceitar
+
+</button>
+
+
+
+
+
+<button onclick="recusarUsuario(${usuario.id})">
+
+❌ Recusar
+
+</button>
+
+
+
+
+
+
+</div>
+
+
+
+`;
+
+
+
+});
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+async function aceitarUsuario(id){
+
+
+
+
+
+const {error}=await banco
+
+.from("usuarios")
+
+.update({
+
+status:"ativo"
+
+})
+
+.eq("id",id);
+
+
+
+
+
+
+
+
+if(error){
+
+
+console.log(error);
+
+
+alert("❌ Erro ao aceitar usuário");
+
+
+return;
+
+
+}
+
+
+
+
+
+
+alert("✅ Usuário aprovado!");
+
+
+
+carregarSolicitacoes();
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+async function recusarUsuario(id){
+
+
+
+
+
+const confirmar = confirm(
+
+"Deseja recusar este usuário?"
+
+);
+
+
+
+
+
+if(!confirmar){
+
+return;
+
+}
+
+
+
+
+
+
+
+
+const {error}=await banco
+
+.from("usuarios")
+
+.update({
+
+status:"recusado"
+
+})
+
+.eq("id",id);
+
+
+
+
+
+
+if(error){
+
+
+console.log(error);
+
+
+alert("❌ Erro ao recusar");
+
+
+return;
+
+
+}
+
+
+
+
+
+
+alert("❌ Solicitação recusada");
+
+
+
+carregarSolicitacoes();
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+carregarSolicitacoes();
+
+
+
+
+
+</script>
+
+
+
+</body>
+
+</html>
