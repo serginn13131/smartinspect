@@ -4,6 +4,8 @@
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Criar - SmartInspect AI</title>
 
 <link rel="stylesheet" href="css/style.css">
@@ -16,92 +18,220 @@
 
 <div class="sidebar">
 
-<h2>🏗 SmartInspect AI</h2>
 
-<a href="index.html">📊 Dashboard</a>
-<a href="criar.html">➕ Criar</a>
-<a href="obras.html">🏢 Obras</a>
-<a href="inspecoes.html">📋 Inspeções</a>
-<a href="estoque.html">📦 Estoque</a>
-<a href="ia.html">🤖 IA</a>
-<a href="relatorios.html">📄 Relatórios</a>
-<a href="equipe.html">👷 Equipe</a>
+<div class="logo">
+
+<img src="imagens/logo.png" alt="SmartInspect AI">
+
+<h2>SmartInspect AI</h2>
 
 </div>
+
+
+
+<a href="index.html">📊 Dashboard</a>
+
+<a href="criar.html">➕ Criar</a>
+
+<a href="obras.html">🏢 Obras</a>
+
+<a href="inspecoes.html">📋 Inspeções</a>
+
+<a href="estoque.html">📦 Estoque</a>
+
+<a href="ia.html">🤖 IA</a>
+
+<a href="relatorios.html">📄 Relatórios</a>
+
+<a href="equipe.html">👷 Equipe</a>
+
+<a href="solicitacoes.html">👤 Solicitações</a>
+
+
+<br>
+
+
+<a href="#" onclick="sair()">
+
+🚪 Sair
+
+</a>
+
+
+</div>
+
+
+
 
 
 
 <div class="content">
 
 
-<h1>➕ Criar Novo Cadastro</h1>
+<h1>➕ Criar</h1>
 
-<p>Adicione informações ao sistema</p>
+<p>
+Central de novos cadastros do sistema
+</p>
+
+
+
 
 
 
 <div class="cards">
 
 
+
+
+
 <div class="card">
+
 
 <h2>🏢</h2>
 
 <h3>Nova Obra</h3>
 
+
+<p>
+Cadastrar uma nova obra no sistema
+</p>
+
+
 <button onclick="location.href='novaobra.html'">
+
 Criar Obra
+
 </button>
+
 
 </div>
 
 
 
+
+
+
+
+
 <div class="card">
+
 
 <h2>📋</h2>
 
 <h3>Nova Inspeção</h3>
 
-<button onclick="location.href='novainspecao.html'">
+
+<p>
+Registrar uma nova inspeção técnica
+</p>
+
+
+<button onclick="location.href='nova_inspecao.html'">
+
 Criar Inspeção
+
 </button>
+
 
 </div>
 
 
 
-<div class="card">
 
-<h2>👷</h2>
 
-<h3>Novo Usuário</h3>
 
-<button onclick="location.href='novo usuario.html'">
-Criar Usuário
-</button>
-
-</div>
 
 
 
 <div class="card">
+
 
 <h2>📦</h2>
 
-<h3>Novo Material</h3>
+<h3>Novo Estoque</h3>
 
-<button onclick="location.href='novoestoque.html'">
-Adicionar Estoque
+
+<p>
+Adicionar materiais e controlar estoque
+</p>
+
+
+<button onclick="location.href='novo_estoque.html'">
+
+Criar Estoque
+
 </button>
 
-</div>
-
 
 </div>
 
 
+
+
+
+
+
+
+
+<div class="card">
+
+
+<h2>👤</h2>
+
+<h3>Novo Usuário</h3>
+
+
+<p>
+Cadastrar usuários do sistema
+</p>
+
+
+<button onclick="location.href='novo_usuario.html'">
+
+Criar Usuário
+
+</button>
+
+
 </div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+
+<script src="js/auth.js"></script>
+
+
+<script>
+
+verificarLogin();
+
+</script>
+
 
 
 </body>
