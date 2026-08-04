@@ -35,6 +35,7 @@
 
 
 
+
 <div class="content">
 
 
@@ -42,6 +43,7 @@
 <h1>🏢 Detalhes da Obra</h1>
 
 <p>Informações e controle da obra</p>
+
 
 
 
@@ -61,15 +63,29 @@ Carregando obra...
 
 
 
+
 <div class="cards">
+
+
 
 
 
 <div class="card">
 
-<h2>📋</h2>
 
-<p>Inspeções</p>
+<h2 id="totalInspecoes">
+
+0
+
+</h2>
+
+
+<p>
+
+📋 Inspeções realizadas
+
+</p>
+
 
 <button onclick="novaInspecao()">
 
@@ -77,7 +93,10 @@ Carregando obra...
 
 </button>
 
+
 </div>
+
+
 
 
 
@@ -85,9 +104,18 @@ Carregando obra...
 
 <div class="card">
 
-<h2>⚠️</h2>
+<h2>
 
-<p>Não Conformidades</p>
+⚠️
+
+</h2>
+
+<p>
+
+Não Conformidades
+
+</p>
+
 
 <button>
 
@@ -95,7 +123,10 @@ Ver problemas
 
 </button>
 
+
 </div>
+
+
 
 
 
@@ -103,9 +134,18 @@ Ver problemas
 
 <div class="card">
 
-<h2>📷</h2>
+<h2>
 
-<p>Fotos</p>
+📷
+
+</h2>
+
+<p>
+
+Fotos
+
+</p>
+
 
 <button>
 
@@ -113,7 +153,10 @@ Adicionar fotos
 
 </button>
 
+
 </div>
+
+
 
 
 
@@ -121,9 +164,18 @@ Adicionar fotos
 
 <div class="card">
 
-<h2>📄</h2>
+<h2>
 
-<p>Relatórios</p>
+📄
+
+</h2>
+
+<p>
+
+Relatórios
+
+</p>
+
 
 <button>
 
@@ -131,15 +183,49 @@ Gerar relatório
 
 </button>
 
-</div>
-
-
 
 </div>
 
 
 
+
+
 </div>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+<h2>📋 Histórico de Inspeções</h2>
+
+
+
+<div id="listaInspecoes" >
+
+
+<p>
+
+Carregando inspeções...
+
+</p>
+
+
+</div>
+
+
+
+
+
+</div>
+
+
 
 
 
@@ -155,6 +241,8 @@ Gerar relatório
 
 
 
+
+
 <script>
 
 
@@ -164,8 +252,10 @@ const parametros =
 new URLSearchParams(window.location.search);
 
 
+
 const obraId =
 parametros.get("id");
+
 
 
 
@@ -180,10 +270,14 @@ async function carregarObra(){
 
 if(!obraId){
 
+
 document.getElementById("dadosObra").innerHTML =
+
 "❌ Obra não encontrada";
 
+
 return;
+
 
 }
 
@@ -215,6 +309,7 @@ console.log(error);
 
 
 document.getElementById("dadosObra").innerHTML =
+
 "❌ Erro ao carregar obra";
 
 
@@ -275,14 +370,169 @@ ${data.status}
 </p>
 
 
+`;
+
+
+
+}
+
+
+
+
+
+
+
+
+
+async function carregarInspecoes(){
+
+
+
+const {data,error}=await banco
+
+.from("inspecoes")
+
+.select("*")
+
+.eq("obra_id",obraId)
+
+.order("id",{ascending:false});
+
+
+
+
+
+let lista =
+document.getElementById("listaInspecoes");
+
+
+
+
+
+if(error){
+
+
+console.log(error);
+
+
+lista.innerHTML =
+"❌ Erro ao carregar inspeções";
+
+
+return;
+
+
+}
+
+
+
+
+
+
+
+document.getElementById("totalInspecoes").innerHTML =
+data.length;
+
+
+
+
+
+
+
+
+if(data.length === 0){
+
+
+lista.innerHTML =
+
+"<p>Nenhuma inspeção realizada.</p>";
+
+
+return;
+
+
+}
+
+
+
+
+
+
+
+lista.innerHTML="";
+
+
+
+
+
+
+
+data.forEach(inspecao=>{
+
+
+lista.innerHTML += `
+
+
+<div class="card">
+
+
+<h3>
+
+📋 ${inspecao.tipo}
+
+</h3>
+
+
+
+<p>
+
+📅 Data:
+${inspecao.data_inspecao}
+
+</p>
+
+
+
+<p>
+
+👷 Responsável:
+${inspecao.responsavel}
+
+</p>
+
+
+
+<p>
+
+📌 Status:
+${inspecao.status}
+
+</p>
+
+
+
+<p>
+
+📝 ${inspecao.observacao || "Sem observação"}
+
+</p>
+
+
+</div>
+
 
 `;
+
+
+
+});
 
 
 
 
 
 }
+
 
 
 
@@ -295,6 +545,7 @@ function novaInspecao(){
 
 
 window.location.href =
+
 "nova_inspecao.html?obra=" + obraId;
 
 
@@ -305,13 +556,17 @@ window.location.href =
 
 
 
+
 carregarObra();
+
+carregarInspecoes();
 
 
 
 
 
 </script>
+
 
 
 
