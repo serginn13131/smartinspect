@@ -80,7 +80,6 @@
 </select>
 
 
-
 <br><br>
 
 
@@ -96,12 +95,9 @@
 
 
 
-
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script src="supabase.js"></script>
-
+<script src="js/supabase.js"></script>
 
 
 <script>
@@ -111,26 +107,22 @@ async function salvarObra(){
 
 
 let nome = document.getElementById("nome").value;
-
 let endereco = document.getElementById("endereco").value;
-
 let responsavel = document.getElementById("responsavel").value;
-
 let data = document.getElementById("data").value;
-
 let status = document.getElementById("status").value;
 
 
 
-const {data: resultado, error} = await db
+const { data: resultado, error } = await supabase
 .from("obras")
 .insert([{
 
-nome:nome,
-endereco:endereco,
-responsavel:responsavel,
-data_inicio:data,
-status:status
+nome: nome,
+endereco: endereco,
+responsavel: responsavel,
+data_inicio: data,
+status: status
 
 }]);
 
@@ -138,9 +130,8 @@ status:status
 
 if(error){
 
-alert("Erro ao salvar obra");
-
 console.log(error);
+alert("❌ Erro ao salvar obra");
 
 }
 
@@ -151,7 +142,6 @@ alert("✅ Obra cadastrada com sucesso!");
 window.location.href="obras.html";
 
 }
-
 
 
 }
