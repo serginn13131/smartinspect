@@ -60,7 +60,6 @@ content:pergunta
 
 
 
-
 res.status(200).json({
 
 resposta:
@@ -78,7 +77,7 @@ console.log(error);
 
 res.status(500).json({
 
-erro:"Erro na IA"
+erro:"Erro ao consultar IA"
 
 });
 
