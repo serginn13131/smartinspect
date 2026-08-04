@@ -10,46 +10,252 @@
 
 <link rel="stylesheet" href="css/style.css">
 
+<style>
+
+body{
+
+margin:0;
+
+font-family:Arial, sans-serif;
+
+}
+
+
+
+.login-background{
+
+min-height:100vh;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+background:
+
+linear-gradient(
+rgba(0,0,0,0.65),
+rgba(0,0,0,0.65)
+),
+
+url("imagens/logo.png");
+
+
+background-size:cover;
+
+background-position:center;
+
+}
+
+
+
+
+
+.login-card{
+
+background:white;
+
+width:380px;
+
+padding:40px;
+
+border-radius:20px;
+
+text-align:center;
+
+box-shadow:0 10px 35px rgba(0,0,0,0.4);
+
+}
+
+
+
+.login-logo{
+
+width:130px;
+
+height:auto;
+
+margin-bottom:15px;
+
+}
+
+
+
+.login-card h1{
+
+color:#1f4e79;
+
+margin-bottom:10px;
+
+}
+
+
+
+.login-card p{
+
+color:#555;
+
+}
+
+
+
+.login-card label{
+
+display:block;
+
+text-align:left;
+
+margin-top:15px;
+
+font-weight:bold;
+
+}
+
+
+
+.login-card input{
+
+
+width:100%;
+
+padding:12px;
+
+margin-top:5px;
+
+border-radius:8px;
+
+border:1px solid #ccc;
+
+box-sizing:border-box;
+
+font-size:15px;
+
+}
+
+
+
+
+
+.login-card button{
+
+
+width:100%;
+
+padding:14px;
+
+margin-top:20px;
+
+border:none;
+
+border-radius:10px;
+
+background:#1f6feb;
+
+color:white;
+
+font-size:16px;
+
+cursor:pointer;
+
+
+}
+
+
+
+.login-card button:hover{
+
+background:#1555b0;
+
+}
+
+
+
+#mensagem{
+
+margin-top:15px;
+
+font-weight:bold;
+
+}
+
+
+
+</style>
+
+
 </head>
 
 
 <body>
 
 
-<div class="content">
-
-
-<div class="card" style="max-width:400px;margin:auto;margin-top:100px;">
-
-
-<h1>🏗 SmartInspect AI</h1>
-
-<p>Acesso ao sistema</p>
+<div class="login-background">
 
 
 
-<label>Email</label>
+<div class="login-card">
+
+
+
+<img src="imagens/logo.png" class="login-logo">
+
+
+
+<h1>
+
+🏗 SmartInspect AI
+
+</h1>
+
+
+
+<p>
+
+Acesso ao sistema inteligente de inspeção de obras
+
+</p>
+
+
+
+
+
+<label>
+
+Email
+
+</label>
+
 
 <input 
+
 id="email"
+
 type="email"
+
 placeholder="Digite seu email">
 
 
 
-<br><br>
 
 
-<label>Senha</label>
+<label>
+
+Senha
+
+</label>
+
 
 <input 
+
 id="senha"
+
 type="password"
+
 placeholder="Digite sua senha">
 
 
 
-<br><br>
 
 
 <button onclick="entrar()">
@@ -60,8 +266,6 @@ placeholder="Digite sua senha">
 
 
 
-<br><br>
-
 
 <button onclick="location.href='cadastro.html'">
 
@@ -71,13 +275,21 @@ placeholder="Digite sua senha">
 
 
 
+
+
 <p id="mensagem"></p>
 
 
-</div>
 
 
 </div>
+
+
+
+</div>
+
+
+
 
 
 
@@ -91,7 +303,9 @@ placeholder="Digite sua senha">
 
 
 
+
 <script>
+
 
 
 async function entrar(){
@@ -99,23 +313,29 @@ async function entrar(){
 
 
 const email =
+
 document.getElementById("email").value;
 
 
+
 const senha =
+
 document.getElementById("senha").value;
 
 
 
 
 
-const {data,error} = await banco.auth.signInWithPassword({
 
-email: email,
 
-password: senha
+const {data,error}=await banco.auth.signInWithPassword({
+
+email:email,
+
+password:senha
 
 });
+
 
 
 
@@ -124,7 +344,7 @@ password: senha
 if(error){
 
 
-document.getElementById("mensagem").innerHTML =
+document.getElementById("mensagem").innerHTML=
 
 "❌ Email ou senha inválidos";
 
@@ -142,28 +362,31 @@ return;
 
 
 
-const usuario = await banco
+
+
+const {data:usuario,error:erroUsuario}=await banco
 
 .from("usuarios")
 
 .select("*")
 
-.eq("auth_id", data.user.id)
+.eq("auth_id",data.user.id)
 
-.single();
-
-
+.maybeSingle();
 
 
 
 
 
-if(usuario.error){
+
+if(erroUsuario || !usuario){
 
 
 alert("Usuário não encontrado");
 
+
 return;
+
 
 }
 
@@ -172,12 +395,15 @@ return;
 
 
 
-if(usuario.data.status !== "ativo"){
+
+if(usuario.status !== "ativo"){
 
 
 alert("⏳ Seu acesso ainda não foi aprovado");
 
+
 await banco.auth.signOut();
+
 
 return;
 
@@ -194,7 +420,7 @@ localStorage.setItem(
 
 "usuario",
 
-JSON.stringify(usuario.data)
+JSON.stringify(usuario)
 
 );
 
@@ -213,7 +439,10 @@ window.location.href="index.html";
 
 
 
+
+
 </script>
+
 
 
 </body>
