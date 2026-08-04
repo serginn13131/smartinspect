@@ -1,10 +1,14 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>SmartInspect AI</title>
+
 <link rel="stylesheet" href="css/style.css">
 
 </head>
@@ -25,7 +29,6 @@
 <a href="relatorios.html">📄 Relatórios</a>
 <a href="equipe.html">👷 Equipe</a>
 
-
 </div>
 
 
@@ -38,30 +41,23 @@
 <p>Sistema inteligente de gestão de obras</p>
 
 
+
 <div class="cards">
 
 
 <div class="card">
 
-<h2>24</h2>
+<h2 id="obras">0</h2>
 <p>Obras Ativas</p>
 
 </div>
 
 
-<div class="card">
-
-<h2>156</h2>
-<p>Inspeções</p>
-
-</div>
-
-
 
 <div class="card">
 
-<h2>12</h2>
-<p>Problemas encontrados</p>
+<h2 id="inspecoes">0</h2>
+<p>Inspeções Realizadas</p>
 
 </div>
 
@@ -69,8 +65,17 @@
 
 <div class="card">
 
-<h2>87%</h2>
-<p>Estoque disponível</p>
+<h2 id="problemas">0</h2>
+<p>Não Conformidades</p>
+
+</div>
+
+
+
+<div class="card">
+
+<h2 id="estoque">0%</h2>
+<p>Estoque Disponível</p>
 
 </div>
 
@@ -80,7 +85,72 @@
 
 
 </div>
+
+
+
+<!-- Biblioteca Supabase -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<!-- Conexão com banco -->
+
+<script src="supabase.js"></script>
+
+
+<!-- Funções do sistema -->
+
+<script>
+
+
+async function carregarDashboard(){
+
+
+    // Obras
+    let obras = await db
+    .from("obras")
+    .select("*");
+
+
+    document.getElementById("obras").innerHTML =
+    obras.data ? obras.data.length : 0;
+
+
+
+    // Inspeções
+
+    let inspecoes = await db
+    .from("inspecoes")
+    .select("*");
+
+
+    document.getElementById("inspecoes").innerHTML =
+    inspecoes.data ? inspecoes.data.length : 0;
+
+
+
+    // Problemas encontrados
+
+    let problemas = await db
+    .from("nao_conformidades")
+    .select("*");
+
+
+    document.getElementById("problemas").innerHTML =
+    problemas.data ? problemas.data.length : 0;
+
+
+
+}
+
+
+carregarDashboard();
+
+
+</script>
 
 
 </body>
+
 </html>
+```
