@@ -16,7 +16,6 @@
 <body>
 
 
-
 <div class="sidebar">
 
 <h2>🏗 SmartInspect AI</h2>
@@ -35,15 +34,12 @@
 
 
 
-
 <div class="content">
-
 
 
 <h1>🏢 Detalhes da Obra</h1>
 
-<p>Informações e controle da obra</p>
-
+<p>Controle técnico da obra</p>
 
 
 
@@ -57,10 +53,7 @@ Carregando obra...
 
 
 
-
 <br>
-
-
 
 
 
@@ -68,17 +61,13 @@ Carregando obra...
 
 
 
-
-
 <div class="card">
-
 
 <h2 id="totalInspecoes">
 
 0
 
 </h2>
-
 
 <p>
 
@@ -93,10 +82,7 @@ Carregando obra...
 
 </button>
 
-
 </div>
-
-
 
 
 
@@ -112,10 +98,9 @@ Carregando obra...
 
 <p>
 
-Não Conformidades
+Não conformidades
 
 </p>
-
 
 <button>
 
@@ -123,9 +108,7 @@ Ver problemas
 
 </button>
 
-
 </div>
-
 
 
 
@@ -146,16 +129,13 @@ Fotos
 
 </p>
 
-
 <button>
 
 Adicionar fotos
 
 </button>
 
-
 </div>
-
 
 
 
@@ -176,23 +156,17 @@ Relatórios
 
 </p>
 
-
 <button>
 
 Gerar relatório
 
 </button>
 
-
 </div>
 
 
 
-
-
 </div>
-
-
 
 
 
@@ -202,29 +176,22 @@ Gerar relatório
 
 
 
-
 <h2>📋 Histórico de Inspeções</h2>
 
 
 
-<div id="listaInspecoes" >
+<div id="listaInspecoes">
 
-
-<p>
 
 Carregando inspeções...
 
-</p>
-
 
 </div>
 
 
 
 
-
 </div>
-
 
 
 
@@ -241,23 +208,21 @@ Carregando inspeções...
 
 
 
-
-
 <script>
 
 
+// pega o ID da obra na URL
 
-
-const parametros =
+const parametros = 
 new URLSearchParams(window.location.search);
 
 
-
-const obraId =
+const obraId = 
 parametros.get("id");
 
 
 
+console.log("ID DA OBRA:", obraId);
 
 
 
@@ -273,7 +238,7 @@ if(!obraId){
 
 document.getElementById("dadosObra").innerHTML =
 
-"❌ Obra não encontrada";
+"❌ Nenhuma obra selecionada";
 
 
 return;
@@ -287,7 +252,7 @@ return;
 
 
 
-const {data,error}=await banco
+const {data,error} = await banco
 
 .from("obras")
 
@@ -302,6 +267,7 @@ const {data,error}=await banco
 
 
 
+
 if(error){
 
 
@@ -310,7 +276,7 @@ console.log(error);
 
 document.getElementById("dadosObra").innerHTML =
 
-"❌ Erro ao carregar obra";
+"❌ Erro ao buscar obra";
 
 
 return;
@@ -338,6 +304,7 @@ document.getElementById("dadosObra").innerHTML = `
 <p>
 
 📍 Endereço:
+
 ${data.endereco}
 
 </p>
@@ -347,6 +314,7 @@ ${data.endereco}
 <p>
 
 👷 Responsável:
+
 ${data.responsavel}
 
 </p>
@@ -355,7 +323,8 @@ ${data.responsavel}
 
 <p>
 
-📅 Data de início:
+📅 Início:
+
 ${data.data_inicio}
 
 </p>
@@ -365,6 +334,7 @@ ${data.data_inicio}
 <p>
 
 📌 Status:
+
 ${data.status}
 
 </p>
@@ -388,7 +358,7 @@ async function carregarInspecoes(){
 
 
 
-const {data,error}=await banco
+const {data,error} = await banco
 
 .from("inspecoes")
 
@@ -402,12 +372,6 @@ const {data,error}=await banco
 
 
 
-let lista =
-document.getElementById("listaInspecoes");
-
-
-
-
 
 if(error){
 
@@ -415,7 +379,8 @@ if(error){
 console.log(error);
 
 
-lista.innerHTML =
+document.getElementById("listaInspecoes").innerHTML =
+
 "❌ Erro ao carregar inspeções";
 
 
@@ -429,10 +394,9 @@ return;
 
 
 
-
 document.getElementById("totalInspecoes").innerHTML =
-data.length;
 
+data.length;
 
 
 
@@ -443,9 +407,9 @@ data.length;
 if(data.length === 0){
 
 
-lista.innerHTML =
+document.getElementById("listaInspecoes").innerHTML =
 
-"<p>Nenhuma inspeção realizada.</p>";
+"Nenhuma inspeção encontrada";
 
 
 return;
@@ -458,9 +422,7 @@ return;
 
 
 
-
-lista.innerHTML="";
-
+let lista = "";
 
 
 
@@ -470,7 +432,7 @@ lista.innerHTML="";
 data.forEach(inspecao=>{
 
 
-lista.innerHTML += `
+lista += `
 
 
 <div class="card">
@@ -487,6 +449,7 @@ lista.innerHTML += `
 <p>
 
 📅 Data:
+
 ${inspecao.data_inspecao}
 
 </p>
@@ -496,6 +459,7 @@ ${inspecao.data_inspecao}
 <p>
 
 👷 Responsável:
+
 ${inspecao.responsavel}
 
 </p>
@@ -505,6 +469,7 @@ ${inspecao.responsavel}
 <p>
 
 📌 Status:
+
 ${inspecao.status}
 
 </p>
@@ -513,9 +478,12 @@ ${inspecao.status}
 
 <p>
 
-📝 ${inspecao.observacao || "Sem observação"}
+📝 Observação:
+
+${inspecao.observacao || "Sem observação"}
 
 </p>
+
 
 
 </div>
@@ -528,6 +496,10 @@ ${inspecao.status}
 });
 
 
+
+
+
+document.getElementById("listaInspecoes").innerHTML = lista;
 
 
 
@@ -557,21 +529,14 @@ window.location.href =
 
 
 
+
 carregarObra();
 
 carregarInspecoes();
 
 
-const obraId =
-parametros.get("id");
-
-console.log("ID RECEBIDO:", obraId);
-
 
 </script>
-
-
-
 
 
 </body>
