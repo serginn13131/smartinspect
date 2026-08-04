@@ -32,7 +32,6 @@
 </div>
 
 
-
 <div class="content">
 
 
@@ -41,32 +40,23 @@
 <p>Cadastre uma nova obra no sistema</p>
 
 
-
 <div class="card">
 
 
 <label>Nome da Obra</label>
-
 <input id="nome" type="text" placeholder="Ex: Residencial Alpha">
 
 
-
 <label>Endereço</label>
-
 <input id="endereco" type="text" placeholder="Rua, número, cidade">
 
 
-
 <label>Responsável Técnico</label>
-
 <input id="responsavel" type="text" placeholder="Nome do engenheiro ou técnico">
 
 
-
 <label>Data de Início</label>
-
 <input id="data" type="date">
-
 
 
 <label>Status da Obra</label>
@@ -100,38 +90,44 @@
 <script src="js/supabase.js"></script>
 
 
+
 <script>
 
 
 async function salvarObra(){
 
 
-let nome = document.getElementById("nome").value;
-let endereco = document.getElementById("endereco").value;
-let responsavel = document.getElementById("responsavel").value;
-let data = document.getElementById("data").value;
-let status = document.getElementById("status").value;
+const nome = document.getElementById("nome").value;
+const endereco = document.getElementById("endereco").value;
+const responsavel = document.getElementById("responsavel").value;
+const data_inicio = document.getElementById("data").value;
+const status = document.getElementById("status").value;
 
 
 
-const { data: resultado, error } = await supabase
+const { data, error } = await banco
 .from("obras")
-.insert([{
+.insert([
+
+{
 
 nome: nome,
 endereco: endereco,
 responsavel: responsavel,
-data_inicio: data,
+data_inicio: data_inicio,
 status: status
 
-}]);
+}
+
+]);
 
 
 
 if(error){
 
 console.log(error);
-alert("❌ Erro ao salvar obra");
+
+alert("❌ Erro ao salvar obra: " + error.message);
 
 }
 
