@@ -1,1 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
 
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Solicitar Acesso - SmartInspect AI</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="content">
+
+
+<div class="card" style="max-width:450px;margin:auto;margin-top:80px;">
+
+
+<h1>🏗 SmartInspect AI</h1>
+
+<h2>Solicitar acesso</h2>
+
+
+
+<label>Nome completo</label>
+
+<input id="nome" type="text" placeholder="Digite seu nome">
+
+
+
+<br><br>
+
+
+
+<label>Email</label>
+
+<input id="email" type="email" placeholder="Digite seu email">
+
+
+
+<br><br>
+
+
+
+<label>Senha</label>
+
+<input id="senha" type="password" placeholder="Crie uma senha">
+
+
+
+<br><br>
+
+
+
+<label>Função</label>
+
+
+<select id="nivel">
+
+
+<option value="engenheiro">
+🏗 Engenheiro / Arquiteto / Técnico
+</option>
+
+
+<option value="inspetor">
+🔍 Inspetor
+</option>
+
+
+<option value="campo">
+📷 Usuário de Campo
+</option>
+
+
+</select>
+
+
+
+<br><br>
+
+
+
+<button onclick="cadastrar()">
+
+Enviar solicitação
+
+</button>
+
+
+
+
+<p id="mensagem"></p>
+
+
+
+<br>
+
+
+<a href="login.html">
+
+Voltar para login
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+
+
+
+<script>
+
+
+async function cadastrar(){
+
+
+
+const nome =
+document.getElementById("nome").value;
+
+
+const email =
+document.getElementById("email").value;
+
+
+const senha =
+document.getElementById("senha").value;
+
+
+const nivel =
+document.getElementById("nivel").value;
+
+
+
+
+
+
+// cria usuário no Supabase Auth
+
+
+const {data,error} = await banco.auth.signUp({
+
+email:email,
+
+password:senha
+
+});
+
+
+
+
+
+
+if(error){
+
+
+console.log(error);
+
+
+document.getElementById("mensagem").innerHTML =
+"❌ Erro ao criar conta";
+
+
+return;
+
+
+}
+
+
+
+
+
+
+// salva dados do usuário
+
+
+const {error:erroBanco}=await banco
+
+.from("usuarios")
+
+.insert([{
+
+auth_id:data.user.id,
+
+nome:nome,
+
+email:email,
+
+nivel_acesso:nivel,
+
+status:"pendente"
+
+}]);
+
+
+
+
+
+
+if(erroBanco){
+
+
+console.log(erroBanco);
+
+
+document.getElementById("mensagem").innerHTML =
+"❌ Erro ao salvar usuário";
+
+
+return;
+
+
+}
+
+
+
+
+
+
+
+document.getElementById("mensagem").innerHTML =
+
+"✅ Solicitação enviada. Aguarde aprovação.";
+
+
+
+
+
+
+}
+
+
+
+</script>
+
+
+</body>
+
+</html>
