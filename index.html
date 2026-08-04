@@ -18,6 +18,7 @@
 
 <div class="sidebar">
 
+
 <div class="logo">
 
 <img src="imagens/logo.png" alt="SmartInspect AI">
@@ -26,72 +27,93 @@
 
 </div>
 
+
+
 <a href="index.html">📊 Dashboard</a>
+
 <a href="obras.html">🏢 Obras</a>
+
 <a href="inspecoes.html">📋 Inspeções</a>
+
 <a href="estoque.html">📦 Estoque</a>
+
 <a href="ia.html">🤖 IA</a>
+
 <a href="relatorios.html">📄 Relatórios</a>
+
 <a href="equipe.html">👷 Equipe</a>
 
+<a href="usuarios.html">👥 Usuários</a>
+
+<br>
+
+<a href="#" onclick="sair()">
+
+🚪 Sair
+
+</a>
+
+
 </div>
+
+
 
 
 
 <div class="content">
 
 
-<h1>Dashboard</h1>
+<h1>📊 Dashboard</h1>
 
 <p>Sistema inteligente de gestão de obras</p>
+
 
 
 
 <div class="cards">
 
 
-<div class="card">
-
-<h2 id="obras">0</h2>
-
-<p>Obras Ativas</p>
-
-</div>
-
-
 
 <div class="card">
 
-<h2 id="inspecoes">0</h2>
+<h2 id="obras">
 
-<p>Inspeções Realizadas</p>
+0
+
+</h2>
+
+<p>🏢 Obras Ativas</p>
 
 </div>
+
 
 
 
 <div class="card">
 
-<h2 id="problemas">0</h2>
+<h2 id="inspecoes">
 
-<p>Não Conformidades</p>
+0
+
+</h2>
+
+<p>📋 Inspeções Realizadas</p>
 
 </div>
+
+
 
 
 
 <div class="card">
 
-<h2 id="estoque">0%</h2>
+<h2 id="problemas">
 
-<p>Estoque Disponível</p>
+0
 
-</div>
+</h2>
 
-
-</div>
-
-
+<p>⚠️ Não Conformidades</p>
 
 </div>
 
@@ -99,28 +121,59 @@
 
 
 
+<div class="card">
 
-<!-- Biblioteca Supabase -->
+<h2 id="estoque">
+
+0%
+
+</h2>
+
+<p>📦 Estoque Disponível</p>
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- Supabase -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 
-<!-- Conexão com banco -->
-
 <script src="js/supabase.js"></script>
-  
+
+
+<!-- Controle de login -->
+
+<script src="js/auth.js"></script>
 
 
 
 
 <script>
-  <script src="js/auth.js"></script>
 
-<script>
+
 
 verificarLogin();
 
-</script>
+
+
+
 
 
 async function carregarDashboard(){
@@ -129,9 +182,12 @@ async function carregarDashboard(){
 
 // Obras
 
-const {data: obras, error: erroObras} = await banco
+const {data:obras,error:erroObras}=await banco
+
 .from("obras")
+
 .select("*");
+
 
 
 if(!erroObras){
@@ -144,11 +200,15 @@ obras.length;
 
 
 
+
 // Inspeções
 
-const {data: inspecoes, error: erroInspecoes} = await banco
+const {data:inspecoes,error:erroInspecoes}=await banco
+
 .from("inspecoes")
+
 .select("*");
+
 
 
 if(!erroInspecoes){
@@ -161,11 +221,16 @@ inspecoes.length;
 
 
 
-// Problemas
 
-const {data: problemas, error: erroProblemas} = await banco
+
+// Não conformidades
+
+const {data:problemas,error:erroProblemas}=await banco
+
 .from("nao_conformidades")
+
 .select("*");
+
 
 
 if(!erroProblemas){
@@ -177,11 +242,16 @@ problemas.length;
 
 
 
+
+
 }
 
 
 
+
+
 carregarDashboard();
+
 
 
 </script>
@@ -190,21 +260,42 @@ carregarDashboard();
 
 
 
+
+
 <footer class="rodape">
 
+
 <p>
+
 🚀 SmartInspect AI
+
 </p>
 
-<p>
-Desenvolvido por <strong>Sérgio and Gabriel</strong> | SmartInspect AI Development Team
-</p>
+
 
 <p>
+
+Desenvolvido por <strong>Sérgio and Gabriel</strong>
+
+<br>
+
+SmartInspect AI Development Team
+
+</p>
+
+
+
+
+<p>
+
 Versão 1.0.1 • Sistema de Inspeção Inteligente de Obras com Auxílio de IA
+
 </p>
+
+
 
 </footer>
+
 
 
 
