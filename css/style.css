@@ -128,14 +128,16 @@ gap:10px;
 
 margin-bottom:30px;
 
+white-space:nowrap;
+
 }
 
 
 .logo img{
 
-width:45px;
+width:55px;
 
-height:45px;
+height:55px;
 
 object-fit:contain;
 
@@ -146,8 +148,10 @@ object-fit:contain;
 
 color:white;
 
-font-size:20px;
+font-size:18px;
 
 margin:0;
+
+white-space:nowrap;
 
 }
