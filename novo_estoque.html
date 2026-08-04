@@ -1,1 +1,480 @@
 
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Novo Estoque - SmartInspect AI</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="sidebar">
+
+
+<div class="logo">
+
+<img src="imagens/logo.png">
+
+<h2>SmartInspect AI</h2>
+
+</div>
+
+
+
+<a href="index.html">📊 Dashboard</a>
+<a href="criar.html">➕ Criar</a>
+<a href="obras.html">🏢 Obras</a>
+<a href="inspecoes.html">📋 Inspeções</a>
+<a href="estoque.html">📦 Estoque</a>
+<a href="ia.html">🤖 IA</a>
+<a href="relatorios.html">📄 Relatórios</a>
+<a href="equipe.html">👷 Equipe</a>
+<a href="solicitacoes.html">👤 Solicitações</a>
+
+
+<br>
+
+
+<a href="#" onclick="sair()">
+
+🚪 Sair
+
+</a>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="content">
+
+
+<h1>📦 Novo Estoque</h1>
+
+<p>
+Cadastro de material da obra
+</p>
+
+
+
+
+<div class="card">
+
+
+
+<label>
+🏢 Obra
+</label>
+
+
+<select id="obra">
+
+<option>
+Carregando obras...
+</option>
+
+</select>
+
+
+
+
+
+
+
+<label>
+📦 Material
+</label>
+
+
+<input 
+id="material"
+type="text"
+placeholder="Ex: Cimento CP II">
+
+
+
+
+
+
+
+<label>
+📷 Foto do material
+</label>
+
+
+<input 
+id="foto"
+type="file"
+accept="image/*">
+
+
+
+
+
+
+
+<label>
+🔢 Quantidade
+</label>
+
+
+<input 
+id="quantidade"
+type="number"
+placeholder="Quantidade">
+
+
+
+
+
+
+
+<label>
+📏 Unidade
+</label>
+
+
+<input 
+id="unidade"
+type="text"
+placeholder="Ex: saco, kg, m³">
+
+
+
+
+
+
+
+<label>
+⚠️ Estoque mínimo
+</label>
+
+
+<input 
+id="minimo"
+type="number"
+placeholder="Quantidade mínima">
+
+
+
+
+
+
+
+<label>
+📅 Data de entrada
+</label>
+
+
+<input 
+id="data"
+type="date">
+
+
+
+
+
+
+
+<br>
+
+
+<button onclick="salvarEstoque()">
+
+💾 Salvar Estoque
+
+</button>
+
+
+
+<p id="mensagem"></p>
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+
+<script src="js/auth.js"></script>
+
+
+
+
+
+
+<script>
+
+
+verificarLogin();
+
+
+
+
+
+async function carregarObras(){
+
+
+const {data,error}=await banco
+
+.from("obras")
+
+.select("*");
+
+
+
+const select=document.getElementById("obra");
+
+
+
+select.innerHTML="";
+
+
+
+data.forEach(obra=>{
+
+
+select.innerHTML += `
+
+<option value="${obra.id}">
+
+${obra.nome}
+
+</option>
+
+`;
+
+
+});
+
+
+}
+
+
+
+
+async function salvarEstoque(){
+
+
+
+const arquivo =
+document.getElementById("foto").files[0];
+
+
+
+let caminhoFoto = null;
+
+
+
+
+
+if(arquivo){
+
+
+const nomeArquivo =
+Date.now()+"_"+arquivo.name;
+
+
+
+const {error:erroUpload}=await banco.storage
+
+.from("estoque")
+
+.upload(nomeArquivo,arquivo);
+
+
+
+
+if(erroUpload){
+
+console.log(erroUpload);
+
+alert("Erro ao enviar foto");
+
+return;
+
+}
+
+
+
+const url = banco.storage
+
+.from("estoque")
+
+.getPublicUrl(nomeArquivo);
+
+
+
+caminhoFoto =
+url.data.publicUrl;
+
+
+
+}
+
+
+
+
+
+
+
+const usuario =
+JSON.parse(localStorage.getItem("usuario"));
+
+
+
+
+
+
+
+const {error}=await banco
+
+.from("estoque")
+
+.insert([{
+
+
+obra_id:
+document.getElementById("obra").value,
+
+
+material:
+document.getElementById("material").value,
+
+
+foto:
+caminhoFoto,
+
+
+quantidade:
+document.getElementById("quantidade").value,
+
+
+unidade:
+document.getElementById("unidade").value,
+
+
+estoque_minimo:
+document.getElementById("minimo").value,
+
+
+data_entrada:
+document.getElementById("data").value,
+
+
+responsavel:
+usuario.nome,
+
+
+status:
+"Disponível"
+
+
+
+}]);
+
+
+
+
+
+
+
+if(error){
+
+
+console.log(error);
+
+
+document.getElementById("mensagem").innerHTML=
+
+"❌ Erro ao salvar estoque";
+
+
+return;
+
+
+}
+
+
+
+
+
+document.getElementById("mensagem").innerHTML=
+
+"✅ Estoque cadastrado com sucesso!";
+
+
+
+
+
+}
+
+
+
+
+
+
+
+carregarObras();
+
+
+
+
+</script>
+
+
+
+
+
+
+
+<footer class="rodape">
+
+<p>
+🚀 SmartInspect AI
+</p>
+
+<p>
+Desenvolvido por <strong>Sérgio and Gabriel</strong>
+</p>
+
+<p>
+Versão 1.0.1
+</p>
+
+</footer>
+
+
+
+</body>
+
+</html>
