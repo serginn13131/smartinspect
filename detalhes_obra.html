@@ -1,1 +1,321 @@
-12
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Detalhes da Obra - SmartInspect AI</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+
+
+<div class="sidebar">
+
+<h2>🏗 SmartInspect AI</h2>
+
+<a href="index.html">📊 Dashboard</a>
+<a href="obras.html">🏢 Obras</a>
+<a href="inspecoes.html">📋 Inspeções</a>
+<a href="estoque.html">📦 Estoque</a>
+<a href="ia.html">🤖 IA</a>
+<a href="relatorios.html">📄 Relatórios</a>
+<a href="equipe.html">👷 Equipe</a>
+
+</div>
+
+
+
+
+
+<div class="content">
+
+
+
+<h1>🏢 Detalhes da Obra</h1>
+
+<p>Informações e controle da obra</p>
+
+
+
+
+<div id="dadosObra" class="card">
+
+Carregando obra...
+
+</div>
+
+
+
+
+
+<br>
+
+
+
+
+<div class="cards">
+
+
+
+<div class="card">
+
+<h2>📋</h2>
+
+<p>Inspeções</p>
+
+<button onclick="novaInspecao()">
+
+➕ Nova Inspeção
+
+</button>
+
+</div>
+
+
+
+
+
+<div class="card">
+
+<h2>⚠️</h2>
+
+<p>Não Conformidades</p>
+
+<button>
+
+Ver problemas
+
+</button>
+
+</div>
+
+
+
+
+
+<div class="card">
+
+<h2>📷</h2>
+
+<p>Fotos</p>
+
+<button>
+
+Adicionar fotos
+
+</button>
+
+</div>
+
+
+
+
+
+<div class="card">
+
+<h2>📄</h2>
+
+<p>Relatórios</p>
+
+<button>
+
+Gerar relatório
+
+</button>
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+
+
+
+
+
+<script>
+
+
+
+
+const parametros =
+new URLSearchParams(window.location.search);
+
+
+const obraId =
+parametros.get("id");
+
+
+
+
+
+
+
+
+async function carregarObra(){
+
+
+
+if(!obraId){
+
+document.getElementById("dadosObra").innerHTML =
+"❌ Obra não encontrada";
+
+return;
+
+}
+
+
+
+
+
+
+
+const {data,error}=await banco
+
+.from("obras")
+
+.select("*")
+
+.eq("id",obraId)
+
+.single();
+
+
+
+
+
+
+if(error){
+
+
+console.log(error);
+
+
+document.getElementById("dadosObra").innerHTML =
+"❌ Erro ao carregar obra";
+
+
+return;
+
+
+}
+
+
+
+
+
+
+
+document.getElementById("dadosObra").innerHTML = `
+
+
+<h2>
+
+🏢 ${data.nome}
+
+</h2>
+
+
+
+<p>
+
+📍 Endereço:
+${data.endereco}
+
+</p>
+
+
+
+<p>
+
+👷 Responsável:
+${data.responsavel}
+
+</p>
+
+
+
+<p>
+
+📅 Data de início:
+${data.data_inicio}
+
+</p>
+
+
+
+<p>
+
+📌 Status:
+${data.status}
+
+</p>
+
+
+
+`;
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+function novaInspecao(){
+
+
+window.location.href =
+"nova_inspecao.html?obra=" + obraId;
+
+
+}
+
+
+
+
+
+
+carregarObra();
+
+
+
+
+
+</script>
+
+
+
+
+</body>
+
+</html>
