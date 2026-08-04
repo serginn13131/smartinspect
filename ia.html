@@ -1,465 +1,409 @@
+<h2>SmartInspect AI</h2>
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IA - SmartInspect AI</title>
-    
-    <style>
-        /* Estilos básicos para funcionamento imediato */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f0f2f5;
-            display: flex;
-            min-height: 100vh;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        .sidebar {
-            width: 250px;
-            background: #1a1a2e;
-            color: white;
-            padding: 20px;
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-        }
+<title>IA - SmartInspect AI</title>
 
-        .logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+<link rel="stylesheet" href="css/style.css">
 
-        .logo img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            margin-bottom: 10px;
-            background: #16213e;
-            padding: 10px;
-        }
-
-        .logo h2 {
-            font-size: 18px;
-            color: #e94560;
-        }
-
-        .sidebar a {
-            display: block;
-            padding: 12px 15px;
-            color: #aaa;
-            text-decoration: none;
-            border-radius: 8px;
-            margin-bottom: 5px;
-            transition: all 0.3s;
-        }
-
-        .sidebar a:hover {
-            background: #16213e;
-            color: white;
-        }
-
-        .content {
-            margin-left: 250px;
-            padding: 30px;
-            flex: 1;
-            width: calc(100% - 250px);
-        }
-
-        h1 {
-            color: #1a1a2e;
-            margin-bottom: 10px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .card h2 {
-            color: #1a1a2e;
-            margin-bottom: 15px;
-        }
-
-        textarea {
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 12px;
-            font-size: 14px;
-            resize: vertical;
-            transition: border-color 0.3s;
-        }
-
-        textarea:focus {
-            border-color: #e94560;
-            outline: none;
-        }
-
-        input[type="file"] {
-            border: 2px dashed #e0e0e0;
-            padding: 15px;
-            border-radius: 8px;
-            width: 100%;
-            cursor: pointer;
-            transition: border-color 0.3s;
-        }
-
-        input[type="file"]:hover {
-            border-color: #e94560;
-        }
-
-        button {
-            background: #e94560;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: bold;
-        }
-
-        button:hover {
-            background: #c73e54;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.3);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        #resposta {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            min-height: 100px;
-            border-left: 4px solid #e94560;
-            line-height: 1.6;
-            white-space: pre-wrap;
-        }
-
-        .rodape {
-            margin-left: 250px;
-            padding: 20px;
-            text-align: center;
-            background: #1a1a2e;
-            color: #aaa;
-            width: calc(100% - 250px);
-        }
-
-        .rodape p {
-            margin: 5px 0;
-        }
-
-        .rodape strong {
-            color: #e94560;
-        }
-
-        /* Responsivo */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-            }
-
-            .content {
-                margin-left: 0;
-                width: 100%;
-                padding: 15px;
-            }
-
-            .rodape {
-                margin-left: 0;
-                width: 100%;
-            }
-        }
-
-        .loading {
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-
-        .erro {
-            border-left-color: #dc3545 !important;
-            background: #f8d7da !important;
-        }
-
-        .sucesso {
-            border-left-color: #28a745 !important;
-            background: #d4edda !important;
-        }
-    </style>
 </head>
 
+
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="logo">
-            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2316213e'/%3E%3Ctext x='50' y='55' font-size='40' text-anchor='middle' fill='%23e94560' font-family='Arial'%3E🤖%3C/text%3E%3C/svg%3E" alt="SmartInspect AI">
-            <h2>SmartInspect AI</h2>
-        </div>
 
-        <a href="index.html">📊 Dashboard</a>
-        <a href="criar.html">➕ Criar</a>
-        <a href="obras.html">🏢 Obras</a>
-        <a href="imoveis.html">🏠 Imóveis</a>
-        <a href="inspecoes.html">📋 Inspeções</a>
-        <a href="estoque.html">📦 Estoque</a>
-        <a href="ia.html" style="background:#16213e;color:white;">🤖 IA</a>
-        <a href="relatorios.html">📄 Relatórios</a>
 
-        <br>
-        <hr style="border-color:#333;margin:15px 0;">
-        <a href="#" onclick="sair()" style="color:#e94560;">🚪 Sair</a>
-    </div>
+<div class="sidebar">
 
-    <!-- Conteúdo Principal -->
-    <div class="content">
-        <h1>🤖 SmartInspect AI</h1>
-        <p style="color:#666;margin-bottom:20px;">Assistente inteligente para engenharia e inspeção de obras</p>
 
-        <!-- Card Pergunta -->
-        <div class="card">
-            <h2>💬 Pergunte para a IA</h2>
-            <textarea
-                id="pergunta"
-                placeholder="Ex: Como identificar uma infiltração em uma parede?"
-                style="width:100%;height:120px;"
-            ></textarea>
-            <br><br>
-            <button onclick="consultarIA()">🤖 Perguntar</button>
-        </div>
+<div class="logo">
 
-        <!-- Card Análise de Foto -->
-        <div class="card">
-            <h2>📷 Análise de Foto</h2>
-            <input 
-                type="file"
-                id="foto"
-                accept="image/*"
-            >
-            <br><br>
-            <button onclick="analisarFoto()">🔎 Analisar imagem</button>
-        </div>
+<img src="imagens/logo.png">
 
-        <!-- Card Resposta -->
-        <div class="card">
-            <h2>📋 Resposta da IA</h2>
-            <div id="resposta">Aguardando pergunta...</div>
-        </div>
-    </div>
+</div>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase.js"></script>
-    <script src="js/auth.js"></script>
 
-    <script>
-        // ============================================
-        // CONFIGURAÇÕES E UTILITÁRIOS
-        // ============================================
 
-        // Substitua com suas credenciais do Supabase
-        const SUPABASE_URL = 'https://seu-projeto.supabase.co';
-        const SUPABASE_KEY = 'sua-chave-publica';
+<a href="index.html">📊 Dashboard</a>
 
-        // Função para verificar login (simulada)
-        function verificarLogin() {
-            const usuario = localStorage.getItem('usuario');
-            if (!usuario) {
-                console.log('Usuário não logado. Redirecionando para login...');
-                // window.location.href = 'login.html';
-            } else {
-                console.log('Usuário logado:', JSON.parse(usuario));
-            }
-        }
+<a href="criar.html">➕ Criar</a>
 
-        // Função de logout
-        function sair() {
-            if (confirm('Deseja realmente sair?')) {
-                localStorage.removeItem('usuario');
-                sessionStorage.clear();
-                alert('Logout realizado com sucesso!');
-                // window.location.href = 'login.html';
-            }
-        }
+<a href="obras.html">🏢 Obras</a>
 
-        // ============================================
-        // FUNÇÕES PRINCIPAIS
-        // ============================================
+<a href="imoveis.html">🏠 Imóveis</a>
 
-        // Consultar IA
-        async function consultarIA() {
-            const pergunta = document.getElementById('pergunta').value.trim();
-            const respostaDiv = document.getElementById('resposta');
+<a href="inspecoes.html">📋 Inspeções</a>
 
-            if (!pergunta) {
-                alert('Por favor, digite uma pergunta.');
-                return;
-            }
+<a href="estoque.html">📦 Estoque</a>
 
-            // Mostrar loading
-            respostaDiv.innerHTML = '🤖 <span class="loading">Analisando sua pergunta...</span>';
-            respostaDiv.className = '';
+<a href="ia.html">🤖 IA</a>
 
-            try {
-                // Simular chamada à API (substituir pela chamada real)
-                const resposta = await simularAPI(pergunta);
+<a href="relatorios.html">📄 Relatórios</a>
 
-                // Mostrar resposta
-                respostaDiv.innerHTML = `
-                    <strong>🤖 SmartInspect AI:</strong><br><br>
-                    ${resposta}
-                `;
-                respostaDiv.className = 'sucesso';
 
-            } catch (error) {
-                console.error('Erro:', error);
-                respostaDiv.innerHTML = `
-                    ❌ <strong>Erro ao conectar com a IA.</strong><br><br>
-                    Verifique sua conexão e tente novamente.
-                `;
-                respostaDiv.className = 'erro';
-            }
-        }
+<br>
 
-        // Analisar Foto
-        async function analisarFoto() {
-            const arquivo = document.getElementById('foto').files[0];
-            const respostaDiv = document.getElementById('resposta');
 
-            if (!arquivo) {
-                alert('Por favor, selecione uma imagem.');
-                return;
-            }
+<a href="#" onclick="sair()">
 
-            // Validar tipo de arquivo
-            if (!arquivo.type.startsWith('image/')) {
-                alert('Por favor, selecione um arquivo de imagem válido.');
-                return;
-            }
+🚪 Sair
 
-            // Validar tamanho (max 5MB)
-            if (arquivo.size > 5 * 1024 * 1024) {
-                alert('A imagem deve ter no máximo 5MB.');
-                return;
-            }
+</a>
 
-            // Mostrar loading
-            respostaDiv.innerHTML = '📷 <span class="loading">Enviando imagem para análise...</span>';
-            respostaDiv.className = '';
 
-            try {
-                // Simular análise da imagem
-                const analise = await simularAnaliseImagem(arquivo);
+</div>
 
-                // Mostrar resultado
-                respostaDiv.innerHTML = `
-                    <strong>📷 Análise da Imagem</strong><br>
-                    <hr style="margin:10px 0;">
-                    ${analise}
-                `;
-                respostaDiv.className = 'sucesso';
 
-            } catch (error) {
-                console.error('Erro:', error);
-                respostaDiv.innerHTML = `
-                    ❌ <strong>Erro ao analisar a imagem.</strong><br><br>
-                    Tente novamente com outra imagem.
-                `;
-                respostaDiv.className = 'erro';
-            }
-        }
 
-        // ============================================
-        // SIMULAÇÃO DE API (REMOVER EM PRODUÇÃO)
-        // ============================================
 
-        function simularAPI(pergunta) {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    const respostas = {
-                        'infiltração': 'Para identificar uma infiltração, verifique: 1) Manchas escuras ou úmidas na parede; 2) Descascamento da tinta; 3) Mofo ou bolor; 4) Odor de mofo. Utilize um termo-higrômetro para medir a umidade.',
-                        'trinca': 'Trincas podem ser estruturais ou superficiais. Verifique: 1) Largura da trinca (acima de 0.5mm merece atenção); 2) Profundidade; 3) Padrão (horizontal/vertical/diagonal); 4) Movimentação. Consulte um engenheiro para avaliação.',
-                        'default': `Sobre "${pergunta}": Recomendo realizar uma inspeção visual detalhada, documentar com fotos, e consultar as normas técnicas aplicáveis (ABNT NBR 6118, NBR 15575, etc.). Para casos específicos, sempre consulte um engenheiro civil.`
-                    };
 
-                    let resposta = respostas.default;
-                    for (const [key, value] of Object.entries(respostas)) {
-                        if (pergunta.toLowerCase().includes(key)) {
-                            resposta = value;
-                            break;
-                        }
-                    }
 
-                    resolve(resposta);
-                }, 1500);
-            });
-        }
+<div class="content">
 
-        function simularAnaliseImagem(arquivo) {
-            return new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    setTimeout(() => {
-                        const analises = [
-                            '✅ **Estrutura aparentemente em bom estado**<br>Não foram identificados danos estruturais significativos na imagem analisada.',
-                            '⚠️ **Possível infiltração detectada**<br>Manchas escuras sugerem presença de umidade. Recomenda-se inspeção local detalhada.',
-                            '🔍 **Trincas superficiais identificadas**<br>Pequenas trincas na superfície. Monitorar evolução e verificar profundidade.',
-                            '📊 **Análise concluída**<br>Não há evidências de anomalias graves. Recomenda-se monitoramento periódico.'
-                        ];
 
-                        const indice = Math.floor(Math.random() * analises.length);
-                        resolve(analises[indice]);
-                    }, 2000);
-                };
-                reader.readAsDataURL(arquivo);
-            });
-        }
+<h1>🤖 SmartInspect AI</h1>
 
-        // ============================================
-        // INICIALIZAÇÃO
-        // ============================================
+<p>
+Assistente inteligente para engenharia e inspeção de obras
+</p>
 
-        document.addEventListener('DOMContentLoaded', function() {
-            verificarLogin();
-            document.getElementById('resposta').innerHTML = 'Aguardando pergunta...';
 
-            // Permitir Enter para enviar pergunta
-            document.getElementById('pergunta').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter' && e.shiftKey === false) {
-                    e.preventDefault();
-                    consultarIA();
-                }
-            });
 
-            console.log('🚀 SmartInspect AI carregado com sucesso!');
-        });
-    </script>
 
-    <!-- Footer -->
-    <footer class="rodape">
-        <p>🚀 SmartInspect AI</p>
-        <p>Desenvolvido por <strong>Sérgio and Gabriel</strong></p>
-        <p>Versão 1.0.1</p>
-    </footer>
+
+
+<div class="card">
+
+
+<h2>💬 Pergunte para a IA</h2>
+
+
+
+<textarea
+
+id="pergunta"
+
+placeholder="Ex: Como identificar uma infiltração em uma parede?"
+
+style="width:100%;height:120px;"
+
+></textarea>
+
+
+
+<br><br>
+
+
+<button onclick="consultarIA()">
+
+🤖 Perguntar
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="card">
+
+
+<h2>📷 Análise de Foto</h2>
+
+
+<input 
+
+type="file"
+
+id="foto"
+
+accept="image/*"
+
+>
+
+
+
+<br><br>
+
+
+
+<button onclick="analisarFoto()">
+
+🔎 Analisar imagem
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="card">
+
+
+<h2>📋 Resposta da IA</h2>
+
+
+<div id="resposta">
+
+Aguardando pergunta...
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+
+<script src="js/auth.js"></script>
+
+
+
+
+
+
+<script>
+
+
+verificarLogin();
+
+
+
+
+
+async function consultarIA(){
+
+
+
+const pergunta =
+
+document.getElementById("pergunta").value;
+
+
+
+
+
+if(!pergunta){
+
+alert("Digite uma pergunta");
+
+return;
+
+}
+
+
+
+
+
+document.getElementById("resposta").innerHTML=
+
+"🤖 Analisando...";
+
+
+
+
+
+
+
+try{
+
+
+
+const resposta = await fetch("/api/perguntar", {
+
+
+method:"POST",
+
+
+headers:{
+
+
+"Content-Type":"application/json"
+
+
+},
+
+
+body:JSON.stringify({
+
+
+pergunta:pergunta
+
+
+})
+
+
+});
+
+
+
+
+
+
+
+const dados = await resposta.json();
+
+
+
+
+
+
+
+document.getElementById("resposta").innerHTML=
+
+`
+
+<b>🤖 SmartInspect AI:</b><br><br>
+
+${dados.resposta || dados.erro}
+
+`;
+
+
+
+
+
+
+}catch(error){
+
+
+
+console.log(error);
+
+
+
+document.getElementById("resposta").innerHTML=
+
+"❌ Erro ao conectar com a IA";
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+async function analisarFoto(){
+
+
+
+const arquivo =
+
+document.getElementById("foto").files[0];
+
+
+
+
+
+if(!arquivo){
+
+
+alert("Selecione uma imagem");
+
+
+return;
+
+
+}
+
+
+
+
+
+
+document.getElementById("resposta").innerHTML=
+
+`
+
+📷 Imagem recebida.
+
+<br><br>
+
+A análise de fotos será ativada na próxima etapa.
+
+`;
+
+
+
+
+}
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+<footer class="rodape">
+
+
+<p>
+🚀 SmartInspect AI
+</p>
+
+
+<p>
+Desenvolvido por <strong>Sérgio and Gabriel</strong>
+</p>
+
+
+<p>
+Versão 1.0.1
+</p>
+
+
+</footer>
+
+
+
+
+
 </body>
 
-</html>
+</html> muda e me manda
