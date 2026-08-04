@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -25,14 +26,27 @@
 
 <h2>SmartInspect AI</h2>
 
+</div>
+
 
 <a href="index.html">📊 Dashboard</a>
+
+<a href="imoveis.html">🏠 Imóveis</a>
+
+<a href="criar.html">➕ Criar</a>
+
 <a href="obras.html">🏢 Obras</a>
+
 <a href="inspecoes.html">📋 Inspeções</a>
+
 <a href="estoque.html">📦 Estoque</a>
+
 <a href="ia.html">🤖 IA</a>
+
 <a href="relatorios.html">📄 Relatórios</a>
+
 <a href="equipe.html">👷 Equipe</a>
+
 <a href="solicitacoes.html">👤 Solicitações</a>
 
 
@@ -55,16 +69,12 @@
 <div class="content">
 
 
-
 <h1>👤 Solicitações de Acesso</h1>
 
 
 <p>
-
-Usuários aguardando aprovação
-
+Aprovação de novos usuários
 </p>
-
 
 
 
@@ -72,21 +82,13 @@ Usuários aguardando aprovação
 <div id="listaSolicitacoes">
 
 
-<p>
-
-Carregando solicitações...
-
-</p>
+Carregando...
 
 
 </div>
 
 
-
-
-
 </div>
-
 
 
 
@@ -102,9 +104,6 @@ Carregando solicitações...
 
 
 
-
-
-
 <script>
 
 
@@ -114,10 +113,28 @@ verificarLogin();
 
 
 
+// Verifica administrador
+
+const usuarioLogado =
+JSON.parse(localStorage.getItem("usuario"));
+
+
+
+if(!usuarioLogado || usuarioLogado.nivel_acesso !== "admin"){
+
+alert("Acesso permitido somente para administradores");
+
+window.location.href="index.html";
+
+}
+
+
+
+
+
+
 
 async function carregarSolicitacoes(){
-
-
 
 
 
@@ -135,7 +152,6 @@ const {data,error}=await banco
 
 
 
-
 const lista=document.getElementById("listaSolicitacoes");
 
 
@@ -147,16 +163,12 @@ if(error){
 
 console.log(error);
 
-
 lista.innerHTML="❌ Erro ao carregar solicitações";
-
 
 return;
 
 
 }
-
-
 
 
 
@@ -167,12 +179,10 @@ if(!data || data.length===0){
 
 lista.innerHTML="✅ Nenhuma solicitação pendente";
 
-
 return;
 
 
 }
-
 
 
 
@@ -186,77 +196,80 @@ lista.innerHTML="";
 
 
 
-
-
 data.forEach(usuario=>{
-
-
 
 
 
 lista.innerHTML += `
 
 
-
 <div class="card">
 
 
-
 <h2>
-
 👤 ${usuario.nome}
-
 </h2>
 
 
-
 <p>
-
 📧 ${usuario.email}
-
 </p>
-
 
 
 <p>
-
-🏷 Cargo:
-
-${usuario.nivel_acesso}
-
+Atual cargo solicitado:
+<b>${usuario.nivel_acesso}</b>
 </p>
 
 
 
-<p>
-
-⏳ Status:
-
-${usuario.status}
-
-</p>
+<label>
+Definir acesso:
+</label>
 
 
 
+<select id="cargo_${usuario.id}">
 
 
-<br>
+<option value="empresa">
+🏢 Administrador Empresa
+</option>
+
+
+<option value="engenheiro">
+👷 Engenheiro
+</option>
+
+
+<option value="inspetor">
+🔍 Inspetor
+</option>
+
+
+<option value="campo">
+📷 Campo
+</option>
+
+
+</select>
 
 
 
+<br><br>
 
 
-<button onclick="aceitarUsuario(${usuario.id})">
 
-✅ Aceitar
+<button onclick="aceitarUsuario('${usuario.id}')">
+
+✅ Aprovar
 
 </button>
 
 
 
 
-
-<button onclick="recusarUsuario(${usuario.id})">
+<button onclick="recusarUsuario('${usuario.id}')">
 
 ❌ Recusar
 
@@ -264,11 +277,7 @@ ${usuario.status}
 
 
 
-
-
-
 </div>
-
 
 
 `;
@@ -279,9 +288,7 @@ ${usuario.status}
 
 
 
-
 }
-
 
 
 
@@ -295,6 +302,12 @@ async function aceitarUsuario(id){
 
 
 
+const cargo =
+
+document.getElementById("cargo_"+id).value;
+
+
+
 
 
 const {error}=await banco
@@ -303,14 +316,13 @@ const {error}=await banco
 
 .update({
 
-status:"ativo"
+status:"ativo",
+
+nivel_acesso:cargo
 
 })
 
 .eq("id",id);
-
-
-
 
 
 
@@ -321,9 +333,7 @@ if(error){
 
 console.log(error);
 
-
-alert("❌ Erro ao aceitar usuário");
-
+alert("Erro ao aprovar usuário");
 
 return;
 
@@ -334,19 +344,13 @@ return;
 
 
 
-
 alert("✅ Usuário aprovado!");
-
-
 
 carregarSolicitacoes();
 
 
-
-
-
-
 }
+
 
 
 
@@ -360,15 +364,11 @@ async function recusarUsuario(id){
 
 
 
-
-
 const confirmar = confirm(
 
-"Deseja recusar este usuário?"
+"Deseja recusar este cadastro?"
 
 );
-
-
 
 
 
@@ -377,9 +377,6 @@ if(!confirmar){
 return;
 
 }
-
-
-
 
 
 
@@ -402,14 +399,13 @@ status:"recusado"
 
 
 
+
 if(error){
 
 
 console.log(error);
 
-
-alert("❌ Erro ao recusar");
-
+alert("Erro ao recusar");
 
 return;
 
@@ -420,16 +416,10 @@ return;
 
 
 
-
-alert("❌ Solicitação recusada");
-
+alert("❌ Usuário recusado");
 
 
 carregarSolicitacoes();
-
-
-
-
 
 
 }
@@ -440,17 +430,14 @@ carregarSolicitacoes();
 
 
 
-
 carregarSolicitacoes();
-
-
 
 
 
 </script>
 
 
-
 </body>
 
 </html>
+```
