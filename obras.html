@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 
 <head>
 
-<title>Obras</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Obras - SmartInspect AI</title>
 
 <link rel="stylesheet" href="css/style.css">
 
@@ -17,7 +20,14 @@
 
 <h2>🏗 SmartInspect AI</h2>
 
-<a href="index.html">Dashboard</a>
+<a href="index.html">📊 Dashboard</a>
+<a href="criar.html">➕ Criar</a>
+<a href="obras.html">🏢 Obras</a>
+<a href="inspecoes.html">📋 Inspeções</a>
+<a href="estoque.html">📦 Estoque</a>
+<a href="ia.html">🤖 IA</a>
+<a href="relatorios.html">📄 Relatórios</a>
+<a href="equipe.html">👷 Equipe</a>
 
 </div>
 
@@ -26,43 +36,142 @@
 <div class="content">
 
 
-<h1>🏢 Gestão de Obras</h1>
+<h1>🏢 Obras Cadastradas</h1>
+
+<p>Lista de obras registradas no sistema</p>
 
 
-<div class="card">
+
+<div id="listaObras">
 
 
-<h2>Residencial Alpha</h2>
-
-<p>
-Responsável: Eng. Carlos
-</p>
-
-<p>
-Progresso: 75%
-</p>
+<p>Carregando obras...</p>
 
 
 </div>
+
 
 
 <br>
 
 
+<button onclick="location.href='novaobra.html'">
+➕ Nova Obra
+</button>
+
+
+
+</div>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="supabase.js"></script>
+
+
+
+<script>
+
+
+async function carregarObras(){
+
+
+const {data, error} = await db
+.from("obras")
+.select("*")
+.order("id", {ascending:false});
+
+
+
+let lista = document.getElementById("listaObras");
+
+
+
+if(error){
+
+lista.innerHTML =
+"<p>Erro ao carregar obras</p>";
+
+console.log(error);
+
+return;
+
+}
+
+
+
+if(data.length === 0){
+
+lista.innerHTML =
+"<p>Nenhuma obra cadastrada ainda.</p>";
+
+return;
+
+}
+
+
+
+
+lista.innerHTML="";
+
+
+
+data.forEach(obra => {
+
+
+lista.innerHTML += `
+
+
 <div class="card">
 
-<h2>Condomínio Verde</h2>
+
+<h2>🏢 ${obra.nome}</h2>
+
 
 <p>
-Progresso: 42%
+📍 ${obra.endereco}
 </p>
 
 
-</div>
+<p>
+👷 Responsável: ${obra.responsavel}
+</p>
+
+
+<p>
+📅 Início: ${obra.data_inicio}
+</p>
+
+
+<p>
+📌 Status: ${obra.status}
+</p>
 
 
 
 </div>
+
+
+`;
+
+
+
+});
+
+
+
+}
+
+
+
+carregarObras();
+
+
+
+</script>
 
 
 </body>
