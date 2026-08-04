@@ -10,72 +10,281 @@
 
 <link rel="stylesheet" href="css/style.css">
 
+
+<style>
+
+body{
+
+margin:0;
+
+font-family:Arial, sans-serif;
+
+}
+
+
+
+.login-background{
+
+min-height:100vh;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+background:
+
+linear-gradient(
+rgba(0,0,0,0.65),
+rgba(0,0,0,0.65)
+),
+
+url("imagens/logo.png");
+
+
+background-size:cover;
+
+background-position:center;
+
+}
+
+
+
+
+.login-card{
+
+background:white;
+
+width:420px;
+
+padding:40px;
+
+border-radius:20px;
+
+text-align:center;
+
+box-shadow:0 10px 35px rgba(0,0,0,0.4);
+
+}
+
+
+
+.login-logo{
+
+width:130px;
+
+margin-bottom:15px;
+
+}
+
+
+
+
+.login-card h1{
+
+color:#1f4e79;
+
+}
+
+
+
+
+.login-card label{
+
+display:block;
+
+text-align:left;
+
+margin-top:15px;
+
+font-weight:bold;
+
+}
+
+
+
+.login-card input,
+.login-card select{
+
+
+width:100%;
+
+padding:12px;
+
+margin-top:5px;
+
+border-radius:8px;
+
+border:1px solid #ccc;
+
+box-sizing:border-box;
+
+}
+
+
+
+.login-card button{
+
+
+width:100%;
+
+padding:14px;
+
+margin-top:20px;
+
+border:none;
+
+border-radius:10px;
+
+background:#1f6feb;
+
+color:white;
+
+font-size:16px;
+
+cursor:pointer;
+
+
+}
+
+
+
+.login-card button:hover{
+
+background:#1555b0;
+
+}
+
+
+
+</style>
+
+
 </head>
 
 
 <body>
 
 
-<div class="content">
 
-
-<div class="card" style="max-width:450px;margin:auto;margin-top:80px;">
-
-
-<h1>🏗 SmartInspect AI</h1>
-
-<h2>Solicitar acesso</h2>
+<div class="login-background">
 
 
 
-<label>Nome completo</label>
-
-<input id="nome" type="text" placeholder="Digite seu nome">
+<div class="login-card">
 
 
 
-<br><br>
+<img src="imagens/logo.png" class="login-logo">
 
 
 
-<label>Email</label>
+<h1>
 
-<input id="email" type="email" placeholder="Digite seu email">
+🏗 SmartInspect AI
 
-
-
-<br><br>
+</h1>
 
 
 
-<label>Senha</label>
+<p>
 
-<input id="senha" type="password" placeholder="Crie uma senha">
+Solicitar acesso ao sistema
 
-
-
-<br><br>
+</p>
 
 
 
-<label>Função</label>
+
+
+<label>
+
+Nome completo
+
+</label>
+
+
+<input 
+
+id="nome"
+
+type="text"
+
+placeholder="Digite seu nome">
+
+
+
+
+
+
+<label>
+
+Email
+
+</label>
+
+
+<input 
+
+id="email"
+
+type="email"
+
+placeholder="Digite seu email">
+
+
+
+
+
+
+<label>
+
+Senha
+
+</label>
+
+
+<input 
+
+id="senha"
+
+type="password"
+
+placeholder="Crie uma senha">
+
+
+
+
+
+<label>
+
+Função
+
+</label>
 
 
 <select id="nivel">
 
 
 <option value="engenheiro">
+
 🏗 Engenheiro / Arquiteto / Técnico
+
 </option>
 
 
 <option value="inspetor">
+
 🔍 Inspetor
+
 </option>
 
 
 <option value="campo">
+
 📷 Usuário de Campo
+
 </option>
 
 
@@ -83,13 +292,17 @@
 
 
 
-<br><br>
+
 
 
 
 <button onclick="cadastrar()">
-Enviar solicitação
+
+➕ Solicitar acesso
+
 </button>
+
+
 
 
 
@@ -98,20 +311,23 @@ Enviar solicitação
 
 
 
-<br>
 
 
-<a href="login.html">
+<button onclick="location.href='login.html'">
 
-Voltar para login
+⬅ Voltar para login
 
-</a>
+</button>
+
+
+
 
 
 </div>
 
 
 </div>
+
 
 
 
@@ -121,6 +337,8 @@ Voltar para login
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="js/supabase.js"></script>
+
+
 
 
 
@@ -151,10 +369,7 @@ document.getElementById("nivel").value;
 
 
 
-// cria usuário no Supabase Auth
-
-
-const {data,error} = await banco.auth.signUp({
+const {data,error}=await banco.auth.signUp({
 
 email:email,
 
@@ -170,11 +385,12 @@ password:senha
 if(error){
 
 
+document.getElementById("mensagem").innerHTML=
+
+"❌ Erro: "+error.message;
+
+
 console.log(error);
-
-
-document.getElementById("mensagem").innerHTML =
-"❌ Erro ao criar conta";
 
 
 return;
@@ -187,14 +403,13 @@ return;
 
 
 
-// salva dados do usuário
-
 
 const {error:erroBanco}=await banco
 
 .from("usuarios")
 
 .insert([{
+
 
 auth_id:data.user.id,
 
@@ -206,7 +421,9 @@ nivel_acesso:nivel,
 
 status:"pendente"
 
+
 }]);
+
 
 
 
@@ -219,8 +436,9 @@ if(erroBanco){
 console.log(erroBanco);
 
 
-document.getElementById("mensagem").innerHTML =
-"❌ Erro ao salvar usuário";
+document.getElementById("mensagem").innerHTML=
+
+"❌ Erro ao salvar solicitação";
 
 
 return;
@@ -233,8 +451,7 @@ return;
 
 
 
-
-document.getElementById("mensagem").innerHTML =
+document.getElementById("mensagem").innerHTML=
 
 "✅ Solicitação enviada. Aguarde aprovação.";
 
@@ -248,6 +465,9 @@ document.getElementById("mensagem").innerHTML =
 
 
 </script>
+
+
+
 
 
 </body>
