@@ -1,4 +1,4 @@
-<h2>SmartInspect AI</h2>
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -19,7 +19,6 @@
 
 <div class="sidebar">
 
-
 <div class="logo">
 
 <img src="imagens/logo.png">
@@ -27,37 +26,22 @@
 </div>
 
 
-
 <a href="index.html">📊 Dashboard</a>
-
 <a href="criar.html">➕ Criar</a>
-
 <a href="obras.html">🏢 Obras</a>
-
 <a href="imoveis.html">🏠 Imóveis</a>
-
 <a href="inspecoes.html">📋 Inspeções</a>
-
 <a href="estoque.html">📦 Estoque</a>
-
 <a href="ia.html">🤖 IA</a>
-
 <a href="relatorios.html">📄 Relatórios</a>
-
 
 <br>
 
-
 <a href="#" onclick="sair()">
-
 🚪 Sair
-
 </a>
 
-
 </div>
-
-
 
 
 
@@ -73,14 +57,10 @@ Assistente inteligente para engenharia e inspeção de obras
 
 
 
-
-
-
 <div class="card">
 
 
 <h2>💬 Pergunte para a IA</h2>
-
 
 
 <textarea
@@ -94,7 +74,6 @@ style="width:100%;height:120px;"
 ></textarea>
 
 
-
 <br><br>
 
 
@@ -105,11 +84,7 @@ style="width:100%;height:120px;"
 </button>
 
 
-
 </div>
-
-
-
 
 
 
@@ -132,9 +107,7 @@ accept="image/*"
 >
 
 
-
 <br><br>
-
 
 
 <button onclick="analisarFoto()">
@@ -145,9 +118,6 @@ accept="image/*"
 
 
 </div>
-
-
-
 
 
 
@@ -169,14 +139,7 @@ Aguardando pergunta...
 </div>
 
 
-
-
-
-
-
 </div>
-
-
 
 
 
@@ -187,9 +150,6 @@ Aguardando pergunta...
 <script src="js/supabase.js"></script>
 
 <script src="js/auth.js"></script>
-
-
-
 
 
 
@@ -205,13 +165,7 @@ verificarLogin();
 async function consultarIA(){
 
 
-
-const pergunta =
-
-document.getElementById("pergunta").value;
-
-
-
+const pergunta = document.getElementById("pergunta").value;
 
 
 if(!pergunta){
@@ -224,20 +178,12 @@ return;
 
 
 
-
-
-document.getElementById("resposta").innerHTML=
-
+document.getElementById("resposta").innerHTML =
 "🤖 Analisando...";
 
 
 
-
-
-
-
 try{
-
 
 
 const resposta = await fetch("/api/perguntar", {
@@ -251,15 +197,12 @@ headers:{
 
 "Content-Type":"application/json"
 
-
 },
 
 
 body:JSON.stringify({
 
-
 pergunta:pergunta
-
 
 })
 
@@ -268,21 +211,11 @@ pergunta:pergunta
 
 
 
-
-
-
-
 const dados = await resposta.json();
 
 
 
-
-
-
-
-document.getElementById("resposta").innerHTML=
-
-`
+document.getElementById("resposta").innerHTML = `
 
 <b>🤖 SmartInspect AI:</b><br><br>
 
@@ -292,29 +225,22 @@ ${dados.resposta || dados.erro}
 
 
 
-
-
-
 }catch(error){
-
 
 
 console.log(error);
 
 
-
-document.getElementById("resposta").innerHTML=
+document.getElementById("resposta").innerHTML =
 
 "❌ Erro ao conectar com a IA";
 
 
-
 }
 
 
 
 }
-
 
 
 
@@ -327,56 +253,87 @@ async function analisarFoto(){
 
 
 
-const arquivo =
-
-document.getElementById("foto").files[0];
-
-
+const arquivo = document.getElementById("foto").files[0];
 
 
 
 if(!arquivo){
 
-
 alert("Selecione uma imagem");
 
-
 return;
-
 
 }
 
 
 
+document.getElementById("resposta").innerHTML =
+"📷 Enviando imagem para análise...";
 
 
 
-document.getElementById("resposta").innerHTML=
+try{
 
-`
 
-📷 Imagem recebida.
+const formData = new FormData();
+
+
+formData.append("foto", arquivo);
+
+
+
+
+const resposta = await fetch("/api/analisar-imagem", {
+
+
+method:"POST",
+
+
+body:formData
+
+
+});
+
+
+
+const dados = await resposta.json();
+
+
+
+document.getElementById("resposta").innerHTML = `
+
+
+<b>📷 Análise SmartInspect AI:</b>
 
 <br><br>
 
-A análise de fotos será ativada na próxima etapa.
+
+${dados.resposta || dados.erro}
+
 
 `;
 
 
 
+}catch(error){
+
+
+console.log(error);
+
+
+document.getElementById("resposta").innerHTML =
+
+"❌ Erro ao analisar imagem";
+
+
+}
+
 
 }
 
 
 
-
-
 </script>
-
-
-
-
 
 
 
@@ -401,9 +358,8 @@ Versão 1.0.1
 </footer>
 
 
-
-
-
 </body>
 
-</html> muda e me manda
+</html>
+```
+
