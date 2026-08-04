@@ -1,7 +1,7 @@
 
 const SUPABASE_URL = "https://zuvvaggooddpblqhgsdb.supabase.co";
 
-const SUPABASE_KEY = "postgresql://postgres:jesussempreteama@db.zuvvaggooddpblqhgsdb.supabase.co:5432/postgres";
+const SUPABASE_KEY = "sb_publishable_A1D2QDRqfVOU24huakpyPg_WGWYTXeQ";
 
 
 const banco = window.supabase.createClient(
