@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 
 <head>
 
-<title>Estoque</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Estoque - SmartInspect AI</title>
 
 <link rel="stylesheet" href="css/style.css">
 
@@ -15,47 +18,460 @@
 
 <div class="sidebar">
 
-<h2>📦 Estoque</h2>
 
-<a href="index.html">Dashboard</a>
+<div class="logo">
 
-</div>
+<img src="imagens/logo.png">
 
-
-<div class="content">
-
-
-<h1>Controle de Materiais</h1>
-
-
-<div class="card">
-
-<h2>Cimento</h2>
-
-<p>Quantidade: 350 sacos</p>
-
-<p>Status: Normal</p>
-
+<h2>SmartInspect AI</h2>
 
 </div>
+
+
+
+<a href="index.html">📊 Dashboard</a>
+
+<a href="criar.html">➕ Criar</a>
+
+<a href="obras.html">🏢 Obras</a>
+
+<a href="inspecoes.html">📋 Inspeções</a>
+
+<a href="estoque.html">📦 Estoque</a>
+
+<a href="ia.html">🤖 IA</a>
+
+<a href="relatorios.html">📄 Relatórios</a>
+
+<a href="equipe.html">👷 Equipe</a>
+
+<a href="solicitacoes.html">👤 Solicitações</a>
 
 
 <br>
 
 
+<a href="#" onclick="sair()">
+
+🚪 Sair
+
+</a>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="content">
+
+
+<h1>📦 Estoque</h1>
+
+<p>
+Controle de materiais das obras
+</p>
+
+
+
+
+
+<button onclick="location.href='novo_estoque.html'">
+
+➕ Novo Material
+
+</button>
+
+
+
+
+
+
+<div id="listaEstoque">
+
+
+<p>
+Carregando estoque...
+</p>
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+
+<script src="js/auth.js"></script>
+
+
+
+
+
+<script>
+
+
+verificarLogin();
+
+
+
+
+
+
+async function carregarEstoque(){
+
+
+
+const {data,error}=await banco
+
+.from("estoque")
+
+.select(`
+
+*,
+
+obras(
+
+nome
+
+)
+
+`)
+
+.order("id",{ascending:false});
+
+
+
+
+
+const lista=document.getElementById("listaEstoque");
+
+
+
+
+
+if(error){
+
+console.log(error);
+
+lista.innerHTML="❌ Erro ao carregar estoque";
+
+return;
+
+}
+
+
+
+
+
+if(!data || data.length===0){
+
+
+lista.innerHTML="Nenhum material cadastrado";
+
+
+return;
+
+
+}
+
+
+
+
+
+
+
+lista.innerHTML="";
+
+
+
+
+
+
+data.forEach(item=>{
+
+
+
+
+
+
+lista.innerHTML += `
+
+
 <div class="card">
 
-<h2>Aço</h2>
 
-<p>Quantidade: 20 barras</p>
 
-<p>Status: Baixo estoque</p>
+
+
+${item.foto ?
+
+`
+
+<img src="${item.foto}" 
+
+style="width:180px;border-radius:10px;">
+
+`
+
+:
+
+"📷 Sem foto"
+
+}
+
+
+
+
+
+
+
+<h2>
+
+📦 ${item.material}
+
+</h2>
+
+
+
+
+
+
+<p>
+
+🏢 Obra:
+
+${item.obras ? item.obras.nome : "Sem obra"}
+
+</p>
+
+
+
+
+
+
+
+<p>
+
+🔢 Quantidade:
+
+${item.quantidade} ${item.unidade}
+
+</p>
+
+
+
+
+
+
+
+<p>
+
+⚠️ Mínimo:
+
+${item.estoque_minimo}
+
+</p>
+
+
+
+
+
+
+
+
+<p>
+
+👤 Responsável:
+
+${item.responsavel}
+
+</p>
+
+
+
+
+
+
+
+<p>
+
+📌 Status:
+
+${item.status}
+
+</p>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+<button onclick="excluirEstoque(${item.id})">
+
+🗑 Excluir
+
+</button>
+
+
+
+
 
 
 </div>
 
 
-</div>
+`;
+
+
+
+
+
+
+});
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+async function excluirEstoque(id){
+
+
+
+let confirmar=confirm(
+
+"Excluir este material?"
+
+);
+
+
+
+if(!confirmar)return;
+
+
+
+
+
+
+const {error}=await banco
+
+.from("estoque")
+
+.delete()
+
+.eq("id",id);
+
+
+
+
+
+
+if(error){
+
+
+alert("Erro ao excluir");
+
+
+console.log(error);
+
+
+return;
+
+
+}
+
+
+
+alert("Material excluído!");
+
+carregarEstoque();
+
+
+
+}
+
+
+
+
+
+
+
+carregarEstoque();
+
+
+
+</script>
+
+
+
+
+
+
+
+
+<footer class="rodape">
+
+
+<p>
+
+🚀 SmartInspect AI
+
+</p>
+
+
+<p>
+
+Desenvolvido por <strong>Sérgio and Gabriel</strong>
+
+</p>
+
+
+<p>
+
+Versão 1.0.1
+
+</p>
+
+
+</footer>
+
+
 
 
 </body>
