@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SmartInspect AI</title>
+<title>Dashboard - SmartInspect AI</title>
 
 <link rel="stylesheet" href="css/style.css">
 
@@ -19,6 +19,7 @@
 <div class="sidebar">
 
 
+
 <div class="logo">
 
 <img src="imagens/logo.png" alt="SmartInspect AI">
@@ -29,23 +30,56 @@
 
 
 
-<a href="index.html">📊 Dashboard</a>
 
-<a href="obras.html">🏢 Obras</a>
 
-<a href="inspecoes.html">📋 Inspeções</a>
+<a href="index.html">
+📊 Dashboard
+</a>
 
-<a href="estoque.html">📦 Estoque</a>
 
-<a href="ia.html">🤖 IA</a>
+<a href="criar.html">
+➕ Criar
+</a>
 
-<a href="relatorios.html">📄 Relatórios</a>
 
-<a href="equipe.html">👷 Equipe</a>
+<a href="obras.html">
+🏢 Obras
+</a>
 
-<a href="usuarios.html">👥 Usuários</a>
+
+<a href="inspecoes.html">
+📋 Inspeções
+</a>
+
+
+<a href="estoque.html">
+📦 Estoque
+</a>
+
+
+<a href="ia.html">
+🤖 IA
+</a>
+
+
+<a href="relatorios.html">
+📄 Relatórios
+</a>
+
+
+<a href="equipe.html">
+👷 Equipe
+</a>
+
+
+<a href="solicitacoes.html">
+👤 Solicitações
+</a>
+
+
 
 <br>
+
 
 <a href="#" onclick="sair()">
 
@@ -54,7 +88,12 @@
 </a>
 
 
+
 </div>
+
+
+
+
 
 
 
@@ -63,9 +102,18 @@
 <div class="content">
 
 
-<h1>📊 Dashboard</h1>
 
-<p>Sistema inteligente de gestão de obras</p>
+<h1>
+📊 Dashboard
+</h1>
+
+
+
+<p>
+Sistema inteligente de gestão de obras
+</p>
+
+
 
 
 
@@ -74,7 +122,10 @@
 
 
 
+
+
 <div class="card">
+
 
 <h2 id="obras">
 
@@ -82,14 +133,24 @@
 
 </h2>
 
-<p>🏢 Obras Ativas</p>
+
+<p>
+
+🏢 Obras Ativas
+
+</p>
+
 
 </div>
 
 
 
 
+
+
+
 <div class="card">
+
 
 <h2 id="inspecoes">
 
@@ -97,7 +158,13 @@
 
 </h2>
 
-<p>📋 Inspeções Realizadas</p>
+
+<p>
+
+📋 Inspeções Realizadas
+
+</p>
+
 
 </div>
 
@@ -105,7 +172,10 @@
 
 
 
+
+
 <div class="card">
+
 
 <h2 id="problemas">
 
@@ -113,9 +183,17 @@
 
 </h2>
 
-<p>⚠️ Não Conformidades</p>
+
+<p>
+
+⚠️ Não Conformidades
+
+</p>
+
 
 </div>
+
+
 
 
 
@@ -123,22 +201,19 @@
 
 <div class="card">
 
+
 <h2 id="estoque">
 
 0%
 
 </h2>
 
-<p>📦 Estoque Disponível</p>
 
-</div>
+<p>
 
+📦 Estoque Disponível
 
-
-
-</div>
-
-
+</p>
 
 
 </div>
@@ -148,19 +223,32 @@
 
 
 
+</div>
 
 
-<!-- Supabase -->
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-
 <script src="js/supabase.js"></script>
 
-
-<!-- Controle de login -->
-
 <script src="js/auth.js"></script>
+
+
+
 
 
 
@@ -176,17 +264,23 @@ verificarLogin();
 
 
 
+
 async function carregarDashboard(){
 
 
 
-// Obras
+
+
 
 const {data:obras,error:erroObras}=await banco
 
 .from("obras")
 
 .select("*");
+
+
+
+
 
 
 
@@ -201,13 +295,18 @@ obras.length;
 
 
 
-// Inspeções
+
+
+
 
 const {data:inspecoes,error:erroInspecoes}=await banco
 
 .from("inspecoes")
 
 .select("*");
+
+
+
 
 
 
@@ -223,13 +322,17 @@ inspecoes.length;
 
 
 
-// Não conformidades
+
+
 
 const {data:problemas,error:erroProblemas}=await banco
 
 .from("nao_conformidades")
 
 .select("*");
+
+
+
 
 
 
@@ -244,7 +347,10 @@ problemas.length;
 
 
 
+
+
 }
+
 
 
 
@@ -254,7 +360,11 @@ carregarDashboard();
 
 
 
+
+
 </script>
+
+
 
 
 
@@ -272,7 +382,6 @@ carregarDashboard();
 </p>
 
 
-
 <p>
 
 Desenvolvido por <strong>Sérgio and Gabriel</strong>
@@ -284,8 +393,6 @@ SmartInspect AI Development Team
 </p>
 
 
-
-
 <p>
 
 Versão 1.0.1 • Sistema de Inspeção Inteligente de Obras com Auxílio de IA
@@ -295,6 +402,7 @@ Versão 1.0.1 • Sistema de Inspeção Inteligente de Obras com Auxílio de IA
 
 
 </footer>
+
 
 
 
