@@ -19,7 +19,6 @@
 <div class="sidebar">
 
 
-
 <div class="logo">
 
 <img src="imagens/logo.png" alt="SmartInspect AI">
@@ -31,51 +30,23 @@
 
 
 
+<a href="index.html">📊 Dashboard</a>
 
-<a href="index.html">
-📊 Dashboard
-</a>
+<a href="criar.html">➕ Criar</a>
 
+<a href="obras.html">🏢 Obras</a>
 
-<a href="criar.html">
-➕ Criar
-</a>
+<a href="inspecoes.html">📋 Inspeções</a>
 
+<a href="estoque.html">📦 Estoque</a>
 
-<a href="obras.html">
-🏢 Obras
-</a>
+<a href="ia.html">🤖 IA</a>
 
+<a href="relatorios.html">📄 Relatórios</a>
 
-<a href="inspecoes.html">
-📋 Inspeções
-</a>
+<a href="equipe.html">👷 Equipe</a>
 
-
-<a href="estoque.html">
-📦 Estoque
-</a>
-
-
-<a href="ia.html">
-🤖 IA
-</a>
-
-
-<a href="relatorios.html">
-📄 Relatórios
-</a>
-
-
-<a href="equipe.html">
-👷 Equipe
-</a>
-
-
-<a href="solicitacoes.html">
-👤 Solicitações
-</a>
-
+<a href="solicitacoes.html">👤 Solicitações</a>
 
 
 <br>
@@ -98,20 +69,18 @@
 
 
 
-
 <div class="content">
 
 
-
-<h1>
-📊 Dashboard
-</h1>
-
+<h1>📊 Dashboard</h1>
 
 
 <p>
+
 Sistema inteligente de gestão de obras
+
 </p>
+
 
 
 
@@ -204,14 +173,14 @@ Sistema inteligente de gestão de obras
 
 <h2 id="estoque">
 
-0%
+0
 
 </h2>
 
 
 <p>
 
-📦 Estoque Disponível
+📦 Materiais em Estoque
 
 </p>
 
@@ -223,13 +192,6 @@ Sistema inteligente de gestão de obras
 
 
 
-</div>
-
-
-
-
-
-
 
 </div>
 
@@ -237,132 +199,7 @@ Sistema inteligente de gestão de obras
 
 
 
-
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script src="js/supabase.js"></script>
-
-<script src="js/auth.js"></script>
-
-
-
-
-
-
-
-<script>
-
-
-
-verificarLogin();
-
-
-
-
-
-
-
-async function carregarDashboard(){
-
-
-
-
-
-
-const {data:obras,error:erroObras}=await banco
-
-.from("obras")
-
-.select("*");
-
-
-
-
-
-
-
-if(!erroObras){
-
-document.getElementById("obras").innerHTML =
-obras.length;
-
-}
-
-
-
-
-
-
-
-
-
-const {data:inspecoes,error:erroInspecoes}=await banco
-
-.from("inspecoes")
-
-.select("*");
-
-
-
-
-
-
-if(!erroInspecoes){
-
-document.getElementById("inspecoes").innerHTML =
-inspecoes.length;
-
-}
-
-
-
-
-
-
-
-
-
-const {data:problemas,error:erroProblemas}=await banco
-
-.from("nao_conformidades")
-
-.select("*");
-
-
-
-
-
-
-if(!erroProblemas){
-
-document.getElementById("problemas").innerHTML =
-problemas.length;
-
-}
-
-
-
-
-
-
-
-}
-
-
-
-
-
-
-carregarDashboard();
-
-
-
-
-
-</script>
+</div>
 
 
 
@@ -386,10 +223,6 @@ carregarDashboard();
 
 Desenvolvido por <strong>Sérgio and Gabriel</strong>
 
-<br>
-
-SmartInspect AI Development Team
-
 </p>
 
 
@@ -400,10 +233,150 @@ Versão 1.0.1 • Sistema de Inspeção Inteligente de Obras com Auxílio de IA
 </p>
 
 
-
 </footer>
 
 
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script src="js/supabase.js"></script>
+
+
+<script src="js/auth.js"></script>
+
+
+
+
+
+<script>
+
+
+verificarLogin();
+
+
+
+
+
+
+
+async function carregarDashboard(){
+
+
+
+// OBRAS
+
+const {data:obras,error:erroObras}=await banco
+
+.from("obras")
+
+.select("*");
+
+
+
+if(!erroObras){
+
+document.getElementById("obras").innerHTML =
+obras.length;
+
+}
+
+
+
+
+
+
+
+
+// INSPEÇÕES
+
+const {data:inspecoes,error:erroInspecoes}=await banco
+
+.from("inspecoes")
+
+.select("*");
+
+
+
+if(!erroInspecoes){
+
+document.getElementById("inspecoes").innerHTML =
+inspecoes.length;
+
+}
+
+
+
+
+
+
+
+
+// NÃO CONFORMIDADES
+
+const {data:problemas,error:erroProblemas}=await banco
+
+.from("nao_conformidades")
+
+.select("*");
+
+
+
+if(!erroProblemas){
+
+document.getElementById("problemas").innerHTML =
+problemas.length;
+
+}
+
+
+
+
+
+
+
+
+// ESTOQUE
+
+const {data:estoque,error:erroEstoque}=await banco
+
+.from("estoque")
+
+.select("*");
+
+
+
+if(!erroEstoque){
+
+document.getElementById("estoque").innerHTML =
+estoque.length;
+
+}
+
+
+
+
+
+}
+
+
+
+
+
+
+
+carregarDashboard();
+
+
+
+
+</script>
 
 
 
