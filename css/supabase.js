@@ -1,5 +1,5 @@
-const SUPABASE_URL = "SUA_URL_DO_SUPABASE";
-const SUPABASE_KEY = "SUA_CHAVE_PUBLICA";
+const SUPABASE_URL = "https://zuvvaggooddpblqhgsdb.supabase.co";
+const SUPABASE_KEY = "postgresql://postgres:jesussempreteama@db.zuvvaggooddpblqhgsdb.supabase.co:5432/postgres";
 
 const db = supabase.createClient(
     SUPABASE_URL,
