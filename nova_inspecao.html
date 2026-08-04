@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Nova Inspeção - SmartInspect AI</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="sidebar">
+
+<h2>🏗 SmartInspect AI</h2>
+
+<a href="index.html">📊 Dashboard</a>
+<a href="obras.html">🏢 Obras</a>
+<a href="inspecoes.html">📋 Inspeções</a>
+<a href="estoque.html">📦 Estoque</a>
+<a href="ia.html">🤖 IA</a>
+<a href="relatorios.html">📄 Relatórios</a>
+<a href="equipe.html">👷 Equipe</a>
+
+</div>
+
+
+
+
+
+<div class="content">
+
+
+<h1>📋 Nova Inspeção</h1>
+
+<p>Registre uma inspeção técnica da obra</p>
+
+
+
+
+<div class="card">
+
+
+<label>Obra</label>
+
+<select id="obra">
+
+<option>
+Carregando obras...
+</option>
+
+</select>
+
+
+
+
+
+<label>Tipo de Inspeção</label>
+
+<select id="tipo">
+
+<option>Estrutura</option>
+<option>Alvenaria</option>
+<option>Revestimento</option>
+<option>Instalações</option>
+<option>Acabamento</option>
+
+</select>
+
+
+
+
+
+<label>Data da Inspeção</label>
+
+<input type="date" id="data">
+
+
+
+
+
+
+<label>Responsável Técnico</label>
+
+<input 
+id="responsavel"
+type="text"
+placeholder="Nome do inspetor">
+
+
+
+
+
+<label>Observações</label>
+
+<textarea 
+id="observacao"
+placeholder="Descreva a inspeção">
+</textarea>
+
+
+
+
+
+
+<label>Status</label>
+
+<select id="status">
+
+<option>Aprovado</option>
+<option>Pendente</option>
+<option>Reprovado</option>
+
+</select>
+
+
+
+
+
+
+<br><br>
+
+
+<button onclick="salvarInspecao()">
+
+💾 Salvar Inspeção
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+
+
+
+
+
+<script>
+
+
+// pega obra enviada pela página detalhes_obra
+
+const parametros =
+new URLSearchParams(window.location.search);
+
+
+const obraSelecionada =
+parametros.get("obra");
+
+
+
+
+
+
+
+
+// data automática
+
+document.getElementById("data").value =
+new Date().toISOString().split("T")[0];
+
+
+
+
+
+
+
+
+// carregar obras
+
+
+async function carregarObras(){
+
+
+
+const select =
+document.getElementById("obra");
+
+
+
+
+const {data,error}=await banco
+
+.from("obras")
+
+.select("*")
+
+.order("id",{ascending:false});
+
+
+
+
+
+
+select.innerHTML="";
+
+
+
+
+
+
+if(error){
+
+
+console.log(error);
+
+
+select.innerHTML =
+"<option>Erro ao carregar obras</option>";
+
+
+return;
+
+
+}
+
+
+
+
+
+
+if(!data || data.length === 0){
+
+
+select.innerHTML =
+"<option>Nenhuma obra cadastrada</option>";
+
+
+return;
+
+
+}
+
+
+
+
+
+
+data.forEach(obra=>{
+
+
+let selecionado = "";
+
+
+
+if(obra.id == obraSelecionada){
+
+
+selecionado = "selected";
+
+
+}
+
+
+
+
+select.innerHTML += `
+
+
+<option value="${obra.id}" ${selecionado}>
+
+
+${obra.nome}
+
+
+</option>
+
+
+`;
+
+
+
+});
+
+
+
+
+}
+
+
+
+
+
+
+
+carregarObras();
+
+
+
+
+
+
+
+
+
+// salvar inspeção
+
+
+async function salvarInspecao(){
+
+
+
+
+
+const obra_id =
+document.getElementById("obra").value;
+
+
+
+const tipo =
+document.getElementById("tipo").value;
+
+
+
+const data_inspecao =
+document.getElementById("data").value;
+
+
+
+const responsavel =
+document.getElementById("responsavel").value;
+
+
+
+const observacao =
+document.getElementById("observacao").value;
+
+
+
+const status =
+document.getElementById("status").value;
+
+
+
+
+
+
+
+if(!obra_id){
+
+
+alert("Selecione uma obra");
+
+
+return;
+
+
+}
+
+
+
+
+
+if(!responsavel){
+
+
+alert("Informe o responsável técnico");
+
+
+return;
+
+
+}
+
+
+
+
+
+
+
+const {error}=await banco
+
+.from("inspecoes")
+
+.insert([{
+
+
+obra_id:Number(obra_id),
+
+tipo:tipo,
+
+data_inspecao:data_inspecao,
+
+responsavel:responsavel,
+
+observacao:observacao,
+
+status:status
+
+
+}]);
+
+
+
+
+
+
+
+
+if(error){
+
+
+console.log(error);
+
+
+alert("❌ Erro ao salvar inspeção");
+
+
+}
+
+else{
+
+
+alert("✅ Inspeção cadastrada com sucesso!");
+
+
+window.location.href =
+"inspecoes.html";
+
+
+}
+
+
+
+}
+
+
+
+
+
+</script>
+
+
+</body>
+
+</html>
