@@ -1,1 +1,301 @@
 
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Usuários - SmartInspect AI</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="sidebar">
+
+<h2>🏗 SmartInspect AI</h2>
+
+<a href="index.html">📊 Dashboard</a>
+<a href="obras.html">🏢 Obras</a>
+<a href="inspecoes.html">📋 Inspeções</a>
+<a href="estoque.html">📦 Estoque</a>
+<a href="relatorios.html">📄 Relatórios</a>
+<a href="usuarios.html">👥 Usuários</a>
+
+</div>
+
+
+
+
+
+<div class="content">
+
+
+<h1>👥 Controle de Usuários</h1>
+
+<p>Aprovação de novos acessos</p>
+
+
+
+<div id="listaUsuarios">
+
+Carregando usuários...
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+
+
+
+
+<script>
+
+
+
+async function carregarUsuarios(){
+
+
+
+const {data,error}=await banco
+
+.from("usuarios")
+
+.select("*")
+
+.order("id",{ascending:false});
+
+
+
+
+
+if(error){
+
+console.log(error);
+
+return;
+
+}
+
+
+
+
+
+let lista=document.getElementById("listaUsuarios");
+
+lista.innerHTML="";
+
+
+
+
+
+
+data.forEach(usuario=>{
+
+
+
+lista.innerHTML += `
+
+
+<div class="card">
+
+
+<h2>
+
+👤 ${usuario.nome}
+
+</h2>
+
+
+
+<p>
+
+📧 ${usuario.email}
+
+</p>
+
+
+
+<p>
+
+Cargo:
+
+${usuario.nivel_acesso}
+
+</p>
+
+
+
+<p>
+
+Status:
+
+${usuario.status}
+
+</p>
+
+
+
+
+
+${usuario.status === "pendente" ? `
+
+
+<button onclick="aprovar(${usuario.id})">
+
+✅ Aprovar
+
+</button>
+
+
+<button onclick="recusar(${usuario.id})">
+
+❌ Recusar
+
+</button>
+
+
+`:""}
+
+
+
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+
+
+}
+
+
+
+
+
+
+
+
+async function aprovar(id){
+
+
+
+const {error}=await banco
+
+.from("usuarios")
+
+.update({
+
+status:"ativo"
+
+})
+
+.eq("id",id);
+
+
+
+
+
+if(error){
+
+alert("Erro ao aprovar");
+
+console.log(error);
+
+return;
+
+}
+
+
+
+alert("Usuário aprovado!");
+
+carregarUsuarios();
+
+
+
+}
+
+
+
+
+
+
+
+
+async function recusar(id){
+
+
+
+const {error}=await banco
+
+.from("usuarios")
+
+.update({
+
+status:"bloqueado"
+
+})
+
+.eq("id",id);
+
+
+
+
+
+if(error){
+
+alert("Erro");
+
+return;
+
+}
+
+
+
+alert("Usuário recusado!");
+
+carregarUsuarios();
+
+
+
+}
+
+
+
+
+
+
+carregarUsuarios();
+
+
+
+</script>
+
+
+</body>
+
+</html>
