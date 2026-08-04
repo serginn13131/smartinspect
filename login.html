@@ -1,1 +1,221 @@
-1
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login - SmartInspect AI</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="content">
+
+
+<div class="card" style="max-width:400px;margin:auto;margin-top:100px;">
+
+
+<h1>🏗 SmartInspect AI</h1>
+
+<p>Acesso ao sistema</p>
+
+
+
+<label>Email</label>
+
+<input 
+id="email"
+type="email"
+placeholder="Digite seu email">
+
+
+
+<br><br>
+
+
+<label>Senha</label>
+
+<input 
+id="senha"
+type="password"
+placeholder="Digite sua senha">
+
+
+
+<br><br>
+
+
+<button onclick="entrar()">
+
+🔐 Entrar
+
+</button>
+
+
+
+<br><br>
+
+
+<button onclick="location.href='cadastro.html'">
+
+➕ Solicitar acesso
+
+</button>
+
+
+
+<p id="mensagem"></p>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+
+
+
+
+<script>
+
+
+async function entrar(){
+
+
+
+const email =
+document.getElementById("email").value;
+
+
+const senha =
+document.getElementById("senha").value;
+
+
+
+
+
+const {data,error} = await banco.auth.signInWithPassword({
+
+email: email,
+
+password: senha
+
+});
+
+
+
+
+
+if(error){
+
+
+document.getElementById("mensagem").innerHTML =
+
+"❌ Email ou senha inválidos";
+
+
+console.log(error);
+
+
+return;
+
+
+}
+
+
+
+
+
+
+const usuario = await banco
+
+.from("usuarios")
+
+.select("*")
+
+.eq("auth_id", data.user.id)
+
+.single();
+
+
+
+
+
+
+
+if(usuario.error){
+
+
+alert("Usuário não encontrado");
+
+return;
+
+}
+
+
+
+
+
+
+if(usuario.data.status !== "ativo"){
+
+
+alert("⏳ Seu acesso ainda não foi aprovado");
+
+await banco.auth.signOut();
+
+return;
+
+
+}
+
+
+
+
+
+
+
+localStorage.setItem(
+
+"usuario",
+
+JSON.stringify(usuario.data)
+
+);
+
+
+
+
+
+
+window.location.href="index.html";
+
+
+
+
+
+}
+
+
+
+</script>
+
+
+</body>
+
+</html>
