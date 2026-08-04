@@ -3,21 +3,35 @@ import OpenAI from "openai";
 
 export default async function handler(req, res) {
 
-
 try {
 
 
-const client = new OpenAI({
+const apiKey = process.env.OPENAI_API_KEY;
 
-apiKey: process.env.OPENAI_API_KEY
+
+if(!apiKey){
+
+return res.status(500).json({
+
+erro:"OPENAI_API_KEY não encontrada na Vercel"
+
+});
+
+}
+
+
+
+const openai = new OpenAI({
+
+apiKey: apiKey
 
 });
 
 
 
-const resposta = await client.chat.completions.create({
+const resposta = await openai.chat.completions.create({
 
-model: "gpt-4.1-mini",
+model:"gpt-4.1-mini",
 
 messages:[
 
@@ -35,7 +49,7 @@ content:req.body.pergunta
 
 
 
-res.status(200).json({
+return res.status(200).json({
 
 resposta: resposta.choices[0].message.content
 
@@ -43,15 +57,15 @@ resposta: resposta.choices[0].message.content
 
 
 
-} catch(error) {
+}catch(error){
 
 
 console.log(error);
 
 
-res.status(500).json({
+return res.status(500).json({
 
-erro: error.message
+erro:error.message
 
 });
 
