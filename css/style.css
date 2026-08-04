@@ -255,3 +255,65 @@ grid-template-columns:repeat(2,1fr);
 
 
 }
+/* Celular de lado (paisagem) */
+
+@media(max-width:900px) and (orientation:landscape){
+
+
+.sidebar{
+
+width:200px;
+
+height:100vh;
+
+position:fixed;
+
+}
+
+
+
+.content{
+
+margin-left:200px;
+
+padding:20px;
+
+}
+
+
+
+.cards{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+
+
+.logo img{
+
+width:45px;
+
+height:45px;
+
+}
+
+
+
+.logo h2{
+
+font-size:16px;
+
+}
+
+
+
+.sidebar a{
+
+padding:10px;
+
+}
+
+
+
+}
