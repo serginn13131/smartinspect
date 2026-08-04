@@ -33,6 +33,7 @@
 
 
 
+
 <div class="content">
 
 
@@ -44,9 +45,7 @@
 
 <div id="listaObras">
 
-
 <p>Carregando obras...</p>
-
 
 </div>
 
@@ -69,12 +68,8 @@
 
 
 
-<!-- Supabase -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
-<!-- Conexão Banco -->
 
 <script src="js/supabase.js"></script>
 
@@ -85,6 +80,7 @@
 <script>
 
 
+
 async function carregarObras(){
 
 
@@ -92,9 +88,7 @@ async function carregarObras(){
 if(typeof banco === "undefined"){
 
 document.getElementById("listaObras").innerHTML =
-"<p>❌ Erro: banco não conectado.</p>";
-
-console.log("supabase.js não carregou");
+"❌ Banco não conectado";
 
 return;
 
@@ -115,23 +109,18 @@ const {data, error} = await banco
 
 
 
-
 let lista = document.getElementById("listaObras");
-
 
 
 
 
 if(error){
 
-
 lista.innerHTML =
-"<p>❌ Erro ao carregar obras.</p>";
-
+"❌ Erro ao carregar obras";
 
 console.log(error);
 
-
 return;
 
 }
@@ -139,19 +128,14 @@ return;
 
 
 
-
-if(!data || data.length === 0){
-
+if(data.length === 0){
 
 lista.innerHTML =
-"<p>Nenhuma obra cadastrada ainda.</p>";
-
+"Nenhuma obra cadastrada";
 
 return;
 
-
 }
-
 
 
 
@@ -203,6 +187,18 @@ lista.innerHTML += `
 
 
 
+<br>
+
+
+
+<button onclick="deletarObra(${obra.id})">
+
+🗑 Excluir Obra
+
+</button>
+
+
+
 </div>
 
 
@@ -215,6 +211,71 @@ lista.innerHTML += `
 
 
 }
+
+
+
+
+
+
+
+async function deletarObra(id){
+
+
+
+let confirmar = confirm(
+"⚠️ Tem certeza que deseja excluir esta obra?"
+);
+
+
+
+
+if(!confirmar){
+
+return;
+
+}
+
+
+
+
+const {error} = await banco
+
+.from("obras")
+
+.delete()
+
+.eq("id", id);
+
+
+
+
+
+if(error){
+
+
+alert("❌ Erro ao excluir obra");
+
+
+console.log(error);
+
+
+}
+
+else{
+
+
+alert("✅ Obra excluída com sucesso!");
+
+
+carregarObras();
+
+
+}
+
+
+
+}
+
 
 
 
