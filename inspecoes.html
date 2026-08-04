@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Inspeções - SmartInspect AI</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="sidebar">
+
+<h2>🏗 SmartInspect AI</h2>
+
+<a href="index.html">📊 Dashboard</a>
+<a href="obras.html">🏢 Obras</a>
+<a href="inspecoes.html">📋 Inspeções</a>
+<a href="estoque.html">📦 Estoque</a>
+<a href="ia.html">🤖 IA</a>
+<a href="relatorios.html">📄 Relatórios</a>
+<a href="equipe.html">👷 Equipe</a>
+
+</div>
+
+
+
+
+
+<div class="content">
+
+
+<h1>📋 Inspeções Realizadas</h1>
+
+<p>Histórico das inspeções técnicas das obras</p>
+
+
+
+
+<div id="listaInspecoes">
+
+<p>Carregando inspeções...</p>
+
+</div>
+
+
+
+
+<br>
+
+
+<button onclick="location.href='nova_inspecao.html'">
+
+➕ Nova Inspeção
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+
+
+
+
+
+
+
+<script>
+
+
+
+
+
+async function carregarInspecoes(){
+
+
+
+if(typeof banco === "undefined"){
+
+
+document.getElementById("listaInspecoes").innerHTML =
+"❌ Banco não conectado";
+
+
+return;
+
+
+}
+
+
+
+
+
+
+const {data,error}=await banco
+
+.from("inspecoes")
+
+.select(`
+
+id,
+
+tipo,
+
+data_inspecao,
+
+responsavel,
+
+observacao,
+
+status,
+
+obras(nome)
+
+`)
+
+.order("id",{ascending:false});
+
+
+
+
+
+
+
+let lista =
+document.getElementById("listaInspecoes");
+
+
+
+
+
+
+if(error){
+
+
+console.log(error);
+
+
+lista.innerHTML =
+"❌ Erro ao carregar inspeções";
+
+
+return;
+
+
+}
+
+
+
+
+
+
+if(!data || data.length === 0){
+
+
+lista.innerHTML =
+"Nenhuma inspeção cadastrada";
+
+
+return;
+
+
+}
+
+
+
+
+
+
+
+lista.innerHTML="";
+
+
+
+
+
+
+
+data.forEach(inspecao=>{
+
+
+
+
+
+lista.innerHTML += `
+
+
+<div class="card">
+
+
+<h2>
+
+📋 ${inspecao.tipo}
+
+</h2>
+
+
+
+
+<p>
+
+🏢 Obra:
+
+<strong>
+
+${inspecao.obras?.nome || "Sem obra"}
+
+</strong>
+
+</p>
+
+
+
+
+<p>
+
+📅 Data:
+
+${inspecao.data_inspecao}
+
+</p>
+
+
+
+
+<p>
+
+👷 Responsável:
+
+${inspecao.responsavel}
+
+</p>
+
+
+
+
+<p>
+
+📌 Status:
+
+${inspecao.status}
+
+</p>
+
+
+
+
+<p>
+
+📝 Observação:
+
+${inspecao.observacao || "Nenhuma"}
+
+</p>
+
+
+
+
+
+<br>
+
+
+
+<button onclick="deletarInspecao(${inspecao.id})">
+
+🗑 Excluir
+
+</button>
+
+
+
+</div>
+
+
+`;
+
+
+
+
+
+});
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+async function deletarInspecao(id){
+
+
+
+let confirmar =
+confirm(
+"⚠️ Deseja excluir esta inspeção?"
+);
+
+
+
+
+if(!confirmar){
+
+return;
+
+}
+
+
+
+
+
+
+
+const {error}=await banco
+
+.from("inspecoes")
+
+.delete()
+
+.eq("id",id);
+
+
+
+
+
+
+
+if(error){
+
+
+console.log(error);
+
+
+alert("❌ Erro ao excluir inspeção");
+
+
+}
+
+else{
+
+
+alert("✅ Inspeção excluída");
+
+
+carregarInspecoes();
+
+
+}
+
+
+
+
+}
+
+
+
+
+
+
+
+carregarInspecoes();
+
+
+
+
+
+</script>
+
+
+
+</body>
+
+</html>
