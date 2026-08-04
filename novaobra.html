@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Nova Obra - SmartInspect AI</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="sidebar">
+
+<h2>🏗 SmartInspect AI</h2>
+
+<a href="index.html">📊 Dashboard</a>
+<a href="criar.html">➕ Criar</a>
+<a href="obras.html">🏢 Obras</a>
+<a href="inspecoes.html">📋 Inspeções</a>
+<a href="estoque.html">📦 Estoque</a>
+<a href="ia.html">🤖 IA</a>
+<a href="relatorios.html">📄 Relatórios</a>
+<a href="equipe.html">👷 Equipe</a>
+
+</div>
+
+
+
+<div class="content">
+
+
+<h1>🏢 Nova Obra</h1>
+
+<p>Cadastre uma nova obra no sistema</p>
+
+
+
+<div class="card">
+
+
+<label>Nome da Obra</label>
+
+<input id="nome" type="text" placeholder="Ex: Residencial Alpha">
+
+
+
+<label>Endereço</label>
+
+<input id="endereco" type="text" placeholder="Rua, número, cidade">
+
+
+
+<label>Responsável Técnico</label>
+
+<input id="responsavel" type="text" placeholder="Nome do engenheiro ou técnico">
+
+
+
+<label>Data de Início</label>
+
+<input id="data" type="date">
+
+
+
+<label>Status da Obra</label>
+
+<select id="status">
+
+<option>Planejamento</option>
+<option>Em andamento</option>
+<option>Finalizada</option>
+
+</select>
+
+
+
+<br><br>
+
+
+<button onclick="salvarObra()">
+💾 Salvar Obra
+</button>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="supabase.js"></script>
+
+
+
+<script>
+
+
+async function salvarObra(){
+
+
+let nome = document.getElementById("nome").value;
+
+let endereco = document.getElementById("endereco").value;
+
+let responsavel = document.getElementById("responsavel").value;
+
+let data = document.getElementById("data").value;
+
+let status = document.getElementById("status").value;
+
+
+
+const {data: resultado, error} = await db
+.from("obras")
+.insert([{
+
+nome:nome,
+endereco:endereco,
+responsavel:responsavel,
+data_inicio:data,
+status:status
+
+}]);
+
+
+
+if(error){
+
+alert("Erro ao salvar obra");
+
+console.log(error);
+
+}
+
+else{
+
+alert("✅ Obra cadastrada com sucesso!");
+
+window.location.href="obras.html";
+
+}
+
+
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
