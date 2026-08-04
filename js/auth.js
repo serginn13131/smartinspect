@@ -1,12 +1,3 @@
-```javascript
-// ======================================
-// SMARTINSPECT AI - SISTEMA DE PERMISSÕES
-// ======================================
-
-
-
-// Recupera usuário logado
-
 function getUsuario(){
 
     const usuario = localStorage.getItem("usuario");
@@ -22,23 +13,16 @@ function getUsuario(){
 
 
 
-
-// Verifica se está logado
-
 function verificarLogin(){
 
-
     const usuario = getUsuario();
-
 
     if(!usuario){
 
         window.location.href="login.html";
-
         return false;
 
     }
-
 
     return true;
 
@@ -48,15 +32,11 @@ function verificarLogin(){
 
 
 
-// Logout
-
-async function sair(){
-
+function sair(){
 
     localStorage.removeItem("usuario");
 
     window.location.href="login.html";
-
 
 }
 
@@ -64,21 +44,11 @@ async function sair(){
 
 
 
-
-
-
-
-// ======================================
-// PERMISSÕES POR CARGO
-// ======================================
-
-
 const permissoes = {
 
 
 admin:[
-
-"dashboard",
+"index",
 "obras",
 "imoveis",
 "inspecoes",
@@ -87,54 +57,41 @@ admin:[
 "relatorios",
 "equipe",
 "solicitacoes"
-
 ],
 
 
-
 empresa:[
-
-"dashboard",
+"index",
 "obras",
 "imoveis",
 "inspecoes",
 "estoque",
 "relatorios",
 "equipe"
-
 ],
 
 
-
 engenheiro:[
-
-"dashboard",
+"index",
 "obras",
 "imoveis",
 "inspecoes",
 "ia",
 "relatorios"
-
 ],
-
 
 
 inspetor:[
-
-"dashboard",
+"index",
 "obras",
 "inspecoes",
 "ia"
-
 ],
 
 
-
 campo:[
-
-"dashboard",
+"index",
 "inspecoes"
-
 ]
 
 
@@ -144,38 +101,30 @@ campo:[
 
 
 
-
-
-
-
-// Verifica permissão
-
 function temPermissao(pagina){
 
 
-    const usuario = getUsuario();
+const usuario = getUsuario();
 
 
-    if(!usuario){
+if(!usuario){
 
-        return false;
+return false;
 
-    }
-
-
-    const cargo = usuario.nivel_acesso;
+}
 
 
-
-    if(!permissoes[cargo]){
-
-        return false;
-
-    }
+const cargo = usuario.nivel_acesso;
 
 
+if(!permissoes[cargo]){
 
-    return permissoes[cargo].includes(pagina);
+return true;
+
+}
+
+
+return permissoes[cargo].includes(pagina);
 
 
 }
@@ -185,15 +134,17 @@ function temPermissao(pagina){
 
 
 
-
-
-
-// ======================================
-// ESCONDER MENU AUTOMATICAMENTE
-// ======================================
-
-
 function controlarMenu(){
+
+const usuario = getUsuario();
+
+
+if(!usuario){
+
+return;
+
+}
+
 
 
 const links = document.querySelectorAll(".sidebar a");
@@ -203,50 +154,38 @@ const links = document.querySelectorAll(".sidebar a");
 links.forEach(link=>{
 
 
-const pagina = link
-
-.getAttribute("href")
-
-.replace(".html","")
-
-.replace("#","");
+const href = link.getAttribute("href");
 
 
+
+if(!href){
+
+return;
+
+}
+
+
+
+const pagina = href.replace(".html","");
 
 
 
 if(
-
-pagina &&
-
-pagina !== "login" &&
-
+pagina !== "#" &&
 !temPermissao(pagina)
 
 ){
 
-
 link.style.display="none";
 
-
 }
-
 
 
 });
 
 
-
 }
 
-
-
-
-
-
-
-
-// Executa quando página carregar
 
 
 document.addEventListener(
@@ -255,11 +194,8 @@ document.addEventListener(
 
 ()=>{
 
-
-    controlarMenu();
-
+controlarMenu();
 
 }
 
 );
-```
