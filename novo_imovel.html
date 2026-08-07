@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -17,44 +16,7 @@
 <body>
 
 
-<div class="sidebar">
-
-
-<div class="logo">
-
-<img src="imagens/logo.png">
-
-<h2>SmartInspect AI</h2>
-
-</div>
-
-
-
-<a href="index.html">📊 Dashboard</a>
-<a href="criar.html">➕ Criar</a>
-<a href="obras.html">🏢 Obras</a>
-<a href="imoveis.html">🏠 Imóveis</a>
-<a href="inspecoes.html">📋 Inspeções</a>
-<a href="estoque.html">📦 Estoque</a>
-<a href="ia.html">🤖 IA</a>
-<a href="relatorios.html">📄 Relatórios</a>
-
-
-<br>
-
-
-<a href="#" onclick="sair()">
-
-🚪 Sair
-
-</a>
-
-
-</div>
-
-
-
-
+<div class="menu-container"></div>
 
 
 
@@ -69,195 +31,86 @@ Cadastro de imóvel vinculado à obra
 
 
 
-
-
-
 <div class="card">
 
 
-
-<label>
-🏢 Obra
-</label>
-
+<label>🏢 Obra</label>
 
 <select id="obra">
-
-<option>
-Carregando obras...
-</option>
-
+<option>Carregando obras...</option>
 </select>
 
 
 
+<label>🏠 Nome do imóvel</label>
+
+<input id="nome" type="text" placeholder="Ex: Apartamento 101">
 
 
 
-<label>
-🏠 Nome do imóvel
-</label>
-
-
-<input 
-id="nome"
-type="text"
-placeholder="Ex: Apartamento 101">
-
-
-
-
-
-
-<label>
-🏷 Tipo
-</label>
-
+<label>🏷 Tipo</label>
 
 <select id="tipo">
 
-
-<option>
-Apartamento
-</option>
-
-
-<option>
-Casa
-</option>
-
-
-<option>
-Comercial
-</option>
-
-
-<option>
-Galpão
-</option>
-
+<option>Apartamento</option>
+<option>Casa</option>
+<option>Comercial</option>
+<option>Galpão</option>
 
 </select>
 
 
 
+<label>📍 Endereço</label>
+
+<input id="endereco" placeholder="Endereço do imóvel">
 
 
 
+<label>👤 Cliente</label>
 
-<label>
-📍 Endereço
-</label>
-
-
-<input 
-id="endereco"
-placeholder="Endereço do imóvel">
+<input id="cliente" placeholder="Nome do cliente">
 
 
 
+<label>📷 Foto do imóvel</label>
+
+<input id="foto" type="file" accept="image/*">
 
 
 
-<label>
-👤 Cliente
-</label>
-
-
-<input 
-id="cliente"
-placeholder="Nome do cliente">
-
-
-
-
-
-
-<label>
-📷 Foto do imóvel
-</label>
-
-
-<input 
-id="foto"
-type="file"
-accept="image/*">
-
-
-
-
-
-
-<label>
-📌 Status
-</label>
-
+<label>📌 Status</label>
 
 <select id="status">
 
-
-<option>
-Em construção
-</option>
-
-
-<option>
-Pronto
-</option>
-
-
-<option>
-Entregue
-</option>
-
+<option>Em construção</option>
+<option>Pronto</option>
+<option>Entregue</option>
 
 </select>
 
 
 
+<label>📝 Observação</label>
 
-
-
-
-<label>
-📝 Observação
-</label>
-
-
-<textarea 
-id="observacao"
-rows="5"></textarea>
-
-
-
+<textarea id="observacao" rows="5"></textarea>
 
 
 
 <br>
 
-
 <button onclick="salvarImovel()">
-
 💾 Salvar Imóvel
-
 </button>
-
 
 
 <p id="mensagem"></p>
 
 
-
 </div>
 
 
-
-
 </div>
-
-
-
-
 
 
 
@@ -268,25 +121,23 @@ rows="5"></textarea>
 
 <script src="js/auth.js"></script>
 
-
-
-
+<script src="js/sidebar.js"></script>
 
 
 
 <script>
 
 
-verificarLogin();
+// protege página
+if(!protegerPagina("imoveis")){
+    throw new Error("Sem permissão");
+}
 
 
 
-
-
-
+// carregar obras
 
 async function carregarObras(){
-
 
 
 const {data,error}=await banco
@@ -299,15 +150,10 @@ const {data,error}=await banco
 
 
 
-
-
 const select=document.getElementById("obra");
 
 
-
 select.innerHTML="";
-
-
 
 
 
@@ -315,11 +161,11 @@ if(error){
 
 console.log(error);
 
+select.innerHTML="<option>Erro ao carregar obras</option>";
+
 return;
 
 }
-
-
 
 
 
@@ -329,9 +175,7 @@ data.forEach(obra=>{
 select.innerHTML += `
 
 <option value="${obra.id}">
-
 ${obra.nome}
-
 </option>
 
 `;
@@ -340,44 +184,34 @@ ${obra.nome}
 });
 
 
-
 }
 
 
 
-
-
-
-
-
+// salvar imóvel
 
 async function salvarImovel(){
 
 
 
 const arquivo =
-
 document.getElementById("foto").files[0];
 
 
 
-let fotoUrl = null;
+let fotoUrl=null;
 
 
 
 
-
-
+// upload foto
 
 if(arquivo){
 
 
 
 const nomeArquivo =
-
 Date.now()+"_"+arquivo.name;
-
-
 
 
 
@@ -389,24 +223,15 @@ const {error:erroUpload}=await banco.storage
 
 
 
-
-
 if(erroUpload){
-
 
 console.log(erroUpload);
 
-
 alert("Erro ao enviar foto");
-
 
 return;
 
-
 }
-
-
-
 
 
 
@@ -421,10 +246,7 @@ const url=banco.storage
 fotoUrl=url.data.publicUrl;
 
 
-
 }
-
-
 
 
 
@@ -438,50 +260,38 @@ const {error}=await banco
 
 
 obra_id:
-
 document.getElementById("obra").value,
 
 
 nome:
-
 document.getElementById("nome").value,
 
 
 tipo:
-
 document.getElementById("tipo").value,
 
 
 endereco:
-
 document.getElementById("endereco").value,
 
 
 cliente:
-
 document.getElementById("cliente").value,
 
 
 foto:
-
 fotoUrl,
 
 
 status:
-
 document.getElementById("status").value,
 
 
 observacao:
-
 document.getElementById("observacao").value
 
 
-
 }]);
-
-
-
 
 
 
@@ -500,9 +310,7 @@ document.getElementById("mensagem").innerHTML=
 
 return;
 
-
 }
-
 
 
 
@@ -513,15 +321,13 @@ document.getElementById("mensagem").innerHTML=
 
 
 
-
 }
 
 
 
-
+// iniciar
 
 carregarObras();
-
 
 
 </script>
@@ -529,32 +335,21 @@ carregarObras();
 
 
 
-
-
-
-
 <footer class="rodape">
-
 
 <p>
 🚀 SmartInspect AI
 </p>
 
-
 <p>
 Desenvolvido por <strong>Sérgio and Gabriel</strong>
 </p>
-
 
 <p>
 Versão 1.0.1
 </p>
 
-
 </footer>
-
-
-
 
 
 </body>
