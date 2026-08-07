@@ -568,3 +568,106 @@ width:calc(100% - 230px);
 /* PRESENÇA E FILTROS DA EQUIPE */
 .team-tools{display:flex;align-items:center;gap:14px;margin:22px 0 12px}.team-tools input{flex:1;min-width:180px;border:1px solid #d9e2ec;border-radius:10px;padding:11px 13px;background:#fbfdff;color:#102a43;font:inherit;font-size:13px}.team-tools input:focus{outline:0;border-color:#0066cc;box-shadow:0 0 0 3px rgba(0,102,204,.12)}.presence-filters{display:flex;gap:6px;padding:4px;border-radius:10px;background:#f0f4f8}.filter-button{border:0;border-radius:7px;padding:8px 12px;background:transparent;color:#627d98;font:inherit;font-size:12px;font-weight:700;cursor:pointer}.filter-button:hover{color:#0066cc}.filter-button.active{background:#fff;color:#0066cc;box-shadow:0 2px 7px rgba(16,42,67,.1)}.presence-legend{display:flex;flex-wrap:wrap;gap:16px;margin:0 0 12px;color:#829ab1;font-size:11px}.presence-legend span{display:inline-flex;align-items:center;gap:6px}.presence-dot{display:inline-block;width:8px;height:8px;border-radius:50%}.online-dot{background:#22c55e}.away-dot{background:#f59e0b}.offline-dot{background:#bcccdc}.presence.ausente{color:#a15c00}.presence.ausente i{background:#f59e0b}.status-pill.warning{background:#fff4d6;color:#a15c00}
 @media(max-width:650px){.team-tools{align-items:stretch;flex-direction:column}.presence-filters{justify-content:space-between}.filter-button{flex:1}.presence-legend{gap:9px}.presence-legend span{font-size:10px}}
+.sidebar{
+
+width:250px;
+height:100vh;
+
+position:fixed;
+
+left:0;
+top:0;
+
+background:#0066cc;
+
+padding:20px;
+
+color:white;
+
+overflow-y:auto;
+
+}
+
+
+
+.logo-area{
+
+text-align:center;
+
+margin-bottom:25px;
+
+}
+
+
+
+.logo{
+
+width:90px;
+
+height:90px;
+
+object-fit:contain;
+
+}
+
+
+
+.logo-area h2{
+
+font-size:20px;
+
+margin-top:10px;
+
+}
+
+
+
+.sidebar a{
+
+display:block;
+
+padding:12px;
+
+margin:5px 0;
+
+border-radius:10px;
+
+color:white;
+
+text-decoration:none;
+
+font-size:15px;
+
+transition:0.3s;
+
+}
+
+
+
+.sidebar a:hover{
+
+background:#0052a3;
+
+}
+
+
+
+.sidebar hr{
+
+border:none;
+
+border-top:1px solid rgba(255,255,255,.3);
+
+margin:15px 0;
+
+}
+
+
+
+.content{
+
+margin-left:270px;
+
+padding:20px;
+
+}
