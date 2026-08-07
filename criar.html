@@ -16,55 +16,7 @@
 <body>
 
 
-<div class="sidebar">
-
-
-<div class="logo">
-
-<img src="imagens/logo.png" alt="SmartInspect AI">
-
-<h2>SmartInspect AI</h2>
-
-</div>
-
-
-
-<a href="index.html">📊 Dashboard</a>
-  <a href="novo_imovel.html">
-🏠 Novo Imóvel
-</a>
-
-<a href="criar.html">➕ Criar</a>
-
-<a href="obras.html">🏢 Obras</a>
-
-<a href="inspecoes.html">📋 Inspeções</a>
-
-<a href="estoque.html">📦 Estoque</a>
-
-<a href="ia.html">🤖 IA</a>
-
-<a href="relatorios.html">📄 Relatórios</a>
-
-<a href="equipe.html">👷 Equipe</a>
-
-<a href="solicitacoes.html">👤 Solicitações</a>
-
-
-<br>
-
-
-<a href="#" onclick="sair()">
-
-🚪 Sair
-
-</a>
-
-
-</div>
-
-
-
+<div class="menu-container"></div>
 
 
 
@@ -74,44 +26,45 @@
 <h1>➕ Criar</h1>
 
 <p>
-Central de novos cadastros do sistema
+Cadastro de novos dados do sistema
 </p>
-
-
-
-
-
-
-<div class="cards">
-
-
 
 
 
 <div class="card">
 
 
-<h2>🏢</h2>
-
-<h3>Nova Obra</h3>
+<h2>🏢 Nova Obra</h2>
 
 
-<p>
-Cadastrar uma nova obra no sistema
-</p>
-
-
-<button onclick="location.href='novaobra.html'">
+<button onclick="location.href='nova_obra.html'">
 
 Criar Obra
 
 </button>
 
 
+
 </div>
 
 
 
+
+<div class="card">
+
+
+<h2>🏠 Novo Imóvel</h2>
+
+
+<button onclick="location.href='novo_imovel.html'">
+
+Criar Imóvel
+
+</button>
+
+
+
+</div>
 
 
 
@@ -120,101 +73,22 @@ Criar Obra
 <div class="card">
 
 
-<h2>📋</h2>
-
-<h3>Nova Inspeção</h3>
+<h2>📋 Nova Inspeção</h2>
 
 
-<p>
-Registrar uma nova inspeção técnica
-</p>
-
-
-<button onclick="location.href='nova_inspecao.html'">
+<button onclick="location.href='nova-inspecao.html'">
 
 Criar Inspeção
 
 </button>
 
 
-</div>
-
-
-
-
-
-
-
-
-
-<div class="card">
-
-
-<h2>📦</h2>
-
-<h3>Novo Estoque</h3>
-
-
-<p>
-Adicionar materiais e controlar estoque
-</p>
-
-
-<button onclick="location.href='novo_estoque.html'">
-
-Criar Estoque
-
-</button>
-
 
 </div>
 
 
 
-
-
-
-
-
-
-<div class="card">
-
-
-<h2>👤</h2>
-
-<h3>Novo Usuário</h3>
-
-
-<p>
-Cadastrar usuários do sistema
-</p>
-
-
-<button onclick="location.href='novo_usuario.html'">
-
-Criar Usuário
-
-</button>
-
-
 </div>
-
-
-
-
-
-
-
-</div>
-
-
-
-
-
-
-
-</div>
-
 
 
 
@@ -227,6 +101,9 @@ Criar Usuário
 <script src="js/supabase.js"></script>
 
 <script src="js/auth.js"></script>
+
+<script src="js/sidebar.js"></script>
+
 
 
 <script>
