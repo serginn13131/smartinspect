@@ -20,13 +20,14 @@
 
 
 
+
 <div class="content">
 
 
 <h1>🏢 Nova Obra</h1>
 
 <p>
-Cadastre uma nova obra no sistema
+Cadastro de uma nova obra
 </p>
 
 
@@ -46,14 +47,18 @@ placeholder="Ex: Residencial Alpha">
 
 
 
+
+
 <label>
 📍 Endereço
 </label>
 
-<input 
+<input
 id="endereco"
 type="text"
 placeholder="Rua, número, cidade">
+
+
 
 
 
@@ -61,10 +66,12 @@ placeholder="Rua, número, cidade">
 👷 Responsável Técnico
 </label>
 
-<input 
+<input
 id="responsavel"
 type="text"
-placeholder="Nome do engenheiro ou técnico">
+placeholder="Nome do engenheiro/técnico">
+
+
 
 
 
@@ -72,29 +79,43 @@ placeholder="Nome do engenheiro ou técnico">
 📅 Data de Início
 </label>
 
-<input 
-id="data"
+<input
+id="data_inicio"
 type="date">
 
 
 
+
+
 <label>
-📌 Status da Obra
+📌 Status
 </label>
+
 
 <select id="status">
 
-<option>Planejamento</option>
+<option value="Planejamento">
+Planejamento
+</option>
 
-<option>Em andamento</option>
 
-<option>Finalizada</option>
+<option value="Em andamento">
+Em andamento
+</option>
+
+
+<option value="Finalizada">
+Finalizada
+</option>
+
 
 </select>
 
 
 
+
 <br><br>
+
 
 
 <button onclick="salvarObra()">
@@ -102,6 +123,7 @@ type="date">
 💾 Salvar Obra
 
 </button>
+
 
 
 <p id="mensagem"></p>
@@ -117,6 +139,8 @@ type="date">
 
 
 
+
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="js/supabase.js"></script>
@@ -127,10 +151,13 @@ type="date">
 
 
 
+
+
 <script>
 
 
-// proteção da página
+
+// proteção
 
 if(!protegerPagina("obras")){
 
@@ -142,11 +169,13 @@ throw new Error("Sem permissão");
 
 
 
+
+
 async function salvarObra(){
 
 
 
-const nome =
+const nome = 
 document.getElementById("nome").value.trim();
 
 
@@ -162,7 +191,7 @@ document.getElementById("responsavel").value.trim();
 
 
 const data_inicio =
-document.getElementById("data").value;
+document.getElementById("data_inicio").value;
 
 
 
@@ -172,13 +201,28 @@ document.getElementById("status").value;
 
 
 
+
+
+
 if(!nome){
 
-alert("Informe o nome da obra");
+
+alert("Digite o nome da obra");
+
 
 return;
 
+
 }
+
+
+
+
+
+
+
+const usuario = getUsuario();
+
 
 
 
@@ -203,7 +247,10 @@ responsavel:responsavel,
 data_inicio:data_inicio,
 
 
-status:status
+status:status,
+
+
+criado_por:usuario.auth_id
 
 
 
@@ -218,13 +265,14 @@ status:status
 if(error){
 
 
+
 console.log(error);
 
 
 
 document.getElementById("mensagem").innerHTML=
 
-"❌ Erro ao salvar obra: "+error.message;
+"❌ Erro ao cadastrar: "+error.message;
 
 
 
@@ -247,6 +295,8 @@ document.getElementById("mensagem").innerHTML=
 
 
 
+
+
 setTimeout(()=>{
 
 
@@ -262,7 +312,10 @@ window.location.href="obras.html";
 
 
 
+
 </script>
+
+
 
 
 
