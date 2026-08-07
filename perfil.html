@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Meu Perfil - SmartInspect AI</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+
+<style>
+
+
+.perfil-box{
+
+background:white;
+
+padding:30px;
+
+border-radius:20px;
+
+max-width:500px;
+
+margin:auto;
+
+text-align:center;
+
+box-shadow:0 5px 20px #0002;
+
+}
+
+
+
+.foto{
+
+width:140px;
+
+height:140px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+border:4px solid #0066cc;
+
+}
+
+
+
+input{
+
+margin:15px;
+
+}
+
+
+
+button{
+
+background:#0066cc;
+
+color:white;
+
+border:none;
+
+padding:12px 20px;
+
+border-radius:10px;
+
+cursor:pointer;
+
+}
+
+
+
+.online{
+
+color:green;
+
+}
+
+
+.offline{
+
+color:gray;
+
+}
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+
+<div class="sidebar">
+
+<h2>🏗 SmartInspect AI</h2>
+
+<a href="index.html">📊 Dashboard</a>
+
+<a href="equipe.html">👥 Equipe</a>
+
+<a href="perfil.html">👤 Perfil</a>
+
+
+</div>
+
+
+
+
+<div class="content">
+
+
+<h1>👤 Meu Perfil</h1>
+
+
+
+<div class="perfil-box">
+
+
+
+<img id="fotoUsuario"
+
+class="foto"
+
+src="img/avatar.png">
+
+
+
+<h2 id="nome">
+
+Carregando...
+
+</h2>
+
+
+
+<p id="email"></p>
+
+
+
+<p>
+
+Cargo:
+
+<strong id="cargo"></strong>
+
+</p>
+
+
+
+<p id="status"></p>
+
+
+
+<hr>
+
+
+
+<h3>Alterar foto</h3>
+
+
+
+<input 
+
+type="file"
+
+id="arquivo"
+
+accept="image/*">
+
+
+
+<br>
+
+
+<button onclick="alterarFoto()">
+
+📷 Salvar nova foto
+
+</button>
+
+
+
+<p id="mensagem"></p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+
+
+
+<script>
+
+
+let usuario;
+
+
+
+async function carregarPerfil(){
+
+
+const {data}=await banco.auth.getUser();
+
+
+
+if(!data.user){
+
+window.location.href="login.html";
+
+return;
+
+}
+
+
+
+const {data:perfil,error}=await banco
+
+.from("usuarios")
+
+.select("*")
+
+.eq("auth_id",data.user.id)
+
+.single();
+
+
+
+if(error){
+
+console.log(error);
+
+return;
+
+}
+
+
+
+usuario=perfil;
+
+
+
+document.getElementById("nome").innerHTML =
+perfil.nome;
+
+
+document.getElementById("email").innerHTML =
+perfil.email;
+
+
+
+document.getElementById("cargo").innerHTML =
+perfil.nivel_acesso;
+
+
+
+document.getElementById("fotoUsuario").src =
+perfil.foto_url ||
+"img/avatar.png";
+
+
+
+document.getElementById("status").innerHTML =
+
+perfil.online
+
+?
+
+"🟢 Online"
+
+:
+
+"⚪ Offline";
+
+
+
+}
+
+
+
+async function alterarFoto(){
+
+
+const arquivo =
+document.getElementById("arquivo").files[0];
+
+
+
+if(!arquivo){
+
+alert("Escolha uma imagem");
+
+return;
+
+}
+
+
+
+
+const nomeArquivo =
+
+usuario.id +
+"-" +
+Date.now() +
+".png";
+
+
+
+
+// enviar para storage
+
+const {error:uploadError}=await banco.storage
+
+.from("perfil")
+
+.upload(nomeArquivo,arquivo);
+
+
+
+if(uploadError){
+
+console.log(uploadError);
+
+alert("Erro ao enviar foto");
+
+return;
+
+}
+
+
+
+
+
+const {data:urlData}=banco.storage
+
+.from("perfil")
+
+.getPublicUrl(nomeArquivo);
+
+
+
+const url =
+urlData.publicUrl;
+
+
+
+
+// salvar no banco
+
+const {error}=await banco
+
+.from("usuarios")
+
+.update({
+
+foto_url:url
+
+})
+
+.eq("id",usuario.id);
+
+
+
+if(error){
+
+alert("Erro ao salvar");
+
+console.log(error);
+
+return;
+
+}
+
+
+
+
+document.getElementById("fotoUsuario").src=url;
+
+
+document.getElementById("mensagem").innerHTML=
+
+"✅ Foto atualizada!";
+
+
+
+}
+
+
+
+
+carregarPerfil();
+
+
+
+</script>
+
+
+</body>
+
+</html>
