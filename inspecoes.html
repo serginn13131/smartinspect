@@ -43,18 +43,15 @@ Controle das inspeções realizadas nas obras
 
 <div id="listaInspecoes">
 
-
 <p>
 Carregando inspeções...
 </p>
 
-
 </div>
 
 
 
 </div>
-
 
 
 
@@ -76,14 +73,13 @@ Carregando inspeções...
 <script>
 
 
-// proteção
+// proteção de acesso
 
 if(!protegerPagina("inspecoes")){
 
 throw new Error("Sem permissão");
 
 }
-
 
 
 
@@ -125,23 +121,19 @@ const lista=document.getElementById("listaInspecoes");
 
 
 
-
 if(error){
 
 
 console.log(error);
 
 
-lista.innerHTML=
-
-"❌ Erro ao carregar inspeções";
+lista.innerHTML="❌ Erro ao carregar inspeções";
 
 
 return;
 
 
 }
-
 
 
 
@@ -152,9 +144,7 @@ return;
 if(!data || data.length===0){
 
 
-lista.innerHTML=
-
-"Nenhuma inspeção cadastrada";
+lista.innerHTML="Nenhuma inspeção cadastrada";
 
 
 return;
@@ -168,9 +158,7 @@ return;
 
 
 
-
 lista.innerHTML="";
-
 
 
 
@@ -191,9 +179,7 @@ lista.innerHTML += `
 
 
 <h2>
-
 📋 Inspeção #${inspecao.id}
-
 </h2>
 
 
@@ -272,15 +258,11 @@ ${inspecao.observacao || "Sem observações"}
 
 
 
-
-
 <button onclick="verInspecao(${inspecao.id})">
 
 👁 Ver detalhes
 
 </button>
-
-
 
 
 
@@ -297,8 +279,8 @@ ${inspecao.observacao || "Sem observações"}
 
 
 
-}
 
+}
 
 
 
@@ -309,7 +291,7 @@ ${inspecao.observacao || "Sem observações"}
 function verInspecao(id){
 
 
-window.location.href=
+window.location.href =
 
 "detalhes_inspecao.html?id="+id;
 
@@ -333,6 +315,7 @@ carregarInspecoes();
 
 
 
+
 <footer class="rodape">
 
 <p>
@@ -348,7 +331,6 @@ Versão 1.0.1
 </p>
 
 </footer>
-
 
 
 
