@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Nova Inspeção - SmartInspect AI</title>
+<title>Detalhes da Obra - SmartInspect AI</title>
 
 <link rel="stylesheet" href="css/style.css">
 
@@ -16,30 +16,61 @@
 <body>
 
 
-<div class="sidebar">
-
-<h2>🏗 SmartInspect AI</h2>
-
-<a href="index.html">📊 Dashboard</a>
-<a href="obras.html">🏢 Obras</a>
-<a href="nova_inspecao.html">📋 Nova Inspeção</a>
-<a href="inspecoes.html">📋 Inspeções</a>
-<a href="estoque.html">📦 Estoque</a>
-<a href="ia.html">🤖 IA</a>
-<a href="relatorios.html">📄 Relatórios</a>
-<a href="equipe.html">👷 Equipe</a>
-
-</div>
-
+<div class="menu-container"></div>
 
 
 
 <div class="content">
 
 
-<h1>📋 Nova Inspeção</h1>
+<button onclick="voltar()">
+⬅ Voltar
+</button>
 
-<p>Registre uma nova inspeção da obra</p>
+
+<h1>🏢 Detalhes da Obra</h1>
+
+<p>
+Informações da obra cadastrada
+</p>
+
+
+
+<div class="card">
+
+
+<h2 id="nomeObra">
+Carregando...
+</h2>
+
+
+<p>
+📍 Endereço:
+<span id="endereco"></span>
+</p>
+
+
+<p>
+👷 Responsável:
+<span id="responsavel"></span>
+</p>
+
+
+<p>
+📅 Início:
+<span id="data"></span>
+</p>
+
+
+<p>
+📌 Status:
+<span id="status"></span>
+</p>
+
+
+
+</div>
+
 
 
 
@@ -47,100 +78,16 @@
 <div class="card">
 
 
-
-<label>Obra</label>
-
-<select id="obra">
-
-<option>
-Carregando obras...
-</option>
-
-</select>
+<h2>
+📋 Inspeções da Obra
+</h2>
 
 
+<div id="listaInspecoes">
 
+Carregando inspeções...
 
-
-<label>Tipo de Inspeção</label>
-
-<select id="tipo">
-
-<option>Estrutura</option>
-
-<option>Alvenaria</option>
-
-<option>Revestimento</option>
-
-<option>Instalações</option>
-
-<option>Acabamento</option>
-
-</select>
-
-
-
-
-
-<label>Data da Inspeção</label>
-
-<input type="date" id="data">
-
-
-
-
-
-
-<label>Responsável Técnico</label>
-
-<input 
-id="responsavel"
-type="text"
-placeholder="Nome do inspetor">
-
-
-
-
-
-
-<label>Observações</label>
-
-<textarea
-id="observacao"
-placeholder="Descreva a inspeção">
-</textarea>
-
-
-
-
-
-
-
-<label>Status</label>
-
-<select id="status">
-
-<option>Aprovado</option>
-
-<option>Pendente</option>
-
-<option>Reprovado</option>
-
-</select>
-
-
-
-
-
-<br><br>
-
-
-
-<button onclick="salvarInspecao()">
-
-💾 Salvar Inspeção
-
-</button>
+</div>
 
 
 
@@ -149,6 +96,7 @@ placeholder="Descreva a inspeção">
 
 
 </div>
+
 
 
 
@@ -157,10 +105,11 @@ placeholder="Descreva a inspeção">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-
 <script src="js/supabase.js"></script>
 
+<script src="js/auth.js"></script>
 
+<script src="js/sidebar.js"></script>
 
 
 
@@ -168,39 +117,43 @@ placeholder="Descreva a inspeção">
 <script>
 
 
+if(!protegerPagina("obras")){
 
+throw new Error("Sem permissão");
 
-
-// Data automática
-
-document.getElementById("data").value =
-new Date().toISOString().split("T")[0];
-
-
+}
 
 
 
 
-
-// Buscar obras cadastradas
-
-
-async function carregarObras(){
+const params = new URLSearchParams(window.location.search);
 
 
-
-if(typeof banco === "undefined"){
-
-
-alert("❌ Erro de conexão com banco");
+const obraId = params.get("id");
 
 
-return;
+
+
+
+
+if(!obraId){
+
+
+alert("Obra não encontrada");
+
+
+window.location.href="obras.html";
 
 
 }
 
 
+
+
+
+
+
+async function carregarObra(){
 
 
 
@@ -210,19 +163,9 @@ const {data,error}=await banco
 
 .select("*")
 
-.order("id",{ascending:false});
+.eq("id",obraId)
 
-
-
-
-
-
-const select =
-document.getElementById("obra");
-
-
-
-select.innerHTML="";
+.single();
 
 
 
@@ -235,8 +178,7 @@ if(error){
 console.log(error);
 
 
-select.innerHTML =
-"<option>Erro ao carregar obras</option>";
+alert("Erro ao carregar obra");
 
 
 return;
@@ -249,11 +191,93 @@ return;
 
 
 
-if(!data || data.length === 0){
+document.getElementById("nomeObra").innerHTML =
+"🏢 "+data.nome;
 
 
-select.innerHTML =
-"<option>Nenhuma obra cadastrada</option>";
+
+document.getElementById("endereco").innerHTML =
+data.endereco || "-";
+
+
+
+document.getElementById("responsavel").innerHTML =
+data.responsavel || "-";
+
+
+
+document.getElementById("data").innerHTML =
+data.data_inicio || "-";
+
+
+
+document.getElementById("status").innerHTML =
+data.status || "-";
+
+
+
+carregarInspecoes();
+
+
+
+}
+
+
+
+
+
+
+
+
+
+async function carregarInspecoes(){
+
+
+
+const {data,error}=await banco
+
+.from("inspecoes")
+
+.select("*")
+
+.eq("obra_id",obraId)
+
+.order("id",{ascending:false});
+
+
+
+
+
+const lista =
+document.getElementById("listaInspecoes");
+
+
+
+
+if(error){
+
+
+console.log(error);
+
+
+lista.innerHTML="Erro ao carregar inspeções";
+
+
+return;
+
+
+}
+
+
+
+
+
+if(!data || data.length===0){
+
+
+lista.innerHTML=
+
+"Nenhuma inspeção cadastrada nesta obra";
 
 
 return;
@@ -267,17 +291,49 @@ return;
 
 
 
-data.forEach(obra=>{
+lista.innerHTML="";
 
 
 
-select.innerHTML += `
 
-<option value="${obra.id}">
 
-${obra.nome}
+data.forEach(inspecao=>{
 
-</option>
+
+
+lista.innerHTML += `
+
+
+<div class="card">
+
+
+<h3>
+📋 ${inspecao.tipo}
+</h3>
+
+
+<p>
+📅 ${inspecao.data_inspecao}
+</p>
+
+
+<p>
+👷 ${inspecao.responsavel}
+</p>
+
+
+<p>
+📌 ${inspecao.status}
+</p>
+
+
+<p>
+${inspecao.observacao || ""}
+</p>
+
+
+</div>
+
 
 `;
 
@@ -287,88 +343,6 @@ ${obra.nome}
 
 
 
-}
-
-
-
-
-
-
-carregarObras();
-
-
-
-
-
-
-
-
-
-// Salvar inspeção
-
-
-async function salvarInspecao(){
-
-
-
-
-
-const obra_id =
-document.getElementById("obra").value;
-
-
-
-const tipo =
-document.getElementById("tipo").value;
-
-
-
-const data_inspecao =
-document.getElementById("data").value;
-
-
-
-const responsavel =
-document.getElementById("responsavel").value;
-
-
-
-const observacao =
-document.getElementById("observacao").value;
-
-
-
-const status =
-document.getElementById("status").value;
-
-
-
-
-
-
-
-
-if(!obra_id){
-
-
-alert("Selecione uma obra");
-
-
-return;
-
-
-}
-
-
-
-
-if(!responsavel){
-
-
-alert("Informe o responsável técnico");
-
-
-return;
 
 
 }
@@ -379,58 +353,10 @@ return;
 
 
 
-const {error}=await banco
-
-.from("inspecoes")
-
-.insert([{
+function voltar(){
 
 
-obra_id: Number(obra_id),
-
-tipo: tipo,
-
-data_inspecao: data_inspecao,
-
-responsavel: responsavel,
-
-observacao: observacao,
-
-status: status
-
-
-}]);
-
-
-
-
-
-
-
-if(error){
-
-
-
-console.log(error);
-
-
-
-alert("❌ Erro ao salvar inspeção");
-
-
-
-}
-
-else{
-
-
-
-alert("✅ Inspeção cadastrada com sucesso!");
-
-
-
-window.location.href="inspecoes.html";
-
+window.location.href="obras.html";
 
 
 }
@@ -439,14 +365,32 @@ window.location.href="inspecoes.html";
 
 
 
-}
 
-
-
+carregarObra();
 
 
 
 </script>
+
+
+
+
+
+<footer class="rodape">
+
+<p>
+🚀 SmartInspect AI
+</p>
+
+<p>
+Desenvolvido por <strong>Sérgio and Gabriel</strong>
+</p>
+
+<p>
+Versão 1.0.1
+</p>
+
+</footer>
 
 
 
