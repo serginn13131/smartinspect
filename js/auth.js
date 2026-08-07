@@ -1,13 +1,18 @@
 // ======================================
-// SMARTINSPECT AI - AUTH + PERMISSÕES
+// SMARTINSPECT AI
+// AUTH + PERMISSÕES
 // ======================================
 
 
-// PEGA USUÁRIO LOGADO
+// ======================================
+// PEGAR USUÁRIO LOGADO
+// ======================================
 
 function getUsuario(){
 
+
     const usuario = localStorage.getItem("usuario");
+
 
     if(!usuario){
 
@@ -26,13 +31,17 @@ function getUsuario(){
 
     }
 
+
 }
 
 
 
 
 
-// VERIFICA LOGIN
+
+// ======================================
+// VERIFICAR LOGIN
+// ======================================
 
 function verificarLogin(){
 
@@ -40,10 +49,12 @@ function verificarLogin(){
     const usuario = getUsuario();
 
 
+
     if(!usuario){
 
 
         window.location.href="login.html";
+
 
         return false;
 
@@ -61,7 +72,10 @@ function verificarLogin(){
 
 
 
+
+// ======================================
 // SAIR
+// ======================================
 
 function sair(){
 
@@ -80,8 +94,6 @@ function sair(){
 
 
 
-
-
 // ======================================
 // CARGOS E PERMISSÕES
 // ======================================
@@ -91,71 +103,115 @@ const permissoes = {
 
 
 
-admin:[
+adm:[
+
 
 "index",
+
 "obras",
+
 "imoveis",
+
 "criar",
+
 "inspecoes",
+
 "estoque",
+
 "ia",
+
 "relatorios",
+
 "equipe",
-"solicitacoes"
+
+"solicitacoes",
+
+"perfil"
+
 
 ],
 
-
-
-
-empresa:[
-
-"index",
-"obras",
-"imoveis",
-"criar",
-"inspecoes",
-"estoque",
-"relatorios",
-"equipe"
-
-],
 
 
 
 
 engenheiro:[
 
+
 "index",
+
 "obras",
+
 "imoveis",
+
 "criar",
+
 "inspecoes",
+
+"estoque",
+
 "ia",
-"relatorios"
+
+"relatorios",
+
+"perfil"
+
 
 ],
+
 
 
 
 
 inspetor:[
 
+
 "index",
+
 "obras",
+
 "inspecoes",
-"ia"
+
+"ia",
+
+"relatorios",
+
+"perfil"
+
 
 ],
 
 
 
 
-campo:[
+
+tecnico:[
+
 
 "index",
-"inspecoes"
+
+"obras",
+
+"inspecoes",
+
+"relatorios",
+
+"perfil"
+
+
+],
+
+
+
+
+
+usuario:[
+
+
+"index",
+
+"perfil"
+
 
 ]
 
@@ -172,7 +228,7 @@ campo:[
 
 
 // ======================================
-// VERIFICA PERMISSÃO
+// VERIFICAR PERMISSÃO
 // ======================================
 
 
@@ -180,37 +236,41 @@ function temPermissao(pagina){
 
 
 
-const usuario = getUsuario();
+    const usuario = getUsuario();
 
 
 
-if(!usuario){
+    if(!usuario){
 
-return false;
+        return false;
 
-}
-
-
-
-
-const cargo = usuario.nivel_acesso;
-
-
-
-
-if(!permissoes[cargo]){
-
-
-return false;
-
-
-}
+    }
 
 
 
 
 
-return permissoes[cargo].includes(pagina);
+    const cargo = String(usuario.nivel_acesso)
+    .toLowerCase();
+
+
+
+
+
+    if(!permissoes[cargo]){
+
+
+        return false;
+
+
+    }
+
+
+
+
+
+
+    return permissoes[cargo].includes(pagina);
 
 
 
@@ -225,7 +285,7 @@ return permissoes[cargo].includes(pagina);
 
 
 // ======================================
-// ESCONDE MENU
+// CONTROLAR MENU
 // ======================================
 
 
@@ -233,48 +293,56 @@ function controlarMenu(){
 
 
 
-const links = document.querySelectorAll(".sidebar a");
+const links =
+document.querySelectorAll(".sidebar a");
+
+
 
 
 
 links.forEach(link=>{
 
 
-const href = link.getAttribute("href");
+
+    const href =
+    link.getAttribute("href");
 
 
 
-if(!href){
+    if(!href){
 
-return;
+        return;
 
-}
-
-
-
-const pagina = href
-
-.replace(".html","")
-
-.replace("#","");
+    }
 
 
 
 
 
-if(
+    const pagina =
+    href
 
-pagina &&
+    .replace(".html","")
 
-!temPermissao(pagina)
-
-){
-
-
-link.style.display="none";
+    .replace("#","");
 
 
-}
+
+
+
+    if(
+
+        pagina &&
+
+        !temPermissao(pagina)
+
+    ){
+
+
+        link.style.display="none";
+
+
+    }
 
 
 
@@ -293,7 +361,7 @@ link.style.display="none";
 
 
 // ======================================
-// BLOQUEIA ACESSO DIRETO PELA URL
+// PROTEGER PÁGINA
 // ======================================
 
 
@@ -301,46 +369,53 @@ function protegerPagina(pagina){
 
 
 
-const usuario = getUsuario();
-
-
-
-if(!usuario){
-
-
-window.location.href="login.html";
-
-
-return false;
-
-
-}
+    const usuario=getUsuario();
 
 
 
 
-
-if(!temPermissao(pagina)){
-
+    if(!usuario){
 
 
-alert("❌ Você não tem permissão para acessar esta área");
+        window.location.href="login.html";
 
 
-
-window.location.href="index.html";
-
+        return false;
 
 
-return false;
+    }
 
 
 
-}
 
 
 
-return true;
+
+    if(!temPermissao(pagina)){
+
+
+
+        alert(
+        "❌ Você não tem permissão para acessar esta área."
+        );
+
+
+
+        window.location.href="index.html";
+
+
+
+        return false;
+
+
+    }
+
+
+
+
+
+
+    return true;
 
 
 
@@ -355,7 +430,7 @@ return true;
 
 
 // ======================================
-// INICIALIZAÇÃO AUTOMÁTICA
+// INICIALIZAÇÃO
 // ======================================
 
 
@@ -367,37 +442,45 @@ document.addEventListener(
 
 
 
-controlarMenu();
 
 
-
-const paginaAtual = window.location.pathname
-
-.split("/")
-
-.pop()
-
-.replace(".html","");
+    controlarMenu();
 
 
 
 
 
-if(
 
-paginaAtual !== "" &&
+    const paginaAtual = window.location.pathname
 
-paginaAtual !== "login" &&
+    .split("/")
 
-paginaAtual !== "cadastro"
+    .pop()
 
-){
-
-
-protegerPagina(paginaAtual);
+    .replace(".html","");
 
 
-}
+
+
+
+
+    if(
+
+        paginaAtual &&
+
+        paginaAtual !== "login" &&
+
+        paginaAtual !== "cadastro"
+
+    ){
+
+
+        protegerPagina(paginaAtual);
+
+
+    }
+
+
 
 
 
