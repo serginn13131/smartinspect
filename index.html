@@ -16,77 +16,9 @@
 <body>
 
 
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!-- SIDEBAR PADRÃO -->
 
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Dashboard - SmartInspect AI</title>
-
-<link rel="stylesheet" href="css/style.css">
-
-</head>
-
-
-<body>
-
-
-<div class="sidebar">
-
-
-<div class="logo">
-
-<img src="imagens/logo.png" alt="SmartInspect AI">
-
-<h2>SmartInspect AI</h2>
-
-</div>
-
-
-
-
-
-
-  <a href="index.html">📊 Dashboard</a>
-  <a href="imoveis.html">🏠 Imóveis</a>
-
-<a href="criar.html">➕ Criar</a>
-
-<a href="obras.html">🏢 Obras</a>
-
-<a href="inspecoes.html">📋 Inspeções</a>
-
-<a href="estoque.html">📦 Estoque</a>
-
-<a href="ia.html">🤖 IA</a>
-
-<a href="relatorios.html">📄 Relatórios</a>
-
-<a href="equipe.html">👷 Equipe</a>
-
-<a href="solicitacoes.html">👤 Solicitações</a>
-
-
-<br>
-
-
-<a href="#" onclick="sair()">
-
-🚪 Sair
-
-</a>
-
-
-
-</div>
-
-
-
-
-
+<div class="menu-container"></div>
 
 
 
@@ -97,12 +29,8 @@
 
 
 <p>
-
 Sistema inteligente de gestão de obras
-
 </p>
-
-
 
 
 
@@ -112,23 +40,67 @@ Sistema inteligente de gestão de obras
 
 
 
+<div class="card">
+
+<h2 id="totalObras">
+0
+</h2>
+
+<p>
+🏢 Obras Ativas
+</p>
+
+</div>
+
+
+
 
 
 <div class="card">
 
-
-<h2 id="obras">
-
+<h2 id="totalInspecoes">
 0
-
 </h2>
 
+<p>
+📋 Inspeções
+</p>
+
+</div>
+
+
+
+
+
+<div class="card">
+
+<h2 id="totalProblemas">
+0
+</h2>
 
 <p>
-
-🏢 Obras Ativas
-
+⚠️ Não Conformidades
 </p>
+
+</div>
+
+
+
+
+
+<div class="card">
+
+<h2 id="totalEstoque">
+0
+</h2>
+
+<p>
+📦 Materiais em Estoque
+</p>
+
+</div>
+
+
 
 
 </div>
@@ -137,19 +109,19 @@ Sistema inteligente de gestão de obras
 
 
 
+<div class="card">
+
+<h2>
+👥 Equipe online
+</h2>
 
 
-<div class="card" id="cardSolicitacoes">
-
-<h2>👤 Solicitações de cadastro</h2>
-
-<div id="listaSolicitacoes">
+<div id="usuariosOnline">
 
 Carregando...
 
 </div>
 
-</div>
 
 </div>
 
@@ -158,66 +130,7 @@ Carregando...
 
 
 
-
-<div class="card">
-
-
-<h2 id="problemas">
-
-0
-
-</h2>
-
-
-<p>
-
-⚠️ Não Conformidades
-
-</p>
-
-
 </div>
-
-
-
-
-
-
-
-<div class="card">
-
-
-<h2 id="estoque">
-
-0
-
-</h2>
-
-
-<p>
-
-📦 Materiais em Estoque
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-
-</div>
-
-
-
-
-
-</div>
-
-
 
 
 
@@ -229,23 +142,17 @@ Carregando...
 
 
 <p>
-
 🚀 SmartInspect AI
-
 </p>
 
 
 <p>
-
 Desenvolvido por <strong>Sérgio and Gabriel</strong>
-
 </p>
 
 
 <p>
-
-Versão 1.0.1 • Sistema de Inspeção Inteligente de Obras com Auxílio de IA
-
+Versão 1.0.1 • Sistema de Inspeção Inteligente
 </p>
 
 
@@ -261,17 +168,19 @@ Versão 1.0.1 • Sistema de Inspeção Inteligente de Obras com Auxílio de IA
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-
 <script src="js/supabase.js"></script>
 
-
 <script src="js/auth.js"></script>
+
+<script src="js/sidebar.js"></script>
+
 
 
 
 
 
 <script>
+
 
 
 verificarLogin();
@@ -286,9 +195,11 @@ async function carregarDashboard(){
 
 
 
+
+
 // OBRAS
 
-const {data:obras,error:erroObras}=await banco
+const {data:obras}=await banco
 
 .from("obras")
 
@@ -296,13 +207,9 @@ const {data:obras,error:erroObras}=await banco
 
 
 
-if(!erroObras){
+document.getElementById("totalObras").innerHTML =
 
-document.getElementById("obras").innerHTML =
-obras.length;
-
-}
-
+obras ? obras.length : 0;
 
 
 
@@ -312,7 +219,7 @@ obras.length;
 
 // INSPEÇÕES
 
-const {data:inspecoes,error:erroInspecoes}=await banco
+const {data:inspecoes}=await banco
 
 .from("inspecoes")
 
@@ -320,13 +227,9 @@ const {data:inspecoes,error:erroInspecoes}=await banco
 
 
 
-if(!erroInspecoes){
+document.getElementById("totalInspecoes").innerHTML =
 
-document.getElementById("inspecoes").innerHTML =
-inspecoes.length;
-
-}
-
+inspecoes ? inspecoes.length : 0;
 
 
 
@@ -336,7 +239,7 @@ inspecoes.length;
 
 // NÃO CONFORMIDADES
 
-const {data:problemas,error:erroProblemas}=await banco
+const {data:problemas}=await banco
 
 .from("nao_conformidades")
 
@@ -344,12 +247,9 @@ const {data:problemas,error:erroProblemas}=await banco
 
 
 
-if(!erroProblemas){
+document.getElementById("totalProblemas").innerHTML =
 
-document.getElementById("problemas").innerHTML =
-problemas.length;
-
-}
+problemas ? problemas.length : 0;
 
 
 
@@ -360,7 +260,7 @@ problemas.length;
 
 // ESTOQUE
 
-const {data:estoque,error:erroEstoque}=await banco
+const {data:estoque}=await banco
 
 .from("estoque")
 
@@ -368,20 +268,67 @@ const {data:estoque,error:erroEstoque}=await banco
 
 
 
-if(!erroEstoque){
+document.getElementById("totalEstoque").innerHTML =
 
-document.getElementById("estoque").innerHTML =
-estoque.length;
+estoque ? estoque.length : 0;
+
+
+
+
+
+
+
+// ONLINE
+
+const {data:online}=await banco
+
+.from("usuarios")
+
+.select("nome")
+
+.eq("online",true);
+
+
+
+
+const lista=document.getElementById("usuariosOnline");
+
+
+
+if(!online || online.length===0){
+
+
+lista.innerHTML="Nenhum usuário online";
+
+
+return;
 
 }
 
 
 
+lista.innerHTML="";
+
+
+
+online.forEach(usuario=>{
+
+
+lista.innerHTML += `
+
+<p>
+🟢 ${usuario.nome}
+</p>
+
+`;
+
+
+
+});
+
 
 
 }
-
-
 
 
 
@@ -389,360 +336,6 @@ estoque.length;
 
 carregarDashboard();
 
-
-
-
-</script>
-
-
-
-</body>
-
-</html>
-
-
-
-
-
-
-  <a href="index.html">📊 Dashboard</a>
-  <a href="imoveis.html">🏠 Imóveis</a>
-
-<a href="criar.html">➕ Criar</a>
-
-<a href="obras.html">🏢 Obras</a>
-
-<a href="inspecoes.html">📋 Inspeções</a>
-
-<a href="estoque.html">📦 Estoque</a>
-
-<a href="ia.html">🤖 IA</a>
-
-<a href="relatorios.html">📄 Relatórios</a>
-
-<a href="equipe.html">👷 Equipe</a>
-
-<a href="solicitacoes.html">👤 Solicitações</a>
-
-
-<br>
-
-
-<a href="#" onclick="sair()">
-
-🚪 Sair
-
-</a>
-
-
-
-</div>
-
-
-
-
-
-
-
-
-<div class="content">
-
-
-<h1>📊 Dashboard</h1>
-
-
-<p>
-
-Sistema inteligente de gestão de obras
-
-</p>
-
-
-
-
-
-
-
-<div class="cards">
-
-
-
-
-
-<div class="card">
-
-
-<h2 id="obras">
-
-0
-
-</h2>
-
-
-<p>
-
-🏢 Obras Ativas
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-
-<div class="card" id="cardSolicitacoes">
-
-<h2>👤 Solicitações de cadastro</h2>
-
-<div id="listaSolicitacoes">
-
-Carregando...
-
-</div>
-
-</div>
-
-</div>
-
-
-
-
-
-
-
-<div class="card">
-
-
-<h2 id="problemas">
-
-0
-
-</h2>
-
-
-<p>
-
-⚠️ Não Conformidades
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-
-<div class="card">
-
-
-<h2 id="estoque">
-
-0
-
-</h2>
-
-
-<p>
-
-📦 Materiais em Estoque
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-
-</div>
-
-
-
-
-
-</div>
-
-
-
-
-
-
-
-
-
-<footer class="rodape">
-
-
-<p>
-
-🚀 SmartInspect AI
-
-</p>
-
-
-<p>
-
-Desenvolvido por <strong>Sérgio and Gabriel</strong>
-
-</p>
-
-
-<p>
-
-Versão 1.0.1 • Sistema de Inspeção Inteligente de Obras com Auxílio de IA
-
-</p>
-
-
-</footer>
-
-
-
-
-
-
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
-<script src="js/supabase.js"></script>
-
-
-<script src="js/auth.js"></script>
-
-
-
-
-
-<script>
-
-
-verificarLogin();
-
-
-
-
-
-
-
-async function carregarDashboard(){
-
-
-
-// OBRAS
-
-const {data:obras,error:erroObras}=await banco
-
-.from("obras")
-
-.select("*");
-
-
-
-if(!erroObras){
-
-document.getElementById("obras").innerHTML =
-obras.length;
-
-}
-
-
-
-
-
-
-
-
-// INSPEÇÕES
-
-const {data:inspecoes,error:erroInspecoes}=await banco
-
-.from("inspecoes")
-
-.select("*");
-
-
-
-if(!erroInspecoes){
-
-document.getElementById("inspecoes").innerHTML =
-inspecoes.length;
-
-}
-
-
-
-
-
-
-
-
-// NÃO CONFORMIDADES
-
-const {data:problemas,error:erroProblemas}=await banco
-
-.from("nao_conformidades")
-
-.select("*");
-
-
-
-if(!erroProblemas){
-
-document.getElementById("problemas").innerHTML =
-problemas.length;
-
-}
-
-
-
-
-
-
-
-
-// ESTOQUE
-
-const {data:estoque,error:erroEstoque}=await banco
-
-.from("estoque")
-
-.select("*");
-
-
-
-if(!erroEstoque){
-
-document.getElementById("estoque").innerHTML =
-estoque.length;
-
-}
-
-
-
-
-
-}
-
-
-
-
-
-
-
-carregarDashboard();
 
 
 
