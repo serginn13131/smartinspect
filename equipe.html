@@ -296,6 +296,125 @@ ${usuario.criar_inspecao
 
 
 carregarEquipe();
+  // USUÁRIO LOGADO
+
+let usuarioAtual = null;
+let canalPresenca = null;
+
+
+async function iniciarPresenca(){
+
+
+const {data} = await banco.auth.getUser();
+
+
+if(!data.user) return;
+
+
+const {data:perfil}=await banco
+
+.from("usuarios")
+
+.select("*")
+
+.eq("auth_id",data.user.id)
+
+.single();
+
+
+
+usuarioAtual = perfil;
+
+
+
+// marca online no banco
+
+await banco
+
+.from("usuarios")
+
+.update({
+
+online:true,
+
+ultimo_acesso:new Date()
+
+})
+
+.eq("id",perfil.id);
+
+
+
+
+// canal em tempo real
+
+canalPresenca = banco.channel("usuarios-online");
+
+
+canalPresenca
+
+.on(
+
+"postgres_changes",
+
+{
+
+event:"*",
+
+schema:"public",
+
+table:"usuarios"
+
+},
+
+()=>{
+
+carregarEquipe();
+
+}
+
+)
+
+.subscribe();
+
+
+
+}
+
+
+
+// quando sair da página
+
+window.addEventListener(
+"beforeunload",
+async()=>{
+
+
+if(usuarioAtual){
+
+await banco
+
+.from("usuarios")
+
+.update({
+
+online:false,
+
+ultimo_acesso:new Date()
+
+})
+
+.eq("id",usuarioAtual.id);
+
+
+}
+
+
+});
+
+
+
+iniciarPresenca();
 
 
 </script>
