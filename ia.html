@@ -10,7 +10,137 @@
 
 <link rel="stylesheet" href="css/style.css">
 
+
+<style>
+
+
+.chat-container{
+
+max-width:900px;
+
+}
+
+
+
+.chat-box{
+
+height:420px;
+
+overflow-y:auto;
+
+background:#f5f7fb;
+
+padding:20px;
+
+border-radius:15px;
+
+}
+
+
+
+.mensagem{
+
+padding:12px 16px;
+
+margin:12px 0;
+
+max-width:75%;
+
+border-radius:15px;
+
+line-height:1.5;
+
+}
+
+
+
+.mensagem.ia{
+
+background:white;
+
+box-shadow:0 2px 8px #0002;
+
+margin-right:auto;
+
+}
+
+
+
+.mensagem.usuario{
+
+background:#0066cc;
+
+color:white;
+
+margin-left:auto;
+
+}
+
+
+
+.chat-input{
+
+display:flex;
+
+gap:10px;
+
+margin-top:15px;
+
+}
+
+
+
+.chat-input textarea{
+
+flex:1;
+
+padding:12px;
+
+border-radius:12px;
+
+resize:none;
+
+}
+
+
+
+.chat-input button{
+
+width:60px;
+
+border:none;
+
+border-radius:50%;
+
+background:#0066cc;
+
+color:white;
+
+font-size:22px;
+
+}
+
+
+
+.resultado-ia{
+
+background:#f5f5f5;
+
+padding:20px;
+
+border-radius:15px;
+
+margin-top:20px;
+
+}
+
+
+
+</style>
+
+
 </head>
+
 
 
 <body>
@@ -23,26 +153,112 @@
 <div class="content">
 
 
-<h1>🤖 Inteligência Artificial</h1>
+<h1>🤖 SmartInspect AI</h1>
 
 <p>
-Análise inteligente das inspeções de obras
+Assistente inteligente para inspeções e construção civil
 </p>
 
+
+
+
+<!-- CHAT IA -->
+
+<div class="card chat-container">
+
+
+<h2>
+💬 Conversar com IA
+</h2>
+
+
+<div id="chatBox" class="chat-box">
+
+
+<div class="mensagem ia">
+
+🤖 Olá! Sou o SmartInspect AI.
+
+Posso ajudar com:
+
+<br>
+✔ Inspeções
+<br>
+✔ Patologias da construção
+<br>
+✔ Materiais
+<br>
+✔ Normas técnicas
+<br>
+✔ Correções
+
+</div>
+
+
+</div>
+
+
+
+
+<div class="chat-input">
+
+
+<textarea
+
+id="perguntaIA"
+
+rows="2"
+
+placeholder="Digite sua pergunta..."
+
+onkeydown="enviarEnter(event)"
+
+></textarea>
+
+
+
+<button onclick="conversarIA()">
+
+➤
+
+</button>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- ANALISE DE IMAGEM -->
 
 
 <div class="card">
 
 
 <h2>
-📷 Analisar imagem
+📷 Analisar imagem da obra
 </h2>
 
 
-<input type="file" id="imagem" accept="image/*">
+<input 
+
+type="file"
+
+id="imagem"
+
+accept="image/*">
+
 
 
 <br><br>
+
 
 
 <button onclick="analisarImagem()">
@@ -53,21 +269,10 @@ Análise inteligente das inspeções de obras
 
 
 
-</div>
 
+<div id="resultadoImagem"
 
-
-
-
-<div class="card">
-
-
-<h2>
-Resultado da análise
-</h2>
-
-
-<div id="resultado">
+class="resultado-ia">
 
 Aguardando imagem...
 
@@ -81,6 +286,7 @@ Aguardando imagem...
 
 
 </div>
+
 
 
 
@@ -108,11 +314,224 @@ verificarLogin();
 
 
 
+// ========================
+// CHAT IA
+// ========================
+
+
+
+function enviarEnter(event){
+
+
+if(event.key==="Enter" && !event.shiftKey){
+
+
+event.preventDefault();
+
+
+conversarIA();
+
+
+}
+
+
+}
+
+
+
+
+
+
+
+async function conversarIA(){
+
+
+
+const campo =
+document.getElementById("perguntaIA");
+
+
+
+const pergunta =
+campo.value.trim();
+
+
+
+if(!pergunta)return;
+
+
+
+adicionarMensagem(
+pergunta,
+"usuario"
+);
+
+
+
+campo.value="";
+
+
+
+const chat =
+document.getElementById("chatBox");
+
+
+
+const carregando =
+document.createElement("div");
+
+
+carregando.className="mensagem ia";
+
+carregando.innerHTML=
+"🤖 Pensando...";
+
+
+chat.appendChild(carregando);
+
+
+
+chat.scrollTop =
+chat.scrollHeight;
+
+
+
+
+
+try{
+
+
+const resposta =
+await fetch(
+
+"/api/chat-ia",
+
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":"application/json"
+
+},
+
+
+body:JSON.stringify({
+
+mensagem:pergunta
+
+})
+
+
+}
+
+);
+
+
+
+
+const dados =
+await resposta.json();
+
+
+
+carregando.remove();
+
+
+
+
+adicionarMensagem(
+
+dados.resposta,
+
+"ia"
+
+);
+
+
+
+}
+
+catch(error){
+
+
+
+carregando.remove();
+
+
+
+adicionarMensagem(
+
+"❌ Erro ao conectar com a IA",
+
+"ia"
+
+);
+
+
+}
+
+
+
+}
+
+
+
+
+
+function adicionarMensagem(texto,tipo){
+
+
+
+const chat =
+document.getElementById("chatBox");
+
+
+
+chat.innerHTML += `
+
+
+<div class="mensagem ${tipo}">
+
+${tipo==="ia"?"🤖":"👤"}
+
+${texto}
+
+</div>
+
+
+`;
+
+
+
+chat.scrollTop =
+chat.scrollHeight;
+
+
+
+}
+
+
+
+
+
+
+
+
+// ========================
+// ANALISE DE IMAGEM
+// ========================
+
+
+
 async function analisarImagem(){
 
 
 
-const arquivo=document.getElementById("imagem").files[0];
+const arquivo =
+
+document.getElementById("imagem").files[0];
 
 
 
@@ -127,38 +546,101 @@ return;
 
 
 
+const resultado =
 
-document.getElementById("resultado").innerHTML =
-
-"🔄 Analisando imagem...";
-
+document.getElementById("resultadoImagem");
 
 
 
-// Aqui futuramente entra a API de IA
+resultado.innerHTML =
+"🤖 Analisando imagem...";
 
-setTimeout(()=>{
 
 
-document.getElementById("resultado").innerHTML =
 
-`
 
-<h3>Resultado:</h3>
+const formData =
+new FormData();
+
+
+
+formData.append(
+
+"imagem",
+
+arquivo
+
+);
+
+
+
+
+
+try{
+
+
+const resposta =
+
+await fetch(
+
+"/api/analisar-imagem",
+
+{
+
+method:"POST",
+
+body:formData
+
+}
+
+);
+
+
+
+
+
+const dados =
+
+await resposta.json();
+
+
+
+
+
+resultado.innerHTML = `
+
+
+<h3>
+
+🤖 Resultado da análise
+
+</h3>
+
 
 <p>
-⚠️ Possível não conformidade encontrada.
+
+${dados.analise || dados.resposta}
+
 </p>
 
-<p>
-Sugestão:
-Realizar inspeção técnica no local.
-</p>
 
 `;
 
 
-},2000);
+
+
+}
+
+catch(error){
+
+
+
+resultado.innerHTML=
+
+"❌ Erro ao analisar imagem";
+
+
+}
 
 
 
