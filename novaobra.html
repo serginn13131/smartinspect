@@ -16,20 +16,8 @@
 <body>
 
 
-<div class="sidebar">
+<div class="menu-container"></div>
 
-<h2>🏗 SmartInspect AI</h2>
-
-<a href="index.html">📊 Dashboard</a>
-<a href="criar.html">➕ Criar</a>
-<a href="obras.html">🏢 Obras</a>
-<a href="inspecoes.html">📋 Inspeções</a>
-<a href="estoque.html">📦 Estoque</a>
-<a href="ia.html">🤖 IA</a>
-<a href="relatorios.html">📄 Relatórios</a>
-<a href="equipe.html">👷 Equipe</a>
-
-</div>
 
 
 <div class="content">
@@ -37,51 +25,95 @@
 
 <h1>🏢 Nova Obra</h1>
 
-<p>Cadastre uma nova obra no sistema</p>
+<p>
+Cadastre uma nova obra no sistema
+</p>
+
 
 
 <div class="card">
 
 
-<label>Nome da Obra</label>
-<input id="nome" type="text" placeholder="Ex: Residencial Alpha">
+
+<label>
+🏢 Nome da Obra
+</label>
+
+<input 
+id="nome"
+type="text"
+placeholder="Ex: Residencial Alpha">
 
 
-<label>Endereço</label>
-<input id="endereco" type="text" placeholder="Rua, número, cidade">
+
+<label>
+📍 Endereço
+</label>
+
+<input 
+id="endereco"
+type="text"
+placeholder="Rua, número, cidade">
 
 
-<label>Responsável Técnico</label>
-<input id="responsavel" type="text" placeholder="Nome do engenheiro ou técnico">
+
+<label>
+👷 Responsável Técnico
+</label>
+
+<input 
+id="responsavel"
+type="text"
+placeholder="Nome do engenheiro ou técnico">
 
 
-<label>Data de Início</label>
-<input id="data" type="date">
+
+<label>
+📅 Data de Início
+</label>
+
+<input 
+id="data"
+type="date">
 
 
-<label>Status da Obra</label>
+
+<label>
+📌 Status da Obra
+</label>
 
 <select id="status">
 
 <option>Planejamento</option>
+
 <option>Em andamento</option>
+
 <option>Finalizada</option>
 
 </select>
+
 
 
 <br><br>
 
 
 <button onclick="salvarObra()">
+
 💾 Salvar Obra
+
 </button>
 
 
+<p id="mensagem"></p>
+
+
+
 </div>
 
 
 </div>
+
+
 
 
 
@@ -89,61 +121,168 @@
 
 <script src="js/supabase.js"></script>
 
+<script src="js/auth.js"></script>
+
+<script src="js/sidebar.js"></script>
+
 
 
 <script>
 
 
-async function salvarObra(){
+// proteção da página
 
+if(!protegerPagina("obras")){
 
-const nome = document.getElementById("nome").value;
-const endereco = document.getElementById("endereco").value;
-const responsavel = document.getElementById("responsavel").value;
-const data_inicio = document.getElementById("data").value;
-const status = document.getElementById("status").value;
-
-
-
-const { data, error } = await banco
-.from("obras")
-.insert([
-
-{
-
-nome: nome,
-endereco: endereco,
-responsavel: responsavel,
-data_inicio: data_inicio,
-status: status
+throw new Error("Sem permissão");
 
 }
 
-]);
+
+
+
+
+async function salvarObra(){
+
+
+
+const nome =
+document.getElementById("nome").value.trim();
+
+
+
+const endereco =
+document.getElementById("endereco").value.trim();
+
+
+
+const responsavel =
+document.getElementById("responsavel").value.trim();
+
+
+
+const data_inicio =
+document.getElementById("data").value;
+
+
+
+const status =
+document.getElementById("status").value;
+
+
+
+
+if(!nome){
+
+alert("Informe o nome da obra");
+
+return;
+
+}
+
+
+
+
+
+const {error}=await banco
+
+.from("obras")
+
+.insert([{
+
+
+nome:nome,
+
+
+endereco:endereco,
+
+
+responsavel:responsavel,
+
+
+data_inicio:data_inicio,
+
+
+status:status
+
+
+
+}]);
+
+
+
+
 
 
 
 if(error){
 
+
 console.log(error);
 
-alert("❌ Erro ao salvar obra: " + error.message);
+
+
+document.getElementById("mensagem").innerHTML=
+
+"❌ Erro ao salvar obra: "+error.message;
+
+
+
+return;
+
 
 }
 
-else{
 
-alert("✅ Obra cadastrada com sucesso!");
+
+
+
+
+
+document.getElementById("mensagem").innerHTML=
+
+"✅ Obra cadastrada com sucesso!";
+
+
+
+
+
+setTimeout(()=>{
+
 
 window.location.href="obras.html";
 
+
+},1000);
+
+
+
 }
 
 
-}
 
 
 </script>
+
+
+
+
+<footer class="rodape">
+
+<p>
+🚀 SmartInspect AI
+</p>
+
+<p>
+Desenvolvido por <strong>Sérgio and Gabriel</strong>
+</p>
+
+<p>
+Versão 1.0.1
+</p>
+
+</footer>
+
 
 
 </body>
