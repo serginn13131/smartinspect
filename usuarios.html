@@ -10,56 +10,32 @@
 
 <link rel="stylesheet" href="css/style.css">
 
-
 <style>
-
-.usuarios-grid{
-
-display:grid;
-
-gap:15px;
-
-}
-
 
 .usuario-card{
 
 background:white;
-
 padding:20px;
-
 border-radius:15px;
-
+margin-bottom:15px;
+display:flex;
+align-items:center;
+gap:15px;
 box-shadow:0 3px 10px #0002;
 
-display:flex;
-
-align-items:center;
-
-gap:15px;
-
 }
-
 
 
 .avatar{
 
 width:55px;
-
 height:55px;
-
 border-radius:50%;
-
 background:#0066cc;
-
 color:white;
-
 display:flex;
-
 align-items:center;
-
 justify-content:center;
-
 font-size:22px;
 
 }
@@ -69,86 +45,58 @@ font-size:22px;
 .info{
 
 flex:1;
-
 display:flex;
-
 flex-direction:column;
 
 }
 
 
-
 .status{
 
-padding:6px 12px;
-
+padding:5px 10px;
 border-radius:20px;
-
 font-size:13px;
+width:max-content;
 
 }
 
 
-
-.online{
+.ativo{
 
 background:#d1fae5;
-
 color:green;
 
 }
 
 
+.pendente{
 
-.offline{
-
-background:#eee;
-
-color:#666;
+background:#fff3cd;
+color:#856404;
 
 }
 
 
+.bloqueado{
 
-select{
-
-padding:8px;
-
-border-radius:8px;
+background:#f8d7da;
+color:red;
 
 }
 
 
-.cards{
+button{
 
-display:grid;
-
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-
-gap:15px;
-
-margin-bottom:20px;
+margin:3px;
 
 }
 
-
-.card-info{
-
-background:white;
-
-padding:20px;
-
-border-radius:15px;
-
-box-shadow:0 3px 10px #0002;
-
-}
 
 
 </style>
 
-
 </head>
+
 
 
 <body>
@@ -164,62 +112,42 @@ box-shadow:0 3px 10px #0002;
 
 <h1>👥 Controle de Usuários</h1>
 
-
 <p>
-
-Gerenciamento de cargos e acessos
-
+Aprovação e gerenciamento de acessos
 </p>
 
 
 
 
-<div class="cards">
+<div class="card">
 
 
-<div class="card-info">
+<h3>
 
-<h2 id="totalUsuarios">
-0
-</h2>
+📊 Resumo
+
+</h3>
+
 
 <p>
-Usuários
+
+Usuários:
+<b id="totalUsuarios">0</b>
+
 </p>
 
-</div>
-
-
-
-<div class="card-info">
-
-<h2 id="usuariosOnline">
-0
-</h2>
 
 <p>
-Online
+
+Pendentes:
+<b id="usuariosPendentes">0</b>
+
 </p>
 
-</div>
-
-
-
-<div class="card-info">
-
-<h2 id="usuariosPendentes">
-0
-</h2>
-
-<p>
-Pendentes
-</p>
-
-</div>
-
 
 
 </div>
+
 
 
 
@@ -241,34 +169,25 @@ placeholder="🔎 Buscar usuário..."
 <br><br>
 
 
-
-<button onclick="filtrar('todos')">
+<button onclick="filtro='todos';renderizar()">
 
 Todos
 
 </button>
 
 
-<button onclick="filtrar('online')">
+<button onclick="filtro='pendente';renderizar()">
 
-Online
-
-</button>
-
-
-<button onclick="filtrar('offline')">
-
-Offline
+Pendentes
 
 </button>
 
 
+<button onclick="filtro='ativo';renderizar()">
 
-<p id="statusPresenca">
+Ativos
 
-Conectando...
-
-</p>
+</button>
 
 
 </div>
@@ -279,7 +198,8 @@ Conectando...
 
 
 
-<div id="listaUsuarios" class="usuarios-grid">
+<div id="listaUsuarios">
+
 
 Carregando usuários...
 
@@ -287,8 +207,8 @@ Carregando usuários...
 
 
 
-<p id="mensagemEquipe"></p>
 
+<p id="mensagemEquipe"></p>
 
 
 
@@ -319,14 +239,16 @@ verificarLogin();
 
 let usuarios=[];
 
+
 let filtro="todos";
+
 
 let usuarioAtual =
 JSON.parse(localStorage.getItem("usuario"));
 
 
 
-const admin =
+let admin =
 usuarioAtual?.nivel_acesso==="adm";
 
 
@@ -352,6 +274,7 @@ const niveis=[
 async function carregarUsuarios(){
 
 
+
 const {data,error}=await banco
 
 .from("usuarios")
@@ -362,9 +285,12 @@ const {data,error}=await banco
 
 
 
+
 if(error){
 
 console.log(error);
+
+alert("Erro ao carregar usuários");
 
 return;
 
@@ -376,7 +302,9 @@ usuarios=data || [];
 
 renderizar();
 
+
 }
+
 
 
 
@@ -386,71 +314,47 @@ function renderizar(){
 
 
 
-const lista =
-document.getElementById("listaUsuarios");
+let busca =
+
+document.getElementById("buscaEquipe")
+
+.value
+
+.toLowerCase();
 
 
 
-document.getElementById("totalUsuarios").innerHTML =
+
+
+document.getElementById("totalUsuarios")
+
+.innerHTML=
+
 usuarios.length;
 
 
 
-document.getElementById("usuariosPendentes").innerHTML =
+
+
+document.getElementById("usuariosPendentes")
+
+.innerHTML=
+
 usuarios.filter(
+
 u=>u.status==="pendente"
+
 ).length;
 
 
 
-let online =
-usuarios.filter(
-u=>u.online
-).length;
 
 
 
-document.getElementById("usuariosOnline").innerHTML =
-online;
 
+let lista =
 
-
-let busca =
-document.getElementById("buscaEquipe").value.toLowerCase();
-
-
-
-let listaFiltrada =
-usuarios.filter(u=>{
-
-
-let nome =
-(u.nome+" "+u.email).toLowerCase();
-
-
-
-if(!nome.includes(busca))
-return false;
-
-
-
-if(filtro==="online")
-return u.online;
-
-
-
-if(filtro==="offline")
-return !u.online;
-
-
-
-return true;
-
-
-});
-
-
-
+document.getElementById("listaUsuarios");
 
 
 
@@ -458,13 +362,52 @@ lista.innerHTML="";
 
 
 
-listaFiltrada.forEach(u=>{
+
+
+
+
+usuarios
+
+.filter(u=>{
+
+
+let nome =
+
+(u.nome+" "+u.email)
+
+.toLowerCase();
+
+
+
+if(!nome.includes(busca))
+
+return false;
+
+
+
+if(filtro==="todos")
+
+return true;
+
+
+
+return u.status===filtro;
+
+
+
+})
+
+
+.forEach(u=>{
+
 
 
 lista.innerHTML += `
 
 
+
 <div class="usuario-card">
+
 
 
 <div class="avatar">
@@ -475,7 +418,9 @@ ${u.nome?.charAt(0) || "?"}
 
 
 
+
 <div class="info">
+
 
 <strong>
 
@@ -492,9 +437,9 @@ ${u.email}
 
 
 
-<span class="status ${u.online?'online':'offline'}">
+<span class="status ${u.status}">
 
-${u.online?'🟢 Online':'⚪ Offline'}
+${u.status || "ativo"}
 
 </span>
 
@@ -516,7 +461,9 @@ ${admin?"":"disabled"}
 
 ${niveis.map(n=>`
 
-<option ${n===u.nivel_acesso?'selected':''}>
+<option value="${n}"
+
+${n===u.nivel_acesso?"selected":""}>
 
 ${n}
 
@@ -525,7 +472,50 @@ ${n}
 `).join("")}
 
 
+
 </select>
+
+
+
+
+
+
+${u.status==="pendente" && admin ? `
+
+
+<button onclick="aceitarUsuario(${u.id})">
+
+✅ Aceitar
+
+</button>
+
+
+
+<button onclick="bloquearUsuario(${u.id})">
+
+❌ Recusar
+
+</button>
+
+
+
+`:''}
+
+
+
+
+
+${u.status==="ativo" && admin ? `
+
+
+<button onclick="bloquearUsuario(${u.id})">
+
+🚫 Bloquear
+
+</button>
+
+
+`:''}
 
 
 
@@ -541,14 +531,16 @@ ${n}
 
 
 
+
 }
 
 
 
 
 
-async function alterarCargo(id,cargo){
 
+
+async function alterarCargo(id,cargo){
 
 
 if(!admin)return;
@@ -571,8 +563,7 @@ nivel_acesso:cargo
 
 if(error){
 
-mensagemEquipe.innerHTML=
-"❌ Erro ao alterar cargo";
+alert("Erro ao alterar cargo");
 
 return;
 
@@ -580,10 +571,61 @@ return;
 
 
 
-mensagemEquipe.innerHTML=
-"✅ Cargo alterado com sucesso";
+document.getElementById("mensagemEquipe")
+
+.innerHTML=
+
+"✅ Cargo atualizado";
 
 
+
+carregarUsuarios();
+
+
+
+}
+
+
+
+
+
+
+
+
+async function aceitarUsuario(id){
+
+
+
+const {error}=await banco
+
+.from("usuarios")
+
+.update({
+
+status:"ativo",
+
+nivel_acesso:"usuario"
+
+})
+
+.eq("id",id);
+
+
+
+
+if(error){
+
+console.log(error);
+
+alert("Erro ao aceitar");
+
+return;
+
+}
+
+
+
+alert("✅ Usuário aprovado!");
 
 carregarUsuarios();
 
@@ -594,13 +636,49 @@ carregarUsuarios();
 
 
 
-function filtrar(tipo){
 
-filtro=tipo;
 
-renderizar();
+
+
+async function bloquearUsuario(id){
+
+
+
+const {error}=await banco
+
+.from("usuarios")
+
+.update({
+
+status:"bloqueado"
+
+})
+
+.eq("id",id);
+
+
+
+
+if(error){
+
+console.log(error);
+
+alert("Erro ao bloquear");
+
+return;
 
 }
+
+
+
+alert("Usuário bloqueado");
+
+carregarUsuarios();
+
+
+}
+
+
 
 
 
@@ -617,6 +695,7 @@ document
 renderizar
 
 );
+
 
 
 
