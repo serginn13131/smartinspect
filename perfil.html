@@ -4,7 +4,6 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Meu Perfil - SmartInspect AI</title>
@@ -21,25 +20,21 @@ background:white;
 
 padding:30px;
 
-border-radius:20px;
+border-radius:15px;
 
 max-width:500px;
 
-margin:auto;
-
-text-align:center;
-
-box-shadow:0 5px 20px #0002;
+box-shadow:0 3px 10px #0002;
 
 }
 
 
 
-.foto{
+.foto-perfil{
 
-width:140px;
+width:120px;
 
-height:140px;
+height:120px;
 
 border-radius:50%;
 
@@ -53,7 +48,15 @@ border:4px solid #0066cc;
 
 input{
 
-margin:15px;
+width:100%;
+
+padding:10px;
+
+margin:8px 0;
+
+border-radius:8px;
+
+border:1px solid #ccc;
 
 }
 
@@ -67,7 +70,7 @@ color:white;
 
 border:none;
 
-padding:12px 20px;
+padding:10px 20px;
 
 border-radius:10px;
 
@@ -77,18 +80,22 @@ cursor:pointer;
 
 
 
-.online{
+button:hover{
 
-color:green;
+background:#0052a3;
+
+}
+
+
+
+.voltar{
+
+background:#555;
+
+margin-bottom:20px;
 
 }
 
-
-.offline{
-
-color:gray;
-
-}
 
 
 </style>
@@ -101,18 +108,7 @@ color:gray;
 
 
 
-<div class="sidebar">
-
-<h2>🏗 SmartInspect AI</h2>
-
-<a href="index.html">📊 Dashboard</a>
-
-<a href="equipe.html">👥 Equipe</a>
-
-<a href="perfil.html">👤 Perfil</a>
-
-
-</div>
+<div class="menu-container"></div>
 
 
 
@@ -120,7 +116,24 @@ color:gray;
 <div class="content">
 
 
+
+<button class="voltar" onclick="voltarPagina()">
+
+⬅ Voltar
+
+</button>
+
+
+
+
 <h1>👤 Meu Perfil</h1>
+
+
+<p>
+Gerencie suas informações
+</p>
+
+
 
 
 
@@ -128,15 +141,31 @@ color:gray;
 
 
 
-<img id="fotoUsuario"
-
-class="foto"
-
-src="img/avatar.png">
 
 
+<img 
+id="fotoPerfil"
+class="foto-perfil"
+src="imagens/avatar.png"
+>
 
-<h2 id="nome">
+
+
+
+<br><br>
+
+
+
+<input 
+type="file"
+id="novaFoto"
+accept="image/*"
+>
+
+
+
+
+<h2 id="nomeUsuario">
 
 Carregando...
 
@@ -144,7 +173,10 @@ Carregando...
 
 
 
-<p id="email"></p>
+
+<p id="emailUsuario">
+
+</p>
 
 
 
@@ -152,40 +184,33 @@ Carregando...
 
 Cargo:
 
-<strong id="cargo"></strong>
+<strong id="cargoUsuario">
+
+</strong>
 
 </p>
 
 
 
-<p id="status"></p>
+
+
+<label>
+
+Nome:
+
+</label>
+
+
+<input id="nome">
 
 
 
-<hr>
 
 
 
-<h3>Alterar foto</h3>
+<button onclick="salvarPerfil()">
 
-
-
-<input 
-
-type="file"
-
-id="arquivo"
-
-accept="image/*">
-
-
-
-<br>
-
-
-<button onclick="alterarFoto()">
-
-📷 Salvar nova foto
+💾 Salvar alterações
 
 </button>
 
@@ -199,7 +224,14 @@ accept="image/*">
 
 
 
+
+
+
 </div>
+
+
+
+
 
 
 
@@ -209,25 +241,44 @@ accept="image/*">
 
 <script src="js/supabase.js"></script>
 
+<script src="js/auth.js"></script>
+
+<script src="js/sidebar.js"></script>
+
+
+
+
+
 
 
 <script>
 
 
-let usuario;
+
+verificarLogin();
+
+
+
+
+let usuarioAtual=null;
+
+
+
+
 
 
 
 async function carregarPerfil(){
 
 
-const {data}=await banco.auth.getUser();
+
+const {data,error}=await banco.auth.getUser();
 
 
 
-if(!data.user){
 
-window.location.href="login.html";
+
+if(error || !data.user){
 
 return;
 
@@ -235,7 +286,10 @@ return;
 
 
 
-const {data:perfil,error}=await banco
+
+
+
+const {data:perfil}=await banco
 
 .from("usuarios")
 
@@ -247,9 +301,10 @@ const {data:perfil,error}=await banco
 
 
 
-if(error){
 
-console.log(error);
+
+
+if(!perfil){
 
 return;
 
@@ -257,41 +312,53 @@ return;
 
 
 
-usuario=perfil;
+
+usuarioAtual=perfil;
 
 
 
-document.getElementById("nome").innerHTML =
-perfil.nome;
 
 
-document.getElementById("email").innerHTML =
+document.getElementById("nomeUsuario").innerHTML=
+
+perfil.nome || "Usuário";
+
+
+
+
+
+document.getElementById("emailUsuario").innerHTML=
+
 perfil.email;
 
 
 
-document.getElementById("cargo").innerHTML =
-perfil.nivel_acesso;
+
+
+document.getElementById("cargoUsuario").innerHTML=
+
+perfil.nivel_acesso || "Usuário";
 
 
 
-document.getElementById("fotoUsuario").src =
-perfil.foto_url ||
-"img/avatar.png";
+
+
+document.getElementById("nome").value=
+
+perfil.nome || "";
 
 
 
-document.getElementById("status").innerHTML =
 
-perfil.online
 
-?
 
-"🟢 Online"
+if(perfil.foto_url){
 
-:
+document.getElementById("fotoPerfil").src=
 
-"⚪ Offline";
+perfil.foto_url;
+
+}
 
 
 
@@ -299,48 +366,74 @@ perfil.online
 
 
 
-async function alterarFoto(){
-
-
-const arquivo =
-document.getElementById("arquivo").files[0];
 
 
 
-if(!arquivo){
 
-alert("Escolha uma imagem");
 
-return;
+
+async function salvarPerfil(){
+
+
+
+const nome=
+
+document.getElementById("nome").value;
+
+
+
+
+
+let foto_url = usuarioAtual.foto_url;
+
+
+
+
+
+const arquivo=
+
+document.getElementById("novaFoto").files[0];
+
+
+
+
+
+
+if(arquivo){
+
+
+
+const nomeArquivo=
+
+`${usuarioAtual.id}-${Date.now()}`;
+
+
+
+const {error}=await banco.storage
+
+.from("fotos")
+
+.upload(
+
+nomeArquivo,
+
+arquivo,
+
+{
+
+upsert:true
 
 }
 
-
-
-
-const nomeArquivo =
-
-usuario.id +
-"-" +
-Date.now() +
-".png";
+);
 
 
 
 
-// enviar para storage
 
-const {error:uploadError}=await banco.storage
+if(error){
 
-.from("perfil")
-
-.upload(nomeArquivo,arquivo);
-
-
-
-if(uploadError){
-
-console.log(uploadError);
+console.log(error);
 
 alert("Erro ao enviar foto");
 
@@ -352,21 +445,31 @@ return;
 
 
 
-const {data:urlData}=banco.storage
+const url=
 
-.from("perfil")
+banco.storage
 
-.getPublicUrl(nomeArquivo);
+.from("fotos")
 
+.getPublicUrl(nomeArquivo)
 
-
-const url =
-urlData.publicUrl;
-
+.data.publicUrl;
 
 
 
-// salvar no banco
+
+foto_url=url;
+
+
+
+}
+
+
+
+
+
+
+
 
 const {error}=await banco
 
@@ -374,19 +477,33 @@ const {error}=await banco
 
 .update({
 
-foto_url:url
+nome,
+
+foto_url
 
 })
 
-.eq("id",usuario.id);
+.eq(
+
+"id",
+
+usuarioAtual.id
+
+);
+
+
+
+
 
 
 
 if(error){
 
-alert("Erro ao salvar");
-
 console.log(error);
+
+document.getElementById("mensagem").innerHTML=
+
+"❌ Erro ao salvar";
 
 return;
 
@@ -395,16 +512,36 @@ return;
 
 
 
-document.getElementById("fotoUsuario").src=url;
-
 
 document.getElementById("mensagem").innerHTML=
 
-"✅ Foto atualizada!";
+"✅ Perfil atualizado";
+
+
+
+
+
+carregarPerfil();
 
 
 
 }
+
+
+
+
+
+
+
+
+function voltarPagina(){
+
+
+window.history.back();
+
+
+}
+
 
 
 
@@ -414,6 +551,7 @@ carregarPerfil();
 
 
 </script>
+
 
 
 </body>
