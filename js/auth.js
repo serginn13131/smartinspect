@@ -100,7 +100,7 @@ adm:[
 
 "imoveis",
 
-"criar",
+"usuarios",
 
 "inspecoes",
 
