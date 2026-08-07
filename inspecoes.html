@@ -16,27 +16,7 @@
 <body>
 
 
-<div class="sidebar">
-
-<div class="logo">
-
-<img src="imagens/logo.png" alt="SmartInspect AI">
-
-<h2>SmartInspect AI</h2>
-
-</div>
-
-<a href="index.html">📊 Dashboard</a>
-  <a href="imoveis.html">🏠 Imóveis</a>
-<a href="obras.html">🏢 Obras</a>
-<a href="inspecoes.html">📋 Inspeções</a>
-<a href="estoque.html">📦 Estoque</a>
-<a href="ia.html">🤖 IA</a>
-<a href="relatorios.html">📄 Relatórios</a>
-<a href="equipe.html">👷 Equipe</a>
-
-</div>
-
+<div class="menu-container"></div>
 
 
 
@@ -44,26 +24,16 @@
 <div class="content">
 
 
-<h1>📋 Inspeções Realizadas</h1>
+<h1>📋 Inspeções</h1>
 
-<p>Histórico das inspeções técnicas das obras</p>
-
-
-
-
-<div id="listaInspecoes">
-
-<p>Carregando inspeções...</p>
-
-</div>
+<p>
+Controle das inspeções realizadas nas obras
+</p>
 
 
 
 
-<br>
-
-
-<button onclick="location.href='nova_inspecao.html'">
+<button onclick="location.href='nova-inspecao.html'">
 
 ➕ Nova Inspeção
 
@@ -71,7 +41,22 @@
 
 
 
+
+
+<div id="listaInspecoes">
+
+
+<p>
+Carregando inspeções...
+</p>
+
+
 </div>
+
+
+
+</div>
+
 
 
 
@@ -83,13 +68,19 @@
 
 <script src="js/supabase.js"></script>
 
+<script src="js/auth.js"></script>
 
+<script src="js/sidebar.js"></script>
 
 
 
 
 
 <script>
+
+
+verificarLogin();
+
 
 
 
@@ -99,42 +90,19 @@ async function carregarInspecoes(){
 
 
 
-if(typeof banco === "undefined"){
-
-
-document.getElementById("listaInspecoes").innerHTML =
-"❌ Banco não conectado";
-
-
-return;
-
-
-}
-
-
-
-
-
-
 const {data,error}=await banco
 
 .from("inspecoes")
 
 .select(`
 
-id,
+*,
 
-tipo,
+obras(
 
-data_inspecao,
+nome
 
-responsavel,
-
-observacao,
-
-status,
-
-obras(nome)
+)
 
 `)
 
@@ -144,11 +112,7 @@ obras(nome)
 
 
 
-
-
-let lista =
-document.getElementById("listaInspecoes");
-
+const lista=document.getElementById("listaInspecoes");
 
 
 
@@ -156,16 +120,11 @@ document.getElementById("listaInspecoes");
 
 if(error){
 
-
 console.log(error);
 
-
-lista.innerHTML =
-"❌ Erro ao carregar inspeções";
-
+lista.innerHTML="❌ Erro ao carregar inspeções";
 
 return;
-
 
 }
 
@@ -173,20 +132,16 @@ return;
 
 
 
+if(!data || data.length===0){
 
-if(!data || data.length === 0){
 
-
-lista.innerHTML =
-"Nenhuma inspeção cadastrada";
+lista.innerHTML="Nenhuma inspeção cadastrada";
 
 
 return;
 
 
 }
-
-
 
 
 
@@ -198,23 +153,21 @@ lista.innerHTML="";
 
 
 
-
-
 data.forEach(inspecao=>{
-
-
 
 
 
 lista.innerHTML += `
 
 
+
 <div class="card">
+
 
 
 <h2>
 
-📋 ${inspecao.tipo}
+📋 Inspeção #${inspecao.id}
 
 </h2>
 
@@ -225,11 +178,7 @@ lista.innerHTML += `
 
 🏢 Obra:
 
-<strong>
-
 ${inspecao.obras?.nome || "Sem obra"}
-
-</strong>
 
 </p>
 
@@ -238,9 +187,9 @@ ${inspecao.obras?.nome || "Sem obra"}
 
 <p>
 
-📅 Data:
+🔧 Tipo:
 
-${inspecao.data_inspecao}
+${inspecao.tipo || "Não informado"}
 
 </p>
 
@@ -251,7 +200,7 @@ ${inspecao.data_inspecao}
 
 👷 Responsável:
 
-${inspecao.responsavel}
+${inspecao.responsavel || "Não informado"}
 
 </p>
 
@@ -260,9 +209,9 @@ ${inspecao.responsavel}
 
 <p>
 
-📌 Status:
+📅 Data:
 
-${inspecao.status}
+${inspecao.data_inspecao || "-"}
 
 </p>
 
@@ -273,7 +222,18 @@ ${inspecao.status}
 
 📝 Observação:
 
-${inspecao.observacao || "Nenhuma"}
+${inspecao.observacao || "Sem observações"}
+
+</p>
+
+
+
+
+<p>
+
+📌 Status:
+
+${inspecao.status || "Pendente"}
 
 </p>
 
@@ -281,24 +241,21 @@ ${inspecao.observacao || "Nenhuma"}
 
 
 
-<br>
+<button onclick="verInspecao(${inspecao.id})">
 
-
-
-<button onclick="deletarInspecao(${inspecao.id})">
-
-🗑 Excluir
+👁 Ver
 
 </button>
+
+
 
 
 
 </div>
 
 
+
 `;
-
-
 
 
 
@@ -306,8 +263,6 @@ ${inspecao.observacao || "Nenhuma"}
 
 
 
-
-
 }
 
 
@@ -318,67 +273,10 @@ ${inspecao.observacao || "Nenhuma"}
 
 
 
-async function deletarInspecao(id){
+function verInspecao(id){
 
 
-
-let confirmar =
-confirm(
-"⚠️ Deseja excluir esta inspeção?"
-);
-
-
-
-
-if(!confirmar){
-
-return;
-
-}
-
-
-
-
-
-
-
-const {error}=await banco
-
-.from("inspecoes")
-
-.delete()
-
-.eq("id",id);
-
-
-
-
-
-
-
-if(error){
-
-
-console.log(error);
-
-
-alert("❌ Erro ao excluir inspeção");
-
-
-}
-
-else{
-
-
-alert("✅ Inspeção excluída");
-
-
-carregarInspecoes();
-
-
-}
-
-
+window.location.href="detalhes_inspecao.html?id="+id;
 
 
 }
@@ -390,8 +288,6 @@ carregarInspecoes();
 
 
 carregarInspecoes();
-
-
 
 
 
