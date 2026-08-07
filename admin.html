@@ -18,6 +18,7 @@
 
 <div class="content">
 
+
 <h1>👑 Painel Administrativo</h1>
 
 <p>Aprovação de usuários</p>
@@ -25,6 +26,7 @@
 
 
 <div class="card">
+
 
 <h2>⏳ Solicitações pendentes</h2>
 
@@ -44,18 +46,18 @@ Carregando usuários...
 
 
 
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="js/supabase.js"></script>
 
 
 
-
 <script>
 
 
+
 async function carregarUsuarios(){
+
 
 
 const {data,error}=await banco
@@ -69,14 +71,20 @@ const {data,error}=await banco
 
 
 
+
 if(error){
+
 
 console.log(error);
 
+
 document.getElementById("usuarios").innerHTML =
+
 "❌ Erro ao carregar usuários";
 
+
 return;
+
 
 }
 
@@ -84,14 +92,20 @@ return;
 
 
 
-if(!data.length){
+
+if(data.length === 0){
+
 
 document.getElementById("usuarios").innerHTML =
+
 "✅ Nenhuma solicitação pendente";
+
 
 return;
 
+
 }
+
 
 
 
@@ -103,13 +117,17 @@ let html="";
 
 
 
+
 data.forEach(usuario=>{
+
 
 
 html += `
 
 
+
 <div class="card">
+
 
 
 <h3>
@@ -124,8 +142,18 @@ ${usuario.nome}
 
 
 
+
+<p>
+Cargo solicitado:
+<b>${usuario.nivel_acesso}</b>
+</p>
+
+
+
+
+
 <label>
-Cargo:
+Escolher cargo:
 </label>
 
 
@@ -133,8 +161,8 @@ Cargo:
 <select id="nivel_${usuario.id}">
 
 
-<option value="empresa">
-🏢 Administrador Empresa
+<option value="admin">
+👑 Administrador
 </option>
 
 
@@ -153,11 +181,15 @@ Cargo:
 </option>
 
 
+
 </select>
 
 
 
+
+
 <br><br>
+
 
 
 
@@ -167,6 +199,7 @@ Cargo:
 ✅ Aprovar
 
 </button>
+
 
 
 
@@ -193,11 +226,14 @@ Cargo:
 
 
 
+
 document.getElementById("usuarios").innerHTML = html;
 
 
 
 }
+
+
 
 
 
@@ -224,11 +260,10 @@ const {error}=await banco
 .update({
 
 
-status:"aprovado",
+status:"ativo",
 
 
 nivel_acesso:nivel
-
 
 
 })
@@ -240,10 +275,12 @@ nivel_acesso:nivel
 
 
 
+
 if(error){
 
 
-alert(error.message);
+alert("Erro: "+error.message);
+
 
 return;
 
@@ -271,6 +308,7 @@ carregarUsuarios();
 
 
 
+
 async function recusar(id){
 
 
@@ -285,7 +323,6 @@ const {error}=await banco
 status:"recusado"
 
 
-
 })
 
 .eq("id",id);
@@ -295,15 +332,18 @@ status:"recusado"
 
 
 
+
 if(error){
 
 
-alert(error.message);
+alert("Erro: "+error.message);
+
 
 return;
 
 
 }
+
 
 
 
