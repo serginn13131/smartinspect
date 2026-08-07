@@ -13,16 +13,15 @@
 
 <style>
 
-.perfil-container{
+.perfil-box{
 
 max-width:500px;
-
 margin:auto;
 
 }
 
 
-.perfil-card{
+.card-perfil{
 
 background:white;
 
@@ -62,11 +61,9 @@ background:#0066cc;
 
 color:white;
 
-padding:8px 15px;
+padding:8px 20px;
 
 border-radius:20px;
-
-margin:10px;
 
 }
 
@@ -84,7 +81,7 @@ margin-top:20px;
 
 .info p{
 
-padding:8px;
+padding:10px;
 
 border-bottom:1px solid #ddd;
 
@@ -112,14 +109,6 @@ margin-top:10px;
 
 
 
-button:hover{
-
-background:#004c99;
-
-}
-
-
-
 .voltar{
 
 background:#555;
@@ -127,8 +116,8 @@ background:#555;
 }
 
 
-
 </style>
+
 
 </head>
 
@@ -150,23 +139,31 @@ background:#555;
 </button>
 
 
-
 <h1>👤 Meu Perfil</h1>
 
 
 
-<div class="perfil-container">
+
+<div class="perfil-box">
 
 
-<div class="perfil-card">
+<div class="card-perfil">
 
 
 
-<img 
+<img
+
 id="fotoPerfil"
+
 class="foto-perfil"
+
 src="imagens/avatar.png"
+
+onerror="this.src='imagens/logo.png'"
+
 >
+
+
 
 
 
@@ -178,9 +175,11 @@ Carregando...
 
 
 
+
 <span id="cargo" class="cargo">
 
 </span>
+
 
 
 
@@ -200,6 +199,7 @@ Carregando...
 
 
 
+
 <p>
 
 🆔 ID:
@@ -209,6 +209,7 @@ Carregando...
 <span id="idUsuario"></span>
 
 </p>
+
 
 
 
@@ -242,7 +243,9 @@ accept="image/*"
 
 
 
+
 <br>
+
 
 
 <button onclick="salvarFoto()">
@@ -253,14 +256,18 @@ accept="image/*"
 
 
 
-</div>
 
 
 </div>
 
 
+</div>
+
+
 
 </div>
+
+
 
 
 
@@ -290,12 +297,12 @@ async function carregarPerfil(){
 
 
 
-const usuarioLocal = 
-JSON.parse(localStorage.getItem("usuario"));
+const {data:{user}} = await banco.auth.getUser();
 
 
 
-if(!usuarioLocal){
+
+if(!user){
 
 window.location.href="login.html";
 
@@ -307,15 +314,20 @@ return;
 
 
 
+
+
 const {data,error}=await banco
 
 .from("usuarios")
 
 .select("*")
 
-.eq("id",usuarioLocal.id)
+.eq("auth_id",user.id)
 
 .single();
+
+
+
 
 
 
@@ -325,9 +337,13 @@ if(error){
 
 console.log(error);
 
+alert("Erro ao carregar usuário");
+
 return;
 
 }
+
+
 
 
 
@@ -337,28 +353,42 @@ usuarioAtual=data;
 
 
 
+
+
+
 document.getElementById("nome").innerHTML =
-data.nome;
+
+data.nome || "Sem nome";
+
 
 
 
 document.getElementById("email").innerHTML =
-data.email;
+
+data.email || "";
+
 
 
 
 document.getElementById("cargo").innerHTML =
-data.nivel_acesso;
+
+data.nivel_acesso || "usuario";
+
 
 
 
 document.getElementById("idUsuario").innerHTML =
+
 data.id;
 
 
 
+
+
 document.getElementById("status").innerHTML =
-data.status;
+
+data.status || "ativo";
+
 
 
 
@@ -368,6 +398,7 @@ if(data.foto_url){
 
 
 document.getElementById("fotoPerfil").src =
+
 data.foto_url;
 
 
@@ -375,7 +406,11 @@ data.foto_url;
 
 
 
+
+
 }
+
+
 
 
 
@@ -411,9 +446,30 @@ return;
 
 
 
+const {data:{user}} = await banco.auth.getUser();
+
+
+
+
+
+if(!user){
+
+alert("Usuário não encontrado");
+
+return;
+
+}
+
+
+
+
+
+
 const nomeArquivo =
 
-`${usuarioAtual.id}/${Date.now()}-${arquivo.name}`;
+`${user.id}/${Date.now()}-${arquivo.name}`;
+
+
 
 
 
@@ -424,11 +480,22 @@ const {error:uploadError}=await banco.storage
 
 .from("fotos")
 
-.upload(nomeArquivo,arquivo,{
+.upload(
+
+nomeArquivo,
+
+arquivo,
+
+{
 
 upsert:true
 
-});
+}
+
+);
+
+
+
 
 
 
@@ -439,14 +506,13 @@ if(uploadError){
 
 console.log(uploadError);
 
-
 alert("Erro ao enviar foto");
-
 
 return;
 
 
 }
+
 
 
 
@@ -466,7 +532,11 @@ const {data:urlData}=banco.storage
 
 
 
-const fotoUrl=urlData.publicUrl;
+
+const fotoUrl =
+
+urlData.publicUrl;
+
 
 
 
@@ -484,7 +554,9 @@ foto_url:fotoUrl
 
 })
 
-.eq("id",usuarioAtual.id);
+.eq("auth_id",user.id);
+
+
 
 
 
@@ -496,15 +568,22 @@ if(updateError){
 
 console.log(updateError);
 
-
 alert("Erro ao salvar foto");
-
 
 return;
 
 
 }
 
+
+
+
+
+
+
+document.getElementById("fotoPerfil").src=
+
+fotoUrl;
 
 
 
@@ -527,11 +606,9 @@ JSON.stringify(usuarioAtual)
 
 
 
-alert("✅ Foto atualizada com sucesso!");
+alert("✅ Foto salva com sucesso!");
 
 
-
-location.reload();
 
 
 
