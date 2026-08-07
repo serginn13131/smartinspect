@@ -6,184 +6,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Solicitar Acesso - SmartInspect AI</title>
+<title>Cadastro - SmartInspect AI</title>
 
 <link rel="stylesheet" href="css/style.css">
 
-
-<style>
-
-body{
-
-margin:0;
-
-font-family:Arial, sans-serif;
-
-}
-
-
-.login-background{
-
-min-height:100vh;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-
-background:
-
-linear-gradient(
-rgba(0,0,0,0.65),
-rgba(0,0,0,0.65)
-),
-
-url("imagens/logo.png");
-
-
-background-size:cover;
-
-background-position:center;
-
-}
-
-
-
-
-.login-card{
-
-
-background:white;
-
-width:420px;
-
-padding:40px;
-
-border-radius:20px;
-
-box-shadow:0 10px 35px rgba(0,0,0,0.4);
-
-text-align:center;
-
-
-}
-
-
-
-
-
-.login-logo{
-
-width:130px;
-
-margin-bottom:15px;
-
-
-}
-
-
-
-
-.login-card h1{
-
-color:#1f4e79;
-
-}
-
-
-
-
-.login-card label{
-
-
-display:block;
-
-text-align:left;
-
-font-weight:bold;
-
-margin-top:15px;
-
-
-}
-
-
-
-
-.login-card input,
-.login-card select{
-
-
-width:100%;
-
-padding:12px;
-
-margin-top:5px;
-
-border-radius:8px;
-
-border:1px solid #ccc;
-
-box-sizing:border-box;
-
-
-}
-
-
-
-
-
-
-.login-card button{
-
-
-width:100%;
-
-padding:14px;
-
-margin-top:20px;
-
-border:none;
-
-border-radius:10px;
-
-background:#1f6feb;
-
-color:white;
-
-font-size:16px;
-
-cursor:pointer;
-
-
-}
-
-
-
-
-
-.login-card button:hover{
-
-background:#1555b0;
-
-}
-
-
-
-.voltar{
-
-
-background:#6c757d !important;
-
-
-}
-
-
-
-</style>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 </head>
 
@@ -191,129 +18,90 @@ background:#6c757d !important;
 <body>
 
 
-
 <div class="login-background">
-
 
 
 <div class="login-card">
 
 
-
 <img src="imagens/logo.png" class="login-logo">
 
 
-
 <h1>
-
 🏗 SmartInspect AI
-
 </h1>
 
 
+<h2>
+Criar conta
+</h2>
+
 
 <p>
-
-Solicitação de acesso ao sistema
-
+Solicite acesso ao sistema
 </p>
 
 
 
-
-
-
 <label>
-
 Nome completo
-
 </label>
 
-
-<input
-
+<input 
 id="nome"
-
 type="text"
-
 placeholder="Digite seu nome">
 
 
 
 
 
-
-
 <label>
-
 Email
-
 </label>
 
-
-<input
-
+<input 
 id="email"
-
 type="email"
-
 placeholder="Digite seu email">
 
 
 
 
 
-
-
 <label>
-
 Senha
-
 </label>
 
-
-<input
-
+<input 
 id="senha"
-
 type="password"
-
 placeholder="Crie uma senha">
 
 
 
 
 
-
-
 <label>
-
-Cargo
-
+Tipo de acesso
 </label>
 
 
 <select id="nivel">
 
 
-<option value="engenheiro">
-
-🏗 Engenheiro / Arquiteto / Técnico
-
+<option value="campo">
+📷 Usuário de Campo
 </option>
 
 
 <option value="inspetor">
-
 🔍 Inspetor
-
 </option>
 
 
-<option value="campo">
-
-📷 Usuário de Campo
-
+<option value="engenheiro">
+🏗 Engenheiro / Arquiteto / Técnico
 </option>
 
 
@@ -323,12 +111,9 @@ Cargo
 
 
 
-
-
-
 <button onclick="cadastrar()">
 
-➕ Enviar solicitação
+➕ Criar conta
 
 </button>
 
@@ -336,18 +121,13 @@ Cargo
 
 
 
+<button 
+class="voltar"
+onclick="location.href='login.html'">
 
-
-
-<button class="voltar" onclick="location.href='login.html'">
-
-⬅ Voltar para login
+⬅ Voltar
 
 </button>
-
-
-
-
 
 
 
@@ -355,11 +135,7 @@ Cargo
 
 
 
-
-
-
 </div>
-
 
 </div>
 
@@ -367,13 +143,8 @@ Cargo
 
 
 
-
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="js/supabase.js"></script>
-
-
 
 
 
@@ -384,12 +155,13 @@ Cargo
 async function cadastrar(){
 
 
+
 const nome =
-document.getElementById("nome").value;
+document.getElementById("nome").value.trim();
 
 
 const email =
-document.getElementById("email").value;
+document.getElementById("email").value.trim();
 
 
 const senha =
@@ -401,10 +173,41 @@ document.getElementById("nivel").value;
 
 
 
+const mensagem =
+document.getElementById("mensagem");
 
 
 
-const {data,error}=await banco.auth.signUp({
+
+
+if(!nome || !email || !senha){
+
+
+mensagem.innerHTML =
+"❌ Preencha todos os campos";
+
+
+return;
+
+}
+
+
+
+
+mensagem.innerHTML =
+"⏳ Criando usuário...";
+
+
+
+
+
+
+// CRIA USUÁRIO NO SUPABASE AUTH
+
+
+const {data,error} =
+
+await banco.auth.signUp({
 
 email:email,
 
@@ -419,13 +222,11 @@ password:senha
 if(error){
 
 
-document.getElementById("mensagem").innerHTML=
-
+mensagem.innerHTML =
 "❌ "+error.message;
 
 
 return;
-
 
 }
 
@@ -433,24 +234,37 @@ return;
 
 
 
-const {error:erroBanco}=await banco
+// SALVA NA TABELA USUARIOS
+
+
+const {error:erroBanco}=
+
+await banco
 
 .from("usuarios")
 
 .insert([{
 
+
 auth_id:data.user.id,
+
 
 nome:nome,
 
+
 email:email,
+
 
 nivel_acesso:nivel,
 
-status:"pendente"
+
+status:"pendente",
+
+
+data_criacao:new Date()
+
 
 }]);
-
 
 
 
@@ -463,9 +277,9 @@ if(erroBanco){
 console.log(erroBanco);
 
 
-document.getElementById("mensagem").innerHTML=
+mensagem.innerHTML =
 
-"❌ Erro ao enviar solicitação";
+"❌ Erro ao salvar usuário: "+erroBanco.message;
 
 
 return;
@@ -477,15 +291,23 @@ return;
 
 
 
-document.getElementById("mensagem").innerHTML=
 
-"✅ Solicitação enviada! Aguarde aprovação.";
+mensagem.innerHTML =
+
+"✅ Cadastro enviado! Aguarde aprovação do administrador.";
 
 
+
+
+
+document.getElementById("nome").value="";
+document.getElementById("email").value="";
+document.getElementById("senha").value="";
 
 
 
 }
+
 
 
 
