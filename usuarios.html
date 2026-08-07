@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -32,15 +31,12 @@
 
 
 
-
-
 <div class="content">
 
 
 <h1>👥 Controle de Usuários</h1>
 
-<p>Aprovação de novos acessos</p>
-
+<p>Aprovação e gerenciamento de acessos</p>
 
 
 <div id="listaUsuarios">
@@ -50,12 +46,7 @@ Carregando usuários...
 </div>
 
 
-
 </div>
-
-
-
-
 
 
 
@@ -65,13 +56,16 @@ Carregando usuários...
 
 
 
-
 <script>
 
 
+let usuarios = [];
+
+
+
+// CARREGAR USUÁRIOS
 
 async function carregarUsuarios(){
-
 
 
 const {data,error}=await banco
@@ -84,11 +78,49 @@ const {data,error}=await banco
 
 
 
-
-
 if(error){
 
 console.log(error);
+
+document.getElementById("listaUsuarios").innerHTML =
+"Erro ao carregar usuários";
+
+return;
+
+}
+
+
+
+usuarios=data || [];
+
+renderizarUsuarios();
+
+
+}
+
+
+
+
+
+// MOSTRAR USUÁRIOS
+
+
+function renderizarUsuarios(){
+
+
+const lista=document.getElementById("listaUsuarios");
+
+
+if(usuarios.length === 0){
+
+lista.innerHTML=
+`
+<div class="card">
+
+<h3>Nenhum usuário cadastrado</h3>
+
+</div>
+`;
 
 return;
 
@@ -97,66 +129,55 @@ return;
 
 
 
-
-let lista=document.getElementById("listaUsuarios");
-
 lista.innerHTML="";
 
 
 
+usuarios.forEach(usuario=>{
 
 
-
-data.forEach(usuario=>{
-
+lista.innerHTML +=
 
 
-lista.innerHTML += `
-
+`
 
 <div class="card">
 
 
 <h2>
-
-👤 ${usuario.nome}
-
+👤 ${usuario.nome || "Sem nome"}
 </h2>
 
 
 
 <p>
-
 📧 ${usuario.email}
-
 </p>
 
 
 
 <p>
-
-Cargo:
-
-${usuario.nivel_acesso}
-
+🛡 Cargo:
+<strong>
+${usuario.nivel_acesso || "usuario"}
+</strong>
 </p>
 
 
 
 <p>
-
 Status:
-
+<strong>
 ${usuario.status}
-
+</strong>
 </p>
 
 
 
+${usuario.status === "pendente" ?
 
 
-${usuario.status === "pendente" ? `
-
+`
 
 <button onclick="aprovar(${usuario.id})">
 
@@ -165,16 +186,39 @@ ${usuario.status === "pendente" ? `
 </button>
 
 
+
 <button onclick="recusar(${usuario.id})">
 
 ❌ Recusar
 
 </button>
 
+`
 
-`:""}
+:
+
+usuario.status === "ativo"
 
 
+?
+
+`
+
+<button onclick="bloquear(${usuario.id})">
+
+🚫 Bloquear
+
+</button>
+
+`
+
+:
+
+""
+
+
+
+}
 
 
 
@@ -189,7 +233,6 @@ ${usuario.status === "pendente" ? `
 
 
 
-
 }
 
 
@@ -197,10 +240,10 @@ ${usuario.status === "pendente" ? `
 
 
 
+// APROVAR USUÁRIO
 
 
 async function aprovar(id){
-
 
 
 const {error}=await banco
@@ -217,13 +260,11 @@ status:"ativo"
 
 
 
-
-
 if(error){
 
-alert("Erro ao aprovar");
-
 console.log(error);
+
+alert("Erro ao aprovar usuário");
 
 return;
 
@@ -245,9 +286,56 @@ carregarUsuarios();
 
 
 
+// RECUSAR USUÁRIO
+
 
 async function recusar(id){
 
+
+const {error}=await banco
+
+.from("usuarios")
+
+.update({
+
+status:"recusado"
+
+})
+
+.eq("id",id);
+
+
+
+if(error){
+
+console.log(error);
+
+alert("Erro ao recusar usuário");
+
+return;
+
+}
+
+
+
+alert("Usuário recusado!");
+
+carregarUsuarios();
+
+
+
+}
+
+
+
+
+
+
+
+// BLOQUEAR USUÁRIO ATIVO
+
+
+async function bloquear(id){
 
 
 const {error}=await banco
@@ -264,11 +352,11 @@ status:"bloqueado"
 
 
 
-
-
 if(error){
 
-alert("Erro");
+console.log(error);
+
+alert("Erro ao bloquear");
 
 return;
 
@@ -276,13 +364,14 @@ return;
 
 
 
-alert("Usuário recusado!");
+alert("Usuário bloqueado!");
 
 carregarUsuarios();
 
 
 
 }
+
 
 
 
