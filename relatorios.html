@@ -47,7 +47,13 @@
         if (error || !data?.ok) throw new Error(error?.message || data?.error || 'Falha no envio');
         if (registro.data?.id) await banco.from('relatorios').update({ status: 'enviado', enviado_em: new Date().toISOString() }).eq('id', registro.data.id);
         $('mensagemRelatorio').textContent = `Relatório ${numero} enviado para ${destinatario}.`;
-      } catch (erro) { console.error(erro); $('mensagemRelatorio').textContent = 'O PDF foi preparado, mas o envio não foi concluído. Confira a configuração do serviço de e-mail.'; }
+      } catch (erro) {
+        console.error(erro);
+        const detalhe = String(erro?.message || erro || '');
+        $('mensagemRelatorio').textContent = detalhe.toLowerCase().includes('not found') || detalhe.toLowerCase().includes('404')
+          ? 'A função de envio ainda não foi publicada no Supabase. Publique “enviar-relatorio” e tente novamente.'
+          : 'O PDF foi preparado, mas o envio não foi concluído. Confira CORS, os segredos do servidor e a configuração do serviço de e-mail.';
+      }
     }
     carregarInspecoes();
   </script>
