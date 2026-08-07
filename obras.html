@@ -16,54 +16,22 @@
 <body>
 
 
-<div class="sidebar">
-
-<div class="logo">
-
-<img src="imagens/logo.png" alt="SmartInspect AI">
-
-<h2>SmartInspect AI</h2>
-
-</div>
-
-<a href="index.html">📊 Dashboard</a>
-  <a href="imoveis.html">🏠 Imóveis</a>
-<a href="criar.html">➕ Criar</a>
-<a href="obras.html">🏢 Obras</a>
-<a href="inspecoes.html">📋 Inspeções</a>
-<a href="estoque.html">📦 Estoque</a>
-<a href="ia.html">🤖 IA</a>
-<a href="relatorios.html">📄 Relatórios</a>
-<a href="equipe.html">👷 Equipe</a>
-
-</div>
-
+<div class="menu-container"></div>
 
 
 
 <div class="content">
 
 
-<h1>🏢 Obras Cadastradas</h1>
+<h1>🏢 Obras</h1>
 
-<p>Lista de obras registradas no sistema</p>
-
-
-
-
-<div id="listaObras">
-
-<p>Carregando obras...</p>
-
-</div>
+<p>
+Gerenciamento das obras cadastradas
+</p>
 
 
 
-
-<br>
-
-
-<button onclick="location.href='novaobra.html'">
+<button onclick="location.href='nova_obra.html'">
 
 ➕ Nova Obra
 
@@ -71,7 +39,22 @@
 
 
 
+
+<div id="listaObras">
+
+
+<p>
+Carregando obras...
+</p>
+
+
 </div>
+
+
+
+</div>
+
+
 
 
 
@@ -82,6 +65,10 @@
 
 <script src="js/supabase.js"></script>
 
+<script src="js/auth.js"></script>
+
+<script src="js/sidebar.js"></script>
+
 
 
 
@@ -89,25 +76,13 @@
 <script>
 
 
+verificarLogin();
+
+
+
+
 
 async function carregarObras(){
-
-
-
-if(typeof banco === "undefined"){
-
-
-document.getElementById("listaObras").innerHTML =
-
-"❌ Banco não conectado";
-
-
-return;
-
-
-}
-
-
 
 
 
@@ -123,8 +98,7 @@ const {data,error}=await banco
 
 
 
-let lista=document.getElementById("listaObras");
-
+const lista=document.getElementById("listaObras");
 
 
 
@@ -132,16 +106,11 @@ let lista=document.getElementById("listaObras");
 
 if(error){
 
-
 console.log(error);
 
-
-lista.innerHTML =
-"❌ Erro ao carregar obras";
-
+lista.innerHTML="❌ Erro ao carregar obras";
 
 return;
-
 
 }
 
@@ -149,20 +118,16 @@ return;
 
 
 
+if(!data || data.length===0){
 
-if(!data || data.length === 0){
 
-
-lista.innerHTML =
-"Nenhuma obra cadastrada";
+lista.innerHTML="Nenhuma obra cadastrada";
 
 
 return;
 
 
 }
-
-
 
 
 
@@ -174,10 +139,7 @@ lista.innerHTML="";
 
 
 
-
 data.forEach(obra=>{
-
-
 
 
 
@@ -197,7 +159,9 @@ lista.innerHTML += `
 
 <p>
 
-📍 ${obra.endereco}
+📍 Endereço:
+
+${obra.endereco || "Não informado"}
 
 </p>
 
@@ -206,7 +170,8 @@ lista.innerHTML += `
 <p>
 
 👷 Responsável:
-${obra.responsavel}
+
+${obra.responsavel || "Não informado"}
 
 </p>
 
@@ -215,7 +180,8 @@ ${obra.responsavel}
 <p>
 
 📅 Início:
-${obra.data_inicio}
+
+${obra.inicio || "-"}
 
 </p>
 
@@ -224,7 +190,8 @@ ${obra.data_inicio}
 <p>
 
 📌 Status:
-${obra.status}
+
+${obra.status || "Ativa"}
 
 </p>
 
@@ -234,17 +201,17 @@ ${obra.status}
 
 
 
-<button onclick="abrirObra(${obra.id})">
+<button onclick="verObra(${obra.id})">
 
-🏢 Ver detalhes
+👁 Ver detalhes
 
 </button>
 
 
 
-<button onclick="deletarObra(${obra.id})">
+<button onclick="excluirObra(${obra.id})">
 
-🗑 Excluir Obra
+🗑 Excluir
 
 </button>
 
@@ -253,9 +220,8 @@ ${obra.status}
 </div>
 
 
+
 `;
-
-
 
 
 
@@ -263,22 +229,6 @@ ${obra.status}
 
 
 
-
-}
-
-
-
-
-
-
-
-function abrirObra(id){
-
-
-window.location.href =
-"detalhes_obra.html?id=" + id;
-
-
 }
 
 
@@ -289,24 +239,34 @@ window.location.href =
 
 
 
-async function deletarObra(id){
+function verObra(id){
+
+
+window.location.href="detalhes_obra.html?id="+id;
+
+
+}
 
 
 
-let confirmar =
-confirm(
-"⚠️ Tem certeza que deseja excluir esta obra?"
+
+
+
+
+
+
+async function excluirObra(id){
+
+
+const confirmar = confirm(
+
+"Deseja excluir esta obra?"
+
 );
 
 
 
-
-
-if(!confirmar){
-
-return;
-
-}
+if(!confirmar)return;
 
 
 
@@ -324,33 +284,26 @@ const {error}=await banco
 
 
 
-
 if(error){
-
-
-alert("❌ Erro ao excluir obra");
-
 
 console.log(error);
 
+alert("Erro ao excluir");
+
+return;
 
 }
 
-else{
 
 
-alert("✅ Obra excluída com sucesso!");
+alert("Obra excluída");
 
 
 carregarObras();
 
 
-}
-
-
 
 }
-
 
 
 
@@ -362,7 +315,6 @@ carregarObras();
 
 
 </script>
-
 
 
 
