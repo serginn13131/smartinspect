@@ -32,13 +32,11 @@ Controle das inspeções realizadas nas obras
 
 
 
-
-<button onclick="location.href='nova-inspecao.html'">
+<button onclick="location.href='nova_inspecao.html'">
 
 ➕ Nova Inspeção
 
 </button>
-
 
 
 
@@ -63,7 +61,6 @@ Carregando inspeções...
 
 
 
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="js/supabase.js"></script>
@@ -79,7 +76,15 @@ Carregando inspeções...
 <script>
 
 
-verificarLogin();
+// proteção
+
+if(!protegerPagina("inspecoes")){
+
+throw new Error("Sem permissão");
+
+}
+
+
 
 
 
@@ -112,7 +117,10 @@ nome
 
 
 
+
+
 const lista=document.getElementById("listaInspecoes");
+
 
 
 
@@ -120,13 +128,22 @@ const lista=document.getElementById("listaInspecoes");
 
 if(error){
 
+
 console.log(error);
 
-lista.innerHTML="❌ Erro ao carregar inspeções";
+
+lista.innerHTML=
+
+"❌ Erro ao carregar inspeções";
+
 
 return;
 
+
 }
+
+
+
 
 
 
@@ -135,7 +152,9 @@ return;
 if(!data || data.length===0){
 
 
-lista.innerHTML="Nenhuma inspeção cadastrada";
+lista.innerHTML=
+
+"Nenhuma inspeção cadastrada";
 
 
 return;
@@ -147,7 +166,13 @@ return;
 
 
 
+
+
+
 lista.innerHTML="";
+
+
+
 
 
 
@@ -174,6 +199,7 @@ lista.innerHTML += `
 
 
 
+
 <p>
 
 🏢 Obra:
@@ -185,13 +211,15 @@ ${inspecao.obras?.nome || "Sem obra"}
 
 
 
+
 <p>
 
 🔧 Tipo:
 
-${inspecao.tipo || "Não informado"}
+${inspecao.tipo || "-"}
 
 </p>
+
 
 
 
@@ -200,9 +228,10 @@ ${inspecao.tipo || "Não informado"}
 
 👷 Responsável:
 
-${inspecao.responsavel || "Não informado"}
+${inspecao.responsavel || "-"}
 
 </p>
+
 
 
 
@@ -215,16 +244,6 @@ ${inspecao.data_inspecao || "-"}
 
 </p>
 
-
-
-
-<p>
-
-📝 Observação:
-
-${inspecao.observacao || "Sem observações"}
-
-</p>
 
 
 
@@ -241,9 +260,23 @@ ${inspecao.status || "Pendente"}
 
 
 
+<p>
+
+📝 Observação:
+
+${inspecao.observacao || "Sem observações"}
+
+</p>
+
+
+
+
+
+
+
 <button onclick="verInspecao(${inspecao.id})">
 
-👁 Ver
+👁 Ver detalhes
 
 </button>
 
@@ -263,8 +296,8 @@ ${inspecao.status || "Pendente"}
 
 
 
-}
 
+}
 
 
 
@@ -276,10 +309,13 @@ ${inspecao.status || "Pendente"}
 function verInspecao(id){
 
 
-window.location.href="detalhes_inspecao.html?id="+id;
+window.location.href=
+
+"detalhes_inspecao.html?id="+id;
 
 
 }
+
 
 
 
@@ -292,6 +328,27 @@ carregarInspecoes();
 
 
 </script>
+
+
+
+
+
+<footer class="rodape">
+
+<p>
+🚀 SmartInspect AI
+</p>
+
+<p>
+Desenvolvido por <strong>Sérgio and Gabriel</strong>
+</p>
+
+<p>
+Versão 1.0.1
+</p>
+
+</footer>
+
 
 
 
