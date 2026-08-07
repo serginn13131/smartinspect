@@ -49,8 +49,8 @@
         $('mensagemRelatorio').textContent = `Relatório ${numero} enviado para ${destinatario}.`;
       } catch (erro) {
         console.error(erro);
-        const detalhe = String(erro?.message || erro || '');
-        $('mensagemRelatorio').textContent = detalhe.toLowerCase().includes('not found') || detalhe.toLowerCase().includes('404')
+        const detalhe = String(erro?.message || erro || '').toLowerCase();
+        $('mensagemRelatorio').textContent = detalhe.includes('not found') || detalhe.includes('404') || detalhe.includes('failed to send a request') || detalhe.includes('edge function')
           ? 'A função de envio ainda não foi publicada no Supabase. Publique “enviar-relatorio” e tente novamente.'
           : 'O PDF foi preparado, mas o envio não foi concluído. Confira CORS, os segredos do servidor e a configuração do serviço de e-mail.';
       }
