@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Equipe - SmartInspect AI</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+
+.equipe-grid{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:20px;
+
+}
+
+
+.membro{
+
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 3px 10px #0002;
+
+display:flex;
+align-items:center;
+gap:15px;
+
+}
+
+
+.foto-perfil{
+
+width:70px;
+height:70px;
+border-radius:50%;
+object-fit:cover;
+
+}
+
+
+.status{
+
+font-size:14px;
+
+}
+
+
+.online{
+
+color:green;
+
+}
+
+
+.offline{
+
+color:gray;
+
+}
+
+
+.cargo{
+
+background:#0066cc;
+color:white;
+padding:5px 10px;
+border-radius:10px;
+font-size:13px;
+
+}
+
+
+.permissoes{
+
+margin-top:10px;
+font-size:13px;
+
+}
+
+
+select{
+
+margin-top:10px;
+padding:8px;
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="sidebar">
+
+<h2>🏗 SmartInspect AI</h2>
+
+<a href="index.html">📊 Dashboard</a>
+<a href="obras.html">🏢 Obras</a>
+<a href="inspecoes.html">📋 Inspeções</a>
+<a href="relatorios.html">📄 Relatórios</a>
+<a href="equipe.html">👥 Equipe</a>
+
+</div>
+
+
+
+<div class="content">
+
+
+<h1>👥 Equipe</h1>
+
+<p>Usuários conectados e níveis de acesso</p>
+
+
+
+<div id="listaEquipe" class="equipe-grid">
+
+Carregando equipe...
+
+</div>
+
+
+</div>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+
+
+
+<script>
+
+
+let equipe=[];
+
+
+// carregar equipe
+
+async function carregarEquipe(){
+
+
+const {data,error}=await banco
+
+.from("equipe")
+
+.select("*")
+
+.order("id",{ascending:false});
+
+
+
+if(error){
+
+console.log(error);
+
+document.getElementById("listaEquipe").innerHTML=
+"Erro ao carregar equipe";
+
+return;
+
+}
+
+
+equipe=data || [];
+
+
+mostrarEquipe();
+
+
+}
+
+
+
+
+function mostrarEquipe(){
+
+
+const lista=document.getElementById("listaEquipe");
+
+
+lista.innerHTML="";
+
+
+
+equipe.forEach(usuario=>{
+
+
+lista.innerHTML +=
+
+`
+
+<div class="membro">
+
+
+<img class="foto-perfil"
+
+src="${usuario.foto_url || 'img/avatar.png'}">
+
+
+<div>
+
+
+<h3>
+
+${usuario.nome || "Sem nome"}
+
+</h3>
+
+
+<p>
+
+${usuario.email}
+
+</p>
+
+
+
+<span class="cargo">
+
+${usuario.nivel_acesso}
+
+</span>
+
+
+
+<p class="status ${usuario.online?'online':'offline'}">
+
+● 
+${usuario.online?'Online':'Offline'}
+
+</p>
+
+
+
+<p>
+
+Último acesso:
+
+${usuario.ultimo_acesso 
+? new Date(usuario.ultimo_acesso).toLocaleString()
+: "Nunca"}
+
+</p>
+
+
+
+<div class="permissoes">
+
+
+${usuario.aprovar_inspecao 
+? "✅ Aprova inspeções<br>"
+:""}
+
+${usuario.gerenciar_usuarios
+? "✅ Gerencia usuários<br>"
+:""}
+
+${usuario.criar_inspecao
+? "✅ Cria inspeções"
+:""}
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+`;
+
+
+});
+
+
+}
+
+
+
+
+carregarEquipe();
+
+
+</script>
+
+
+</body>
+
+</html>
