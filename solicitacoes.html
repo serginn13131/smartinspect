@@ -11,6 +11,84 @@
 
 <link rel="stylesheet" href="css/style.css">
 
+<style>
+
+.solicitacao-card {
+
+background: white;
+padding: 22px;
+border-radius: 16px;
+margin-bottom: 18px;
+box-shadow: 0 4px 14px rgba(0,0,0,.10);
+
+}
+
+.solicitacao-card h2 {
+
+margin-top: 0;
+
+}
+
+.cargo-select {
+
+width: 100%;
+padding: 12px;
+margin-top: 8px;
+margin-bottom: 15px;
+border-radius: 8px;
+border: 1px solid #ccc;
+font-size: 15px;
+
+}
+
+.acoes {
+
+display: flex;
+gap: 10px;
+flex-wrap: wrap;
+
+}
+
+.btn-aprovar {
+
+background: #16a34a;
+color: white;
+border: none;
+padding: 11px 18px;
+border-radius: 8px;
+cursor: pointer;
+
+}
+
+.btn-recusar {
+
+background: #dc2626;
+color: white;
+border: none;
+padding: 11px 18px;
+border-radius: 8px;
+cursor: pointer;
+
+}
+
+.btn-aprovar:hover,
+.btn-recusar:hover {
+
+opacity: .85;
+
+}
+
+.vazio {
+
+background: white;
+padding: 25px;
+border-radius: 15px;
+text-align: center;
+
+}
+
+</style>
+
 </head>
 
 
@@ -18,7 +96,6 @@
 
 
 <div class="sidebar">
-
 
 <div class="logo">
 
@@ -33,8 +110,6 @@
 
 <a href="imoveis.html">🏠 Imóveis</a>
 
-<a href="criar.html">➕ Criar</a>
-
 <a href="obras.html">🏢 Obras</a>
 
 <a href="inspecoes.html">📋 Inspeções</a>
@@ -46,6 +121,8 @@
 <a href="relatorios.html">📄 Relatórios</a>
 
 <a href="equipe.html">👷 Equipe</a>
+
+<a href="usuarios.html">👥 Usuários</a>
 
 <a href="solicitacoes.html">👤 Solicitações</a>
 
@@ -59,10 +136,7 @@
 
 </a>
 
-
 </div>
-
-
 
 
 
@@ -71,28 +145,25 @@
 
 <h1>👤 Solicitações de Acesso</h1>
 
-
 <p>
-Aprovação de novos usuários
-</p>
 
+Aprovação de novos usuários do SmartInspect AI
+
+</p>
 
 
 
 <div id="listaSolicitacoes">
 
-
-Carregando...
-
+Carregando solicitações...
 
 </div>
 
 
+<p id="mensagem"></p>
+
+
 </div>
-
-
-
-
 
 
 
@@ -102,153 +173,224 @@ Carregando...
 
 <script src="js/auth.js"></script>
 
+<script src="js/sidebar.js"></script>
+
 
 
 <script>
 
-
 verificarLogin();
 
 
-
-
-
-// Verifica administrador
 
 const usuarioLogado =
 JSON.parse(localStorage.getItem("usuario"));
 
 
 
-if(!usuarioLogado || usuarioLogado.nivel_acesso !== "admin"){
+/*
+==================================================
+VERIFICAÇÃO DO ADMINISTRADOR
+==================================================
+*/
 
-alert("Acesso permitido somente para administradores");
+if (
+!usuarioLogado ||
+usuarioLogado.nivel_acesso !== "adm"
+) {
 
-window.location.href="index.html";
+alert("❌ Você não tem permissão para acessar esta área.");
+
+window.location.href = "index.html";
 
 }
 
 
 
+/*
+==================================================
+CARREGAR SOLICITAÇÕES
+==================================================
+*/
+
+async function carregarSolicitacoes() {
+
+
+const lista =
+document.getElementById("listaSolicitacoes");
+
+
+lista.innerHTML =
+"🔄 Carregando solicitações...";
 
 
 
-
-async function carregarSolicitacoes(){
-
-
-
-const {data,error}=await banco
+const { data, error } = await banco
 
 .from("usuarios")
 
 .select("*")
 
-.eq("status","pendente")
+.eq("status", "pendente")
 
-.order("id",{ascending:false});
-
-
+.order("id", { ascending: false });
 
 
 
-const lista=document.getElementById("listaSolicitacoes");
+if (error) {
 
+console.error(error);
 
+lista.innerHTML = `
 
+<div class="vazio">
 
+❌ Erro ao carregar solicitações.
 
-if(error){
+<br><br>
 
+${error.message}
 
-console.log(error);
+</div>
 
-lista.innerHTML="❌ Erro ao carregar solicitações";
+`;
 
 return;
-
 
 }
 
 
 
+if (!data || data.length === 0) {
 
+lista.innerHTML = `
 
-if(!data || data.length===0){
+<div class="vazio">
 
+<h2>✅ Tudo certo!</h2>
 
-lista.innerHTML="✅ Nenhuma solicitação pendente";
+<p>
+
+Não existem solicitações pendentes.
+
+</p>
+
+</div>
+
+`;
 
 return;
-
 
 }
 
 
 
+lista.innerHTML = "";
 
 
 
-
-lista.innerHTML="";
-
-
-
-
-
-data.forEach(usuario=>{
-
+data.forEach(usuario => {
 
 
 lista.innerHTML += `
 
-
-<div class="card">
+<div class="solicitacao-card">
 
 
 <h2>
-👤 ${usuario.nome}
+
+👤 ${usuario.nome || "Sem nome"}
+
 </h2>
 
 
 <p>
-📧 ${usuario.email}
+
+📧 <strong>E-mail:</strong>
+
+${usuario.email || "Não informado"}
+
 </p>
 
 
 <p>
-Atual cargo solicitado:
-<b>${usuario.nivel_acesso}</b>
+
+📌 <strong>Status atual:</strong>
+
+${usuario.status || "pendente"}
+
+</p>
+
+
+<p>
+
+🎫 <strong>Cargo solicitado:</strong>
+
+${usuario.nivel_acesso || "usuario"}
+
 </p>
 
 
 
 <label>
-Definir acesso:
+
+<strong>Definir nível de acesso:</strong>
+
 </label>
 
 
 
-<select id="cargo_${usuario.id}">
+<select
+
+class="cargo-select"
+
+id="cargo_${usuario.id}"
+
+>
 
 
-<option value="empresa">
-🏢 Administrador Empresa
+<option value="usuario"
+
+${usuario.nivel_acesso === "usuario" ? "selected" : ""}>
+
+👤 Usuário
+
 </option>
 
 
-<option value="engenheiro">
-👷 Engenheiro
+<option value="tecnico"
+
+${usuario.nivel_acesso === "tecnico" ? "selected" : ""}>
+
+🔧 Técnico
+
 </option>
 
 
-<option value="inspetor">
+<option value="inspetor"
+
+${usuario.nivel_acesso === "inspetor" ? "selected" : ""}>
+
 🔍 Inspetor
+
 </option>
 
 
-<option value="campo">
-📷 Campo
+<option value="engenheiro"
+
+${usuario.nivel_acesso === "engenheiro" ? "selected" : ""}>
+
+👷 Engenheiro
+
+</option>
+
+
+<option value="adm"
+
+${usuario.nivel_acesso === "adm" ? "selected" : ""}>
+
+👑 Administrador
+
 </option>
 
 
@@ -256,123 +398,83 @@ Definir acesso:
 
 
 
-<br><br>
+<div class="acoes">
 
 
+<button
 
-<button onclick="aceitarUsuario('${usuario.id}')">
+class="btn-aprovar"
 
-✅ Aprovar
+onclick="aceitarUsuario(${usuario.id})">
+
+✅ Aprovar cadastro
 
 </button>
 
 
 
+<button
 
-<button onclick="recusarUsuario('${usuario.id}')">
+class="btn-recusar"
+
+onclick="recusarUsuario(${usuario.id})">
 
 ❌ Recusar
 
 </button>
 
 
-
 </div>
 
 
+</div>
+
 `;
-
-
 
 });
 
 
-
 }
 
 
 
+/*
+==================================================
+APROVAR USUÁRIO
+==================================================
+*/
+
+async function aceitarUsuario(id) {
 
 
+const select =
+document.getElementById("cargo_" + id);
 
 
+if (!select) {
 
-
-async function aceitarUsuario(id){
-
-
-
-const cargo =
-
-document.getElementById("cargo_"+id).value;
-
-
-
-
-
-const {error}=await banco
-
-.from("usuarios")
-
-.update({
-
-status:"ativo",
-
-nivel_acesso:cargo
-
-})
-
-.eq("id",id);
-
-
-
-
-
-if(error){
-
-
-console.log(error);
-
-alert("Erro ao aprovar usuário");
+alert("❌ Não foi possível encontrar o cargo.");
 
 return;
 
-
 }
 
 
 
-
-
-alert("✅ Usuário aprovado!");
-
-carregarSolicitacoes();
-
-
-}
-
-
-
-
-
-
-
-
-
-
-async function recusarUsuario(id){
+const cargo = select.value;
 
 
 
 const confirmar = confirm(
 
-"Deseja recusar este cadastro?"
+" Aprovar este usuário como " +
+cargo +
+"?"
 
 );
 
 
-
-if(!confirmar){
+if (!confirmar) {
 
 return;
 
@@ -380,59 +482,144 @@ return;
 
 
 
-
-
-const {error}=await banco
+const { data, error } = await banco
 
 .from("usuarios")
 
 .update({
 
-status:"recusado"
+status: "ativo",
+
+nivel_acesso: cargo
 
 })
 
-.eq("id",id);
+.eq("id", id)
+
+.select();
 
 
 
+console.log("Resultado aprovação:", data);
+
+console.log("Erro aprovação:", error);
 
 
 
+if (error) {
 
-if(error){
+console.error(error);
 
+alert(
 
-console.log(error);
+"❌ Não foi possível aprovar o usuário:\n\n" +
+error.message
 
-alert("Erro ao recusar");
+);
 
 return;
 
-
 }
 
 
 
+alert(
 
+"✅ Cadastro aprovado!\n\n" +
+"Cargo definido: " +
+cargo
 
-alert("❌ Usuário recusado");
-
-
-carregarSolicitacoes();
-
-
-}
-
-
-
-
+);
 
 
 
 carregarSolicitacoes();
 
+}
 
+
+
+/*
+==================================================
+RECUSAR USUÁRIO
+==================================================
+*/
+
+async function recusarUsuario(id) {
+
+
+const confirmar = confirm(
+
+"Deseja realmente recusar este cadastro?"
+
+);
+
+
+
+if (!confirmar) {
+
+return;
+
+}
+
+
+
+const { data, error } = await banco
+
+.from("usuarios")
+
+.update({
+
+status: "recusado"
+
+})
+
+.eq("id", id)
+
+.select();
+
+
+
+console.log("Resultado recusa:", data);
+
+console.log("Erro recusa:", error);
+
+
+
+if (error) {
+
+console.error(error);
+
+alert(
+
+"❌ Não foi possível recusar o cadastro:\n\n" +
+error.message
+
+);
+
+return;
+
+}
+
+
+
+alert("❌ Cadastro recusado.");
+
+
+
+carregarSolicitacoes();
+
+}
+
+
+
+/*
+==================================================
+INICIAR
+==================================================
+*/
+
+carregarSolicitacoes();
 
 </script>
 
