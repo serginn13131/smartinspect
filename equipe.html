@@ -16,34 +16,87 @@
 .equipe-grid{
 
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
 gap:20px;
 
 }
 
 
+
 .membro{
 
 background:white;
+
 padding:20px;
+
 border-radius:15px;
+
 box-shadow:0 3px 10px #0002;
 
 display:flex;
+
 align-items:center;
+
 gap:15px;
 
 }
 
 
-.foto-perfil{
 
-width:70px;
-height:70px;
-border-radius:50%;
-object-fit:cover;
+.avatar-box{
+
+position:relative;
 
 }
+
+
+
+.foto-perfil{
+
+width:80px;
+
+height:80px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+border:3px solid #0066cc;
+
+background:#eee;
+
+}
+
+
+
+.ponto-online{
+
+position:absolute;
+
+right:5px;
+
+bottom:5px;
+
+width:16px;
+
+height:16px;
+
+border-radius:50%;
+
+background:#999;
+
+border:2px solid white;
+
+}
+
+
+
+.ponto-online.ativo{
+
+background:green;
+
+}
+
 
 
 .status{
@@ -53,11 +106,13 @@ font-size:14px;
 }
 
 
+
 .online{
 
 color:green;
 
 }
+
 
 
 .offline{
@@ -67,9 +122,11 @@ color:gray;
 }
 
 
+
 .cargo{
 
 background:#0066cc;
+
 color:white;
 
 padding:5px 10px;
@@ -81,15 +138,19 @@ font-size:13px;
 }
 
 
+
 .permissoes{
 
 margin-top:10px;
+
 font-size:13px;
 
 }
 
 
+
 </style>
+
 
 </head>
 
@@ -135,6 +196,8 @@ Carregando equipe...
 
 <script src="js/sidebar.js"></script>
 
+<script src="js/auth.js"></script>
+
 
 
 <script>
@@ -147,6 +210,7 @@ let equipe=[];
 async function carregarEquipe(){
 
 
+
 const {data,error}=await banco
 
 .from("usuarios")
@@ -157,18 +221,25 @@ const {data,error}=await banco
 
 
 
+
+
 if(error){
+
 
 console.log(error);
 
 
-document.getElementById("listaEquipe").innerHTML =
-"Erro ao carregar equipe";
+document.getElementById("listaEquipe").innerHTML=
+
+"❌ Erro ao carregar equipe";
 
 
 return;
 
+
 }
+
+
 
 
 
@@ -178,14 +249,17 @@ equipe=data || [];
 mostrarEquipe();
 
 
-
 }
 
 
 
 
 
+
+
+
 function mostrarEquipe(){
+
 
 
 const lista=document.getElementById("listaEquipe");
@@ -195,18 +269,103 @@ lista.innerHTML="";
 
 
 
+
+
 if(equipe.length===0){
 
-lista.innerHTML="Nenhum usuário encontrado.";
+
+lista.innerHTML=
+
+"Nenhum usuário encontrado.";
+
 
 return;
+
 
 }
 
 
 
 
+
+
+
 equipe.forEach(usuario=>{
+
+
+
+let permissoes="";
+
+
+
+
+
+if(usuario.nivel_acesso==="adm"){
+
+
+permissoes=
+
+"✅ Controle total do sistema";
+
+
+}
+
+
+
+
+if(usuario.nivel_acesso==="engenheiro"){
+
+
+permissoes=
+
+"✅ Obras<br>✅ Inspeções<br>✅ Relatórios<br>✅ IA";
+
+
+}
+
+
+
+
+if(usuario.nivel_acesso==="inspetor"){
+
+
+permissoes=
+
+"✅ Inspeções<br>✅ Fotos<br>✅ Relatórios";
+
+
+}
+
+
+
+
+if(usuario.nivel_acesso==="tecnico"){
+
+
+permissoes=
+
+"✅ Obras<br>✅ Inspeções";
+
+
+}
+
+
+
+
+if(usuario.nivel_acesso==="usuario"){
+
+
+permissoes=
+
+"👁 Visualização";
+
+
+}
+
+
+
+
+
 
 
 
@@ -216,10 +375,27 @@ lista.innerHTML += `
 <div class="membro">
 
 
-<img 
+
+<div class="avatar-box">
+
+
+<img
+
 class="foto-perfil"
+
 src="${usuario.foto_url || 'imagens/avatar.png'}"
+
+onerror="this.src='imagens/avatar.png'"
+
 >
+
+
+<span class="ponto-online ${usuario.online ? 'ativo':''}"></span>
+
+
+</div>
+
+
 
 
 
@@ -251,15 +427,14 @@ ${usuario.nivel_acesso || "usuario"}
 
 
 
+
 <p class="status ${usuario.online ? 'online':'offline'}">
 
-
-● 
-
-${usuario.online ? "Online":"Offline"}
-
+● ${usuario.online ? "Online":"Offline"}
 
 </p>
+
+
 
 
 
@@ -269,11 +444,17 @@ ${usuario.online ? "Online":"Offline"}
 
 <br>
 
-${usuario.ultimo_acesso 
+${usuario.ultimo_acesso
 
-? new Date(usuario.ultimo_acesso).toLocaleString()
+?
 
-: "Nunca"}
+new Date(usuario.ultimo_acesso).toLocaleString()
+
+:
+
+"Nunca"
+
+}
 
 </p>
 
@@ -282,49 +463,13 @@ ${usuario.ultimo_acesso
 
 <div class="permissoes">
 
-
-${usuario.nivel_acesso==="adm"
-
-? "✅ Controle total"
-
-:""
-}
-
-
-
-${usuario.nivel_acesso==="engenheiro"
-
-? "✅ Obras<br>✅ Inspeções<br>✅ Relatórios"
-
-:""
-}
-
-
-
-${usuario.nivel_acesso==="inspetor"
-
-? "✅ Criar inspeções<br>✅ Enviar fotos"
-
-:""
-}
-
-
-
-${usuario.nivel_acesso==="usuario"
-
-? "👁 Visualização"
-
-:""
-}
-
-
+${permissoes}
 
 </div>
 
 
 
 </div>
-
 
 
 </div>
@@ -337,20 +482,27 @@ ${usuario.nivel_acesso==="usuario"
 });
 
 
+
 }
 
 
 
 
 
-// Atualiza quando alguém muda no banco
+
+
+
+
+// REALTIME
+
 
 function ouvirOnline(){
 
 
+
 banco
 
-.channel("usuarios-online")
+.channel("equipe-tempo-real")
 
 .on(
 
@@ -368,7 +520,9 @@ table:"usuarios"
 
 ()=>{
 
+
 carregarEquipe();
+
 
 }
 
@@ -383,6 +537,9 @@ carregarEquipe();
 
 
 
+
+
+
 carregarEquipe();
 
 ouvirOnline();
@@ -390,6 +547,7 @@ ouvirOnline();
 
 
 </script>
+
 
 
 </body>
