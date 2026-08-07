@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relatórios — SmartInspect AI</title><link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <aside class="sidebar" aria-label="Navegação principal"><div class="logo"><img src="imagens/logo.png" alt="Logo SmartInspect AI"><h2>SmartInspect AI</h2></div><a href="index.html">📊 Dashboard</a><a href="obras.html">🏠 Imóveis</a><a href="obras.html">🏢 Obras</a><a href="inspecoes.html">📋 Inspeções</a><a href="estoque.html">📦 Estoque</a><a href="ia.html">🤖 IA</a><a href="relatorios.html" aria-current="page">📄 Relatórios</a><a href="equipe.html">👷 Equipe</a><a href="usuarios.html">👥 Usuários</a><a href="#" onclick="sair(); return false;">🚪 Sair</a></aside>
+  <main class="content">
+    <header class="page-header"><div><p class="eyebrow">DOCUMENTAÇÃO OPERACIONAL</p><h1>Relatórios</h1><p class="subtitle">Gere um PDF profissional e envie automaticamente por e-mail.</p></div><span class="status-pill">PDF + e-mail</span></header>
+    <section class="card report-toolbar"><label>E-mail do destinatário<input id="destinatario" type="email" placeholder="cliente@empresa.com" required></label><p class="photo-note">A chave do serviço de e-mail permanece protegida no servidor. O navegador nunca acessa essa credencial.</p></section>
+    <section id="listaRelatorios" class="report-list"><div class="loading-row"><span class="loading-dot"></span> Carregando inspeções...</div></section>
+    <p id="mensagemRelatorio" class="dashboard-message" role="status"></p>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="js/supabase.js"></script><script src="js/auth.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    verificarLogin();
+    const $ = id => document.getElementById(id);
+    const escapeHtml = valor => String(valor ?? '').replace(/[&<>"']/g, caractere => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#039;' }[caractere]));
+    let inspecoes = [];
+
+    async function carregarInspecoes() {
+      const { data, error } = await banco.from('inspecoes').select('id,tipo,data_inspecao,responsavel,observacao,status,obra_id,obras(nome,endereco)').order('id', { ascending: false });
+      if (error) { $('listaRelatorios').innerHTML = '<div class="card empty-state">Não foi possível carregar as inspeções.</div>'; return; }
+      inspecoes = data ?? [];
+      if (!inspecoes.length) { $('listaRelatorios').innerHTML = '<div class="card empty-state">Nenhuma inspeção disponível para gerar relatório.</div>'; return; }
+      $('listaRelatorios').innerHTML = inspecoes.map(inspecao => `<article class="card report-row"><div><p class="eyebrow">INSPEÇÃO #${inspecao.id}</p><h2>${escapeHtml(inspecao.tipo)} · ${escapeHtml(inspecao.obras?.nome || 'Sem obra')}</h2><p class="report-meta">${escapeHtml(inspecao.data_inspecao)} · Responsável: ${escapeHtml(inspecao.responsavel)} · Status: ${escapeHtml(inspecao.status)}</p></div><button class="primary-button" type="button" onclick="gerarEEnviar(${inspecao.id})">✉ Gerar e enviar PDF</button></article>`).join('');
+    }
+
+    function gerarPdf(inspecao) {
+      const { jsPDF } = window.jspdf; const pdf = new jsPDF(); const numero = `SI-${new Date().getFullYear()}-${String(inspecao.id).padStart(5, '0')}`;
+      pdf.setFillColor(0, 102, 204); pdf.rect(0, 0, 210, 28, 'F'); pdf.setTextColor(255, 255, 255); pdf.setFontSize(18); pdf.text('SmartInspect AI', 16, 18); pdf.setFontSize(9); pdf.text('RELATÓRIO TÉCNICO DE INSPEÇÃO', 137, 18);
+      pdf.setTextColor(16, 42, 67); pdf.setFontSize(16); pdf.text('Relatório de Inspeção', 16, 48); pdf.setFontSize(10); pdf.text(`Número: ${numero}`, 16, 58); pdf.text(`Data: ${inspecao.data_inspecao || new Date().toLocaleDateString('pt-BR')}`, 16, 66);
+      pdf.setFontSize(12); pdf.text('Dados da obra', 16, 84); pdf.setFontSize(10); pdf.text(`Obra: ${String(inspecao.obras?.nome || 'Não informada').slice(0, 90)}`, 16, 94); pdf.text(`Endereço: ${String(inspecao.obras?.endereco || 'Não informado').slice(0, 90)}`, 16, 102);
+      pdf.setFontSize(12); pdf.text('Resultado da inspeção', 16, 122); pdf.setFontSize(10); pdf.text(`Tipo: ${inspecao.tipo}`, 16, 132); pdf.text(`Responsável: ${String(inspecao.responsavel || '').slice(0, 90)}`, 16, 140); pdf.text(`Status: ${inspecao.status}`, 16, 148);
+      pdf.setFontSize(12); pdf.text('Observações', 16, 168); pdf.setFontSize(10); pdf.text(pdf.splitTextToSize(inspecao.observacao || 'Nenhuma observação registrada.', 178), 16, 178);
+      pdf.setTextColor(98, 125, 152); pdf.setFontSize(8); pdf.text('Documento gerado automaticamente pelo SmartInspect AI.', 16, 285); return { pdf, numero };
+    }
+
+    async function gerarEEnviar(id) {
+      const destinatario = $('destinatario').value.trim(); if (!destinatario) { $('mensagemRelatorio').textContent = 'Informe o e-mail do destinatário antes de enviar.'; $('destinatario').focus(); return; }
+      const inspecao = inspecoes.find(item => item.id === id); if (!inspecao) return; $('mensagemRelatorio').textContent = 'Gerando PDF e enviando e-mail...';
+      try {
+        const { pdf, numero } = gerarPdf(inspecao); const dataUri = pdf.output('datauristring'); const pdfBase64 = dataUri.split(',')[1]; const nomeArquivo = `${numero}.pdf`;
+        const registro = await banco.from('relatorios').insert([{ inspecao_id: id, obra_id: inspecao.obra_id, numero, destinatario_email: destinatario, status: 'pendente' }]).select('id').single();
+        const { data, error } = await banco.functions.invoke('enviar-relatorio', { body: { destinatario, nomeArquivo, pdfBase64, numeroRelatorio: numero, assunto: `Relatório de inspeção ${numero}` } });
+        if (error || !data?.ok) throw new Error(error?.message || data?.error || 'Falha no envio');
+        if (registro.data?.id) await banco.from('relatorios').update({ status: 'enviado', enviado_em: new Date().toISOString() }).eq('id', registro.data.id);
+        $('mensagemRelatorio').textContent = `Relatório ${numero} enviado para ${destinatario}.`;
+      } catch (erro) { console.error(erro); $('mensagemRelatorio').textContent = 'O PDF foi preparado, mas o envio não foi concluído. Confira a configuração do serviço de e-mail.'; }
+    }
+    carregarInspecoes();
+  </script>
+</body>
+</html>
