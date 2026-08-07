@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -47,12 +48,12 @@ Solicite acesso ao sistema
 Nome completo
 </label>
 
-<input 
+<input
 id="nome"
 type="text"
-placeholder="Digite seu nome">
-
-
+placeholder="Digite seu nome"
+autocomplete="name"
+>
 
 
 
@@ -60,12 +61,12 @@ placeholder="Digite seu nome">
 Email
 </label>
 
-<input 
+<input
 id="email"
 type="email"
-placeholder="Digite seu email">
-
-
+placeholder="Digite seu email"
+autocomplete="email"
+>
 
 
 
@@ -73,57 +74,67 @@ placeholder="Digite seu email">
 Senha
 </label>
 
-<input 
+<input
 id="senha"
 type="password"
-placeholder="Crie uma senha">
-
-
+placeholder="Crie uma senha"
+autocomplete="new-password"
+>
 
 
 
 <label>
-Tipo de acesso
+Cargo solicitado
 </label>
 
 
 <select id="nivel">
 
-
-<option value="campo">
-📷 Usuário de Campo
+<option value="usuario">
+👤 Usuário
 </option>
 
+<option value="tecnico">
+🔧 Técnico
+</option>
 
 <option value="inspetor">
 🔍 Inspetor
 </option>
 
-
 <option value="engenheiro">
-🏗 Engenheiro / Arquiteto / Técnico
+👷 Engenheiro
 </option>
-
 
 </select>
 
 
 
+<p style="font-size:13px;">
+
+ℹ️ O cargo escolhido será analisado pelo administrador.
+O acesso só será liberado após aprovação.
+
+</p>
 
 
-<button onclick="cadastrar()">
 
-➕ Criar conta
+<button
+type="button"
+onclick="cadastrar()"
+>
+
+➕ Solicitar acesso
 
 </button>
 
 
 
-
-
-<button 
+<button
+type="button"
 class="voltar"
-onclick="location.href='login.html'">
+onclick="location.href='login.html'"
+>
 
 ⬅ Voltar
 
@@ -134,19 +145,15 @@ onclick="location.href='login.html'">
 <p id="mensagem"></p>
 
 
-
-</div>
-
 </div>
 
 
+</div>
 
 
 
 
 <script src="js/supabase.js"></script>
-
-
 
 
 <script>
@@ -155,13 +162,12 @@ onclick="location.href='login.html'">
 async function cadastrar(){
 
 
-
 const nome =
 document.getElementById("nome").value.trim();
 
 
 const email =
-document.getElementById("email").value.trim();
+document.getElementById("email").value.trim().toLowerCase();
 
 
 const senha =
@@ -172,20 +178,22 @@ const nivel =
 document.getElementById("nivel").value;
 
 
-
 const mensagem =
 document.getElementById("mensagem");
 
 
 
+/*
+==================================================
+VALIDAÇÃO
+==================================================
+*/
 
 
-if(!nome || !email || !senha){
-
+if(!nome){
 
 mensagem.innerHTML =
-"❌ Preencha todos os campos";
-
+"❌ Informe seu nome.";
 
 return;
 
@@ -193,38 +201,78 @@ return;
 
 
 
+if(!email){
 
 mensagem.innerHTML =
-"⏳ Criando usuário...";
+"❌ Informe seu email.";
+
+return;
+
+}
 
 
 
+if(!senha){
+
+mensagem.innerHTML =
+"❌ Crie uma senha.";
+
+return;
+
+}
 
 
 
-// CRIA USUÁRIO NO SUPABASE AUTH
+if(senha.length < 6){
+
+mensagem.innerHTML =
+"❌ A senha precisa ter pelo menos 6 caracteres.";
+
+return;
+
+}
 
 
-const {data,error} =
 
+/*
+==================================================
+INICIANDO
+==================================================
+*/
+
+
+mensagem.innerHTML =
+"⏳ Criando sua solicitação...";
+
+
+
+try {
+
+
+/*
+==================================================
+CRIAR CONTA NO SUPABASE AUTH
+==================================================
+*/
+
+
+const { data, error } =
 await banco.auth.signUp({
 
-email:email,
+email: email,
 
-password:senha
+password: senha
 
 });
 
 
 
-
-
 if(error){
 
+console.error(error);
 
 mensagem.innerHTML =
-"❌ "+error.message;
-
+"❌ " + error.message;
 
 return;
 
@@ -232,12 +280,33 @@ return;
 
 
 
+if(!data || !data.user){
+
+mensagem.innerHTML =
+"❌ Não foi possível criar a conta.";
+
+return;
+
+}
 
 
-// SALVA NA TABELA USUARIOS
+
+/*
+==================================================
+SALVAR USUÁRIO
+==================================================
+
+IMPORTANTE:
+
+O usuário SEMPRE começa como pendente.
+
+O ADM define o cargo definitivo
+na tela de solicitações.
+
+*/
 
 
-const {error:erroBanco}=
+const { error: erroBanco } =
 
 await banco
 
@@ -245,76 +314,99 @@ await banco
 
 .insert([{
 
+auth_id: data.user.id,
 
-auth_id:data.user.id,
+nome: nome,
 
+email: email,
 
-nome:nome,
+nivel_acesso: nivel,
 
+status: "pendente",
 
-email:email,
+data_criacao: new Date().toISOString(),
 
-
-nivel_acesso:nivel,
-
-
-status:"pendente",
-
-
-data_criacao:new Date()
-
+online: false
 
 }]);
 
 
 
-
-
-
 if(erroBanco){
 
+console.error(erroBanco);
 
-console.log(erroBanco);
 
+/*
+Se o cadastro da tabela falhar,
+tentamos informar o usuário.
+*/
 
 mensagem.innerHTML =
 
-"❌ Erro ao salvar usuário: "+erroBanco.message;
-
+"❌ Erro ao criar cadastro: " +
+erroBanco.message;
 
 return;
 
-
 }
 
 
 
-
+/*
+==================================================
+SUCESSO
+==================================================
+*/
 
 
 mensagem.innerHTML =
 
-"✅ Cadastro enviado! Aguarde aprovação do administrador.";
+"✅ Solicitação enviada com sucesso!<br><br>" +
+
+"Seu cadastro está aguardando aprovação do administrador.";
 
 
 
+/*
+Limpar formulário
+*/
 
 
-document.getElementById("nome").value="";
-document.getElementById("email").value="";
-document.getElementById("senha").value="";
+document.getElementById("nome").value = "";
+
+document.getElementById("email").value = "";
+
+document.getElementById("senha").value = "";
+
+document.getElementById("nivel").value = "usuario";
 
 
 
 }
 
+catch(error){
 
+
+console.error(error);
+
+
+mensagem.innerHTML =
+
+"❌ Erro inesperado: " +
+error.message;
+
+
+}
+
+
+}
 
 
 </script>
 
 
-
 </body>
 
 </html>
+```
