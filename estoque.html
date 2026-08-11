@@ -22,17 +22,25 @@
 
 <main class="content">
 
-    <div class="page-header">
+    <header class="page-header">
 
         <div>
-            <p class="eyebrow">CONTROLE DE MATERIAIS</p>
 
-            <h1>📦 Estoque</h1>
+            <p class="eyebrow">
+                CONTROLE DE MATERIAIS
+            </p>
+
+            <h1>
+                📦 Estoque
+            </h1>
 
             <p class="subtitle">
-                Controle materiais, equipamentos e níveis de estoque da obra.
+                Controle materiais, equipamentos,
+                entradas e saídas da obra.
             </p>
+
         </div>
+
 
         <button
             class="primary-button"
@@ -42,16 +50,20 @@
 
         </button>
 
-    </div>
+    </header>
 
 
-    <!-- RESUMO -->
+    <!-- ==========================================
+         RESUMO
+    =========================================== -->
 
     <section class="dashboard-grid">
 
         <div class="card">
 
-            <p>Total de materiais</p>
+            <p>
+                Total de materiais
+            </p>
 
             <h2 id="totalMateriais">
                 0
@@ -62,7 +74,9 @@
 
         <div class="card">
 
-            <p>🟢 Disponíveis</p>
+            <p>
+                🟢 Estoque normal
+            </p>
 
             <h2 id="materiaisDisponiveis">
                 0
@@ -73,7 +87,9 @@
 
         <div class="card">
 
-            <p>🟠 Estoque baixo</p>
+            <p>
+                🟠 Estoque baixo
+            </p>
 
             <h2 id="materiaisBaixos">
                 0
@@ -84,7 +100,9 @@
 
         <div class="card">
 
-            <p>🔴 Sem estoque</p>
+            <p>
+                🔴 Sem estoque
+            </p>
 
             <h2 id="materiaisZerados">
                 0
@@ -95,12 +113,12 @@
     </section>
 
 
-    <!-- MENSAGEM -->
-
     <div id="mensagemEstoque"></div>
 
 
-    <!-- LISTA -->
+    <!-- ==========================================
+         LISTA
+    =========================================== -->
 
     <section>
 
@@ -121,7 +139,9 @@
 </main>
 
 
-<!-- SUPABASE -->
+<!-- ==========================================
+     SCRIPTS
+=========================================== -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -141,11 +161,8 @@
     verificarLogin();
 
 
-    // ==========================================
-    // ELEMENTOS
-    // ==========================================
-
-    const $ = id => document.getElementById(id);
+    const $ = id =>
+        document.getElementById(id);
 
 
     // ==========================================
@@ -194,10 +211,6 @@
             });
 
 
-        // ======================================
-        // ERRO
-        // ======================================
-
         if (error) {
 
             console.error(
@@ -227,14 +240,15 @@
         }
 
 
-        const materiais = data || [];
+        const materiais =
+            data || [];
 
 
         // ======================================
-        // RESUMO
+        // CONTADORES
         // ======================================
 
-        let disponiveis = 0;
+        let normais = 0;
 
         let baixos = 0;
 
@@ -259,7 +273,7 @@
             }
             else {
 
-                disponiveis++;
+                normais++;
 
             }
 
@@ -270,7 +284,7 @@
             materiais.length;
 
         $("materiaisDisponiveis").textContent =
-            disponiveis;
+            normais;
 
         $("materiaisBaixos").textContent =
             baixos;
@@ -280,7 +294,7 @@
 
 
         // ======================================
-        // ESTOQUE VAZIO
+        // VAZIO
         // ======================================
 
         if (!materiais.length) {
@@ -317,7 +331,7 @@
 
 
         // ======================================
-        // LISTA
+        // CARDS
         // ======================================
 
         $("listaEstoque").innerHTML = materiais.map(item => {
@@ -326,81 +340,111 @@
                 Number(item.quantidade) || 0;
 
 
-            let classe = "";
+            let statusClasse;
 
-            let indicador = "";
+            let statusTexto;
 
-            let texto = "";
+            let statusIcone;
 
 
             if (quantidade <= 0) {
 
-                classe = "estoque-critico";
+                statusClasse =
+                    "estoque-critico";
 
-                indicador = "🔴";
+                statusTexto =
+                    "Sem estoque";
 
-                texto = "Sem estoque";
+                statusIcone =
+                    "🔴";
 
             }
 
             else if (quantidade <= 5) {
 
-                classe = "estoque-atencao";
+                statusClasse =
+                    "estoque-atencao";
 
-                indicador = "🟠";
+                statusTexto =
+                    "Estoque baixo";
 
-                texto = "Estoque baixo";
+                statusIcone =
+                    "🟠";
 
             }
 
             else {
 
-                classe = "estoque-normal";
+                statusClasse =
+                    "estoque-normal";
 
-                indicador = "🟢";
+                statusTexto =
+                    "Disponível";
 
-                texto = "Disponível";
+                statusIcone =
+                    "🟢";
 
             }
 
 
             return `
 
-                <article class="card estoque-card">
+                <article
+                    class="card estoque-card">
 
-                    <div class="estoque-header">
+
+                    <!-- CABEÇALHO -->
+
+                    <div
+                        class="estoque-header">
+
 
                         <div>
 
                             <p class="eyebrow">
+
                                 ${escaparHTML(
                                     item.categoria ||
                                     "MATERIAL"
                                 )}
+
                             </p>
 
+
                             <h2>
-                                📦 ${escaparHTML(
+
+                                📦
+                                ${escaparHTML(
                                     item.nome ||
                                     "Material sem nome"
                                 )}
+
                             </h2>
 
                         </div>
 
 
-                        <span class="estoque-status ${classe}">
+                        <span
+                            class="estoque-status ${statusClasse}">
 
-                            ${indicador}
+                            ${statusIcone}
 
-                            ${texto}
+                            ${statusTexto}
 
                         </span>
+
 
                     </div>
 
 
-                    <div class="estoque-info">
+                    <hr>
+
+
+                    <!-- INFORMAÇÕES -->
+
+                    <div
+                        class="estoque-info">
+
 
                         <div>
 
@@ -409,10 +453,14 @@
                             </span>
 
                             <strong>
+
                                 ${quantidade}
+
                                 ${escaparHTML(
-                                    item.unidade || "un"
+                                    item.unidade ||
+                                    "un"
                                 )}
+
                             </strong>
 
                         </div>
@@ -425,10 +473,12 @@
                             </span>
 
                             <strong>
+
                                 ${escaparHTML(
                                     item.local ||
                                     "Não informado"
                                 )}
+
                             </strong>
 
                         </div>
@@ -441,16 +491,21 @@
                             </span>
 
                             <strong>
+
                                 ${escaparHTML(
                                     item.status ||
                                     "Disponível"
                                 )}
+
                             </strong>
 
                         </div>
 
+
                     </div>
 
+
+                    <!-- ALERTA -->
 
                     ${
                         quantidade <= 5
@@ -458,10 +513,12 @@
 
                         `
 
-                        <div class="estoque-alerta">
+                        <div
+                            class="estoque-alerta">
 
                             ${
                                 quantidade <= 0
+
                                 ?
 
                                 "🚨 Este material está sem estoque."
@@ -469,12 +526,14 @@
                                 :
 
                                 "⚠️ Este material está com estoque baixo."
+
                             }
 
                             <br>
 
                             <small>
-                                Verifique a necessidade de reposição.
+                                Verifique a necessidade
+                                de reposição.
                             </small>
 
                         </div>
@@ -484,10 +543,24 @@
                         :
 
                         ""
+
                     }
 
 
-                    <div class="estoque-actions">
+                    <!-- AÇÕES -->
+
+                    <div
+                        class="estoque-actions">
+
+
+                        <button
+                            type="button"
+                            onclick="movimentarMaterial(${item.id})">
+
+                            📦 Movimentar
+
+                        </button>
+
 
                         <button
                             type="button"
@@ -506,13 +579,27 @@
 
                         </button>
 
+
                     </div>
+
 
                 </article>
 
             `;
 
         }).join("");
+
+    }
+
+
+    // ==========================================
+    // MOVIMENTAR
+    // ==========================================
+
+    function movimentarMaterial(id) {
+
+        window.location.href =
+            "movimentar_estoque.html?id=" + id;
 
     }
 
@@ -535,9 +622,10 @@
 
     async function excluirMaterial(id) {
 
-        const confirmar = confirm(
-            "Deseja realmente excluir este material?"
-        );
+        const confirmar =
+            confirm(
+                "Deseja realmente excluir este material?"
+            );
 
 
         if (!confirmar) {
@@ -547,19 +635,20 @@
         }
 
 
-        const { error } = await banco
+        const { error } =
+            await banco
 
-            .from("estoque")
+                .from("estoque")
 
-            .delete()
+                .delete()
 
-            .eq("id", id);
+                .eq("id", id);
 
 
         if (error) {
 
             console.error(
-                "Erro ao excluir:",
+                "Erro ao excluir material:",
                 error
             );
 
