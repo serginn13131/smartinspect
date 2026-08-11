@@ -164,6 +164,7 @@ function controlarMenu() {
 
 const paginasEspeciais = {
 
+    "movimentar_estoque": "estoque",
     "novo_imovel": "imoveis",
     "nova_obra": "obras",
     "nova_inspecao": "inspecoes",
