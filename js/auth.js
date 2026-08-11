@@ -63,6 +63,7 @@ const permissoes = {
         "relatorios",
         "equipe",
         "solicitacoes",
+        "notificacoes",
         "perfil"
     ],
 
