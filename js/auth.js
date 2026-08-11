@@ -3,462 +3,311 @@
 // AUTH + PERMISSÕES
 // ======================================
 
-
 // ======================================
 // PEGA USUÁRIO LOGADO
 // ======================================
 
-function getUsuario(){
+function getUsuario() {
 
-    const usuario = localStorage.getItem("usuario");
+```
+const usuario = localStorage.getItem("usuario");
 
-
-    if(!usuario){
-
-        return null;
-
-    }
-
-
-    try{
-
-        return JSON.parse(usuario);
-
-    }catch{
-
-        return null;
-
-    }
-
+if (!usuario) {
+    return null;
 }
 
+try {
+    return JSON.parse(usuario);
+} catch {
+    return null;
+}
+```
 
-
-
+}
 
 // ======================================
 // VERIFICA LOGIN
 // ======================================
 
-function verificarLogin(){
+function verificarLogin() {
 
+```
+const usuario = getUsuario();
 
-    const usuario = getUsuario();
+if (!usuario) {
 
+    window.location.href = "login.html";
 
-    if(!usuario){
-
-        window.location.href="login.html";
-
-        return false;
-
-    }
-
-
-    return true;
-
+    return false;
 
 }
 
+return true;
+```
 
-
-
+}
 
 // ======================================
 // SAIR
 // ======================================
 
-function sair(){
+function sair() {
 
+```
+localStorage.removeItem("usuario");
 
-    localStorage.removeItem("usuario");
-
-
-    window.location.href="login.html";
-
+window.location.href = "login.html";
+```
 
 }
-
-
-
-
 
 // ======================================
 // CARGOS E PERMISSÕES
 // ======================================
 
-
 const permissoes = {
 
+```
+adm: [
 
-
-adm:[
-
-"index",
-
-"obras",
-
-"imoveis",
-
-"usuarios",
-
-"inspecoes",
-
-"estoque",
-
-"ia",
-
-"relatorios",
-
-"equipe",
-
-"solicitacoes",
-
-"perfil"
+    "index",
+    "obras",
+    "imoveis",
+    "usuarios",
+    "inspecoes",
+    "estoque",
+    "ia",
+    "relatorios",
+    "equipe",
+    "solicitacoes",
+    "notificacoes",
+    "configuracoes",
+    "perfil"
 
 ],
 
 
+engenheiro: [
 
-
-engenheiro:[
-
-"index",
-
-"obras",
-
-"imoveis",
-
-"criar",
-
-"inspecoes",
-
-"ia",
-
-"relatorios",
-
-"perfil"
+    "index",
+    "obras",
+    "imoveis",
+    "criar",
+    "inspecoes",
+    "estoque",
+    "ia",
+    "relatorios",
+    "equipe",
+    "notificacoes",
+    "configuracoes",
+    "perfil"
 
 ],
 
 
+inspetor: [
 
-
-inspetor:[
-
-"index",
-
-"inspecoes",
-
-"relatorios",
-
-"perfil"
+    "index",
+    "inspecoes",
+    "relatorios",
+    "ia",
+    "notificacoes",
+    "configuracoes",
+    "perfil"
 
 ],
 
 
+tecnico: [
 
-
-tecnico:[
-
-"index",
-
-"obras",
-
-"inspecoes",
-
-"perfil"
+    "index",
+    "obras",
+    "inspecoes",
+    "estoque",
+    "notificacoes",
+    "configuracoes",
+    "perfil"
 
 ],
 
 
+usuario: [
 
-
-usuario:[
-
-"index",
-
-"perfil"
+    "index",
+    "notificacoes",
+    "configuracoes",
+    "perfil"
 
 ]
-
+```
 
 };
-
-
-
-
-
 
 // ======================================
 // VERIFICA PERMISSÃO
 // ======================================
 
-function temPermissao(pagina){
+function temPermissao(pagina) {
 
-
+```
 const usuario = getUsuario();
 
-
-
-if(!usuario){
-
+if (!usuario) {
     return false;
-
 }
-
-
 
 const cargo = usuario.nivel_acesso;
 
-
-
-if(!permissoes[cargo]){
-
+if (!permissoes[cargo]) {
     return false;
-
 }
-
-
 
 return permissoes[cargo].includes(pagina);
-
-
+```
 
 }
-
-
-
-
-
 
 // ======================================
 // ESCONDE MENU
 // ======================================
 
-function controlarMenu(){
+function controlarMenu() {
 
+```
+const links =
+    document.querySelectorAll(".sidebar a");
 
+links.forEach(link => {
 
-const links = document.querySelectorAll(".sidebar a");
+    const href =
+        link.getAttribute("href");
 
+    if (!href) {
+        return;
+    }
 
+    let pagina = href
+        .replace(".html", "")
+        .replace("#", "");
 
-links.forEach(link=>{
+    if (
+        pagina &&
+        !temPermissao(pagina)
+    ) {
 
+        link.style.display = "none";
 
-
-const href = link.getAttribute("href");
-
-
-
-if(!href){
-
-return;
-
-}
-
-
-
-let pagina = href
-
-.replace(".html","")
-
-.replace("#","");
-
-
-
-
-
-if(
-
-pagina &&
-
-!temPermissao(pagina)
-
-){
-
-
-link.style.display="none";
-
-
-}
-
-
+    }
 
 });
-
-
-
-}
-
-
-
-
-
-
-
-// ======================================
-// BLOQUEIO DE PÁGINAS INTERNAS
-// ======================================
-
-
-function protegerPagina(pagina){
-
-
-
-const usuario = getUsuario();
-
-
-
-if(!usuario){
-
-
-window.location.href="login.html";
-
-
-return false;
-
+```
 
 }
 
-
-
-
-
-
-// páginas internas dos módulos
-
+// ======================================
+// PÁGINAS INTERNAS
+// ======================================
 
 const paginasEspeciais = {
 
+```
+"novo_imovel": "imoveis",
 
+"nova_obra": "obras",
 
-"novo_imovel":"imoveis",
+"nova_inspecao": "inspecoes",
 
+"novo_estoque": "estoque",
 
-"nova_obra":"obras",
-
-
-"nova_inspecao":"inspecoes",
-
-
-"novo_estoque":"estoque",
-
-
-"novo_relatorio":"relatorios"
-
-
+"novo_relatorio": "relatorios"
+```
 
 };
 
+// ======================================
+// BLOQUEIO DE PÁGINAS
+// ======================================
 
+function protegerPagina(pagina) {
 
+```
+const usuario = getUsuario();
 
+if (!usuario) {
 
+    window.location.href =
+        "login.html";
 
-if(paginasEspeciais[pagina]){
-
-
-pagina = paginasEspeciais[pagina];
-
-
-}
-
-
-
-
-
-
-
-
-if(!temPermissao(pagina)){
-
-
-
-alert("❌ Você não tem permissão para acessar esta área");
-
-
-
-window.location.href="index.html";
-
-
-
-return false;
-
-
+    return false;
 
 }
 
 
+if (paginasEspeciais[pagina]) {
 
+    pagina =
+        paginasEspeciais[pagina];
+
+}
+
+
+if (!temPermissao(pagina)) {
+
+    alert(
+        "❌ Você não tem permissão para acessar esta área"
+    );
+
+    window.location.href =
+        "index.html";
+
+    return false;
+
+}
 
 
 return true;
-
-
+```
 
 }
 
-
-
-
-
-
-
-
-
 // ======================================
-// INICIALIZAÇÃO AUTOMÁTICA
+// INICIALIZAÇÃO
 // ======================================
-
 
 document.addEventListener(
 
+```
 "DOMContentLoaded",
 
-()=>{
+() => {
+
+    controlarMenu();
 
 
-
-controlarMenu();
-
-
-
-
-
-const paginaAtual = window.location.pathname
-
-.split("/")
-
-.pop()
-
-.replace(".html","");
+    const paginaAtual =
+        window.location.pathname
+            .split("/")
+            .pop()
+            .replace(".html", "");
 
 
+    if (
 
+        paginaAtual !== "" &&
 
+        paginaAtual !== "login" &&
 
-if(
+        paginaAtual !== "cadastro"
 
-paginaAtual !== "" &&
+    ) {
 
-paginaAtual !== "login" &&
+        protegerPagina(
+            paginaAtual
+        );
 
-paginaAtual !== "cadastro"
-
-){
-
-
-
-protegerPagina(paginaAtual);
-
-
+    }
 
 }
-
-
-
-}
+```
 
 );
