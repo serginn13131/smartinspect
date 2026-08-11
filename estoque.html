@@ -1,68 +1,127 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 
 <head>
 
+```
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Estoque - SmartInspect AI</title>
 
 <link rel="stylesheet" href="css/style.css">
+```
 
 </head>
 
-
 <body>
 
-
+```
 <div class="menu-container"></div>
 
+<main class="content">
+
+    <div class="page-header">
+
+        <div>
+            <p class="eyebrow">CONTROLE DE MATERIAIS</p>
+
+            <h1>📦 Estoque</h1>
+
+            <p class="subtitle">
+                Controle materiais, equipamentos e níveis de estoque da obra.
+            </p>
+        </div>
+
+        <button
+            class="primary-button"
+            onclick="location.href='novo_estoque.html'">
+
+            ➕ Novo Material
+
+        </button>
+
+    </div>
 
 
+    <!-- RESUMO -->
 
-<div class="content">
+    <section class="dashboard-grid">
 
+        <div class="card">
 
-<h1>📦 Estoque</h1>
+            <p>Total de materiais</p>
 
-<p>
-Controle de materiais e equipamentos
-</p>
+            <h2 id="totalMateriais">
+                0
+            </h2>
 
-
-
-
-<button onclick="location.href='novo_estoque.html'">
-
-➕ Novo Material
-
-</button>
+        </div>
 
 
+        <div class="card">
+
+            <p>🟢 Disponíveis</p>
+
+            <h2 id="materiaisDisponiveis">
+                0
+            </h2>
+
+        </div>
 
 
+        <div class="card">
 
-<div id="listaEstoque">
+            <p>🟠 Estoque baixo</p>
 
+            <h2 id="materiaisBaixos">
+                0
+            </h2>
 
-<p>
-Carregando estoque...
-</p>
-
-
-</div>
-
+        </div>
 
 
-</div>
+        <div class="card">
+
+            <p>🔴 Sem estoque</p>
+
+            <h2 id="materiaisZerados">
+                0
+            </h2>
+
+        </div>
+
+    </section>
 
 
+    <!-- MENSAGEM -->
+
+    <div id="mensagemEstoque"></div>
 
 
+    <!-- LISTA -->
+
+    <section>
+
+        <div id="listaEstoque">
+
+            <div class="card">
+
+                <p>
+                    🔄 Carregando estoque...
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
 
 
-
+<!-- SUPABASE -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -73,254 +132,466 @@ Carregando estoque...
 <script src="js/sidebar.js"></script>
 
 
-
-
-
-
 <script>
 
+    // ==========================================
+    // LOGIN
+    // ==========================================
 
-verificarLogin();
+    verificarLogin();
 
 
+    // ==========================================
+    // ELEMENTOS
+    // ==========================================
 
+    const $ = id => document.getElementById(id);
 
 
+    // ==========================================
+    // ESCAPAR HTML
+    // ==========================================
 
-async function carregarEstoque(){
+    function escaparHTML(valor) {
 
+        return String(valor ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
 
+    }
 
-const {data,error}=await banco
 
-.from("estoque")
+    // ==========================================
+    // CARREGAR ESTOQUE
+    // ==========================================
 
-.select("*")
+    async function carregarEstoque() {
 
-.order("id",{ascending:false});
+        $("listaEstoque").innerHTML = `
 
+            <div class="card">
 
+                <p>
+                    🔄 Carregando estoque...
+                </p>
 
+            </div>
 
+        `;
 
 
-const lista=document.getElementById("listaEstoque");
+        const { data, error } = await banco
 
+            .from("estoque")
 
+            .select("*")
 
+            .order("id", {
+                ascending: false
+            });
 
 
-if(error){
+        // ======================================
+        // ERRO
+        // ======================================
 
-console.log(error);
+        if (error) {
 
-lista.innerHTML="❌ Erro ao carregar estoque";
+            console.error(
+                "Erro ao carregar estoque:",
+                error
+            );
 
-return;
 
-}
+            $("listaEstoque").innerHTML = `
 
+                <div class="card">
 
+                    <h2>
+                        ❌ Erro ao carregar estoque
+                    </h2>
 
+                    <p>
+                        ${escaparHTML(error.message)}
+                    </p>
 
+                </div>
 
-if(!data || data.length===0){
+            `;
 
+            return;
 
-lista.innerHTML="Nenhum material cadastrado";
+        }
 
 
-return;
+        const materiais = data || [];
 
 
-}
+        // ======================================
+        // RESUMO
+        // ======================================
 
+        let disponiveis = 0;
 
+        let baixos = 0;
 
+        let zerados = 0;
 
-lista.innerHTML="";
 
+        materiais.forEach(item => {
 
+            const quantidade =
+                Number(item.quantidade) || 0;
 
 
+            if (quantidade <= 0) {
 
-data.forEach(item=>{
+                zerados++;
 
+            }
+            else if (quantidade <= 5) {
 
+                baixos++;
 
-lista.innerHTML += `
+            }
+            else {
 
+                disponiveis++;
 
+            }
 
-<div class="card">
+        });
 
 
+        $("totalMateriais").textContent =
+            materiais.length;
 
-<h2>
+        $("materiaisDisponiveis").textContent =
+            disponiveis;
 
-📦 ${item.nome}
+        $("materiaisBaixos").textContent =
+            baixos;
 
-</h2>
+        $("materiaisZerados").textContent =
+            zerados;
 
 
+        // ======================================
+        // ESTOQUE VAZIO
+        // ======================================
 
+        if (!materiais.length) {
 
+            $("listaEstoque").innerHTML = `
 
-<p>
+                <div class="card">
 
-Categoria:
+                    <h2>
+                        📦 Estoque vazio
+                    </h2>
 
-${item.categoria || "Não informado"}
+                    <p>
+                        Nenhum material foi cadastrado ainda.
+                    </p>
 
-</p>
+                    <br>
 
+                    <button
+                        class="primary-button"
+                        onclick="location.href='novo_estoque.html'">
 
+                        ➕ Cadastrar material
 
+                    </button>
 
+                </div>
 
-<p>
+            `;
 
-Quantidade:
+            return;
 
-${item.quantidade || 0}
+        }
 
-</p>
 
+        // ======================================
+        // LISTA
+        // ======================================
 
+        $("listaEstoque").innerHTML = materiais.map(item => {
 
+            const quantidade =
+                Number(item.quantidade) || 0;
 
 
-<p>
+            let classe = "";
 
-Unidade:
+            let indicador = "";
 
-${item.unidade || "un"}
+            let texto = "";
 
-</p>
 
+            if (quantidade <= 0) {
 
+                classe = "estoque-critico";
 
+                indicador = "🔴";
 
+                texto = "Sem estoque";
 
-<p>
+            }
 
-Local:
+            else if (quantidade <= 5) {
 
-${item.local || "Não informado"}
+                classe = "estoque-atencao";
 
-</p>
+                indicador = "🟠";
 
+                texto = "Estoque baixo";
 
+            }
 
+            else {
 
+                classe = "estoque-normal";
 
-<p>
+                indicador = "🟢";
 
-Status:
+                texto = "Disponível";
 
-${item.status || "Disponível"}
+            }
 
-</p>
 
+            return `
 
+                <article class="card estoque-card">
 
+                    <div class="estoque-header">
 
+                        <div>
 
-<button onclick="excluirMaterial(${item.id})">
+                            <p class="eyebrow">
+                                ${escaparHTML(
+                                    item.categoria ||
+                                    "MATERIAL"
+                                )}
+                            </p>
 
-🗑 Excluir
+                            <h2>
+                                📦 ${escaparHTML(
+                                    item.nome ||
+                                    "Material sem nome"
+                                )}
+                            </h2>
 
-</button>
+                        </div>
 
 
+                        <span class="estoque-status ${classe}">
 
+                            ${indicador}
 
+                            ${texto}
 
-</div>
+                        </span>
 
+                    </div>
 
 
-`;
+                    <div class="estoque-info">
 
+                        <div>
 
+                            <span>
+                                Quantidade
+                            </span>
 
-});
+                            <strong>
+                                ${quantidade}
+                                ${escaparHTML(
+                                    item.unidade || "un"
+                                )}
+                            </strong>
 
+                        </div>
 
 
-}
+                        <div>
 
+                            <span>
+                                Local
+                            </span>
 
+                            <strong>
+                                ${escaparHTML(
+                                    item.local ||
+                                    "Não informado"
+                                )}
+                            </strong>
 
+                        </div>
 
 
+                        <div>
 
+                            <span>
+                                Status
+                            </span>
 
+                            <strong>
+                                ${escaparHTML(
+                                    item.status ||
+                                    "Disponível"
+                                )}
+                            </strong>
 
+                        </div>
 
-async function excluirMaterial(id){
+                    </div>
 
 
-const confirmar = confirm(
+                    ${
+                        quantidade <= 5
+                        ?
 
-"Deseja excluir este material?"
+                        `
 
-);
+                        <div class="estoque-alerta">
 
+                            ${
+                                quantidade <= 0
+                                ?
 
+                                "🚨 Este material está sem estoque."
 
-if(!confirmar)return;
+                                :
 
+                                "⚠️ Este material está com estoque baixo."
+                            }
 
+                            <br>
 
+                            <small>
+                                Verifique a necessidade de reposição.
+                            </small>
 
+                        </div>
 
-const {error}=await banco
+                        `
 
-.from("estoque")
+                        :
 
-.delete()
+                        ""
+                    }
 
-.eq("id",id);
 
+                    <div class="estoque-actions">
 
+                        <button
+                            type="button"
+                            onclick="editarMaterial(${item.id})">
 
+                            ✏️ Editar
 
+                        </button>
 
-if(error){
 
-alert("Erro ao excluir");
+                        <button
+                            type="button"
+                            onclick="excluirMaterial(${item.id})">
 
-console.log(error);
+                            🗑 Excluir
 
-return;
+                        </button>
 
-}
+                    </div>
 
+                </article>
 
+            `;
 
-alert("Material removido");
+        }).join("");
 
+    }
 
-carregarEstoque();
 
+    // ==========================================
+    // EDITAR
+    // ==========================================
 
+    function editarMaterial(id) {
 
-}
+        window.location.href =
+            "novo_estoque.html?id=" + id;
 
+    }
 
 
+    // ==========================================
+    // EXCLUIR
+    // ==========================================
 
+    async function excluirMaterial(id) {
 
+        const confirmar = confirm(
+            "Deseja realmente excluir este material?"
+        );
 
 
-carregarEstoque();
+        if (!confirmar) {
 
+            return;
 
+        }
+
+
+        const { error } = await banco
+
+            .from("estoque")
+
+            .delete()
+
+            .eq("id", id);
+
+
+        if (error) {
+
+            console.error(
+                "Erro ao excluir:",
+                error
+            );
+
+
+            alert(
+                "❌ Não foi possível excluir o material.\n\n" +
+                error.message
+            );
+
+            return;
+
+        }
+
+
+        alert(
+            "✅ Material excluído com sucesso!"
+        );
+
+
+        carregarEstoque();
+
+    }
+
+
+    // ==========================================
+    // INICIAR
+    // ==========================================
+
+    carregarEstoque();
 
 </script>
-
-
+```
 
 </body>
 
