@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 
 <head>
@@ -10,75 +11,329 @@
 
 <link rel="stylesheet" href="css/style.css">
 
-</head>
+<style>
 
+.report-editor {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.report-editor .full {
+    grid-column: 1 / -1;
+}
+
+.report-preview {
+    background: #f8fafc;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 25px;
+    margin-top: 20px;
+}
+
+.report-preview h2 {
+    margin-top: 0;
+}
+
+.report-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.report-actions button {
+    cursor: pointer;
+}
+
+.report-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: #e5e7eb;
+    font-size: 13px;
+}
+
+#mensagemRelatorio {
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+textarea {
+    width: 100%;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+@media(max-width: 800px) {
+
+    .report-editor {
+        grid-template-columns: 1fr;
+    }
+
+    .report-editor .full {
+        grid-column: auto;
+    }
+
+    .report-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+}
+
+</style>
+
+</head>
 
 <body>
 
-
 <div class="menu-container"></div>
 
-
-
 <div class="content">
-
 
 <h1>📄 Relatórios</h1>
 
 <p>
-Gerar e enviar relatórios técnicos de inspeção
+Gerar, editar, visualizar e enviar relatórios técnicos de inspeção
 </p>
 
-
+<!-- ==========================================
+     SELEÇÃO DA INSPEÇÃO
+========================================== -->
 
 <div class="card">
 
-
-<label>
-E-mail do destinatário
-</label>
-
-
-<input 
-id="destinatario"
-type="email"
-placeholder="exemplo@email.com"
->
-
-
-<br><br>
-
-
-<p id="mensagemRelatorio"></p>
-
-
-
-</div>
-
-
-
+<h2>📋 Selecionar inspeção</h2>
 
 <div id="listaRelatorios">
-
 
 Carregando inspeções...
 
 </div>
 
+</div>
 
+<!-- ==========================================
+     EDITOR DO RELATÓRIO
+========================================== -->
+
+<div id="editorRelatorio" class="card" style="display:none;">
+
+<h2>✏️ Editar relatório</h2>
+
+<div class="report-editor">
+
+<label>
+
+Número do relatório
+
+<input
+id="numeroRelatorio"
+type="text"
+readonly
+
+>
+
+</label>
+
+<label>
+
+E-mail do destinatário
+
+<input
+id="destinatario"
+type="email"
+placeholder="[exemplo@email.com](mailto:exemplo@email.com)"
+
+>
+
+</label>
+
+<label>
+
+Assunto do e-mail
+
+<input
+id="assunto"
+type="text"
+placeholder="Relatório de inspeção"
+
+>
+
+</label>
+
+<label>
+
+Responsável técnico
+
+<input
+id="editorResponsavel"
+type="text"
+
+>
+
+</label>
+
+<label>
+
+Tipo da inspeção
+
+<input
+id="editorTipo"
+type="text"
+
+>
+
+</label>
+
+<label>
+
+Data da inspeção
+
+<input
+id="editorData"
+type="date"
+
+>
+
+</label>
+
+<label>
+
+Status
+
+<select id="editorStatus">
+
+<option>Pendente</option>
+
+<option>Aprovado</option>
+
+<option>Reprovado</option>
+
+</select>
+
+</label>
+
+<label>
+
+Nome do arquivo PDF
+
+<input
+id="nomeArquivo"
+type="text"
+
+>
+
+</label>
+
+<label class="full">
+
+Observações
+
+<textarea
+id="editorObservacao"
+rows="6"
+placeholder="Observações da inspeção..."
+></textarea>
+
+</label>
+
+<label class="full">
+
+💬 Mensagem personalizada para o destinatário
+
+<textarea
+id="mensagemPersonalizada"
+rows="6"
+placeholder="Digite aqui a mensagem que será enviada junto com o relatório..."
+></textarea>
+
+</label>
 
 </div>
 
+<div class="report-actions">
 
+<button
+type="button"
+onclick="visualizarRelatorio()"
 
+>
 
+👁️ Visualizar relatório
 
+</button>
 
+<button
+type="button"
+onclick="gerarEPdf()"
+
+>
+
+📄 Gerar PDF
+
+</button>
+
+<button
+type="button"
+onclick="gerarEEnviar()"
+
+>
+
+📧 Gerar e enviar
+
+</button>
+
+<button
+type="button"
+onclick="fecharEditor()"
+
+>
+
+❌ Cancelar
+
+</button>
+
+</div>
+
+<p id="mensagemRelatorio"></p>
+
+</div>
+
+<!-- ==========================================
+     PRÉ-VISUALIZAÇÃO
+========================================== -->
+
+<div
+id="previewContainer"
+class="card"
+style="display:none;"
+>
+
+<h2>👁️ Pré-visualização</h2>
+
+<div
+id="previewRelatorio"
+class="report-preview"
+></div>
+
+</div>
+
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 
 <script src="js/supabase.js"></script>
 
@@ -86,200 +341,448 @@ Carregando inspeções...
 
 <script src="js/sidebar.js"></script>
 
-
-
-
-
 <script>
 
 
 verificarLogin();
 
 
+let inspecoes = [];
 
-let inspecoes=[];
-
-
-
-
-const $ = id => document.getElementById(id);
+let inspecaoAtual = null;
 
 
+const $ = id =>
+document.getElementById(id);
 
 
 
+/* ==========================================
+   ESCAPAR HTML
+========================================== */
 
-async function carregarInspecoes(){
+function esc(valor) {
+
+return String(valor || "")
+.replace(/&/g, "&amp;")
+.replace(/</g, "&lt;")
+.replace(/>/g, "&gt;")
+.replace(/"/g, "&quot;")
+.replace(/'/g, "&#039;");
+
+}
 
 
 
-const {data,error}=await banco
+/* ==========================================
+   CARREGAR INSPEÇÕES
+========================================== */
+
+async function carregarInspecoes() {
+
+
+const { data, error } = await banco
 
 .from("inspecoes")
 
 .select(`
-
 id,
-
 tipo,
-
 data_inspecao,
-
 responsavel,
-
 observacao,
-
 status,
-
 obra_id,
-
 obras(
-
 nome,
-
 endereco
-
 )
-
 `)
 
-.order("id",{ascending:false});
+.order("id", {
+ascending: false
+});
 
 
-
-
-
-if(error){
+if (error) {
 
 console.log(error);
 
-$("listaRelatorios").innerHTML=
+$("listaRelatorios").innerHTML =
 
-'<div class="card">Erro ao carregar inspeções.</div>';
-
-return;
-
-}
-
-
-
-
-inspecoes=data || [];
-
-
-
-
-
-if(!inspecoes.length){
-
-
-$("listaRelatorios").innerHTML=
-
-'<div class="card">Nenhuma inspeção disponível.</div>';
+`
+<div class="card">
+❌ Erro ao carregar inspeções.
+<br><br>
+${esc(error.message)}
+</div>
+`;
 
 return;
 
 }
 
 
+inspecoes = data || [];
 
 
+if (!inspecoes.length) {
+
+$("listaRelatorios").innerHTML =
+
+`
+<div class="card">
+Nenhuma inspeção disponível.
+</div>
+`;
+
+return;
+
+}
 
 
 $("listaRelatorios").innerHTML =
 
-
-inspecoes.map(inspecao=>`
-
+inspecoes.map(inspecao => `
 
 <div class="card report-row">
 
-
 <div>
 
-
 <p>
-
-INSPEÇÃO #${inspecao.id}
-
+<b>INSPEÇÃO #${inspecao.id}</b>
 </p>
-
-
 
 <h2>
 
-${inspecao.tipo || "Inspeção"}
+${esc(inspecao.tipo || "Inspeção")}
 
 -
 
-${inspecao.obras?.nome || "Sem obra"}
+${esc(inspecao.obras?.nome || "Sem obra")}
 
 </h2>
 
-
-
 <p>
 
-${inspecao.data_inspecao || ""}
+📅 ${esc(inspecao.data_inspecao || "-")}
 
 <br>
 
-Responsável:
-${inspecao.responsavel || ""}
+👷 Responsável:
+${esc(inspecao.responsavel || "-")}
 
 <br>
 
-Status:
-${inspecao.status || ""}
+📌 Status:
+<span class="status-badge">
+${esc(inspecao.status || "Pendente")}
+</span>
 
 </p>
 
-
 </div>
 
 
+<button
+onclick="abrirEditor(${inspecao.id})"
+>
 
-<button onclick="gerarEEnviar(${inspecao.id})">
-
-✉ Gerar e enviar PDF
+✏️ Editar relatório
 
 </button>
 
-
-
 </div>
 
-
 `).join("");
-
-
 
 }
 
 
 
+/* ==========================================
+   ABRIR EDITOR
+========================================== */
+
+function abrirEditor(id) {
 
 
+const inspecao =
+inspecoes.find(item => item.id === id);
 
 
+if (!inspecao) {
 
-function gerarPdf(inspecao){
+alert("Inspeção não encontrada.");
+
+return;
+
+}
 
 
-
-const {jsPDF}=window.jspdf;
-
-
-const pdf=new jsPDF();
-
+inspecaoAtual = inspecao;
 
 
 const numero =
 
-`SI-${new Date().getFullYear()}-${String(inspecao.id).padStart(5,"0")}`;
+`SI-${new Date().getFullYear()}-${String(inspecao.id).padStart(5, "0")}`;
+
+
+$("numeroRelatorio").value = numero;
+
+
+$("destinatario").value = "";
+
+
+$("assunto").value =
+`Relatório ${numero}`;
+
+
+$("editorResponsavel").value =
+inspecao.responsavel || "";
+
+
+$("editorTipo").value =
+inspecao.tipo || "";
+
+
+$("editorData").value =
+inspecao.data_inspecao || "";
+
+
+$("editorStatus").value =
+inspecao.status || "Pendente";
+
+
+$("editorObservacao").value =
+inspecao.observacao || "";
+
+
+$("nomeArquivo").value =
+`${numero}.pdf`;
+
+
+$("mensagemPersonalizada").value =
+"";
+
+
+$("mensagemRelatorio").innerHTML =
+"";
+
+
+$("previewContainer").style.display =
+"none";
+
+
+$("editorRelatorio").style.display =
+"block";
+
+
+window.scrollTo({
+top: $("editorRelatorio").offsetTop - 20,
+behavior: "smooth"
+});
+
+}
 
 
 
+/* ==========================================
+   FECHAR EDITOR
+========================================== */
+
+function fecharEditor() {
+
+inspecaoAtual = null;
+
+$("editorRelatorio").style.display =
+"none";
+
+$("previewContainer").style.display =
+"none";
+
+}
+
+
+
+/* ==========================================
+   PEGAR DADOS EDITADOS
+========================================== */
+
+function obterDadosRelatorio() {
+
+
+if (!inspecaoAtual) {
+
+throw new Error(
+"Nenhuma inspeção selecionada."
+);
+
+}
+
+
+return {
+
+numero:
+$("numeroRelatorio").value,
+
+responsavel:
+$("editorResponsavel").value,
+
+tipo:
+$("editorTipo").value,
+
+data:
+$("editorData").value,
+
+status:
+$("editorStatus").value,
+
+observacao:
+$("editorObservacao").value,
+
+mensagem:
+$("mensagemPersonalizada").value,
+
+destinatario:
+$("destinatario").value.trim(),
+
+assunto:
+$("assunto").value.trim(),
+
+nomeArquivo:
+$("nomeArquivo").value.trim() ||
+`${$("numeroRelatorio").value}.pdf`
+
+};
+
+}
+
+
+
+/* ==========================================
+   PRÉ-VISUALIZAÇÃO
+========================================== */
+
+function visualizarRelatorio() {
+
+
+try {
+
+const dados =
+obterDadosRelatorio();
+
+
+$("previewRelatorio").innerHTML = `
+
+<h2>
+🏗 SmartInspect AI
+</h2>
+
+<h3>
+RELATÓRIO TÉCNICO DE INSPEÇÃO
+</h3>
+
+<hr>
+
+<p>
+<strong>Número:</strong>
+${esc(dados.numero)}
+</p>
+
+<p>
+<strong>Obra:</strong>
+${esc(inspecaoAtual.obras?.nome || "-")}
+</p>
+
+<p>
+<strong>Endereço:</strong>
+${esc(inspecaoAtual.obras?.endereco || "-")}
+</p>
+
+<p>
+<strong>Tipo:</strong>
+${esc(dados.tipo)}
+</p>
+
+<p>
+<strong>Data:</strong>
+${esc(dados.data)}
+</p>
+
+<p>
+<strong>Responsável:</strong>
+${esc(dados.responsavel)}
+</p>
+
+<p>
+<strong>Status:</strong>
+${esc(dados.status)}
+</p>
+
+<hr>
+
+<h3>
+📝 Observações
+</h3>
+
+<p>
+${esc(dados.observacao || "Nenhuma observação")}
+</p>
+
+<hr>
+
+<h3>
+💬 Mensagem ao destinatário
+</h3>
+
+<p>
+${esc(dados.mensagem || "Nenhuma mensagem personalizada.")}
+</p>
+
+`;
+
+
+$("previewContainer").style.display =
+"block";
+
+
+window.scrollTo({
+top: $("previewContainer").offsetTop - 20,
+behavior: "smooth"
+});
+
+
+} catch (erro) {
+
+alert(erro.message);
+
+}
+
+}
+
+
+
+/* ==========================================
+   GERAR PDF
+========================================== */
+
+function gerarPdf() {
+
+
+const dados =
+obterDadosRelatorio();
+
+
+const { jsPDF } =
+window.jspdf;
+
+
+const pdf =
+new jsPDF();
+
+
+let y = 20;
 
 
 pdf.setFontSize(18);
@@ -287,9 +790,10 @@ pdf.setFontSize(18);
 pdf.text(
 "SmartInspect AI",
 20,
-20
+y
 );
 
+y += 15;
 
 
 pdf.setFontSize(14);
@@ -297,232 +801,228 @@ pdf.setFontSize(14);
 pdf.text(
 "RELATÓRIO TÉCNICO DE INSPEÇÃO",
 20,
-35
+y
 );
 
-
+y += 15;
 
 
 pdf.setFontSize(11);
 
 
+const linhas = [
+
+`Número: ${dados.numero}`,
+
+`Data: ${dados.data || "-"}`,
+
+`Obra: ${inspecaoAtual.obras?.nome || "-"}`,
+
+`Endereço: ${inspecaoAtual.obras?.endereco || "-"}`,
+
+`Tipo: ${dados.tipo || "-"}`,
+
+`Responsável: ${dados.responsavel || "-"}`,
+
+`Status: ${dados.status || "-"}`
+
+];
+
+
+linhas.forEach(linha => {
 
 pdf.text(
-
-`Número: ${numero}`,
-
+linha,
 20,
-
-50
-
+y
 );
 
+y += 10;
+
+});
 
 
-pdf.text(
-
-`Data: ${inspecao.data_inspecao || ""}`,
-
-20,
-
-60
-
-);
+y += 5;
 
 
+pdf.setFontSize(12);
 
 pdf.text(
-
-`Obra: ${inspecao.obras?.nome || "Não informada"}`,
-
-20,
-
-75
-
-);
-
-
-
-pdf.text(
-
-`Endereço: ${inspecao.obras?.endereco || ""}`,
-
-20,
-
-85
-
-);
-
-
-
-pdf.text(
-
-`Tipo: ${inspecao.tipo}`,
-
-20,
-
-100
-
-);
-
-
-
-pdf.text(
-
-`Responsável: ${inspecao.responsavel}`,
-
-20,
-
-110
-
-);
-
-
-
-pdf.text(
-
-`Status: ${inspecao.status}`,
-
-20,
-
-120
-
-);
-
-
-
-pdf.text(
-
 "Observações:",
-
 20,
-
-140
-
+y
 );
 
+y += 8;
+
+
+pdf.setFontSize(10);
+
+
+const observacoes =
+pdf.splitTextToSize(
+dados.observacao ||
+"Nenhuma observação.",
+170
+);
 
 
 pdf.text(
-
-pdf.splitTextToSize(
-
-inspecao.observacao || "Nenhuma observação",
-
-170
-
-),
-
+observacoes,
 20,
-
-150
-
+y
 );
 
 
+y += observacoes.length * 6 + 12;
+
+
+pdf.setFontSize(12);
+
+pdf.text(
+"Mensagem ao destinatário:",
+20,
+y
+);
+
+y += 8;
+
+
+pdf.setFontSize(10);
+
+
+const mensagem =
+pdf.splitTextToSize(
+dados.mensagem ||
+"Nenhuma mensagem personalizada.",
+170
+);
+
+
+pdf.text(
+mensagem,
+20,
+y
+);
 
 
 return {
 
 pdf,
 
-numero
+numero:
+dados.numero,
+
+dados
 
 };
-
 
 }
 
 
 
+/* ==========================================
+   GERAR E BAIXAR PDF
+========================================== */
+
+function gerarEPdf() {
+
+
+try {
+
+const resultado =
+gerarPdf();
+
+
+resultado.pdf.save(
+resultado.dados.nomeArquivo
+);
+
+
+$("mensagemRelatorio").innerHTML =
+"✅ PDF gerado com sucesso.";
+
+} catch (erro) {
+
+console.log(erro);
+
+$("mensagemRelatorio").innerHTML =
+"❌ Erro ao gerar PDF.";
+
+}
+
+}
 
 
 
+/* ==========================================
+   GERAR E ENVIAR
+========================================== */
+
+async function gerarEEnviar() {
 
 
-async function gerarEEnviar(id){
+try {
 
 
-
-const destinatario=$("destinatario").value.trim();
-
-
+const dados =
+obterDadosRelatorio();
 
 
-if(!destinatario){
+if (!dados.destinatario) {
 
-$("mensagemRelatorio").innerHTML=
-
-"Informe o e-mail do destinatário.";
+$("mensagemRelatorio").innerHTML =
+"❌ Informe o e-mail do destinatário.";
 
 return;
 
 }
 
 
+$("mensagemRelatorio").innerHTML =
+"⏳ Gerando PDF...";
 
 
-const inspecao=
-
-inspecoes.find(i=>i.id===id);
-
+const resultado =
+gerarPdf();
 
 
-if(!inspecao)return;
+const base64 =
 
-
-
-
-$("mensagemRelatorio").innerHTML=
-
-"Gerando PDF e enviando...";
-
-
-
-
-
-try{
-
-
-const {pdf,numero}=gerarPdf(inspecao);
-
-
-
-const base64=
-
-pdf.output("datauristring")
-
+resultado.pdf
+.output("datauristring")
 .split(",")[1];
 
 
+$("mensagemRelatorio").innerHTML =
+"📧 Enviando relatório...";
 
 
+/* ==========================================
+   SALVAR REGISTRO
+========================================== */
 
-const nomeArquivo=
-
-`${numero}.pdf`;
-
-
-
-
-
-const registro=
-
+const registro =
 await banco
 
 .from("relatorios")
 
 .insert([{
 
-inspecao_id:id,
+inspecao_id:
+inspecaoAtual.id,
 
-obra_id:inspecao.obra_id,
+obra_id:
+inspecaoAtual.obra_id,
 
-numero,
+numero:
+dados.numero,
 
-destinatario_email:destinatario,
+destinatario_email:
+dados.destinatario,
 
-status:"pendente"
+status:
+"pendente"
 
 }])
 
@@ -531,30 +1031,43 @@ status:"pendente"
 .single();
 
 
+if (registro.error) {
+
+throw registro.error;
+
+}
 
 
+/* ==========================================
+   EDGE FUNCTION
+========================================== */
 
-
-
-const {data,error}=await banco.functions.invoke(
+const resposta =
+await banco.functions.invoke(
 
 "enviar-relatorio",
 
 {
 
-body:{
+body: {
 
-destinatario,
+destinatario:
+dados.destinatario,
 
-nomeArquivo,
+nomeArquivo:
+dados.nomeArquivo,
 
-pdfBase64:base64,
+pdfBase64:
+base64,
 
-numeroRelatorio:numero,
+numeroRelatorio:
+dados.numero,
 
 assunto:
+dados.assunto || `Relatório ${dados.numero}`,
 
-`Relatório ${numero}`
+mensagemPersonalizada:
+dados.mensagem
 
 }
 
@@ -563,28 +1076,32 @@ assunto:
 );
 
 
+if (resposta.error) {
+
+throw resposta.error;
+
+}
 
 
-
-
-
-if(error || !data.ok){
+if (!resposta.data?.ok) {
 
 throw new Error(
-
-error?.message ||
-
-data?.error
-
+resposta.data?.error ||
+"Erro ao enviar relatório."
 );
 
 }
 
 
+/* ==========================================
+   ATUALIZAR REGISTRO
+========================================== */
+
+const idRelatorio =
+registro.data.id;
 
 
-
-
+const { error: erroUpdate } =
 
 await banco
 
@@ -592,70 +1109,75 @@ await banco
 
 .update({
 
-status:"enviado",
+status:
+"enviado",
 
-enviado_em:new Date()
+enviado_em:
+new Date().toISOString()
 
 })
 
 .eq(
-
 "id",
-
-registro.data.id
-
+idRelatorio
 );
 
 
+if (erroUpdate) {
+
+console.log(
+"Erro ao atualizar relatório:",
+erroUpdate
+);
+
+}
 
 
+/* ==========================================
+   SUCESSO
+========================================== */
 
-
-
-$("mensagemRelatorio").innerHTML=
+$("mensagemRelatorio").innerHTML =
 
 `
-
-✅ Relatório ${numero}
-
-enviado com sucesso.
-
+✅ <strong>Relatório enviado com sucesso!</strong>
+<br>
+Número: ${esc(dados.numero)}
+<br>
+Destinatário: ${esc(dados.destinatario)}
 `;
 
 
+} catch (erro) {
 
 
-}catch(e){
+console.error(
+"Erro ao enviar relatório:",
+erro
+);
 
 
+$("mensagemRelatorio").innerHTML =
 
-console.log(e);
+`
+❌ Erro ao enviar relatório.
+<br>
+${esc(erro.message || erro)}
+`;
 
-
-
-$("mensagemRelatorio").innerHTML=
-
-"❌ Erro ao enviar relatório. Confira a Edge Function.";
+}
 
 }
 
 
 
-
-}
-
-
-
-
-
+/* ==========================================
+   INICIAR
+========================================== */
 
 carregarInspecoes();
 
-
-
 </script>
-
-
 
 </body>
 
