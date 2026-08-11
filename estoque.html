@@ -4,144 +4,56 @@
 
 <head>
 
-```
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Estoque - SmartInspect AI</title>
 
 <link rel="stylesheet" href="css/style.css">
-```
 
 </head>
 
 <body>
 
-```
 <div class="menu-container"></div>
 
 <main class="content">
 
-    <header class="page-header">
+<header class="page-header">
 
-        <div>
+<div>
 
-            <p class="eyebrow">
-                CONTROLE DE MATERIAIS
-            </p>
+<p class="eyebrow">CONTROLE DE MATERIAIS</p>
 
-            <h1>
-                📦 Estoque
-            </h1>
+<h1>📦 Estoque</h1>
 
-            <p class="subtitle">
-                Controle materiais, equipamentos,
-                entradas e saídas da obra.
-            </p>
+<p class="subtitle">
+Controle de materiais, quantidades e movimentações da obra.
+</p>
 
-        </div>
+</div>
 
+<button
+onclick="location.href='novo_estoque.html'"
+class="primary-button">
 
-        <button
-            class="primary-button"
-            onclick="location.href='novo_estoque.html'">
+➕ Novo Material
 
-            ➕ Novo Material
+</button>
 
-        </button>
+</header>
 
-    </header>
+<div id="listaEstoque">
 
+<div class="card">
 
-    <!-- ==========================================
-         RESUMO
-    =========================================== -->
+Carregando estoque...
 
-    <section class="dashboard-grid">
+</div>
 
-        <div class="card">
-
-            <p>
-                Total de materiais
-            </p>
-
-            <h2 id="totalMateriais">
-                0
-            </h2>
-
-        </div>
-
-
-        <div class="card">
-
-            <p>
-                🟢 Estoque normal
-            </p>
-
-            <h2 id="materiaisDisponiveis">
-                0
-            </h2>
-
-        </div>
-
-
-        <div class="card">
-
-            <p>
-                🟠 Estoque baixo
-            </p>
-
-            <h2 id="materiaisBaixos">
-                0
-            </h2>
-
-        </div>
-
-
-        <div class="card">
-
-            <p>
-                🔴 Sem estoque
-            </p>
-
-            <h2 id="materiaisZerados">
-                0
-            </h2>
-
-        </div>
-
-    </section>
-
-
-    <div id="mensagemEstoque"></div>
-
-
-    <!-- ==========================================
-         LISTA
-    =========================================== -->
-
-    <section>
-
-        <div id="listaEstoque">
-
-            <div class="card">
-
-                <p>
-                    🔄 Carregando estoque...
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
+</div>
 
 </main>
-
-
-<!-- ==========================================
-     SCRIPTS
-=========================================== -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -151,536 +63,416 @@
 
 <script src="js/sidebar.js"></script>
 
-
 <script>
 
-    // ==========================================
-    // LOGIN
-    // ==========================================
+verificarLogin();
 
-    verificarLogin();
 
+const $ = id =>
+document.getElementById(id);
 
-    const $ = id =>
-        document.getElementById(id);
 
+// =====================================================
+// CARREGAR ESTOQUE
+// =====================================================
 
-    // ==========================================
-    // ESCAPAR HTML
-    // ==========================================
+async function carregarEstoque(){
 
-    function escaparHTML(valor) {
+const lista =
+$("listaEstoque");
 
-        return String(valor ?? "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
 
-    }
+lista.innerHTML = `
 
+<div class="card">
 
-    // ==========================================
-    // CARREGAR ESTOQUE
-    // ==========================================
+⏳ Carregando estoque...
 
-    async function carregarEstoque() {
+</div>
 
-        $("listaEstoque").innerHTML = `
+`;
 
-            <div class="card">
 
-                <p>
-                    🔄 Carregando estoque...
-                </p>
+const {data,error} =
 
-            </div>
+await banco
 
-        `;
+.from("estoque")
 
+.select(`
 
-        const { data, error } = await banco
+*,
 
-            .from("estoque")
+obras(
 
-            .select("*")
+nome
 
-            .order("id", {
-                ascending: false
-            });
+)
 
+`)
 
-        if (error) {
+.order("id",{
 
-            console.error(
-                "Erro ao carregar estoque:",
-                error
-            );
+ascending:false
 
+});
 
-            $("listaEstoque").innerHTML = `
 
-                <div class="card">
+if(error){
 
-                    <h2>
-                        ❌ Erro ao carregar estoque
-                    </h2>
+console.error(error);
 
-                    <p>
-                        ${escaparHTML(error.message)}
-                    </p>
+lista.innerHTML = `
 
-                </div>
+<div class="card">
 
-            `;
+❌ Erro ao carregar estoque.
 
-            return;
+<br><br>
 
-        }
+${error.message}
 
+</div>
 
-        const materiais =
-            data || [];
+`;
 
+return;
 
-        // ======================================
-        // CONTADORES
-        // ======================================
+}
 
-        let normais = 0;
 
-        let baixos = 0;
+if(!data || data.length === 0){
 
-        let zerados = 0;
+lista.innerHTML = `
 
+<div class="card">
 
-        materiais.forEach(item => {
+📦 Nenhum material cadastrado.
 
-            const quantidade =
-                Number(item.quantidade) || 0;
+<br><br>
 
+<button
+onclick="location.href='novo_estoque.html'">
 
-            if (quantidade <= 0) {
+➕ Cadastrar primeiro material
 
-                zerados++;
+</button>
 
-            }
-            else if (quantidade <= 5) {
+</div>
 
-                baixos++;
+`;
 
-            }
-            else {
+return;
 
-                normais++;
+}
 
-            }
 
-        });
+lista.innerHTML = "";
 
 
-        $("totalMateriais").textContent =
-            materiais.length;
+data.forEach(item => {
 
-        $("materiaisDisponiveis").textContent =
-            normais;
 
-        $("materiaisBaixos").textContent =
-            baixos;
+const quantidade =
+Number(item.quantidade || 0);
 
-        $("materiaisZerados").textContent =
-            zerados;
 
+const minimo =
+Number(item.estoque_minimo || 0);
 
-        // ======================================
-        // VAZIO
-        // ======================================
 
-        if (!materiais.length) {
+let statusEstoque =
+"🟢 Disponível";
 
-            $("listaEstoque").innerHTML = `
 
-                <div class="card">
+if(quantidade <= 0){
 
-                    <h2>
-                        📦 Estoque vazio
-                    </h2>
+statusEstoque =
+"🔴 Sem estoque";
 
-                    <p>
-                        Nenhum material foi cadastrado ainda.
-                    </p>
+}
 
-                    <br>
+else if(
+minimo > 0 &&
+quantidade <= minimo
+){
 
-                    <button
-                        class="primary-button"
-                        onclick="location.href='novo_estoque.html'">
+statusEstoque =
+"🟠 Estoque baixo";
 
-                        ➕ Cadastrar material
+}
 
-                    </button>
 
-                </div>
+const unidade =
+item.unidade || "un";
 
-            `;
 
-            return;
+const dataEntrada =
+item.data_entrada
 
-        }
+?
+new Date(
+item.data_entrada +
+"T00:00:00"
+).toLocaleDateString("pt-BR")
 
+:
+"Não informada";
 
-        // ======================================
-        // CARDS
-        // ======================================
 
-        $("listaEstoque").innerHTML = materiais.map(item => {
+const obra =
+item.obras?.nome ||
+"Obra não informada";
 
-            const quantidade =
-                Number(item.quantidade) || 0;
 
+const responsavel =
+item.responsavel ||
+"Não informado";
 
-            let statusClasse;
 
-            let statusTexto;
+lista.innerHTML += `
 
-            let statusIcone;
+<div class="card estoque-card">
 
 
-            if (quantidade <= 0) {
+<div class="estoque-header">
 
-                statusClasse =
-                    "estoque-critico";
+<div>
 
-                statusTexto =
-                    "Sem estoque";
+<h2>
 
-                statusIcone =
-                    "🔴";
+📦
+${item.material || "Material sem nome"}
 
-            }
+</h2>
 
-            else if (quantidade <= 5) {
+<p>
 
-                statusClasse =
-                    "estoque-atencao";
+${statusEstoque}
 
-                statusTexto =
-                    "Estoque baixo";
+</p>
 
-                statusIcone =
-                    "🟠";
+</div>
 
-            }
 
-            else {
+<div>
 
-                statusClasse =
-                    "estoque-normal";
+<strong>
 
-                statusTexto =
-                    "Disponível";
+${quantidade}
 
-                statusIcone =
-                    "🟢";
+${unidade}
 
-            }
+</strong>
 
+</div>
 
-            return `
+</div>
 
-                <article
-                    class="card estoque-card">
 
+<hr>
 
-                    <!-- CABEÇALHO -->
 
-                    <div
-                        class="estoque-header">
+<p>
 
+🏢 <strong>Obra:</strong>
 
-                        <div>
+${obra}
 
-                            <p class="eyebrow">
+</p>
 
-                                ${escaparHTML(
-                                    item.categoria ||
-                                    "MATERIAL"
-                                )}
 
-                            </p>
+<p>
 
+🔢 <strong>Quantidade:</strong>
 
-                            <h2>
+${quantidade}
 
-                                📦
-                                ${escaparHTML(
-                                    item.nome ||
-                                    "Material sem nome"
-                                )}
+${unidade}
 
-                            </h2>
+</p>
 
-                        </div>
 
+<p>
 
-                        <span
-                            class="estoque-status ${statusClasse}">
+⚠️ <strong>Estoque mínimo:</strong>
 
-                            ${statusIcone}
+${minimo || "Não definido"}
 
-                            ${statusTexto}
+</p>
 
-                        </span>
 
+<p>
 
-                    </div>
+📅 <strong>Entrada:</strong>
 
+${dataEntrada}
 
-                    <hr>
+</p>
 
 
-                    <!-- INFORMAÇÕES -->
+<p>
 
-                    <div
-                        class="estoque-info">
+👤 <strong>Responsável:</strong>
 
+${responsavel}
 
-                        <div>
+</p>
 
-                            <span>
-                                Quantidade
-                            </span>
 
-                            <strong>
+<p>
 
-                                ${quantidade}
+📌 <strong>Status:</strong>
 
-                                ${escaparHTML(
-                                    item.unidade ||
-                                    "un"
-                                )}
+${item.status || "Disponível"}
 
-                            </strong>
+</p>
 
-                        </div>
 
+<div class="estoque-actions">
 
-                        <div>
 
-                            <span>
-                                Local
-                            </span>
+<button
+onclick="movimentarEstoque(${item.id})">
 
-                            <strong>
+🔄 Movimentar
 
-                                ${escaparHTML(
-                                    item.local ||
-                                    "Não informado"
-                                )}
+</button>
 
-                            </strong>
 
-                        </div>
+<button
+onclick="editarMaterial(${item.id})">
 
+✏️ Editar
 
-                        <div>
+</button>
 
-                            <span>
-                                Status
-                            </span>
 
-                            <strong>
+<button
+onclick="verLogs(${item.id})">
 
-                                ${escaparHTML(
-                                    item.status ||
-                                    "Disponível"
-                                )}
+📋 Logs
 
-                            </strong>
+</button>
 
-                        </div>
 
+<button
+onclick="excluirMaterial(${item.id})">
 
-                    </div>
+🗑 Excluir
 
+</button>
 
-                    <!-- ALERTA -->
 
-                    ${
-                        quantidade <= 5
-                        ?
+</div>
 
-                        `
 
-                        <div
-                            class="estoque-alerta">
+</div>
 
-                            ${
-                                quantidade <= 0
+`;
 
-                                ?
+});
 
-                                "🚨 Este material está sem estoque."
+}
 
-                                :
 
-                                "⚠️ Este material está com estoque baixo."
+// =====================================================
+// EDITAR
+// =====================================================
 
-                            }
+function editarMaterial(id){
 
-                            <br>
+window.location.href =
+`novo_estoque.html?id=${id}`;
 
-                            <small>
-                                Verifique a necessidade
-                                de reposição.
-                            </small>
+}
 
-                        </div>
 
-                        `
+// =====================================================
+// MOVIMENTAÇÃO
+// =====================================================
 
-                        :
+function movimentarEstoque(id){
 
-                        ""
+window.location.href =
+`movimentar_estoque.html?id=${id}`;
 
-                    }
+}
 
 
-                    <!-- AÇÕES -->
+// =====================================================
+// LOGS
+// =====================================================
 
-                    <div
-                        class="estoque-actions">
+function verLogs(id){
 
+window.location.href =
+`logs_estoque.html?id=${id}`;
 
-                        <button
-                            type="button"
-                            onclick="movimentarMaterial(${item.id})">
+}
 
-                            📦 Movimentar
 
-                        </button>
+// =====================================================
+// EXCLUIR
+// =====================================================
 
+async function excluirMaterial(id){
 
-                        <button
-                            type="button"
-                            onclick="editarMaterial(${item.id})">
 
-                            ✏️ Editar
+const confirmar =
+confirm(
+"Deseja realmente excluir este material?"
+);
 
-                        </button>
 
+if(!confirmar){
 
-                        <button
-                            type="button"
-                            onclick="excluirMaterial(${item.id})">
+return;
 
-                            🗑 Excluir
+}
 
-                        </button>
 
+const {error} =
 
-                    </div>
+await banco
 
+.from("estoque")
 
-                </article>
+.delete()
 
-            `;
+.eq("id",id);
 
-        }).join("");
 
-    }
+if(error){
 
+console.error(error);
 
-    // ==========================================
-    // MOVIMENTAR
-    // ==========================================
+alert(
+"❌ Não foi possível excluir o material."
+);
 
-    function movimentarMaterial(id) {
+return;
 
-        window.location.href =
-            "movimentar_estoque.html?id=" + id;
+}
 
-    }
 
+alert(
+"✅ Material removido com sucesso."
+);
 
-    // ==========================================
-    // EDITAR
-    // ==========================================
 
-    function editarMaterial(id) {
+carregarEstoque();
 
-        window.location.href =
-            "novo_estoque.html?id=" + id;
+}
 
-    }
 
+// =====================================================
+// INICIAR
+// =====================================================
 
-    // ==========================================
-    // EXCLUIR
-    // ==========================================
-
-    async function excluirMaterial(id) {
-
-        const confirmar =
-            confirm(
-                "Deseja realmente excluir este material?"
-            );
-
-
-        if (!confirmar) {
-
-            return;
-
-        }
-
-
-        const { error } =
-            await banco
-
-                .from("estoque")
-
-                .delete()
-
-                .eq("id", id);
-
-
-        if (error) {
-
-            console.error(
-                "Erro ao excluir material:",
-                error
-            );
-
-
-            alert(
-                "❌ Não foi possível excluir o material.\n\n" +
-                error.message
-            );
-
-            return;
-
-        }
-
-
-        alert(
-            "✅ Material excluído com sucesso!"
-        );
-
-
-        carregarEstoque();
-
-    }
-
-
-    // ==========================================
-    // INICIAR
-    // ==========================================
-
-    carregarEstoque();
+carregarEstoque();
 
 </script>
-```
 
 </body>
 
