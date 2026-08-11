@@ -59,7 +59,6 @@
 
     <form id="formMovimentacao">
 
-
         <label>
             📦 Material
 
@@ -80,7 +79,7 @@
         <div
             id="resumoMovimentacao"
             class="card"
-            style="margin: 20px 0;">
+            style="margin:20px 0;">
 
             Selecione um material.
 
@@ -273,29 +272,27 @@
 verificarLogin();
 
 
-const $ = id =>
-    document.getElementById(id);
+const $ = id => document.getElementById(id);
 
 
 let materiais = [];
 
 
-const usuario =
-    getUsuario();
+const usuario = getUsuario();
 
 
 // ==========================================
 // RESPONSÁVEL
 // ==========================================
 
-if (usuario) {
+const nomeResponsavel =
+    usuario?.nome ||
+    usuario?.email ||
+    "Usuário";
 
-    $("responsavel").value =
-        usuario.nome ||
-        usuario.email ||
-        "Usuário";
 
-}
+$("responsavel").value =
+    nomeResponsavel;
 
 
 // ==========================================
@@ -304,8 +301,7 @@ if (usuario) {
 
 async function carregarMateriais() {
 
-    const select =
-        $("estoqueId");
+    const select = $("estoqueId");
 
 
     const { data, error } =
@@ -336,8 +332,7 @@ async function carregarMateriais() {
     }
 
 
-    materiais =
-        data || [];
+    materiais = data || [];
 
 
     if (!materiais.length) {
@@ -366,8 +361,7 @@ async function carregarMateriais() {
             document.createElement("option");
 
 
-        option.value =
-            item.id;
+        option.value = item.id;
 
 
         option.textContent =
@@ -412,6 +406,25 @@ function atualizarResumo() {
         Number(material.quantidade || 0);
 
 
+    const estoqueMinimo =
+        Number(material.estoque_minimo || 0);
+
+
+    let alerta = "";
+
+
+    if (quantidadeAtual <= estoqueMinimo) {
+
+        alerta = `
+            <br><br>
+            <strong>
+                ⚠️ Estoque abaixo ou no mínimo.
+            </strong>
+        `;
+
+    }
+
+
     $("resumoMovimentacao").innerHTML = `
 
         <strong>
@@ -432,9 +445,11 @@ function atualizarResumo() {
         Estoque mínimo:
 
         <strong>
-            ${material.estoque_minimo || 0}
+            ${estoqueMinimo}
             ${material.unidade || "un"}
         </strong>
+
+        ${alerta}
 
     `;
 
@@ -490,6 +505,10 @@ $("formMovimentacao")
                     .trim();
 
 
+            // ==================================
+            // VALIDAÇÕES
+            // ==================================
+
             if (!estoqueId) {
 
                 mensagem.textContent =
@@ -500,7 +519,10 @@ $("formMovimentacao")
             }
 
 
-            if (!quantidade || quantidade <= 0) {
+            if (
+                !quantidade ||
+                quantidade <= 0
+            ) {
 
                 mensagem.textContent =
                     "❌ Informe uma quantidade válida.";
@@ -520,12 +542,6 @@ $("formMovimentacao")
             }
 
 
-            const nomeResponsavel =
-                usuario?.nome ||
-                usuario?.email ||
-                "Usuário";
-
-
             if (
                 assinatura.toLowerCase() !==
                 String(
@@ -542,13 +558,14 @@ $("formMovimentacao")
 
 
             // ==================================
-            // VERIFICAR ESTOQUE PARA SAÍDA
+            // MATERIAL
             // ==================================
 
             const material =
                 materiais.find(
                     item =>
-                        Number(item.id) === estoqueId
+                        Number(item.id) ===
+                        estoqueId
                 );
 
 
@@ -567,6 +584,10 @@ $("formMovimentacao")
                     material.quantidade || 0
                 );
 
+
+            // ==================================
+            // VERIFICAR SAÍDA
+            // ==================================
 
             if (
                 tipo === "saida" &&
@@ -592,9 +613,16 @@ $("formMovimentacao")
 
             try {
 
+                // ==================================
+                // UUID CORRETO DO USUÁRIO
+                // ==================================
+
+                const responsavelAuthId =
+                    usuario?.auth_id || null;
+
 
                 // ==================================
-                // CHAMAR FUNÇÃO DO SUPABASE
+                // CHAMAR RPC
                 // ==================================
 
                 const { data, error } =
@@ -630,8 +658,7 @@ $("formMovimentacao")
                                 null,
 
                             p_responsavel_id:
-                                usuario?.id ||
-                                null,
+                                responsavelAuthId,
 
                             p_responsavel_nome:
                                 nomeResponsavel,
@@ -661,7 +688,7 @@ $("formMovimentacao")
 
 
                 // ==================================
-                // LIMPAR FORMULÁRIO
+                // LIMPAR CAMPOS
                 // ==================================
 
                 $("quantidade").value = "";
@@ -678,7 +705,7 @@ $("formMovimentacao")
 
 
                 // ==================================
-                // ATUALIZAR TELA
+                // ATUALIZAR
                 // ==================================
 
                 await carregarMateriais();
@@ -845,6 +872,30 @@ async function carregarHistorico() {
                             <p>
                                 Fornecedor:
                                 ${item.fornecedor}
+                            </p>
+                        `
+                        : ""
+                    }
+
+
+                    ${
+                        item.assinatura
+                        ? `
+                            <p>
+                                ✍️ Assinatura:
+                                ${item.assinatura}
+                            </p>
+                        `
+                        : ""
+                    }
+
+
+                    ${
+                        item.observacao
+                        ? `
+                            <p>
+                                Observação:
+                                ${item.observacao}
                             </p>
                         `
                         : ""
