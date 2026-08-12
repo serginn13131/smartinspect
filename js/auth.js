@@ -60,6 +60,7 @@ const permissoes = {
         "inspecoes",
         "estoque",
         "ia",
+        "detalhes_inspecao",
         "relatorios",
         "equipe",
         "solicitacoes",
