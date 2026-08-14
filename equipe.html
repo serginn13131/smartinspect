@@ -4,7 +4,9 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>Equipe - SmartInspect AI</title>
 
@@ -16,11 +18,13 @@
 .equipe-grid{
 
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+
+grid-template-columns:
+repeat(auto-fit,minmax(300px,1fr));
+
 gap:20px;
 
 }
-
 
 
 .membro{
@@ -42,13 +46,11 @@ gap:15px;
 }
 
 
-
 .avatar-box{
 
 position:relative;
 
 }
-
 
 
 .foto-perfil{
@@ -66,7 +68,6 @@ border:3px solid #0066cc;
 background:#eee;
 
 }
-
 
 
 .ponto-online{
@@ -90,37 +91,36 @@ border:2px solid white;
 }
 
 
-
 .ponto-online.ativo{
 
-background:green;
+background:#16a34a;
+
+box-shadow:0 0 8px #16a34a;
 
 }
-
 
 
 .status{
 
 font-size:14px;
 
-}
+font-weight:600;
 
+}
 
 
 .online{
 
-color:green;
+color:#16a34a;
 
 }
-
 
 
 .offline{
 
-color:gray;
+color:#777;
 
 }
-
 
 
 .cargo{
@@ -138,22 +138,31 @@ font-size:13px;
 }
 
 
-
 .permissoes{
 
 margin-top:10px;
 
 font-size:13px;
 
+line-height:1.6;
+
 }
 
+
+.ultimo-acesso{
+
+font-size:13px;
+
+color:#666;
+
+margin-top:8px;
+
+}
 
 
 </style>
 
-
 </head>
-
 
 
 <body>
@@ -164,16 +173,14 @@ font-size:13px;
 <div class="menu-container"></div>
 
 
-
 <div class="content">
 
 
 <h1>👥 Equipe</h1>
 
 <p>
-Usuários cadastrados e níveis de acesso
+Usuários da sua empresa
 </p>
-
 
 
 <div id="listaEquipe" class="equipe-grid">
@@ -183,10 +190,7 @@ Carregando equipe...
 </div>
 
 
-
 </div>
-
-
 
 
 
@@ -202,352 +206,832 @@ Carregando equipe...
 
 <script>
 
+let equipe = [];
 
-let equipe=[];
+let empresaAtual = null;
+
+let canalEquipe = null;
 
 
+/*
+====================================================
+PEGAR USUÁRIO LOGADO
+====================================================
+*/
+
+async function obterUsuarioAtual(){
+
+    const {
+        data: { user },
+        error
+    } = await banco.auth.getUser();
+
+
+    if(error){
+
+        console.error(
+            "Erro ao verificar usuário:",
+            error
+        );
+
+        return null;
+
+    }
+
+
+    if(!user){
+
+        console.warn(
+            "Nenhum usuário autenticado."
+        );
+
+        return null;
+
+    }
+
+
+    return user;
+
+}
+
+
+/*
+====================================================
+DESCOBRIR EMPRESA DO USUÁRIO
+====================================================
+*/
+
+async function descobrirEmpresa(){
+
+    const usuarioAuth =
+        await obterUsuarioAtual();
+
+
+    if(!usuarioAuth){
+
+        return null;
+
+    }
+
+
+    const {
+        data,
+        error
+    } = await banco
+
+        .from("usuarios")
+
+        .select("id, empresa_id, nome, email")
+
+        .eq(
+            "auth_id",
+            usuarioAuth.id
+        )
+
+        .maybeSingle();
+
+
+    if(error){
+
+        console.error(
+            "Erro ao descobrir empresa:",
+            error
+        );
+
+        return null;
+
+    }
+
+
+    if(!data){
+
+        console.warn(
+            "Perfil do usuário não encontrado."
+        );
+
+        return null;
+
+    }
+
+
+    if(!data.empresa_id){
+
+        console.warn(
+            "Este usuário não possui empresa_id."
+        );
+
+        return null;
+
+    }
+
+
+    empresaAtual = data.empresa_id;
+
+
+    return empresaAtual;
+
+}
+
+
+/*
+====================================================
+VERIFICAR SE ESTÁ ONLINE
+====================================================
+*/
+
+function estaOnline(usuario){
+
+    if(!usuario.ultimo_heartbeat){
+
+        return false;
+
+    }
+
+
+    const ultimoHeartbeat =
+        new Date(
+            usuario.ultimo_heartbeat
+        ).getTime();
+
+
+    const agora =
+        Date.now();
+
+
+    const diferenca =
+        agora - ultimoHeartbeat;
+
+
+    /*
+    60 segundos
+
+    Se o heartbeat aconteceu
+    nos últimos 60 segundos,
+    consideramos online.
+    */
+
+    return diferenca <= 60000;
+
+}
+
+
+/*
+====================================================
+CARREGAR EQUIPE
+====================================================
+*/
 
 async function carregarEquipe(){
 
+    if(!empresaAtual){
+
+        const empresa =
+            await descobrirEmpresa();
 
 
-const {data,error}=await banco
+        if(!empresa){
 
-.from("usuarios")
+            document.getElementById(
+                "listaEquipe"
+            ).innerHTML =
 
-.select("*")
+            `
+            ❌ Não foi possível identificar
+            a empresa deste usuário.
+            `;
 
-.order("id",{ascending:false});
+            return;
 
+        }
 
-
-
-
-if(error){
-
-
-console.log(error);
-
-
-document.getElementById("listaEquipe").innerHTML=
-
-"❌ Erro ao carregar equipe";
+    }
 
 
-return;
+    const {
+        data,
+        error
+    } = await banco
 
+        .from("usuarios")
+
+        .select("*")
+
+        .eq(
+            "empresa_id",
+            empresaAtual
+        )
+
+        .order(
+            "id",
+            {
+                ascending:false
+            }
+        );
+
+
+    if(error){
+
+        console.error(
+            "Erro ao carregar equipe:",
+            error
+        );
+
+
+        document.getElementById(
+            "listaEquipe"
+        ).innerHTML =
+
+        `
+        ❌ Erro ao carregar equipe.
+        `;
+
+        return;
+
+    }
+
+
+    equipe = data || [];
+
+
+    mostrarEquipe();
 
 }
 
 
+/*
+====================================================
+PERMISSÕES
+====================================================
+*/
+
+function obterPermissoes(
+    nivel
+){
+
+    switch(nivel){
+
+        case "adm":
+
+            return `
+            ✅ Controle total do sistema
+            `;
 
 
+        case "engenheiro":
 
-equipe=data || [];
+            return `
+            ✅ Obras<br>
+            ✅ Inspeções<br>
+            ✅ Relatórios<br>
+            ✅ IA
+            `;
 
 
-mostrarEquipe();
+        case "inspetor":
 
+            return `
+            ✅ Inspeções<br>
+            ✅ Fotos<br>
+            ✅ Relatórios
+            `;
+
+
+        case "tecnico":
+
+            return `
+            ✅ Obras<br>
+            ✅ Inspeções
+            `;
+
+
+        case "usuario":
+
+            return `
+            👁 Visualização
+            `;
+
+
+        default:
+
+            return `
+            👁 Acesso básico
+            `;
+
+    }
 
 }
 
 
+/*
+====================================================
+ FORMATAR DATA
+====================================================
+*/
+
+function formatarData(
+    data
+){
+
+    if(!data){
+
+        return "Nunca";
+
+    }
 
 
+    return new Date(
+        data
+    ).toLocaleString(
+        "pt-BR"
+    );
+
+}
 
 
-
+/*
+====================================================
+ MOSTRAR EQUIPE
+====================================================
+*/
 
 function mostrarEquipe(){
 
+    const lista =
+        document.getElementById(
+            "listaEquipe"
+        );
 
 
-const lista=document.getElementById("listaEquipe");
+    lista.innerHTML = "";
 
 
-lista.innerHTML="";
+    if(equipe.length === 0){
+
+        lista.innerHTML =
+        "Nenhum usuário encontrado.";
+
+        return;
+
+    }
 
 
+    equipe.forEach(
+        usuario => {
 
 
-
-if(equipe.length===0){
-
-
-lista.innerHTML=
-
-"Nenhum usuário encontrado.";
+        const online =
+            estaOnline(
+                usuario
+            );
 
 
-return;
+        const permissoes =
+            obterPermissoes(
+                usuario.nivel_acesso
+            );
+
+
+        lista.innerHTML += `
+
+        <div class="membro">
+
+
+            <div class="avatar-box">
+
+
+                <img
+
+                    class="foto-perfil"
+
+                    src="${
+                        usuario.foto_url ||
+                        "imagens/avatar.png"
+                    }"
+
+                    onerror="
+                        this.src='imagens/avatar.png'
+                    "
+
+                >
+
+
+                <span
+
+                    class="
+                        ponto-online
+                        ${online ? "ativo" : ""}
+                    "
+
+                ></span>
+
+
+            </div>
+
+
+            <div>
+
+
+                <h3>
+
+                    ${
+                        usuario.nome ||
+                        "Sem nome"
+                    }
+
+                </h3>
+
+
+                <p>
+
+                    📧 ${
+                        usuario.email ||
+                        ""
+                    }
+
+                </p>
+
+
+                <span class="cargo">
+
+                    ${
+                        usuario.nivel_acesso ||
+                        "usuario"
+                    }
+
+                </span>
+
+
+                <p
+
+                    class="
+                        status
+                        ${online ? "online" : "offline"}
+                    "
+
+                >
+
+                    ●
+
+                    ${
+                        online
+                        ? " Online agora"
+                        : " Offline"
+                    }
+
+                </p>
+
+
+                <p class="ultimo-acesso">
+
+                    🕐 Último acesso:<br>
+
+                    ${
+                        formatarData(
+                            usuario.ultimo_acesso
+                        )
+                    }
+
+                </p>
+
+
+                <div class="permissoes">
+
+                    ${permissoes}
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+
+/*
+====================================================
+ ATUALIZAR O HEARTBEAT DO USUÁRIO LOGADO
+====================================================
+*/
+
+async function atualizarHeartbeat(){
+
+    const usuarioAuth =
+        await obterUsuarioAtual();
+
+
+    if(!usuarioAuth){
+
+        return;
+
+    }
+
+
+    const agora =
+        new Date().toISOString();
+
+
+    const {
+        error
+    } = await banco
+
+        .from("usuarios")
+
+        .update({
+
+            ultimo_heartbeat:
+                agora
+
+        })
+
+        .eq(
+            "auth_id",
+            usuarioAuth.id
+        );
+
+
+    if(error){
+
+        console.error(
+            "Erro ao atualizar heartbeat:",
+            error
+        );
+
+        return;
+
+    }
 
 
 }
 
 
+/*
+====================================================
+ REGISTRAR ACESSO
+====================================================
+*/
+
+async function registrarAcesso(){
+
+    const usuarioAuth =
+        await obterUsuarioAtual();
 
 
+    if(!usuarioAuth){
+
+        return;
+
+    }
 
 
-
-equipe.forEach(usuario=>{
-
-
-
-let permissoes="";
+    const agora =
+        new Date().toISOString();
 
 
+    const {
+        error
+    } = await banco
+
+        .from("usuarios")
+
+        .update({
+
+            ultimo_acesso:
+                agora,
+
+            ultimo_heartbeat:
+                agora
+
+        })
+
+        .eq(
+            "auth_id",
+            usuarioAuth.id
+        );
 
 
+    if(error){
 
-if(usuario.nivel_acesso==="adm"){
+        console.error(
+            "Erro ao registrar acesso:",
+            error
+        );
 
-
-permissoes=
-
-"✅ Controle total do sistema";
-
-
-}
-
-
-
-
-if(usuario.nivel_acesso==="engenheiro"){
-
-
-permissoes=
-
-"✅ Obras<br>✅ Inspeções<br>✅ Relatórios<br>✅ IA";
-
-
-}
-
-
-
-
-if(usuario.nivel_acesso==="inspetor"){
-
-
-permissoes=
-
-"✅ Inspeções<br>✅ Fotos<br>✅ Relatórios";
-
-
-}
-
-
-
-
-if(usuario.nivel_acesso==="tecnico"){
-
-
-permissoes=
-
-"✅ Obras<br>✅ Inspeções";
-
+    }
 
 }
 
 
+/*
+====================================================
+ INICIAR PRESENÇA
+====================================================
+*/
+
+async function iniciarPresenca(){
+
+    await registrarAcesso();
 
 
-if(usuario.nivel_acesso==="usuario"){
+    /*
+    Atualiza heartbeat
+    a cada 30 segundos
+    */
 
-
-permissoes=
-
-"👁 Visualização";
-
+    setInterval(
+        atualizarHeartbeat,
+        30000
+    );
 
 }
 
 
+/*
+====================================================
+ REALTIME
+====================================================
+*/
 
+function ouvirEquipeTempoReal(){
 
 
+    if(canalEquipe){
 
+        banco.removeChannel(
+            canalEquipe
+        );
 
+    }
 
-lista.innerHTML += `
 
+    canalEquipe =
 
-<div class="membro">
+        banco
 
+        .channel(
+            "equipe-tempo-real"
+        )
 
 
-<div class="avatar-box">
+        .on(
 
+            "postgres_changes",
 
-<img
+            {
 
-class="foto-perfil"
+                event:"UPDATE",
 
-src="${usuario.foto_url || 'imagens/avatar.png'}"
+                schema:"public",
 
-onerror="this.src='imagens/avatar.png'"
+                table:"usuarios"
 
->
+            },
 
+            payload => {
 
-<span class="ponto-online ${usuario.online ? 'ativo':''}"></span>
+                console.log(
+                    "Usuário atualizado:",
+                    payload.new
+                );
 
 
-</div>
+                /*
+                Atualiza a equipe
+                automaticamente.
+                */
 
+                carregarEquipe();
 
+            }
 
+        )
 
 
-<div>
+        .on(
 
+            "postgres_changes",
 
-<h3>
+            {
 
-${usuario.nome || "Sem nome"}
+                event:"INSERT",
 
-</h3>
+                schema:"public",
 
+                table:"usuarios"
 
+            },
 
-<p>
+            payload => {
 
-📧 ${usuario.email || ""}
+                console.log(
+                    "Novo usuário:",
+                    payload.new
+                );
 
-</p>
 
+                carregarEquipe();
 
+            }
 
-<span class="cargo">
+        )
 
-${usuario.nivel_acesso || "usuario"}
 
-</span>
+        .on(
 
+            "postgres_changes",
 
+            {
 
+                event:"DELETE",
 
+                schema:"public",
 
-<p class="status ${usuario.online ? 'online':'offline'}">
+                table:"usuarios"
 
-● ${usuario.online ? "Online":"Offline"}
+            },
 
-</p>
+            payload => {
 
+                console.log(
+                    "Usuário removido:",
+                    payload.old
+                );
 
 
+                carregarEquipe();
 
+            }
 
-<p>
+        )
 
-Último acesso:
 
-<br>
+        .subscribe(
 
-${usuario.ultimo_acesso
+            status => {
 
-?
+                console.log(
+                    "Realtime equipe:",
+                    status
+                );
 
-new Date(usuario.ultimo_acesso).toLocaleString()
+            }
 
-:
-
-"Nunca"
-
-}
-
-</p>
-
-
-
-
-<div class="permissoes">
-
-${permissoes}
-
-</div>
-
-
-
-</div>
-
-
-</div>
-
-
-`;
-
-
-
-});
-
-
-
-}
-
-
-
-
-
-
-
-
-
-// REALTIME
-
-
-function ouvirOnline(){
-
-
-
-banco
-
-.channel("equipe-tempo-real")
-
-.on(
-
-"postgres_changes",
-
-{
-
-event:"*",
-
-schema:"public",
-
-table:"usuarios"
-
-},
-
-()=>{
-
-
-carregarEquipe();
-
-
-}
-
-)
-
-.subscribe();
-
-
+        );
 
 }
 
 
+/*
+====================================================
+ ATUALIZAR A TELA PERIODICAMENTE
+====================================================
+*/
+
+function atualizarStatusVisual(){
+
+    mostrarEquipe();
+
+}
 
 
+/*
+====================================================
+ INICIALIZAÇÃO
+====================================================
+*/
+
+async function iniciarEquipe(){
+
+    await descobrirEmpresa();
+
+    await carregarEquipe();
+
+    await iniciarPresenca();
+
+    ouvirEquipeTempoReal();
 
 
+    /*
+    Atualiza a tela a cada 10 segundos
+    para detectar quem ficou offline.
+    */
 
-carregarEquipe();
+    setInterval(
+        atualizarStatusVisual,
+        10000
+    );
 
-ouvirOnline();
+}
 
 
+iniciarEquipe();
 
 </script>
-
 
 
 </body>
