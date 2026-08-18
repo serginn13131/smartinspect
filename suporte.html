@@ -14,160 +14,113 @@
 <style>
 
 .conteudo-suporte {
-
-padding: 30px;
-
-max-width: 900px;
-
-margin: auto;
-
+    padding: 30px;
+    max-width: 900px;
+    margin: auto;
 }
 
 .titulo-suporte {
-
-margin-bottom: 25px;
-
+    margin-bottom: 25px;
 }
 
 .titulo-suporte h1 {
-
-margin: 0;
-
-font-size: 28px;
-
+    margin: 0;
+    font-size: 28px;
 }
 
 .titulo-suporte p {
-
-margin-top: 8px;
-
-color: #666;
-
+    margin-top: 8px;
+    color: #666;
 }
 
 .card-suporte {
-
-background: white;
-
-padding: 30px;
-
-border-radius: 15px;
-
-box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
 
 .campo {
-
-margin-bottom: 20px;
-
+    margin-bottom: 20px;
 }
 
 .campo label {
-
-display: block;
-
-font-weight: 600;
-
-margin-bottom: 7px;
-
+    display: block;
+    font-weight: 600;
+    margin-bottom: 7px;
 }
 
 .campo input,
 .campo select,
 .campo textarea {
-
-width: 100%;
-
-box-sizing: border-box;
-
-padding: 13px;
-
-border: 1px solid #ddd;
-
-border-radius: 8px;
-
-font-size: 15px;
-
-outline: none;
-
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
 }
 
 .campo input:focus,
 .campo select:focus,
 .campo textarea:focus {
-
-border-color: #0066cc;
-
+    border-color: #0066cc;
 }
 
 .campo textarea {
-
-height: 150px;
-
-resize: vertical;
-
+    height: 150px;
+    resize: vertical;
 }
 
 .btn-suporte {
-
-width: 100%;
-
-padding: 14px;
-
-border: none;
-
-border-radius: 8px;
-
-background: #0066cc;
-
-color: white;
-
-font-size: 16px;
-
-font-weight: bold;
-
-cursor: pointer;
-
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    background: #0066cc;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .btn-suporte:hover {
+    background: #0055aa;
+}
 
-background: #0055aa;
-
+.btn-suporte:disabled {
+    background: #999;
+    cursor: not-allowed;
 }
 
 .mensagem {
+    display: none;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
 
-display: none;
+.sucesso {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
 
-margin-top: 20px;
-
-padding: 15px;
-
-border-radius: 8px;
-
-background: #e8f5e9;
-
-color: #2e7d32;
-
-text-align: center;
-
+.erro {
+    background: #ffebee;
+    color: #c62828;
 }
 
 @media (max-width: 768px) {
 
-.conteudo-suporte {
+    .conteudo-suporte {
+        padding: 20px;
+    }
 
-padding: 20px;
-
-}
-
-.card-suporte {
-
-padding: 20px;
-
-}
+    .card-suporte {
+        padding: 20px;
+    }
 
 }
 
@@ -350,6 +303,7 @@ padding: 20px;
                 <button
                     type="submit"
                     class="btn-suporte"
+                    id="btnEnviar"
                 >
 
                     📨 Enviar mensagem
@@ -359,11 +313,17 @@ padding: 20px;
 
                 <div
                     id="mensagemSucesso"
-                    class="mensagem"
+                    class="mensagem sucesso"
                 >
-
                     ✅ Mensagem enviada com sucesso!
+                </div>
 
+
+                <div
+                    id="mensagemErro"
+                    class="mensagem erro"
+                >
+                    ❌ Não foi possível enviar a mensagem.
                 </div>
 
 
@@ -376,49 +336,217 @@ padding: 20px;
 </div>
 
 
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
 <script>
+
+const SUPABASE_URL =
+"https://iibdvkxztgrlrwzqbfrg.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_qMjvqXKJW_5onSUZjymiSw_0KfZi44D";
+
+const supabaseClient =
+supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+async function carregarUsuario() {
+
+    const {
+        data: {
+            user
+        },
+        error
+    } = await supabaseClient.auth.getUser();
+
+
+    if (error || !user) {
+
+        alert("Sua sessão expirou. Faça login novamente.");
+
+        window.location.href = "login.html";
+
+        return;
+
+    }
+
+
+    document.getElementById("email").value =
+        user.email || "";
+
+
+    const {
+        data: perfil,
+        error: erroPerfil
+    } = await supabaseClient
+        .from("usuarios")
+        .select("nome")
+        .eq("auth_id", user.id)
+        .maybeSingle();
+
+
+    if (!erroPerfil && perfil) {
+
+        document.getElementById("nome").value =
+            perfil.nome || "";
+
+    }
+
+}
+
+
+carregarUsuario();
+
 
 document
 .getElementById("formSuporte")
-.addEventListener("submit", function(event) {
+.addEventListener("submit", async function(event) {
 
     event.preventDefault();
 
-    const nome =
-        document.getElementById("nome").value;
 
-    const email =
-        document.getElementById("email").value;
+    const btn =
+        document.getElementById("btnEnviar");
 
-    const tipo =
-        document.getElementById("tipo").value;
+    const mensagemSucesso =
+        document.getElementById("mensagemSucesso");
 
-    const assunto =
-        document.getElementById("assunto").value;
-
-    const mensagem =
-        document.getElementById("mensagem").value;
+    const mensagemErro =
+        document.getElementById("mensagemErro");
 
 
-    console.log({
-
-        nome,
-        email,
-        tipo,
-        assunto,
-        mensagem
-
-    });
+    mensagemSucesso.style.display = "none";
+    mensagemErro.style.display = "none";
 
 
-    document
-    .getElementById("mensagemSucesso")
-    .style.display = "block";
+    btn.disabled = true;
+
+    btn.innerText = "Enviando...";
 
 
-    document
-    .getElementById("formSuporte")
-    .reset();
+    try {
+
+
+        const {
+            data: {
+                user
+            },
+            error: erroUsuario
+        } = await supabaseClient.auth.getUser();
+
+
+        if (erroUsuario || !user) {
+
+            throw new Error(
+                "Usuário não está logado."
+            );
+
+        }
+
+
+        const nome =
+            document.getElementById("nome").value.trim();
+
+        const email =
+            document.getElementById("email").value.trim();
+
+        const tipo =
+            document.getElementById("tipo").value;
+
+        const assunto =
+            document.getElementById("assunto").value.trim();
+
+        const mensagem =
+            document.getElementById("mensagem").value.trim();
+
+
+        const {
+            error
+        } = await supabaseClient
+            .from("chamados_suporte")
+            .insert([{
+
+                usuario_id: user.id,
+
+                nome: nome,
+
+                email: email,
+
+                tipo: tipo,
+
+                assunto: assunto,
+
+                mensagem: mensagem,
+
+                status: "aberto"
+
+            }]);
+
+
+        if (error) {
+
+            console.error(
+                "Erro Supabase:",
+                error
+            );
+
+            throw error;
+
+        }
+
+
+        mensagemSucesso.style.display =
+            "block";
+
+
+        document
+            .getElementById("formSuporte")
+            .reset();
+
+
+        document.getElementById("email").value =
+            user.email || "";
+
+
+        btn.innerText =
+            "✅ Mensagem enviada";
+
+
+        setTimeout(function() {
+
+            btn.disabled = false;
+
+            btn.innerText =
+                "📨 Enviar mensagem";
+
+        }, 3000);
+
+
+    } catch (erro) {
+
+
+        console.error(
+            "Erro ao enviar suporte:",
+            erro
+        );
+
+
+        mensagemErro.style.display =
+            "block";
+
+
+        btn.disabled = false;
+
+        btn.innerText =
+            "📨 Enviar mensagem";
+
+    }
 
 });
 
