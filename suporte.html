@@ -4,59 +4,83 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Suporte - SmartInspect AI</title>
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-<link rel="stylesheet" href="css/style.css">
+<title>Falar com Suporte - SmartInspect AI</title>
+
+<link
+    rel="stylesheet"
+    href="css/style.css"
+>
 
 <style>
+
+/* =====================================================
+   BASE
+===================================================== */
 
 *{
     box-sizing:border-box;
 }
 
+body{
+    margin:0;
+}
+
+
+/* =====================================================
+   CONTEÚDO
+===================================================== */
+
 .conteudo-suporte{
+
+    margin-left:260px;
 
     padding:30px;
 
-    width:100%;
-
-    max-width:1100px;
-
-    margin:auto;
+    max-width:1200px;
 
 }
 
 
-/* ==========================
-   TÍTULO
-========================== */
+/* =====================================================
+   CABEÇALHO
+===================================================== */
 
 .titulo-suporte{
+
     margin-bottom:25px;
+
 }
 
 .titulo-suporte h1{
+
     margin:0;
+
     font-size:28px;
+
 }
 
 .titulo-suporte p{
+
     color:#666;
+
     margin-top:8px;
+
 }
 
 
-/* ==========================
-   CARD
-========================== */
+/* =====================================================
+   CARD PRINCIPAL
+===================================================== */
 
 .card-suporte{
 
     background:white;
-
-    padding:25px;
 
     border-radius:15px;
 
@@ -64,179 +88,20 @@
         0 4px 15px
         rgba(0,0,0,.08);
 
-    margin-bottom:25px;
-
-}
-
-
-/* ==========================
-   CAMPOS
-========================== */
-
-.campo{
-    margin-bottom:18px;
-}
-
-.campo label{
-
-    display:block;
-
-    font-weight:bold;
-
-    margin-bottom:7px;
-
-}
-
-.campo input,
-.campo select,
-.campo textarea{
-
-    width:100%;
-
-    padding:12px;
-
-    border:1px solid #ddd;
-
-    border-radius:8px;
-
-    font-size:15px;
-
-    font-family:Arial,sans-serif;
-
-    outline:none;
-
-}
-
-.campo input:focus,
-.campo select:focus,
-.campo textarea:focus{
-
-    border-color:#0066cc;
-
-}
-
-.campo textarea{
-
-    height:120px;
-
-    resize:vertical;
-
-}
-
-
-/* ==========================
-   BOTÕES
-========================== */
-
-.btn{
-
-    border:none;
-
-    border-radius:8px;
-
-    padding:12px 18px;
-
-    color:white;
-
-    font-weight:bold;
-
-    cursor:pointer;
-
-}
-
-.btn-enviar{
-
-    width:100%;
-
-    background:#0066cc;
-
-    font-size:16px;
-
-}
-
-.btn-enviar:hover{
-    background:#0055aa;
-}
-
-.btn-enviar:disabled{
-
-    background:#999;
-
-    cursor:not-allowed;
-
-}
-
-
-/* ==========================
-   MENSAGEM SISTEMA
-========================== */
-
-.mensagem-sistema{
-
-    display:none;
-
-    padding:13px;
-
-    margin-top:15px;
-
-    border-radius:8px;
-
-    text-align:center;
-
-    font-weight:bold;
-
-}
-
-.sucesso{
-
-    display:block;
-
-    background:#e8f5e9;
-
-    color:#2e7d32;
-
-}
-
-.erro{
-
-    display:block;
-
-    background:#ffebee;
-
-    color:#c62828;
-
-}
-
-
-/* ==========================
-   CHAMADOS
-========================== */
-
-.lista-chamados{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:18px;
-
-}
-
-.chamado{
-
-    border:1px solid #ddd;
-
-    border-radius:12px;
-
     overflow:hidden;
 
 }
 
-.chamado-cabecalho{
 
-    padding:16px;
+/* =====================================================
+   INFORMAÇÕES
+===================================================== */
 
-    background:#f7f7f7;
+.info-chamado{
+
+    padding:20px;
+
+    border-bottom:1px solid #eee;
 
     display:flex;
 
@@ -246,34 +111,36 @@
 
     gap:15px;
 
+    flex-wrap:wrap;
+
 }
 
-.chamado-cabecalho h3{
+.info-chamado h2{
 
     margin:0;
 
-    font-size:17px;
+    font-size:20px;
 
 }
 
-.chamado-info{
+.info-chamado p{
 
-    color:#777;
+    margin:6px 0 0;
 
-    font-size:13px;
+    color:#666;
 
-    margin-top:5px;
+    font-size:14px;
 
 }
 
 
-/* ==========================
+/* =====================================================
    STATUS
-========================== */
+===================================================== */
 
 .status{
 
-    padding:6px 11px;
+    padding:8px 13px;
 
     border-radius:20px;
 
@@ -281,148 +148,193 @@
 
     font-weight:bold;
 
-    white-space:nowrap;
-
 }
 
-.status-aberto{
+.status-pendente{
 
-    background:#ffebee;
+    background:#fff3cd;
 
-    color:#c62828;
+    color:#856404;
 
 }
 
 .status-atendimento{
 
-    background:#fff8e1;
+    background:#cfe2ff;
 
-    color:#8a6d00;
-
-}
-
-.status-fechado{
-
-    background:#e8f5e9;
-
-    color:#2e7d32;
+    color:#084298;
 
 }
 
+.status-resolvido{
 
-/* ==========================
+    background:#d1e7dd;
+
+    color:#0f5132;
+
+}
+
+
+/* =====================================================
    CHAT
-========================== */
+===================================================== */
 
 .chat{
 
-    padding:18px;
-
-    background:white;
-
-}
-
-.lista-mensagens{
+    height:550px;
 
     display:flex;
 
     flex-direction:column;
 
-    gap:10px;
+}
 
-    max-height:450px;
+
+/* =====================================================
+   MENSAGENS
+===================================================== */
+
+.mensagens{
+
+    flex:1;
 
     overflow-y:auto;
 
-    padding:5px;
+    padding:25px;
+
+    background:#f5f7fa;
 
 }
 
 
-/* ==========================
-   BOLHAS
-========================== */
+/* =====================================================
+   BALÃO
+===================================================== */
 
-.bolha{
+.mensagem{
 
     max-width:75%;
 
-    padding:11px 14px;
+    padding:13px 16px;
 
-    border-radius:12px;
+    border-radius:13px;
 
-    line-height:1.5;
-
-    white-space:pre-wrap;
+    margin-bottom:14px;
 
     word-break:break-word;
 
+    line-height:1.45;
+
 }
 
-.bolha-usuario{
 
-    align-self:flex-end;
+/* USUÁRIO */
+
+.mensagem.usuario{
+
+    background:white;
+
+    border:1px solid #ddd;
+
+    margin-right:auto;
+
+}
+
+
+/* ADM */
+
+.mensagem.adm{
 
     background:#0066cc;
 
     color:white;
 
-    border-bottom-right-radius:3px;
+    margin-left:auto;
 
 }
 
-.bolha-adm{
 
-    align-self:flex-start;
+.mensagem small{
 
-    background:#eeeeee;
+    display:block;
 
-    color:#222;
-
-    border-bottom-left-radius:3px;
-
-}
-
-.bolha-nome{
-
-    font-size:11px;
-
-    font-weight:bold;
-
-    margin-bottom:5px;
-
-    opacity:.8;
-
-}
-
-.bolha-data{
+    margin-top:7px;
 
     font-size:10px;
 
-    margin-top:5px;
-
     opacity:.7;
-
-    text-align:right;
 
 }
 
 
-/* ==========================
-   RESPONDER
-========================== */
+/* =====================================================
+   ARQUIVO
+===================================================== */
 
-.area-resposta{
+.mensagem-arquivo{
+
+    display:block;
+
+    margin-top:10px;
+
+    padding:10px;
+
+    border-radius:8px;
+
+    background:rgba(0,0,0,.08);
+
+    text-decoration:none;
+
+    color:inherit;
+
+}
+
+
+/* =====================================================
+   DIGITANDO
+===================================================== */
+
+.digitando{
+
+    display:none;
+
+    padding:7px 20px;
+
+    color:#777;
+
+    font-size:13px;
+
+    font-style:italic;
+
+    background:#f5f7fa;
+
+}
+
+
+/* =====================================================
+   ÁREA DE ENVIO
+===================================================== */
+
+.area-envio{
+
+    border-top:1px solid #eee;
+
+    padding:15px;
 
     display:flex;
 
-    gap:10px;
+    gap:8px;
 
-    margin-top:15px;
+    align-items:center;
 
 }
 
-.area-resposta textarea{
+
+/* =====================================================
+   TEXTAREA
+===================================================== */
+
+.area-envio textarea{
 
     flex:1;
 
@@ -430,114 +342,227 @@
 
     resize:none;
 
-    padding:11px;
+    padding:12px;
 
-    border:1px solid #ddd;
+    border:1px solid #ccc;
 
     border-radius:8px;
 
-    font-family:Arial,sans-serif;
+    font-family:Arial;
+
+    font-size:14px;
 
     outline:none;
 
 }
 
-.area-resposta textarea:focus{
+
+.area-envio textarea:focus{
 
     border-color:#0066cc;
 
 }
 
-.btn-responder{
 
-    background:#198754;
+/* =====================================================
+   BOTÃO ARQUIVO
+===================================================== */
 
-    min-width:120px;
+.btn-arquivo{
 
-}
+    width:45px;
 
-.btn-responder:hover{
+    height:45px;
 
-    background:#146c43;
+    display:flex;
 
-}
+    align-items:center;
 
-.btn-responder:disabled{
+    justify-content:center;
 
-    background:#999;
-
-}
-
-
-/* ==========================
-   FECHADO
-========================== */
-
-.chamado-fechado{
-
-    text-align:center;
-
-    color:#777;
-
-    padding:12px;
-
-    margin-top:12px;
-
-    background:#f7f7f7;
+    border:none;
 
     border-radius:8px;
 
+    background:#6c757d;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:19px;
+
 }
 
 
-/* ==========================
-   VAZIO
-========================== */
+.input-arquivo{
 
-.vazio{
+    display:none;
+
+}
+
+
+/* =====================================================
+   BOTÃO ENVIAR
+===================================================== */
+
+.btn-enviar{
+
+    height:45px;
+
+    padding:0 20px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#0066cc;
+
+    color:white;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+
+.btn-enviar:hover{
+
+    background:#0055aa;
+
+}
+
+
+.btn-enviar:disabled{
+
+    opacity:.6;
+
+    cursor:not-allowed;
+
+}
+
+
+/* =====================================================
+   RESOLVIDO
+===================================================== */
+
+.chamado-resolvido{
+
+    padding:15px 20px;
+
+    background:#d1e7dd;
+
+    color:#0f5132;
 
     text-align:center;
 
-    padding:30px;
-
-    color:#777;
-
-    background:#f7f7f7;
-
-    border-radius:10px;
+    font-weight:bold;
 
 }
 
 
-/* ==========================
-   MOBILE
-========================== */
+/* =====================================================
+   MENSAGEM VAZIA
+===================================================== */
 
-@media(max-width:700px){
+.mensagem-vazia{
+
+    height:100%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    color:#777;
+
+}
+
+
+/* =====================================================
+   AVISO
+===================================================== */
+
+.aviso{
+
+    position:fixed;
+
+    right:20px;
+
+    bottom:20px;
+
+    z-index:99999;
+
+    background:#0066cc;
+
+    color:white;
+
+    padding:15px 20px;
+
+    border-radius:10px;
+
+    box-shadow:
+        0 5px 20px
+        rgba(0,0,0,.25);
+
+}
+
+
+/* =====================================================
+   RESPONSIVO
+===================================================== */
+
+@media(max-width:900px){
 
     .conteudo-suporte{
+
+        margin-left:0;
+
         padding:20px;
+
     }
 
-    .card-suporte{
-        padding:20px;
+}
+
+
+@media(max-width:600px){
+
+    .conteudo-suporte{
+
+        padding:12px;
+
     }
 
-    .chamado-cabecalho{
-        flex-direction:column;
-        align-items:flex-start;
+
+    .chat{
+
+        height:600px;
+
     }
 
-    .bolha{
+
+    .mensagem{
+
         max-width:90%;
+
     }
 
-    .area-resposta{
-        flex-direction:column;
+
+    .area-envio{
+
+        padding:10px;
+
     }
 
-    .btn-responder{
-        width:100%;
+
+    .btn-enviar{
+
+        padding:0 14px;
+
     }
 
 }
@@ -550,9 +575,9 @@
 <body>
 
 
-<!-- ==================================================
+<!-- =====================================================
      SIDEBAR
-================================================== -->
+===================================================== -->
 
 <div class="sidebar">
 
@@ -626,13 +651,6 @@
             💬 Falar Com Suporte
         </a>
 
-        <a
-            class="admin-only"
-            href="suporte_admin.html"
-        >
-            🛠️ Chamados de Suporte
-        </a>
-
         <a href="notificacoes.html">
             🔔 Notificações
         </a>
@@ -649,12 +667,9 @@
 </div>
 
 
-
-<!-- ==================================================
+<!-- =====================================================
      CONTEÚDO
-================================================== -->
-
-<div class="main">
+===================================================== -->
 
 <div class="conteudo-suporte">
 
@@ -666,186 +681,145 @@
         </h1>
 
         <p>
-            Envie sua dúvida ou problema para nossa equipe.
+            Converse com a equipe de suporte do SmartInspect AI.
         </p>
 
     </div>
 
 
-
-    <!-- ==================================================
-         NOVO CHAMADO
-    ================================================== -->
-
     <div class="card-suporte">
 
-        <h2>
-            📨 Novo chamado
-        </h2>
 
-        <br>
+        <!-- =================================================
+             INFORMAÇÕES DO CHAMADO
+        ================================================== -->
 
+        <div
+            id="infoChamado"
+            class="info-chamado"
+        >
 
-        <form id="formSuporte">
+            <div>
 
+                <h2 id="assuntoChamado">
+                    Carregando...
+                </h2>
 
-            <div class="campo">
-
-                <label>
-                    Nome
-                </label>
-
-                <input
-                    type="text"
-                    id="nome"
-                    required
-                >
+                <p id="dadosChamado">
+                    Aguarde...
+                </p>
 
             </div>
 
 
-            <div class="campo">
-
-                <label>
-                    E-mail
-                </label>
-
-                <input
-                    type="email"
-                    id="email"
-                    required
-                >
-
-            </div>
-
-
-            <div class="campo">
-
-                <label>
-                    Tipo de problema
-                </label>
-
-                <select
-                    id="tipo"
-                    required
-                >
-
-                    <option value="">
-                        Selecione
-                    </option>
-
-                    <option>
-                        Problema no sistema
-                    </option>
-
-                    <option>
-                        Problema no login
-                    </option>
-
-                    <option>
-                        Problema com inspeção
-                    </option>
-
-                    <option>
-                        Problema com relatório
-                    </option>
-
-                    <option>
-                        Problema com fotos
-                    </option>
-
-                    <option>
-                        Outro
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="campo">
-
-                <label>
-                    Assunto
-                </label>
-
-                <input
-                    type="text"
-                    id="assunto"
-                    placeholder="Ex: Problema no relatório"
-                    required
-                >
-
-            </div>
-
-
-            <div class="campo">
-
-                <label>
-                    Mensagem
-                </label>
-
-                <textarea
-                    id="mensagem"
-                    placeholder="Descreva seu problema..."
-                    required
-                ></textarea>
-
-            </div>
-
-
-            <button
-                type="submit"
-                class="btn btn-enviar"
-                id="btnEnviar"
+            <span
+                id="statusChamado"
+                class="status status-pendente"
             >
-                📨 Enviar chamado
-            </button>
+
+                🟡 Pendente
+
+            </span>
+
+        </div>
+
+
+        <!-- =================================================
+             CHAT
+        ================================================== -->
+
+        <div class="chat">
 
 
             <div
-                id="mensagemSistema"
-                class="mensagem-sistema"
-            ></div>
+                id="mensagens"
+                class="mensagens"
+            >
 
+                <div class="mensagem-vazia">
 
-        </form>
+                    <div>
 
-    </div>
+                        ⏳
 
+                        <br><br>
 
+                        Carregando atendimento...
 
-    <!-- ==================================================
-         MEUS CHAMADOS
-    ================================================== -->
+                    </div>
 
-    <div class="card-suporte">
+                </div>
 
-        <h2>
-            📋 Meus chamados
-        </h2>
-
-        <br>
-
-        <div
-            id="listaChamados"
-            class="lista-chamados"
-        >
-
-            <div class="vazio">
-                ⏳ Carregando...
             </div>
+
+
+            <!-- DIGITANDO -->
+
+            <div
+                id="digitando"
+                class="digitando"
+            >
+
+                💬 ADM está digitando...
+
+            </div>
+
+
+            <!-- =================================================
+                 ENVIO
+            ================================================== -->
+
+            <div
+                id="areaEnvio"
+                class="area-envio"
+            >
+
+
+                <label
+                    class="btn-arquivo"
+                    title="Enviar arquivo"
+                >
+
+                    📎
+
+                    <input
+                        type="file"
+                        id="arquivo"
+                        class="input-arquivo"
+                    >
+
+                </label>
+
+
+                <textarea
+                    id="resposta"
+                    placeholder="Digite sua mensagem..."
+                ></textarea>
+
+
+                <button
+                    id="btnEnviar"
+                    class="btn-enviar"
+                    onclick="enviarMensagem()"
+                >
+
+                    📨 Enviar
+
+                </button>
+
+            </div>
+
 
         </div>
 
     </div>
 
-
-</div>
-
 </div>
 
 
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -854,23 +828,26 @@
 
 <script>
 
+/* =====================================================
+   VARIÁVEIS
+===================================================== */
 
-let usuarioLogado = null;
+let chamadoAtual = null;
 
 let canalRealtime = null;
 
+let canalDigitando = null;
 
-/* ==================================================
+let digitandoTimeout = null;
+
+
+/* =====================================================
    ESCAPAR HTML
-================================================== */
+===================================================== */
 
-function escapar(texto){
+function escapeHtml(text){
 
-    if(texto === null || texto === undefined){
-        return "";
-    }
-
-    return String(texto)
+    return String(text || "")
 
         .replace(/&/g,"&amp;")
 
@@ -885,65 +862,92 @@ function escapar(texto){
 }
 
 
-/* ==================================================
-   USUÁRIO LOGADO
-================================================== */
+/* =====================================================
+   DATA
+===================================================== */
 
-async function obterUsuario(){
+function formatarData(data){
 
-    const {
-        data:{
-            session
-        }
-    } = await banco.auth.getSession();
+    if(!data){
 
-
-    if(
-        !session ||
-        !session.user
-    ){
-
-        window.location.href =
-            "login.html";
-
-        return null;
+        return "";
 
     }
 
-
-    return session.user;
+    return new Date(data)
+        .toLocaleString(
+            "pt-BR"
+        );
 
 }
 
 
-/* ==================================================
-   CARREGAR PERFIL
-================================================== */
+/* =====================================================
+   USUÁRIO
+===================================================== */
 
-async function carregarPerfil(){
+function pegarUsuario(){
 
-    usuarioLogado =
-        await obterUsuario();
+    try{
+
+        return JSON.parse(
+            localStorage.getItem(
+                "usuario"
+            ) || "{}"
+        );
+
+    }catch{
+
+        return {};
+
+    }
+
+}
 
 
-    if(!usuarioLogado){
-        return false;
+/* =====================================================
+   CARREGAR CHAMADO
+===================================================== */
+
+async function carregarChamado(){
+
+    const usuario =
+        pegarUsuario();
+
+
+    if(!usuario.email){
+
+        window.location.href =
+            "login.html";
+
+        return;
+
     }
 
 
-    const {
-        data,
-        error
-    } = await banco
+    const {data,error} =
 
-        .from("usuarios")
+        await banco
+
+        .from(
+            "solicitacoes_suporte"
+        )
 
         .select("*")
 
         .eq(
-            "auth_id",
-            usuarioLogado.id
+            "email",
+            usuario.email
         )
+
+        .order(
+            "data_criacao",
+            {
+                ascending:false
+            }
+        )
+
+        .limit(1)
 
         .maybeSingle();
 
@@ -952,570 +956,251 @@ async function carregarPerfil(){
 
         console.error(error);
 
-        return false;
+        mostrarErro(
+            error.message
+        );
+
+        return;
 
     }
 
 
-    if(data){
+    if(!data){
 
-        document.getElementById("nome").value =
-            data.nome || "";
+        mostrarSemChamado();
 
-        document.getElementById("email").value =
-            data.email ||
-            usuarioLogado.email ||
-            "";
+        return;
 
     }
 
 
-    return true;
+    chamadoAtual =
+        data;
+
+
+    atualizarCabecalho();
+
+
+    await carregarMensagens();
+
+
+    iniciarRealtime();
+
+
+    iniciarDigitando();
 
 }
 
 
-/* ==================================================
-   ENVIAR NOVO CHAMADO
-================================================== */
+/* =====================================================
+   CABEÇALHO
+===================================================== */
 
-document
-.getElementById("formSuporte")
-.addEventListener(
-    "submit",
-    async function(event){
+function atualizarCabecalho(){
 
-        event.preventDefault();
+    if(!chamadoAtual){
 
+        return;
 
-        const btn =
-            document.getElementById("btnEnviar");
+    }
 
-        const resultado =
-            document.getElementById(
-                "mensagemSistema"
-            );
 
+    document.getElementById(
+        "assuntoChamado"
+    ).textContent =
 
-        btn.disabled = true;
+        chamadoAtual.assunto ||
+        "Atendimento";
 
-        btn.innerText =
-            "⏳ Enviando...";
 
+    document.getElementById(
+        "dadosChamado"
+    ).textContent =
 
-        const nome =
-            document.getElementById("nome")
-            .value.trim();
-
-        const email =
-            document.getElementById("email")
-            .value.trim();
-
-        const tipo =
-            document.getElementById("tipo")
-            .value;
-
-        const assunto =
-            document.getElementById("assunto")
-            .value.trim();
-
-        const mensagem =
-            document.getElementById("mensagem")
-            .value.trim();
-
-
-        if(
-            !nome ||
-            !email ||
-            !tipo ||
-            !assunto ||
-            !mensagem
-        ){
-
-            mostrarResultado(
-                "⚠️ Preencha todos os campos.",
-                false
-            );
-
-            btn.disabled = false;
-
-            btn.innerText =
-                "📨 Enviar chamado";
-
-            return;
-
-        }
-
-
-        /* ==========================
-           CRIAR CHAMADO
-        ========================== */
-
-        const {
-
-            data:chamado,
-
-            error
-
-        } = await banco
-
-            .from("chamados_suporte")
-
-            .insert({
-
-                usuario_id:
-                    usuarioLogado.id,
-
-                nome:
-                    nome,
-
-                email:
-                    email,
-
-                tipo:
-                    tipo,
-
-                assunto:
-                    assunto,
-
-                mensagem:
-                    mensagem,
-
-                status:
-                    "aberto"
-
-            })
-
-            .select()
-
-            .single();
-
-
-        if(error){
-
-            console.error(error);
-
-            mostrarResultado(
-                "❌ Não foi possível criar o chamado.",
-                false
-            );
-
-            btn.disabled = false;
-
-            btn.innerText =
-                "📨 Enviar chamado";
-
-            return;
-
-        }
-
-
-        /* ==========================
-           CRIAR PRIMEIRA MENSAGEM
-        ========================== */
-
-        const {
-
-            error:erroMensagem
-
-        } = await banco
-
-            .from("mensagens_suporte")
-
-            .insert({
-
-                chamado_id:
-                    chamado.id,
-
-                usuario_id:
-                    usuarioLogado.id,
-
-                remetente_id:
-                    usuarioLogado.id,
-
-                remetente_tipo:
-                    "usuario",
-
-                mensagem:
-                    mensagem
-
-            });
-
-
-        if(erroMensagem){
-
-            console.error(
-                "Erro ao criar mensagem:",
-                erroMensagem
-            );
-
-        }
-
-
-        mostrarResultado(
-            "✅ Chamado enviado com sucesso!",
-            true
+        "📧 " +
+        chamadoAtual.email +
+        " • " +
+        formatarData(
+            chamadoAtual.data_criacao
         );
 
 
-        document.getElementById("tipo")
-            .value = "";
+    const status =
+        chamadoAtual.status ||
+        "pendente";
 
-        document.getElementById("assunto")
-            .value = "";
-
-        document.getElementById("mensagem")
-            .value = "";
-
-
-        btn.disabled = false;
-
-        btn.innerText =
-            "📨 Enviar chamado";
-
-
-        carregarChamados();
-
-    }
-);
-
-
-/* ==================================================
-   RESULTADO
-================================================== */
-
-function mostrarResultado(
-    texto,
-    sucesso
-){
 
     const elemento =
         document.getElementById(
-            "mensagemSistema"
+            "statusChamado"
         );
 
 
-    elemento.innerText =
-        texto;
+    if(status === "pendente"){
+
+        elemento.textContent =
+            "🟡 Pendente";
+
+    }
+
+    else if(
+        status === "atendimento"
+    ){
+
+        elemento.textContent =
+            "🔵 Em atendimento";
+
+    }
+
+    else if(
+        status === "resolvido"
+    ){
+
+        elemento.textContent =
+            "🟢 Resolvido";
+
+    }
 
 
     elemento.className =
-        sucesso
-        ?
-        "mensagem-sistema sucesso"
-        :
-        "mensagem-sistema erro";
+        "status status-" +
+        status;
 
 
-    setTimeout(()=>{
+    const areaEnvio =
+        document.getElementById(
+            "areaEnvio"
+        );
 
-        elemento.style.display =
+
+    if(status === "resolvido"){
+
+        areaEnvio.style.display =
             "none";
 
-    },5000);
 
-}
-
-
-/* ==================================================
-   CARREGAR CHAMADOS
-================================================== */
-
-async function carregarChamados(){
-
-    if(!usuarioLogado){
-        return;
-    }
+        let aviso =
+            document.getElementById(
+                "avisoResolvido"
+            );
 
 
-    const lista =
-        document.getElementById(
-            "listaChamados"
-        );
+        if(!aviso){
 
+            aviso =
+                document.createElement(
+                    "div"
+                );
 
-    const {
+            aviso.id =
+                "avisoResolvido";
 
-        data,
+            aviso.className =
+                "chamado-resolvido";
 
-        error
+            aviso.textContent =
+                "✅ Este chamado foi resolvido.";
 
-    } = await banco
+            document
+                .querySelector(
+                    ".chat"
+                )
+                .appendChild(
+                    aviso
+                );
 
-        .from("chamados_suporte")
-
-        .select("*")
-
-        .eq(
-            "usuario_id",
-            usuarioLogado.id
-        )
-
-        .order(
-            "data_criacao",
-            {
-                ascending:false
-            }
-        );
-
-
-    if(error){
-
-        console.error(error);
-
-        lista.innerHTML = `
-
-            <div class="vazio">
-
-                ❌ Não foi possível carregar seus chamados.
-
-            </div>
-
-        `;
-
-        return;
+        }
 
     }
 
+    else{
 
-    if(!data || data.length === 0){
-
-        lista.innerHTML = `
-
-            <div class="vazio">
-
-                📭 Você ainda não possui chamados.
-
-            </div>
-
-        `;
-
-        return;
-
-    }
+        areaEnvio.style.display =
+            "flex";
 
 
-    lista.innerHTML = "";
+        const aviso =
+            document.getElementById(
+                "avisoResolvido"
+            );
 
 
-    for(
-        const chamado of data
-    ){
+        if(aviso){
 
-        await criarCardChamado(
-            chamado
-        );
+            aviso.remove();
+
+        }
 
     }
 
 }
 
 
-/* ==================================================
-   CRIAR CARD
-================================================== */
-
-async function criarCardChamado(chamado){
-
-    const lista =
-        document.getElementById(
-            "listaChamados"
-        );
-
-
-    let classe =
-        "status-aberto";
-
-    let texto =
-        "🔴 Aberto";
-
-
-    if(
-        chamado.status ===
-        "atendimento"
-    ){
-
-        classe =
-            "status-atendimento";
-
-        texto =
-            "🟡 Em atendimento";
-
-    }
-
-
-    if(
-        chamado.status ===
-        "fechado"
-    ){
-
-        classe =
-            "status-fechado";
-
-        texto =
-            "🟢 Fechado";
-
-    }
-
-
-    const data =
-        chamado.data_criacao
-        ?
-        new Date(
-            chamado.data_criacao
-        ).toLocaleString("pt-BR")
-        :
-        "";
-
-
-    const card =
-        document.createElement("div");
-
-
-    card.className =
-        "chamado";
-
-
-    card.dataset.id =
-        chamado.id;
-
-
-    card.innerHTML = `
-
-        <div class="chamado-cabecalho">
-
-            <div>
-
-                <h3>
-                    ${escapar(chamado.assunto)}
-                </h3>
-
-                <div class="chamado-info">
-
-                    ${escapar(chamado.tipo)}
-
-                    <br>
-
-                    📅 ${data}
-
-                </div>
-
-            </div>
-
-
-            <span
-                class="status ${classe}"
-            >
-
-                ${texto}
-
-            </span>
-
-        </div>
-
-
-        <div class="chat">
-
-            <div
-                class="lista-mensagens"
-                id="mensagens-${chamado.id}"
-            >
-
-                ⏳ Carregando conversa...
-
-            </div>
-
-
-            ${
-                chamado.status !== "fechado"
-
-                ?
-
-                `
-
-                <div class="area-resposta">
-
-                    <textarea
-                        id="resposta-${chamado.id}"
-                        placeholder="Digite uma mensagem..."
-                    ></textarea>
-
-                    <button
-                        class="btn btn-responder"
-                        onclick="enviarMensagem(${chamado.id})"
-                    >
-
-                        📨 Enviar
-
-                    </button>
-
-                </div>
-
-                `
-
-                :
-
-                `
-
-                <div class="chamado-fechado">
-
-                    🔒 Este chamado foi encerrado.
-
-                </div>
-
-                `
-
-            }
-
-        </div>
-
-    `;
-
-
-    lista.appendChild(card);
-
-
-    await carregarMensagens(
-        chamado.id
-    );
-
-}
-
-
-/* ==================================================
+/* =====================================================
    CARREGAR MENSAGENS
-================================================== */
+===================================================== */
 
-async function carregarMensagens(
-    chamadoId
-){
+async function carregarMensagens(){
 
-    const elemento =
-        document.getElementById(
-            `mensagens-${chamadoId}`
-        );
+    if(!chamadoAtual){
 
-
-    if(!elemento){
         return;
+
     }
 
 
-    const {
+    const area =
+        document.getElementById(
+            "mensagens"
+        );
 
-        data,
 
-        error
+    area.innerHTML = "";
 
-    } = await banco
 
-        .from("mensagens_suporte")
+    /*
+    ==========================================
+    MENSAGEM ORIGINAL DO CHAMADO
+    ==========================================
+    */
+
+    if(chamadoAtual.mensagem){
+
+        adicionarMensagem({
+
+            mensagem:
+                chamadoAtual.mensagem,
+
+            remetente_tipo:
+                "usuario",
+
+            data_criacao:
+                chamadoAtual.data_criacao
+
+        });
+
+    }
+
+
+    /*
+    ==========================================
+    HISTÓRICO
+    ==========================================
+    */
+
+    const {data,error} =
+
+        await banco
+
+        .from(
+            "suporte_mensagens"
+        )
 
         .select("*")
 
         .eq(
             "chamado_id",
-            chamadoId
+            chamadoAtual.id
         )
 
         .order(
@@ -1530,71 +1215,153 @@ async function carregarMensagens(
 
         console.error(error);
 
-        elemento.innerHTML =
-            "❌ Erro ao carregar conversa.";
-
         return;
 
     }
 
 
-    elemento.innerHTML = "";
+    if(data){
 
+        for(
+            const mensagem
+            of data
+        ){
 
-    if(
-        !data ||
-        data.length === 0
-    ){
+            /*
+            Não duplica a mensagem
+            original caso exista alguma
+            gravação correspondente.
+            */
 
-        elemento.innerHTML =
-            "Nenhuma mensagem ainda.";
-
-        return;
-
-    }
-
-
-    data.forEach(
-        mensagem => {
-
-            adicionarMensagemNaTela(
+            adicionarMensagem(
                 mensagem
             );
 
         }
-    );
+
+    }
 
 
-    rolarChat(
-        elemento
+    rolarChat();
+
+}
+
+
+/* =====================================================
+   ADICIONAR MENSAGEM
+===================================================== */
+
+function adicionarMensagem(msg){
+
+    const area =
+        document.getElementById(
+            "mensagens"
+        );
+
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    const tipo =
+
+        msg.remetente_tipo ===
+        "adm"
+
+        ? "adm"
+
+        : "usuario";
+
+
+    div.className =
+        "mensagem " +
+        tipo;
+
+
+    let conteudo =
+        escapeHtml(
+            msg.mensagem
+        );
+
+
+    /*
+    ==========================================
+    ARQUIVO
+    ==========================================
+    */
+
+    if(
+        msg.tipo === "arquivo" &&
+        msg.url
+    ){
+
+        conteudo += `
+
+            <a
+                href="${escapeHtml(msg.url)}"
+                target="_blank"
+                class="mensagem-arquivo"
+            >
+
+                📎 Abrir arquivo
+
+            </a>
+
+        `;
+
+    }
+
+
+    div.innerHTML = `
+
+        ${conteudo}
+
+        <small>
+
+            ${
+                tipo === "adm"
+
+                ? "👨‍💼 Suporte"
+
+                : "👤 Você"
+
+            }
+
+            •
+            ${formatarData(
+                msg.data_criacao
+            )}
+
+        </small>
+
+    `;
+
+
+    area.appendChild(
+        div
     );
 
 }
 
 
-/* ==================================================
-   ADICIONAR MENSAGEM
-================================================== */
+/* =====================================================
+   ENVIAR MENSAGEM
+===================================================== */
 
-function adicionarMensagemNaTela(
-    mensagem
-){
+async function enviarMensagem(){
 
-    const elemento =
-        document.getElementById(
-            `mensagens-${mensagem.chamado_id}`
-        );
+    if(!chamadoAtual){
 
-
-    if(!elemento){
         return;
+
     }
 
 
     if(
-        elemento.querySelector(
-            `[data-mensagem-id="${mensagem.id}"]`
-        )
+        chamadoAtual.status ===
+        "resolvido"
     ){
 
         return;
@@ -1602,98 +1369,16 @@ function adicionarMensagemNaTela(
     }
 
 
-    const bolha =
-        document.createElement("div");
-
-
-    bolha.className =
-        mensagem.remetente_tipo === "usuario"
-        ?
-        "bolha bolha-usuario"
-        :
-        "bolha bolha-adm";
-
-
-    bolha.dataset.mensagemId =
-        mensagem.id;
-
-
-    const data =
-        mensagem.data_criacao
-        ?
-        new Date(
-            mensagem.data_criacao
-        ).toLocaleString("pt-BR")
-        :
-        "";
-
-
-    bolha.innerHTML = `
-
-        <div class="bolha-nome">
-
-            ${
-                mensagem.remetente_tipo === "usuario"
-                ?
-                "Você"
-                :
-                "🛠️ Suporte"
-            }
-
-        </div>
-
-        ${escapar(mensagem.mensagem)}
-
-        <div class="bolha-data">
-
-            ${data}
-
-        </div>
-
-    `;
-
-
-    elemento.appendChild(
-        bolha
-    );
-
-
-    rolarChat(
-        elemento
-    );
-
-}
-
-
-/* ==================================================
-   ROLAR CHAT
-================================================== */
-
-function rolarChat(elemento){
-
-    elemento.scrollTop =
-        elemento.scrollHeight;
-
-}
-
-
-/* ==================================================
-   ENVIAR MENSAGEM
-================================================== */
-
-async function enviarMensagem(
-    chamadoId
-){
-
     const campo =
         document.getElementById(
-            `resposta-${chamadoId}`
+            "resposta"
         );
 
 
-    if(!campo){
-        return;
-    }
+    const botao =
+        document.getElementById(
+            "btnEnviar"
+        );
 
 
     const texto =
@@ -1702,39 +1387,50 @@ async function enviarMensagem(
 
     if(!texto){
 
-        alert(
-            "Digite uma mensagem."
-        );
-
         return;
 
     }
 
 
-    const {
+    botao.disabled =
+        true;
 
-        error
+    botao.textContent =
+        "⏳";
 
-    } = await banco
 
-        .from("mensagens_suporte")
+    const usuario =
+        pegarUsuario();
+
+
+    const {error} =
+
+        await banco
+
+        .from(
+            "suporte_mensagens"
+        )
 
         .insert({
 
             chamado_id:
-                chamadoId,
-
-            usuario_id:
-                usuarioLogado.id,
-
-            remetente_id:
-                usuarioLogado.id,
+                chamadoAtual.id,
 
             remetente_tipo:
                 "usuario",
 
+            remetente_id:
+                usuario.auth_id ||
+                null,
+
             mensagem:
-                texto
+                texto,
+
+            tipo:
+                "texto",
+
+            lido:
+                false
 
         });
 
@@ -1743,42 +1439,67 @@ async function enviarMensagem(
 
         console.error(error);
 
-        alert(
+        mostrarAviso(
             "❌ Não foi possível enviar a mensagem."
         );
+
+    }
+
+    else{
+
+        campo.value = "";
+
+    }
+
+
+    botao.disabled =
+        false;
+
+    botao.textContent =
+        "📨 Enviar";
+
+}
+
+
+/* =====================================================
+   ENTER
+===================================================== */
+
+document
+.getElementById(
+    "resposta"
+)
+.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key === "Enter" &&
+            !event.shiftKey
+        ){
+
+            event.preventDefault();
+
+            enviarMensagem();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   REALTIME
+===================================================== */
+
+function iniciarRealtime(){
+
+    if(!chamadoAtual){
 
         return;
 
     }
 
-
-    await banco
-
-        .from("chamados_suporte")
-
-        .update({
-
-            status:
-                "atendimento"
-
-        })
-
-        .eq(
-            "id",
-            chamadoId
-        );
-
-
-    campo.value = "";
-
-}
-
-
-/* ==================================================
-   REALTIME
-================================================== */
-
-function iniciarRealtime(){
 
     if(canalRealtime){
 
@@ -1790,12 +1511,20 @@ function iniciarRealtime(){
 
 
     canalRealtime =
+
         banco
 
         .channel(
             "suporte-usuario-" +
-            usuarioLogado.id
+            chamadoAtual.id
         )
+
+
+        /*
+        ======================================
+        NOVA MENSAGEM
+        ======================================
+        */
 
         .on(
 
@@ -1807,26 +1536,63 @@ function iniciarRealtime(){
 
                 schema:"public",
 
-                table:"mensagens_suporte"
+                table:
+                    "suporte_mensagens",
+
+                filter:
+                    "chamado_id=eq." +
+                    chamadoAtual.id
 
             },
 
             payload => {
 
-                const mensagem =
-                    payload.new;
+                console.log(
+                    "Nova mensagem:",
+                    payload.new
+                );
 
 
                 /*
-                 Só mostra mensagens dos
-                 chamados deste usuário.
+                Só adiciona mensagens
+                do ADM.
+
+                A mensagem do usuário
+                já foi enviada.
                 */
 
-                carregarChamados();
+                if(
+                    payload.new
+                    .remetente_tipo ===
+                    "adm"
+                ){
+
+                    adicionarMensagem(
+                        payload.new
+                    );
+
+
+                    rolarChat();
+
+
+                    mostrarAviso(
+
+                        "💬 Nova resposta do suporte"
+
+                    );
+
+                }
 
             }
 
         )
+
+
+        /*
+        ======================================
+        CHAMADO ATUALIZADO
+        ======================================
+        */
 
         .on(
 
@@ -1838,70 +1604,598 @@ function iniciarRealtime(){
 
                 schema:"public",
 
-                table:"chamados_suporte"
+                table:
+                    "solicitacoes_suporte",
+
+                filter:
+                    "id=eq." +
+                    chamadoAtual.id
 
             },
 
             payload => {
 
-                carregarChamados();
+                console.log(
+                    "Chamado atualizado:",
+                    payload.new
+                );
+
+
+                chamadoAtual =
+                    payload.new;
+
+
+                atualizarCabecalho();
+
+
+                if(
+                    payload.new.status ===
+                    "resolvido"
+                ){
+
+                    mostrarAviso(
+                        "✅ Seu chamado foi resolvido."
+                    );
+
+                }
 
             }
 
         )
+
+
+        .subscribe(
+
+            status => {
+
+                console.log(
+                    "Realtime:",
+                    status
+                );
+
+            }
+
+        );
+
+}
+
+
+/* =====================================================
+   DIGITANDO
+===================================================== */
+
+function iniciarDigitando(){
+
+    if(!chamadoAtual){
+
+        return;
+
+    }
+
+
+    if(canalDigitando){
+
+        banco.removeChannel(
+            canalDigitando
+        );
+
+    }
+
+
+    canalDigitando =
+
+        banco
+
+        .channel(
+            "digitando-" +
+            chamadoAtual.id
+        )
+
+
+        .on(
+
+            "broadcast",
+
+            {
+                event:
+                    "digitando"
+
+            },
+
+            payload => {
+
+                if(
+                    payload.payload &&
+                    payload.payload.tipo ===
+                    "adm"
+                ){
+
+                    mostrarDigitando();
+
+                }
+
+            }
+
+        )
+
 
         .subscribe();
 
 }
 
 
-/* ==================================================
-   INICIAR
-================================================== */
+/* =====================================================
+   MOSTRAR DIGITANDO
+===================================================== */
 
-async function iniciar(){
+function mostrarDigitando(){
 
-    const ok =
-        await carregarPerfil();
-
-
-    if(!ok){
-        return;
-    }
+    const elemento =
+        document.getElementById(
+            "digitando"
+        );
 
 
-    await carregarChamados();
+    elemento.style.display =
+        "block";
 
 
-    iniciarRealtime();
+    clearTimeout(
+        digitandoTimeout
+    );
+
+
+    digitandoTimeout =
+
+        setTimeout(
+            () => {
+
+                elemento.style.display =
+                    "none";
+
+            },
+            2500
+        );
 
 }
 
 
-iniciar();
+/* =====================================================
+   ENVIAR ARQUIVO
+===================================================== */
 
-
-/* ==================================================
-   LIMPAR REALTIME AO SAIR
-================================================== */
-
-window.addEventListener(
-    "beforeunload",
-    function(){
-
-        if(canalRealtime){
-
-            banco.removeChannel(
-                canalRealtime
-            );
-
-        }
-
-    }
+document
+.getElementById(
+    "arquivo"
+)
+.addEventListener(
+    "change",
+    enviarArquivo
 );
 
-</script>
 
+async function enviarArquivo(){
+
+    if(!chamadoAtual){
+
+        return;
+
+    }
+
+
+    const input =
+        document.getElementById(
+            "arquivo"
+        );
+
+
+    const arquivo =
+        input.files[0];
+
+
+    if(!arquivo){
+
+        return;
+
+    }
+
+
+    const usuario =
+        pegarUsuario();
+
+
+    const nome =
+
+        Date.now() +
+        "_" +
+        arquivo.name
+            .replace(
+                /[^a-zA-Z0-9._-]/g,
+                "_"
+            );
+
+
+    const caminho =
+
+        chamadoAtual.id +
+        "/" +
+        nome;
+
+
+    /*
+    ==========================================
+    UPLOAD
+    ==========================================
+    */
+
+    const {error} =
+
+        await banco.storage
+
+        .from("suporte")
+
+        .upload(
+            caminho,
+            arquivo
+        );
+
+
+    if(error){
+
+        console.error(error);
+
+        mostrarAviso(
+            "❌ Erro ao enviar arquivo."
+        );
+
+        input.value = "";
+
+        return;
+
+    }
+
+
+    const {data:urlData} =
+
+        banco.storage
+
+        .from("suporte")
+
+        .getPublicUrl(
+            caminho
+        );
+
+
+    /*
+    ==========================================
+    MENSAGEM
+    ==========================================
+    */
+
+    const {data:mensagem,error:erroMensagem} =
+
+        await banco
+
+        .from(
+            "suporte_mensagens"
+        )
+
+        .insert({
+
+            chamado_id:
+                chamadoAtual.id,
+
+            remetente_tipo:
+                "usuario",
+
+            remetente_id:
+                usuario.auth_id ||
+                null,
+
+            mensagem:
+                "📎 Arquivo enviado: " +
+                arquivo.name,
+
+            tipo:
+                "arquivo",
+
+            lido:
+                false
+
+        })
+
+        .select()
+        .single();
+
+
+    if(erroMensagem){
+
+        console.error(
+            erroMensagem
+        );
+
+        input.value = "";
+
+        return;
+
+    }
+
+
+    /*
+    ==========================================
+    SALVAR ANEXO
+    ==========================================
+    */
+
+    const {error:erroAnexo} =
+
+        await banco
+
+        .from(
+            "suporte_anexos"
+        )
+
+        .insert({
+
+            chamado_id:
+                chamadoAtual.id,
+
+            mensagem_id:
+                mensagem.id,
+
+            nome_arquivo:
+                arquivo.name,
+
+            caminho:
+                caminho,
+
+            url:
+                urlData.publicUrl,
+
+            tipo:
+                arquivo.type,
+
+            tamanho:
+                arquivo.size
+
+        });
+
+
+    if(erroAnexo){
+
+        console.error(
+            erroAnexo
+        );
+
+    }
+
+
+    input.value = "";
+
+
+    /*
+    Recarrega histórico para
+    mostrar o arquivo corretamente.
+    */
+
+    await carregarMensagens();
+
+}
+
+
+/* =====================================================
+   AVISO
+===================================================== */
+
+function mostrarAviso(texto){
+
+    const aviso =
+        document.createElement(
+            "div"
+        );
+
+
+    aviso.className =
+        "aviso";
+
+
+    aviso.textContent =
+        texto;
+
+
+    document.body.appendChild(
+        aviso
+    );
+
+
+    setTimeout(
+        () => {
+
+            aviso.remove();
+
+        },
+        4000
+    );
+
+
+    /*
+    Notificação do navegador
+    */
+
+    if(
+        "Notification" in window &&
+        Notification.permission ===
+        "granted"
+    ){
+
+        new Notification(
+            "SmartInspect AI",
+            {
+                body:texto
+            }
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   PEDIR NOTIFICAÇÃO
+===================================================== */
+
+if(
+    "Notification" in window &&
+    Notification.permission ===
+    "default"
+){
+
+    Notification.requestPermission();
+
+}
+
+
+/* =====================================================
+   SEM CHAMADO
+===================================================== */
+
+function mostrarSemChamado(){
+
+    document.getElementById(
+        "assuntoChamado"
+    ).textContent =
+        "Nenhum chamado aberto";
+
+
+    document.getElementById(
+        "dadosChamado"
+    ).textContent =
+        "Você ainda não possui um atendimento.";
+
+
+    document.getElementById(
+        "statusChamado"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "mensagens"
+    ).innerHTML = `
+
+        <div class="mensagem-vazia">
+
+            <div>
+
+                💬
+
+                <br><br>
+
+                Você ainda não possui um chamado.
+
+                <br><br>
+
+                Crie uma solicitação para
+                falar com o suporte.
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    document.getElementById(
+        "areaEnvio"
+    ).style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   ERRO
+===================================================== */
+
+function mostrarErro(erro){
+
+    document.getElementById(
+        "mensagens"
+    ).innerHTML = `
+
+        <div class="mensagem-vazia">
+
+            <div>
+
+                ❌
+
+                <br><br>
+
+                Ocorreu um erro.
+
+                <br><br>
+
+                ${escapeHtml(erro)}
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   ROLAR CHAT
+===================================================== */
+
+function rolarChat(){
+
+    const area =
+        document.getElementById(
+            "mensagens"
+        );
+
+
+    setTimeout(
+        () => {
+
+            area.scrollTop =
+                area.scrollHeight;
+
+        },
+        50
+    );
+
+}
+
+
+/* =====================================================
+   SAIR
+===================================================== */
+
+async function sair(){
+
+    await banco.auth.signOut();
+
+    localStorage.removeItem(
+        "usuario"
+    );
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* =====================================================
+   INICIAR
+===================================================== */
+
+carregarChamado();
+
+</script>
 
 </body>
 
