@@ -4,6 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Atendimento - SmartInspect AI</title>
@@ -21,271 +22,119 @@ body{
     background:#f5f7fa;
 }
 
-
-/* =========================================
+/* =========================
    CONTEÚDO
-========================================= */
+========================= */
+
+.main{
+    margin-left:260px;
+    padding:30px;
+}
 
 .conteudo-atendimento{
-
-    margin-left:260px;
-
-    padding:30px;
-
-    max-width:1500px;
-
+    max-width:1200px;
+    margin:auto;
 }
 
+/* =========================
+   CABEÇALHO
+========================= */
 
-/* =========================================
-   TÍTULO
-========================================= */
-
-.titulo{
-
+.cabecalho{
     margin-bottom:25px;
-
 }
 
-.titulo h1{
-
+.cabecalho h1{
     margin:0;
-
     font-size:28px;
-
 }
 
-.titulo p{
-
+.cabecalho p{
     margin-top:8px;
-
     color:#666;
-
 }
 
+/* =========================
+   ATENDENTE
+========================= */
 
-/* =========================================
-   RESUMO
-========================================= */
-
-.resumo{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:18px;
-
-    margin-bottom:25px;
-
-}
-
-.card-resumo{
+.atendente-card{
 
     background:white;
 
-    padding:20px;
+    padding:15px 20px;
 
-    border-radius:14px;
+    border-radius:12px;
 
-    box-shadow:
-        0 4px 15px
-        rgba(0,0,0,.07);
+    margin-bottom:20px;
 
-}
+    box-shadow:0 4px 15px rgba(0,0,0,.06);
 
-.card-resumo h3{
+    display:flex;
 
-    margin:0 0 8px;
+    align-items:center;
 
-    color:#666;
-
-    font-size:14px;
+    gap:12px;
 
 }
 
-.card-resumo strong{
+.atendente-avatar{
 
-    font-size:28px;
+    width:42px;
+    height:42px;
 
-}
+    border-radius:50%;
 
+    background:#0066cc;
 
-/* =========================================
-   LAYOUT
-========================================= */
+    color:white;
 
-.layout{
+    display:flex;
 
-    display:grid;
+    align-items:center;
 
-    grid-template-columns:
-        360px 1fr;
-
-    gap:20px;
-
-}
-
-
-/* =========================================
-   LISTA
-========================================= */
-
-.lista{
-
-    background:white;
-
-    border-radius:14px;
-
-    box-shadow:
-        0 4px 15px
-        rgba(0,0,0,.07);
-
-    overflow:hidden;
-
-    max-height:700px;
-
-    overflow-y:auto;
-
-}
-
-.lista-titulo{
-
-    padding:18px;
-
-    border-bottom:1px solid #eee;
+    justify-content:center;
 
     font-weight:bold;
 
 }
 
-
-/* =========================================
-   CHAMADO
-========================================= */
-
-.item-chamado{
-
-    padding:17px;
-
-    border-bottom:1px solid #eee;
-
-    cursor:pointer;
-
-    transition:.2s;
-
+.atendente-info strong{
+    display:block;
 }
 
-.item-chamado:hover{
-
-    background:#f5f7fa;
-
-}
-
-.item-chamado.ativo{
-
-    background:#eaf3ff;
-
-    border-left:
-        4px solid #0066cc;
-
-}
-
-.item-assunto{
-
-    font-weight:bold;
-
-    margin-bottom:6px;
-
-}
-
-.item-info{
-
+.atendente-info span{
     color:#777;
-
-    font-size:12px;
-
-    line-height:1.6;
-
+    font-size:13px;
 }
 
+/* =========================
+   CHAMADOS
+========================= */
 
-/* =========================================
-   STATUS
-========================================= */
-
-.status{
-
-    display:inline-block;
-
-    padding:5px 9px;
-
-    border-radius:20px;
-
-    font-size:11px;
-
-    font-weight:bold;
-
-    margin-top:7px;
-
-}
-
-.status-pendente{
-
-    background:#fff3cd;
-
-    color:#856404;
-
-}
-
-.status-atendimento{
-
-    background:#cfe2ff;
-
-    color:#084298;
-
-}
-
-.status-resolvido{
-
-    background:#d1e7dd;
-
-    color:#0f5132;
-
-}
-
-
-/* =========================================
-   CONVERSA
-========================================= */
-
-.conversa{
-
-    background:white;
-
-    border-radius:14px;
-
-    box-shadow:
-        0 4px 15px
-        rgba(0,0,0,.07);
-
-    overflow:hidden;
-
-    min-height:650px;
+.lista-chamados{
 
     display:flex;
 
     flex-direction:column;
 
+    gap:20px;
+
 }
 
+.chamado{
 
-/* =========================================
-   CABEÇALHO CONVERSA
-========================================= */
+    background:white;
 
-.cabecalho-conversa{
+    border-radius:15px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,.07);
+
+    overflow:hidden;
+
+}
+
+.chamado-topo{
 
     padding:20px;
 
@@ -295,71 +144,114 @@ body{
 
     justify-content:space-between;
 
-    align-items:center;
+    align-items:flex-start;
 
     gap:15px;
 
 }
 
-.cabecalho-conversa h2{
+.chamado-topo h2{
 
     margin:0;
 
-    font-size:19px;
+    font-size:20px;
 
 }
 
-.cabecalho-conversa p{
+.dados{
 
-    margin:6px 0 0;
+    margin-top:8px;
 
-    color:#777;
+    color:#666;
 
     font-size:13px;
 
+    line-height:1.7;
+
 }
 
+/* =========================
+   STATUS
+========================= */
 
-/* =========================================
-   MENSAGENS
-========================================= */
+.status{
+
+    padding:7px 13px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+    white-space:nowrap;
+
+}
+
+.status-pendente{
+
+    background:#fff3cd;
+    color:#856404;
+
+}
+
+.status-atendimento{
+
+    background:#cfe2ff;
+    color:#084298;
+
+}
+
+.status-resolvido{
+
+    background:#d1e7dd;
+    color:#0f5132;
+
+}
+
+/* =========================
+   CONVERSA
+========================= */
+
+.conversa{
+
+    padding:20px;
+
+}
 
 .mensagens{
 
-    flex:1;
-
-    min-height:450px;
-
-    max-height:520px;
+    height:400px;
 
     overflow-y:auto;
 
-    padding:25px;
+    padding:15px;
 
     background:#f5f7fa;
+
+    border-radius:10px;
 
     display:flex;
 
     flex-direction:column;
 
+    gap:12px;
+
 }
 
-
-/* =========================================
-   BOLHAS
-========================================= */
+/* =========================
+   BALÕES
+========================= */
 
 .mensagem{
 
     max-width:75%;
 
-    padding:13px 16px;
+    padding:12px 15px;
 
-    border-radius:13px;
+    border-radius:12px;
 
-    margin-bottom:14px;
-
-    line-height:1.45;
+    line-height:1.5;
 
     word-break:break-word;
 
@@ -367,94 +259,169 @@ body{
 
 .mensagem.usuario{
 
+    align-self:flex-start;
+
     background:white;
 
     border:1px solid #ddd;
-
-    align-self:flex-start;
 
 }
 
 .mensagem.adm{
 
+    align-self:flex-end;
+
     background:#0066cc;
 
     color:white;
 
-    align-self:flex-end;
+}
+
+.mensagem-nome{
+
+    font-size:11px;
+
+    font-weight:bold;
+
+    margin-bottom:5px;
+
+    opacity:.75;
 
 }
 
-.mensagem small{
-
-    display:block;
-
-    margin-top:7px;
+.mensagem-data{
 
     font-size:10px;
 
+    margin-top:6px;
+
     opacity:.7;
 
-}
-
-
-/* =========================================
-   ARQUIVO
-========================================= */
-
-.mensagem-arquivo{
-
-    display:block;
-
-    margin-top:10px;
-
-    padding:10px;
-
-    border-radius:8px;
-
-    background:rgba(0,0,0,.1);
-
-    color:inherit;
-
-    text-decoration:none;
+    text-align:right;
 
 }
 
+/* =========================
+   PRESETS
+========================= */
 
-/* =========================================
-   DIGITANDO
-========================================= */
+.presets{
 
-.digitando{
+    margin-top:18px;
 
-    display:none;
+    background:#f8f9fa;
 
-    padding:7px 20px;
+    border:1px solid #e5e5e5;
 
-    color:#777;
-
-    font-size:13px;
-
-    font-style:italic;
-
-}
-
-
-/* =========================================
-   RESPOSTA
-========================================= */
-
-.area-resposta{
+    border-radius:12px;
 
     padding:15px;
 
-    border-top:1px solid #eee;
+}
+
+.presets-titulo{
+
+    font-weight:bold;
+
+    margin-bottom:12px;
+
+}
+
+/* CATEGORIAS */
+
+.categorias{
 
     display:flex;
 
     gap:8px;
 
-    align-items:center;
+    flex-wrap:wrap;
+
+    margin-bottom:12px;
+
+}
+
+.categoria-btn{
+
+    border:none;
+
+    padding:9px 13px;
+
+    border-radius:8px;
+
+    background:#e9ecef;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+}
+
+.categoria-btn:hover{
+
+    background:#dce1e6;
+
+}
+
+.categoria-btn.ativa{
+
+    background:#0066cc;
+
+    color:white;
+
+}
+
+/* FRASES */
+
+.lista-presets{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:8px;
+
+}
+
+.preset-btn{
+
+    border:1px solid #ddd;
+
+    background:white;
+
+    padding:9px 12px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-size:13px;
+
+    text-align:left;
+
+}
+
+.preset-btn:hover{
+
+    border-color:#0066cc;
+
+    color:#0066cc;
+
+    background:#f0f7ff;
+
+}
+
+/* =========================
+   RESPOSTA
+========================= */
+
+.area-resposta{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-top:15px;
 
 }
 
@@ -462,17 +429,19 @@ body{
 
     flex:1;
 
-    height:55px;
+    min-height:60px;
 
-    resize:none;
+    resize:vertical;
 
     padding:12px;
 
     border:1px solid #ccc;
 
-    border-radius:8px;
+    border-radius:9px;
 
-    font-family:Arial;
+    font-family:Arial,sans-serif;
+
+    font-size:14px;
 
     outline:none;
 
@@ -484,46 +453,13 @@ body{
 
 }
 
-
-/* =========================================
-   BOTÕES
-========================================= */
-
-.btn-arquivo{
-
-    width:45px;
-
-    height:45px;
-
-    border:none;
-
-    border-radius:8px;
-
-    background:#6c757d;
-
-    color:white;
-
-    cursor:pointer;
-
-    font-size:19px;
-
-}
-
-.input-arquivo{
-
-    display:none;
-
-}
-
 .btn-enviar{
 
-    height:45px;
-
-    padding:0 18px;
+    min-width:120px;
 
     border:none;
 
-    border-radius:8px;
+    border-radius:9px;
 
     background:#0066cc;
 
@@ -535,23 +471,35 @@ body{
 
 }
 
-.btn-enviar:disabled{
+.btn-enviar:hover{
 
-    opacity:.6;
+    background:#0055aa;
 
 }
 
-.btn-resolver{
+/* =========================
+   ENCERRAR
+========================= */
 
-    margin:15px;
+.area-acoes{
 
-    padding:11px 16px;
+    display:flex;
+
+    justify-content:flex-end;
+
+    margin-top:12px;
+
+}
+
+.btn-encerrar{
 
     border:none;
 
+    padding:10px 16px;
+
     border-radius:8px;
 
-    background:#198754;
+    background:#dc3545;
 
     color:white;
 
@@ -561,39 +509,51 @@ body{
 
 }
 
-.btn-resolver:hover{
+.btn-encerrar:hover{
 
-    background:#146c43;
+    background:#bb2d3b;
 
 }
 
+.chamado-resolvido{
 
-/* =========================================
-   VAZIO
-========================================= */
+    margin-top:15px;
 
-.vazio{
+    padding:14px;
 
-    display:flex;
+    background:#d1e7dd;
 
-    align-items:center;
-
-    justify-content:center;
+    color:#0f5132;
 
     text-align:center;
 
-    height:100%;
+    border-radius:9px;
 
-    color:#777;
-
-    padding:30px;
+    font-weight:bold;
 
 }
 
+/* =========================
+   VAZIO
+========================= */
 
-/* =========================================
+.vazio{
+
+    background:white;
+
+    padding:40px;
+
+    border-radius:15px;
+
+    text-align:center;
+
+    color:#777;
+
+}
+
+/* =========================
    AVISO
-========================================= */
+========================= */
 
 .aviso{
 
@@ -609,24 +569,21 @@ body{
 
     color:white;
 
-    padding:15px 20px;
+    padding:14px 18px;
 
-    border-radius:10px;
+    border-radius:9px;
 
-    box-shadow:
-        0 5px 20px
-        rgba(0,0,0,.25);
+    box-shadow:0 5px 20px rgba(0,0,0,.25);
 
 }
 
+/* =========================
+   MOBILE
+========================= */
 
-/* =========================================
-   RESPONSIVO
-========================================= */
+@media(max-width:900px){
 
-@media(max-width:1000px){
-
-    .conteudo-atendimento{
+    .main{
 
         margin-left:0;
 
@@ -634,37 +591,17 @@ body{
 
     }
 
-    .layout{
-
-        grid-template-columns:1fr;
-
-    }
-
-    .lista{
-
-        max-height:350px;
-
-    }
-
 }
 
 @media(max-width:600px){
 
-    .conteudo-atendimento{
+    .main{
 
         padding:12px;
 
     }
 
-    .resumo{
-
-        grid-template-columns:1fr;
-
-    }
-
-    .cabecalho-conversa{
-
-        align-items:flex-start;
+    .chamado-topo{
 
         flex-direction:column;
 
@@ -676,19 +613,30 @@ body{
 
     }
 
+    .area-resposta{
+
+        flex-direction:column;
+
+    }
+
+    .btn-enviar{
+
+        height:45px;
+
+    }
+
 }
 
 </style>
 
 </head>
 
-
 <body>
 
 
-<!-- =========================================
+<!-- =====================================================
      SIDEBAR
-========================================= -->
+===================================================== -->
 
 <div class="sidebar">
 
@@ -756,7 +704,7 @@ body{
         <hr>
 
         <a href="suporte.html">
-            💬 Suporte
+            💬 Falar Com Suporte
         </a>
 
         <a
@@ -782,135 +730,82 @@ body{
 </div>
 
 
-<!-- =========================================
+<!-- =====================================================
      CONTEÚDO
-========================================= -->
+===================================================== -->
+
+<div class="main">
 
 <div class="conteudo-atendimento">
 
 
-    <div class="titulo">
+    <div class="cabecalho">
 
         <h1>
             🛠️ Atendimento
         </h1>
 
         <p>
-            Gerencie e responda aos chamados dos usuários.
+            Gerencie e responda às solicitações dos usuários.
         </p>
 
     </div>
 
 
-    <!-- RESUMO -->
+    <!-- ATENDENTE -->
 
-    <div class="resumo">
-
-        <div class="card-resumo">
-
-            <h3>
-                🟡 Pendentes
-            </h3>
-
-            <strong id="totalPendentes">
-                0
-            </strong>
-
-        </div>
-
-
-        <div class="card-resumo">
-
-            <h3>
-                🔵 Em atendimento
-            </h3>
-
-            <strong id="totalAtendimento">
-                0
-            </strong>
-
-        </div>
-
-
-        <div class="card-resumo">
-
-            <h3>
-                🟢 Resolvidos
-            </h3>
-
-            <strong id="totalResolvidos">
-                0
-            </strong>
-
-        </div>
-
-    </div>
-
-
-    <!-- LAYOUT -->
-
-    <div class="layout">
-
-
-        <!-- LISTA -->
-
-        <div class="lista">
-
-            <div class="lista-titulo">
-
-                📩 Chamados
-
-            </div>
-
-
-            <div
-                id="listaChamados"
-            >
-
-                <div class="vazio">
-
-                    ⏳ Carregando...
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- CONVERSA -->
+    <div class="atendente-card">
 
         <div
-            id="conversa"
-            class="conversa"
+            class="atendente-avatar"
+            id="avatarAtendente"
         >
+            ?
+        </div>
 
-            <div class="vazio">
+        <div class="atendente-info">
 
-                <div>
+            <strong id="nomeAtendente">
+                Carregando...
+            </strong>
 
-                    💬
-
-                    <br><br>
-
-                    Selecione um chamado
-                    para visualizar a conversa.
-
-                </div>
-
-            </div>
+            <span>
+                Atendente responsável
+            </span>
 
         </div>
 
+    </div>
+
+
+    <!-- LISTA -->
+
+    <div
+        id="listaChamados"
+        class="lista-chamados"
+    >
+
+        <div class="vazio">
+
+            ⏳
+
+            <br><br>
+
+            Carregando atendimentos...
+
+        </div>
 
     </div>
+
+
+</div>
 
 </div>
 
 
-<!-- =========================================
+<!-- =====================================================
      SUPABASE
-========================================= -->
+===================================================== -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -919,25 +814,84 @@ body{
 
 <script>
 
-
-/* =========================================
+/* =====================================================
    VARIÁVEIS
-========================================= */
+===================================================== */
 
 let usuarioADM = null;
 
-let chamadoAtual = null;
+let perfilADM = null;
 
 let canalRealtime = null;
 
-let canalDigitando = null;
 
-let timeoutDigitando = null;
+/* =====================================================
+   PRESETS
+===================================================== */
+
+const presets = {
+
+    inicio: [
+
+        "Olá, {nome}! 👋 Meu nome é {atendente} e vou ficar responsável pelo seu atendimento. Vou analisar sua solicitação e ajudar você da melhor forma possível.",
+
+        "Olá, {nome}! 👋 Sou {atendente}, do suporte do SmartInspect AI. Recebi sua solicitação e já estou verificando o caso.",
+
+        "Olá, {nome}! Tudo bem? Sou {atendente} e vou acompanhar seu atendimento. Obrigado por entrar em contato conosco.",
+
+        "Olá, {nome}! 👋 Sua solicitação foi recebida. Meu nome é {atendente} e vou verificar o que aconteceu.",
+
+        "Olá, {nome}! Aqui é {atendente}, do suporte. Obrigado por nos procurar. Vamos analisar sua situação."
+    ],
 
 
-/* =========================================
-   ESCAPAR
-========================================= */
+    atendimento: [
+
+        "{nome}, poderia me fornecer mais algumas informações sobre o problema para que eu possa verificar melhor?",
+
+        "{nome}, você poderia enviar uma foto ou arquivo mostrando o problema? Isso vai nos ajudar na análise.",
+
+        "{nome}, estou verificando sua solicitação neste momento. Só um instante, por favor.",
+
+        "{nome}, encontrei alguns pontos que podem estar relacionados ao problema. Vou continuar a análise para encontrar a melhor solução.",
+
+        "{nome}, estou analisando o caso com atenção para garantir que a solução apresentada seja correta."
+    ],
+
+
+    acompanhamento: [
+
+        "{nome}, ainda estou verificando sua solicitação. Assim que eu tiver uma atualização, aviso você por aqui.",
+
+        "{nome}, peço só mais alguns minutos enquanto finalizo a análise do seu atendimento.",
+
+        "{nome}, sua solicitação continua em análise. Obrigado pela paciência.",
+
+        "{nome}, já encaminhei a situação para análise e estou acompanhando o andamento.",
+
+        "{nome}, estou finalizando algumas verificações e retornarei em breve com uma atualização."
+    ],
+
+
+    encerramento: [
+
+        "{nome}, o problema foi resolvido. Poderia confirmar se está tudo funcionando corretamente para você?",
+
+        "{nome}, conseguimos concluir a análise e solucionar a situação. Se estiver tudo certo, podemos encerrar o atendimento.",
+
+        "{nome}, fico feliz em informar que sua solicitação foi resolvida. Obrigado por entrar em contato com o suporte!",
+
+        "{nome}, o atendimento está sendo finalizado. Caso precise de ajuda novamente, estaremos à disposição.",
+
+        "{nome}, obrigado pelo contato e pela paciência durante o atendimento. Espero ter ajudado! 😊"
+    ]
+
+};
+
+
+/* =====================================================
+   ESCAPAR HTML
+===================================================== */
 
 function escapar(texto){
 
@@ -956,9 +910,34 @@ function escapar(texto){
 }
 
 
-/* =========================================
+/* =====================================================
+   AVISO
+===================================================== */
+
+function aviso(texto){
+
+    const div =
+        document.createElement("div");
+
+    div.className =
+        "aviso";
+
+    div.textContent =
+        texto;
+
+    document.body.appendChild(div);
+
+    setTimeout(
+        () => div.remove(),
+        3500
+    );
+
+}
+
+
+/* =====================================================
    DATA
-========================================= */
+===================================================== */
 
 function dataBR(data){
 
@@ -972,44 +951,24 @@ function dataBR(data){
 }
 
 
-/* =========================================
-   AVISO
-========================================= */
-
-function aviso(texto){
-
-    const div =
-        document.createElement("div");
-
-    div.className = "aviso";
-
-    div.textContent = texto;
-
-    document.body.appendChild(div);
-
-    setTimeout(
-        () => div.remove(),
-        4000
-    );
-
-}
-
-
-/* =========================================
+/* =====================================================
    VERIFICAR ADM
-========================================= */
+===================================================== */
 
 async function verificarADM(){
 
     const {
-        data,
-        error
+
+        data:{
+            session
+        }
+
     } = await banco.auth.getSession();
 
 
     if(
-        error ||
-        !data.session
+        !session ||
+        !session.user
     ){
 
         window.location.href =
@@ -1021,36 +980,36 @@ async function verificarADM(){
 
 
     usuarioADM =
-        data.session.user;
+        session.user;
 
 
     const {
-        data:perfil,
-        error:erroPerfil
+
+        data,
+        error
+
     } = await banco
 
         .from("usuarios")
 
         .select(
-            "nivel_acesso,status"
+            "nome,nivel_acesso,status"
         )
 
         .eq(
             "auth_id",
-            usuarioADM.id
+            session.user.id
         )
 
         .maybeSingle();
 
 
-    if(erroPerfil){
+    if(error){
 
-        console.error(
-            erroPerfil
-        );
+        console.error(error);
 
         alert(
-            "❌ Não foi possível verificar seu acesso."
+            "Erro ao verificar usuário."
         );
 
         return false;
@@ -1059,13 +1018,13 @@ async function verificarADM(){
 
 
     if(
-        !perfil ||
-        perfil.nivel_acesso !== "adm" ||
-        perfil.status !== "ativo"
+        !data ||
+        data.nivel_acesso !== "adm" ||
+        data.status !== "ativo"
     ){
 
         alert(
-            "⛔ Acesso restrito ao administrador."
+            "⛔ Esta área é exclusiva para administradores."
         );
 
         window.location.href =
@@ -1076,14 +1035,38 @@ async function verificarADM(){
     }
 
 
+    perfilADM =
+        data;
+
+
+    const nome =
+        data.nome ||
+        session.user.email ||
+        "Administrador";
+
+
+    document.getElementById(
+        "nomeAtendente"
+    ).textContent =
+        nome;
+
+
+    document.getElementById(
+        "avatarAtendente"
+    ).textContent =
+        nome
+            .charAt(0)
+            .toUpperCase();
+
+
     return true;
 
 }
 
 
-/* =========================================
+/* =====================================================
    CARREGAR CHAMADOS
-========================================= */
+===================================================== */
 
 async function carregarChamados(){
 
@@ -1094,8 +1077,10 @@ async function carregarChamados(){
 
 
     const {
+
         data,
         error
+
     } = await banco
 
         .from("solicitacoes_suporte")
@@ -1112,15 +1097,17 @@ async function carregarChamados(){
 
     if(error){
 
-        console.error(
-            error
-        );
+        console.error(error);
 
         lista.innerHTML = `
 
             <div class="vazio">
 
-                ❌ Erro ao carregar chamados.
+                ❌ Não foi possível carregar os atendimentos.
+
+                <br><br>
+
+                ${escapar(error.message)}
 
             </div>
 
@@ -1129,11 +1116,6 @@ async function carregarChamados(){
         return;
 
     }
-
-
-    atualizarResumo(
-        data || []
-    );
 
 
     if(
@@ -1145,11 +1127,7 @@ async function carregarChamados(){
 
             <div class="vazio">
 
-                🎉
-
-                <br><br>
-
-                Nenhum chamado encontrado.
+                🎉 Nenhum atendimento no momento.
 
             </div>
 
@@ -1166,116 +1144,21 @@ async function carregarChamados(){
     data.forEach(
         chamado => {
 
-            criarItem(
+            criarCard(
                 chamado
             );
 
         }
     );
 
-
-    if(chamadoAtual){
-
-        const atualizado =
-            data.find(
-                item =>
-                    String(item.id) ===
-                    String(chamadoAtual.id)
-            );
-
-
-        if(atualizado){
-
-            chamadoAtual =
-                atualizado;
-
-            abrirChamado(
-                atualizado.id
-            );
-
-        }
-
-    }
-
 }
 
 
-/* =========================================
-   RESUMO
-========================================= */
+/* =====================================================
+   CRIAR CARD
+===================================================== */
 
-function atualizarResumo(
-    chamados
-){
-
-    let pendentes = 0;
-
-    let atendimento = 0;
-
-    let resolvidos = 0;
-
-
-    chamados.forEach(
-        chamado => {
-
-            if(
-                chamado.status ===
-                "pendente"
-            ){
-
-                pendentes++;
-
-            }
-
-            else if(
-                chamado.status ===
-                "atendimento"
-            ){
-
-                atendimento++;
-
-            }
-
-            else if(
-                chamado.status ===
-                "resolvido"
-            ){
-
-                resolvidos++;
-
-            }
-
-        }
-    );
-
-
-    document.getElementById(
-        "totalPendentes"
-    ).textContent =
-        pendentes;
-
-
-    document.getElementById(
-        "totalAtendimento"
-    ).textContent =
-        atendimento;
-
-
-    document.getElementById(
-        "totalResolvidos"
-    ).textContent =
-        resolvidos;
-
-}
-
-
-/* =========================================
-   CRIAR ITEM
-========================================= */
-
-function criarItem(
-    chamado
-){
+function criarCard(chamado){
 
     const lista =
         document.getElementById(
@@ -1283,34 +1166,25 @@ function criarItem(
         );
 
 
-    const item =
+    const card =
         document.createElement(
             "div"
         );
 
 
-    item.className =
-        "item-chamado";
+    card.className =
+        "chamado";
 
 
-    if(
-        chamadoAtual &&
-        String(chamadoAtual.id) ===
-        String(chamado.id)
-    ){
-
-        item.classList.add(
-            "ativo"
-        );
-
-    }
+    card.dataset.id =
+        chamado.id;
 
 
-    let statusTexto =
-        "🟡 Pendente";
-
-    let statusClasse =
+    let classe =
         "status-pendente";
+
+    let texto =
+        "🟡 Pendente";
 
 
     if(
@@ -1318,11 +1192,11 @@ function criarItem(
         "atendimento"
     ){
 
-        statusTexto =
-            "🔵 Em atendimento";
-
-        statusClasse =
+        classe =
             "status-atendimento";
+
+        texto =
+            "🔵 Em atendimento";
 
     }
 
@@ -1332,418 +1206,251 @@ function criarItem(
         "resolvido"
     ){
 
-        statusTexto =
-            "🟢 Resolvido";
-
-        statusClasse =
+        classe =
             "status-resolvido";
 
-    }
-
-
-    item.innerHTML = `
-
-        <div class="item-assunto">
-
-            ${escapar(
-                chamado.assunto ||
-                "Sem assunto"
-            )}
-
-        </div>
-
-
-        <div class="item-info">
-
-            👤
-            ${escapar(
-                chamado.nome ||
-                "Usuário"
-            )}
-
-            <br>
-
-            📧
-            ${escapar(
-                chamado.email
-            )}
-
-            <br>
-
-            📅
-            ${dataBR(
-                chamado.data_criacao
-            )}
-
-        </div>
-
-
-        <span
-            class="status ${statusClasse}"
-        >
-
-            ${statusTexto}
-
-        </span>
-
-    `;
-
-
-    item.onclick =
-        () => abrirChamado(
-            chamado.id
-        );
-
-
-    lista.appendChild(
-        item
-    );
-
-}
-
-
-/* =========================================
-   ABRIR CHAMADO
-========================================= */
-
-async function abrirChamado(
-    chamadoId
-){
-
-    const {
-        data,
-        error
-    } = await banco
-
-        .from("solicitacoes_suporte")
-
-        .select("*")
-
-        .eq(
-            "id",
-            chamadoId
-        )
-
-        .single();
-
-
-    if(error){
-
-        console.error(
-            error
-        );
-
-        aviso(
-            "❌ Não foi possível abrir o chamado."
-        );
-
-        return;
-
-    }
-
-
-    chamadoAtual =
-        data;
-
-
-    mostrarConversa();
-
-
-    await carregarMensagens();
-
-
-    iniciarRealtimeChamado();
-
-}
-
-
-/* =========================================
-   MOSTRAR CONVERSA
-========================================= */
-
-function mostrarConversa(){
-
-    const status =
-        chamadoAtual.status ||
-        "pendente";
-
-
-    let textoStatus =
-        "🟡 Pendente";
-
-
-    let classeStatus =
-        "status-pendente";
-
-
-    if(
-        status ===
-        "atendimento"
-    ){
-
-        textoStatus =
-            "🔵 Em atendimento";
-
-        classeStatus =
-            "status-atendimento";
-
-    }
-
-
-    if(
-        status ===
-        "resolvido"
-    ){
-
-        textoStatus =
+        texto =
             "🟢 Resolvido";
 
-        classeStatus =
-            "status-resolvido";
-
     }
 
 
-    const conversa =
-        document.getElementById(
-            "conversa"
-        );
+    card.innerHTML = `
 
-
-    conversa.innerHTML = `
-
-        <div class="cabecalho-conversa">
+        <div class="chamado-topo">
 
             <div>
 
                 <h2>
 
                     ${escapar(
-                        chamadoAtual.assunto ||
+                        chamado.assunto ||
                         "Atendimento"
                     )}
 
                 </h2>
 
-                <p>
+                <div class="dados">
 
                     👤
                     ${escapar(
-                        chamadoAtual.nome ||
+                        chamado.nome ||
                         "Usuário"
                     )}
 
-                    •
+                    <br>
 
                     📧
                     ${escapar(
-                        chamadoAtual.email
+                        chamado.email ||
+                        ""
+                    )}
+
+                    <br>
+
+                    🏷️
+                    ${escapar(
+                        chamado.tipo ||
+                        "Suporte"
                     )}
 
                     <br>
 
                     📅
                     ${dataBR(
-                        chamadoAtual.data_criacao
+                        chamado.data_criacao
                     )}
 
-                </p>
+                </div>
 
             </div>
 
 
             <span
-                id="statusAtual"
-                class="status ${classeStatus}"
+                class="status ${classe}"
             >
 
-                ${textoStatus}
+                ${texto}
 
             </span>
 
         </div>
 
 
-        <div
-            id="mensagens"
-            class="mensagens"
-        >
+        <div class="conversa">
 
-            ⏳ Carregando conversa...
+            <div
+                class="mensagens"
+                id="mensagens-${chamado.id}"
+            >
+
+                ⏳ Carregando conversa...
+
+            </div>
+
+
+            ${
+                chamado.status !== "resolvido"
+
+                ?
+
+                gerarAreaAtendimento(
+                    chamado
+                )
+
+                :
+
+                `
+
+                <div class="chamado-resolvido">
+
+                    ✅ Este atendimento foi encerrado.
+
+                </div>
+
+                `
+
+            }
 
         </div>
 
-
-        <div
-            id="digitando"
-            class="digitando"
-        >
-
-            💬 Usuário está digitando...
-
-        </div>
+    `;
 
 
-        ${
-            status !== "resolvido"
+    lista.appendChild(
+        card
+    );
 
-            ?
 
-            `
+    carregarMensagens(
+        chamado.id
+    );
 
-            <div class="area-resposta">
+}
 
-                <label
-                    class="btn-arquivo"
-                    title="Enviar arquivo"
+
+/* =====================================================
+   ÁREA DE ATENDIMENTO
+===================================================== */
+
+function gerarAreaAtendimento(chamado){
+
+    return `
+
+        <div class="presets">
+
+            <div class="presets-titulo">
+
+                💬 Respostas rápidas
+
+            </div>
+
+
+            <div class="categorias">
+
+                <button
+                    class="categoria-btn ativa"
+                    onclick="mostrarPresets(${chamado.id}, 'inicio', this)"
                 >
 
-                    📎
+                    👋 Início
 
-                    <input
-                        type="file"
-                        id="arquivo"
-                        class="input-arquivo"
-                    >
-
-                </label>
-
-
-                <textarea
-                    id="resposta"
-                    placeholder="Digite sua resposta..."
-                ></textarea>
+                </button>
 
 
                 <button
-                    id="btnEnviar"
-                    class="btn-enviar"
+                    class="categoria-btn"
+                    onclick="mostrarPresets(${chamado.id}, 'atendimento', this)"
                 >
 
-                    📨 Enviar
+                    🔎 Atendimento
+
+                </button>
+
+
+                <button
+                    class="categoria-btn"
+                    onclick="mostrarPresets(${chamado.id}, 'acompanhamento', this)"
+                >
+
+                    ⏳ Acompanhamento
+
+                </button>
+
+
+                <button
+                    class="categoria-btn"
+                    onclick="mostrarPresets(${chamado.id}, 'encerramento', this)"
+                >
+
+                    ✅ Encerramento
 
                 </button>
 
             </div>
 
 
-            <button
-                id="btnResolver"
-                class="btn-resolver"
+            <div
+                class="lista-presets"
+                id="presets-${chamado.id}"
             >
-
-                ✅ Resolver chamado
-
-            </button>
-
-            `
-
-            :
-
-            `
-
-            <div class="chamado-resolvido">
-
-                🔒 Este chamado está resolvido.
 
             </div>
 
-            `
+        </div>
 
-        }
+
+        <div class="area-resposta">
+
+            <textarea
+                id="resposta-${chamado.id}"
+                placeholder="Digite sua resposta..."
+            ></textarea>
+
+
+            <button
+                class="btn-enviar"
+                onclick="enviarMensagem(${chamado.id})"
+            >
+
+                📨 Enviar
+
+            </button>
+
+        </div>
+
+
+        <div class="area-acoes">
+
+            <button
+                class="btn-encerrar"
+                onclick="encerrarChamado(${chamado.id})"
+            >
+
+                🔒 Encerrar atendimento
+
+            </button>
+
+        </div>
 
     `;
-
-
-    const botao =
-        document.getElementById(
-            "btnEnviar"
-        );
-
-
-    if(botao){
-
-        botao.onclick =
-            enviarMensagem;
-
-    }
-
-
-    const resolver =
-        document.getElementById(
-            "btnResolver"
-        );
-
-
-    if(resolver){
-
-        resolver.onclick =
-            resolverChamado;
-
-    }
-
-
-    const arquivo =
-        document.getElementById(
-            "arquivo"
-        );
-
-
-    if(arquivo){
-
-        arquivo.addEventListener(
-            "change",
-            enviarArquivo
-        );
-
-    }
-
-
-    const resposta =
-        document.getElementById(
-            "resposta"
-        );
-
-
-    if(resposta){
-
-        resposta.addEventListener(
-            "keydown",
-            function(event){
-
-                if(
-                    event.key === "Enter" &&
-                    !event.shiftKey
-                ){
-
-                    event.preventDefault();
-
-                    enviarMensagem();
-
-                }
-
-            }
-        );
-
-    }
 
 }
 
 
-/* =========================================
-   CARREGAR MENSAGENS
-========================================= */
+/* =====================================================
+   MOSTRAR PRESETS
+===================================================== */
 
-async function carregarMensagens(){
-
-    if(!chamadoAtual){
-        return;
-    }
-
+function mostrarPresets(
+    chamadoId,
+    categoria,
+    botao
+){
 
     const area =
         document.getElementById(
-            "mensagens"
+            `presets-${chamadoId}`
         );
 
 
@@ -1752,40 +1459,237 @@ async function carregarMensagens(){
     }
 
 
-    area.innerHTML = "";
+    document
+        .querySelectorAll(
+            `.chamado[data-id="${chamadoId}"] .categoria-btn`
+        )
+        .forEach(
+            btn => btn.classList.remove("ativa")
+        );
 
 
-    if(chamadoAtual.mensagem){
+    if(botao){
 
-        adicionarMensagem({
-
-            id:
-                "original-" +
-                chamadoAtual.id,
-
-            chamado_id:
-                chamadoAtual.id,
-
-            mensagem:
-                chamadoAtual.mensagem,
-
-            remetente_tipo:
-                "usuario",
-
-            data_criacao:
-                chamadoAtual.data_criacao,
-
-            tipo:
-                "texto"
-
-        });
+        botao.classList.add(
+            "ativa"
+        );
 
     }
 
 
+    area.innerHTML = "";
+
+
+    const lista =
+        presets[categoria] ||
+        [];
+
+
+    lista.forEach(
+        frase => {
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.className =
+                "preset-btn";
+
+
+            button.textContent =
+                frase
+                    .replace(
+                        "{nome}",
+                        obterNomeChamado(
+                            chamadoId
+                        )
+                    )
+                    .replace(
+                        "{atendente}",
+                        obterNomeAtendente()
+                    );
+
+
+            button.onclick =
+                () => {
+
+                    usarPreset(
+                        chamadoId,
+                        frase
+                    );
+
+                };
+
+
+            area.appendChild(
+                button
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   NOME DO USUÁRIO
+===================================================== */
+
+function obterNomeChamado(
+    chamadoId
+){
+
+    const card =
+        document.querySelector(
+            `.chamado[data-id="${chamadoId}"]`
+        );
+
+
+    if(!card){
+        return "usuário";
+    }
+
+
+    const dados =
+        card.querySelector(
+            ".dados"
+        );
+
+
+    if(!dados){
+        return "usuário";
+    }
+
+
+    const texto =
+        dados.innerText;
+
+
+    const linha =
+        texto
+            .split("\n")
+            .find(
+                x =>
+                    x.includes("👤")
+            );
+
+
+    if(!linha){
+        return "usuário";
+    }
+
+
+    return linha
+        .replace("👤","")
+        .trim();
+
+}
+
+
+/* =====================================================
+   NOME ATENDENTE
+===================================================== */
+
+function obterNomeAtendente(){
+
+    if(
+        perfilADM &&
+        perfilADM.nome
+    ){
+
+        return perfilADM.nome;
+
+    }
+
+
+    return "suporte";
+
+}
+
+
+/* =====================================================
+   USAR PRESET
+===================================================== */
+
+function usarPreset(
+    chamadoId,
+    frase
+){
+
+    const nome =
+        obterNomeChamado(
+            chamadoId
+        );
+
+
+    const atendente =
+        obterNomeAtendente();
+
+
+    const texto =
+        frase
+            .replace(
+                /{nome}/g,
+                nome
+            )
+            .replace(
+                /{atendente}/g,
+                atendente
+            );
+
+
+    const campo =
+        document.getElementById(
+            `resposta-${chamadoId}`
+        );
+
+
+    if(!campo){
+        return;
+    }
+
+
+    campo.value =
+        texto;
+
+
+    campo.focus();
+
+
+    campo.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+    });
+
+}
+
+
+/* =====================================================
+   CARREGAR MENSAGENS
+===================================================== */
+
+async function carregarMensagens(
+    chamadoId
+){
+
+    const area =
+        document.getElementById(
+            `mensagens-${chamadoId}`
+        );
+
+
+    if(!area){
+        return;
+    }
+
+
     const {
+
         data,
         error
+
     } = await banco
 
         .from("suporte_mensagens")
@@ -1794,7 +1698,7 @@ async function carregarMensagens(){
 
         .eq(
             "chamado_id",
-            chamadoAtual.id
+            chamadoId
         )
 
         .order(
@@ -1807,48 +1711,52 @@ async function carregarMensagens(){
 
     if(error){
 
-        console.error(
-            error
-        );
+        console.error(error);
 
-        area.innerHTML += `
-
-            <div>
-
-                ❌ Erro ao carregar mensagens.
-
-            </div>
-
-        `;
+        area.innerHTML =
+            "❌ Erro ao carregar mensagens.";
 
         return;
 
     }
 
 
-    if(data){
+    area.innerHTML = "";
 
-        data.forEach(
-            mensagem => {
 
-                adicionarMensagem(
-                    mensagem
-                );
+    if(
+        !data ||
+        data.length === 0
+    ){
 
-            }
-        );
+        area.innerHTML =
+            "Nenhuma mensagem ainda.";
+
+        return;
 
     }
 
 
-    rolarChat();
+    data.forEach(
+        mensagem => {
+
+            adicionarMensagem(
+                mensagem
+            );
+
+        }
+    );
+
+
+    area.scrollTop =
+        area.scrollHeight;
 
 }
 
 
-/* =========================================
+/* =====================================================
    ADICIONAR MENSAGEM
-========================================= */
+===================================================== */
 
 function adicionarMensagem(
     mensagem
@@ -1856,7 +1764,7 @@ function adicionarMensagem(
 
     const area =
         document.getElementById(
-            "mensagens"
+            `mensagens-${mensagem.chamado_id}`
         );
 
 
@@ -1912,20 +1820,18 @@ function adicionarMensagem(
 
 
     if(
-        mensagem.tipo ===
-        "arquivo" &&
+        mensagem.tipo === "arquivo" &&
         mensagem.url
     ){
 
         conteudo += `
 
+            <br>
+
             <a
-                class="mensagem-arquivo"
-                href="${escapar(
-                    mensagem.url
-                )}"
+                href="${escapar(mensagem.url)}"
                 target="_blank"
-                rel="noopener"
+                style="color:inherit;"
             >
 
                 📎 Abrir arquivo
@@ -1939,23 +1845,29 @@ function adicionarMensagem(
 
     div.innerHTML = `
 
-        ${conteudo}
-
-        <small>
+        <div class="mensagem-nome">
 
             ${
                 ehAdm
-                ? "🛠️ Você - Suporte"
+                ? "🛠️ " + escapar(
+                    obterNomeAtendente()
+                )
                 : "👤 Usuário"
             }
 
-            •
+        </div>
+
+
+        ${conteudo}
+
+
+        <div class="mensagem-data">
 
             ${dataBR(
                 mensagem.data_criacao
             )}
 
-        </small>
+        </div>
 
     `;
 
@@ -1964,47 +1876,28 @@ function adicionarMensagem(
         div
     );
 
+
+    area.scrollTop =
+        area.scrollHeight;
+
 }
 
 
-/* =========================================
+/* =====================================================
    ENVIAR MENSAGEM
-========================================= */
+===================================================== */
 
-async function enviarMensagem(){
-
-    if(!chamadoAtual){
-        return;
-    }
-
-
-    if(
-        chamadoAtual.status ===
-        "resolvido"
-    ){
-
-        aviso(
-            "🔒 Este chamado está resolvido."
-        );
-
-        return;
-
-    }
-
+async function enviarMensagem(
+    chamadoId
+){
 
     const campo =
         document.getElementById(
-            "resposta"
+            `resposta-${chamadoId}`
         );
 
 
-    const botao =
-        document.getElementById(
-            "btnEnviar"
-        );
-
-
-    if(!campo || !botao){
+    if(!campo){
         return;
     }
 
@@ -2014,19 +1907,39 @@ async function enviarMensagem(){
 
 
     if(!texto){
+
+        aviso(
+            "Digite uma mensagem."
+        );
+
+        campo.focus();
+
         return;
+
     }
 
 
-    botao.disabled =
-        true;
+    const botao =
+        document.querySelector(
+            `.chamado[data-id="${chamadoId}"] .btn-enviar`
+        );
 
-    botao.textContent =
-        "⏳";
+
+    if(botao){
+
+        botao.disabled =
+            true;
+
+        botao.textContent =
+            "⏳ Enviando...";
+
+    }
 
 
     const {
+
         error
+
     } = await banco
 
         .from("suporte_mensagens")
@@ -2034,7 +1947,7 @@ async function enviarMensagem(){
         .insert({
 
             chamado_id:
-                chamadoAtual.id,
+                chamadoId,
 
             remetente_tipo:
                 "adm",
@@ -2056,71 +1969,78 @@ async function enviarMensagem(){
 
     if(error){
 
-        console.error(
-            error
-        );
+        console.error(error);
 
         aviso(
-            "❌ " +
-            error.message
+            "❌ Não foi possível enviar a mensagem."
         );
 
-    }
+        if(botao){
 
-    else{
+            botao.disabled =
+                false;
 
-        campo.value = "";
-
-
-        if(
-            chamadoAtual.status ===
-            "pendente"
-        ){
-
-            await banco
-
-                .from("solicitacoes_suporte")
-
-                .update({
-
-                    status:
-                        "atendimento"
-
-                })
-
-                .eq(
-                    "id",
-                    chamadoAtual.id
-                );
+            botao.textContent =
+                "📨 Enviar";
 
         }
 
+        return;
+
     }
 
 
-    botao.disabled =
-        false;
+    /* Muda o chamado para atendimento */
 
-    botao.textContent =
-        "📨 Enviar";
+    await banco
+
+        .from("solicitacoes_suporte")
+
+        .update({
+
+            status:
+                "atendimento"
+
+        })
+
+        .eq(
+            "id",
+            chamadoId
+        );
+
+
+    campo.value = "";
+
+
+    if(botao){
+
+        botao.disabled =
+            false;
+
+        botao.textContent =
+            "📨 Enviar";
+
+    }
+
+
+    aviso(
+        "✅ Mensagem enviada!"
+    );
 
 }
 
 
-/* =========================================
-   RESOLVER CHAMADO
-========================================= */
+/* =====================================================
+   ENCERRAR
+===================================================== */
 
-async function resolverChamado(){
-
-    if(!chamadoAtual){
-        return;
-    }
-
+async function encerrarChamado(
+    chamadoId
+){
 
     const confirmar =
         confirm(
-            "Deseja realmente marcar este chamado como resolvido?"
+            "Deseja realmente encerrar este atendimento?"
         );
 
 
@@ -2130,7 +2050,9 @@ async function resolverChamado(){
 
 
     const {
+
         error
+
     } = await banco
 
         .from("solicitacoes_suporte")
@@ -2144,18 +2066,16 @@ async function resolverChamado(){
 
         .eq(
             "id",
-            chamadoAtual.id
+            chamadoId
         );
 
 
     if(error){
 
-        console.error(
-            error
-        );
+        console.error(error);
 
         aviso(
-            "❌ Não foi possível resolver o chamado."
+            "❌ Não foi possível encerrar o atendimento."
         );
 
         return;
@@ -2163,180 +2083,19 @@ async function resolverChamado(){
     }
 
 
-    chamadoAtual.status =
-        "resolvido";
-
-
     aviso(
-        "✅ Chamado resolvido."
+        "✅ Atendimento encerrado."
     );
 
 
-    mostrarConversa();
-
-    await carregarMensagens();
-
-    carregarChamados();
+    await carregarChamados();
 
 }
 
 
-/* =========================================
-   ENVIAR ARQUIVO
-========================================= */
-
-async function enviarArquivo(){
-
-    const input =
-        document.getElementById(
-            "arquivo"
-        );
-
-
-    const arquivo =
-        input.files[0];
-
-
-    if(!arquivo){
-        return;
-    }
-
-
-    if(!chamadoAtual){
-        return;
-    }
-
-
-    const nomeSeguro =
-
-        Date.now() +
-        "_" +
-        arquivo.name.replace(
-            /[^a-zA-Z0-9._-]/g,
-            "_"
-        );
-
-
-    const caminho =
-
-        chamadoAtual.id +
-        "/" +
-        nomeSeguro;
-
-
-    aviso(
-        "⏳ Enviando arquivo..."
-    );
-
-
-    const {
-        error
-    } = await banco.storage
-
-        .from("suporte")
-
-        .upload(
-            caminho,
-            arquivo
-        );
-
-
-    if(error){
-
-        console.error(
-            error
-        );
-
-        aviso(
-            "❌ Erro no upload: " +
-            error.message
-        );
-
-        input.value = "";
-
-        return;
-
-    }
-
-
-    const {
-        data:urlData
-    } = banco.storage
-
-        .from("suporte")
-
-        .getPublicUrl(
-            caminho
-        );
-
-
-    const url =
-        urlData.publicUrl;
-
-
-    const {
-        error:erroMensagem
-    } = await banco
-
-        .from("suporte_mensagens")
-
-        .insert({
-
-            chamado_id:
-                chamadoAtual.id,
-
-            remetente_tipo:
-                "adm",
-
-            remetente_id:
-                usuarioADM.id,
-
-            mensagem:
-                "📎 " +
-                arquivo.name,
-
-            tipo:
-                "arquivo",
-
-            url:
-                url,
-
-            lido:
-                false
-
-        });
-
-
-    if(erroMensagem){
-
-        console.error(
-            erroMensagem
-        );
-
-        aviso(
-            "❌ Erro ao salvar arquivo."
-        );
-
-        input.value = "";
-
-        return;
-
-    }
-
-
-    aviso(
-        "✅ Arquivo enviado!"
-    );
-
-
-    input.value = "";
-
-}
-
-
-/* =========================================
+/* =====================================================
    REALTIME
-========================================= */
+===================================================== */
 
 function iniciarRealtime(){
 
@@ -2357,6 +2116,8 @@ function iniciarRealtime(){
         )
 
 
+        /* NOVA MENSAGEM */
+
         .on(
 
             "postgres_changes",
@@ -2367,23 +2128,22 @@ function iniciarRealtime(){
 
                 schema:"public",
 
-                table:
-                    "solicitacoes_suporte"
+                table:"suporte_mensagens"
 
             },
 
             payload => {
 
-                carregarChamados();
-
-                aviso(
-                    "📩 Novo chamado recebido!"
+                adicionarMensagem(
+                    payload.new
                 );
 
             }
 
         )
 
+
+        /* ALTERAÇÃO DO CHAMADO */
 
         .on(
 
@@ -2395,8 +2155,7 @@ function iniciarRealtime(){
 
                 schema:"public",
 
-                table:
-                    "solicitacoes_suporte"
+                table:"solicitacoes_suporte"
 
             },
 
@@ -2409,47 +2168,7 @@ function iniciarRealtime(){
         )
 
 
-        .subscribe();
-
-}
-
-
-/* =========================================
-   REALTIME DO CHAMADO
-========================================= */
-
-function iniciarRealtimeChamado(){
-
-    if(!chamadoAtual){
-        return;
-    }
-
-
-    if(canalDigitando){
-
-        banco.removeChannel(
-            canalDigitando
-        );
-
-    }
-
-
-    const nomeCanal =
-
-        "atendimento-" +
-        chamadoAtual.id +
-        "-" +
-        Date.now();
-
-
-    canalDigitando =
-
-        banco
-
-        .channel(
-            nomeCanal
-        )
-
+        /* NOVO CHAMADO */
 
         .on(
 
@@ -2461,78 +2180,98 @@ function iniciarRealtimeChamado(){
 
                 schema:"public",
 
-                table:
-                    "suporte_mensagens",
-
-                filter:
-                    "chamado_id=eq." +
-                    chamadoAtual.id
+                table:"solicitacoes_suporte"
 
             },
 
             payload => {
 
-                adicionarMensagem(
-                    payload.new
+                carregarChamados();
+
+                aviso(
+                    "🔔 Novo atendimento recebido!"
                 );
-
-                rolarChat();
-
-
-                if(
-                    payload.new.remetente_tipo ===
-                    "usuario"
-                ){
-
-                    aviso(
-                        "💬 Nova mensagem do usuário"
-                    );
-
-                }
 
             }
 
         )
 
 
-        .subscribe();
+        .subscribe(
+
+            status => {
+
+                console.log(
+                    "Realtime:",
+                    status
+                );
+
+            }
+
+        );
 
 }
 
 
-/* =========================================
-   ROLAR
-========================================= */
+/* =====================================================
+   INICIAR
+===================================================== */
 
-function rolarChat(){
+async function iniciar(){
 
-    const area =
-        document.getElementById(
-            "mensagens"
-        );
+    const autorizado =
+        await verificarADM();
 
 
-    if(!area){
+    if(!autorizado){
         return;
     }
 
 
-    setTimeout(
-        () => {
+    await carregarChamados();
 
-            area.scrollTop =
-                area.scrollHeight;
 
-        },
-        50
-    );
+    /*
+    Mostra os presets de início
+    em cada chamado.
+    */
+
+    document
+        .querySelectorAll(
+            ".chamado"
+        )
+        .forEach(
+            card => {
+
+                const id =
+                    card.dataset.id;
+
+                const botao =
+                    card.querySelector(
+                        ".categoria-btn"
+                    );
+
+                mostrarPresets(
+                    id,
+                    "inicio",
+                    botao
+                );
+
+            }
+        );
+
+
+    iniciarRealtime();
 
 }
 
 
-/* =========================================
+iniciar();
+
+
+/* =====================================================
    SAIR
-========================================= */
+===================================================== */
 
 async function sair(){
 
@@ -2540,15 +2279,6 @@ async function sair(){
 
         await banco.removeChannel(
             canalRealtime
-        );
-
-    }
-
-
-    if(canalDigitando){
-
-        await banco.removeChannel(
-            canalDigitando
         );
 
     }
@@ -2568,34 +2298,9 @@ async function sair(){
 }
 
 
-/* =========================================
-   INICIAR
-========================================= */
-
-async function iniciar(){
-
-    const autorizado =
-        await verificarADM();
-
-
-    if(!autorizado){
-        return;
-    }
-
-
-    await carregarChamados();
-
-    iniciarRealtime();
-
-}
-
-
-iniciar();
-
-
-/* =========================================
-   LIMPEZA
-========================================= */
+/* =====================================================
+   LIMPAR REALTIME
+===================================================== */
 
 window.addEventListener(
     "beforeunload",
@@ -2605,14 +2310,6 @@ window.addEventListener(
 
             banco.removeChannel(
                 canalRealtime
-            );
-
-        }
-
-        if(canalDigitando){
-
-            banco.removeChannel(
-                canalDigitando
             );
 
         }
