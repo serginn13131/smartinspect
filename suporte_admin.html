@@ -17,12 +17,7 @@
     box-sizing:border-box;
 }
 
-
-/* ==============================
-   CONTEÚDO
-============================== */
-
-.conteudo-suporte-admin{
+.conteudo-admin{
 
     padding:30px;
 
@@ -30,14 +25,14 @@
 
     max-width:1200px;
 
-    margin:0 auto;
+    margin:auto;
 
 }
 
 
-/* ==============================
+/* ==========================
    CABEÇALHO
-============================== */
+========================== */
 
 .cabecalho{
 
@@ -55,16 +50,16 @@
 
 .cabecalho p{
 
-    margin-top:8px;
-
     color:#666;
+
+    margin-top:8px;
 
 }
 
 
-/* ==============================
+/* ==========================
    RESUMO
-============================== */
+========================== */
 
 .resumo{
 
@@ -83,7 +78,7 @@
 
     background:white;
 
-    padding:18px 20px;
+    padding:18px;
 
     border-radius:14px;
 
@@ -110,9 +105,9 @@
 }
 
 
-/* ==============================
-   LISTA
-============================== */
+/* ==========================
+   CHAMADO
+========================== */
 
 .lista-chamados{
 
@@ -124,31 +119,25 @@
 
 }
 
-
-/* ==============================
-   CHAMADO
-============================== */
-
 .chamado{
 
     background:white;
 
     border-radius:14px;
 
-    padding:20px;
-
     box-shadow:
         0 4px 15px
         rgba(0,0,0,.07);
 
+    overflow:hidden;
+
 }
 
+.chamado-cabecalho{
 
-/* ==============================
-   TOPO
-============================== */
+    padding:18px;
 
-.chamado-topo{
+    background:#f7f7f7;
 
     display:flex;
 
@@ -158,23 +147,19 @@
 
     gap:15px;
 
-    margin-bottom:15px;
-
 }
 
-.chamado-topo h2{
+.chamado-cabecalho h2{
 
     margin:0;
 
     font-size:18px;
 
-    word-break:break-word;
-
 }
 
-.informacoes{
+.info{
 
-    color:#666;
+    color:#777;
 
     font-size:13px;
 
@@ -185,9 +170,9 @@
 }
 
 
-/* ==============================
+/* ==========================
    STATUS
-============================== */
+========================== */
 
 .status{
 
@@ -228,151 +213,151 @@
 }
 
 
-/* ==============================
-   TIPO
-============================== */
+/* ==========================
+   CHAT
+========================== */
 
-.tipo{
+.chat{
 
-    display:inline-block;
-
-    background:#eef5ff;
-
-    color:#1f6feb;
-
-    padding:5px 9px;
-
-    border-radius:6px;
-
-    font-size:12px;
-
-    margin-bottom:12px;
+    padding:18px;
 
 }
 
+.lista-mensagens{
 
-/* ==============================
-   MENSAGEM
-============================== */
+    display:flex;
 
-.mensagem-chamado{
+    flex-direction:column;
 
-    background:#f7f7f7;
+    gap:10px;
 
-    padding:14px;
-
-    border-radius:9px;
-
-    margin-bottom:15px;
-
-    white-space:pre-wrap;
-
-    line-height:1.5;
-
-    max-height:180px;
+    max-height:450px;
 
     overflow-y:auto;
 
+    padding:5px;
+
 }
 
 
-/* ==============================
-   RESPOSTA EXISTENTE
-============================== */
+/* ==========================
+   BOLHAS
+========================== */
 
-.resposta-existente{
+.bolha{
 
-    background:#e8f5e9;
+    max-width:75%;
 
-    padding:14px;
+    padding:11px 14px;
 
-    border-radius:9px;
-
-    margin-bottom:15px;
+    border-radius:12px;
 
     line-height:1.5;
 
-}
+    white-space:pre-wrap;
 
-.resposta-existente strong{
-
-    display:block;
-
-    margin-bottom:7px;
+    word-break:break-word;
 
 }
 
+.bolha-usuario{
 
-/* ==============================
-   CAMPO DE RESPOSTA
-============================== */
+    align-self:flex-start;
 
-.campo-resposta{
+    background:#eeeeee;
 
-    margin-top:10px;
+    color:#222;
 
-}
-
-.campo-resposta textarea{
-
-    width:100%;
-
-    height:90px;
-
-    min-height:90px;
-
-    max-height:180px;
-
-    resize:vertical;
-
-    padding:12px;
-
-    border:1px solid #ddd;
-
-    border-radius:8px;
-
-    font-size:14px;
-
-    font-family:Arial,sans-serif;
-
-    outline:none;
-
-    display:block;
+    border-bottom-left-radius:3px;
 
 }
 
-.campo-resposta textarea:focus{
+.bolha-adm{
 
-    border-color:#0066cc;
+    align-self:flex-end;
 
-    box-shadow:
-        0 0 0 2px
-        rgba(0,102,204,.10);
+    background:#0066cc;
+
+    color:white;
+
+    border-bottom-right-radius:3px;
+
+}
+
+.bolha-nome{
+
+    font-size:11px;
+
+    font-weight:bold;
+
+    margin-bottom:5px;
+
+    opacity:.8;
+
+}
+
+.bolha-data{
+
+    font-size:10px;
+
+    margin-top:5px;
+
+    opacity:.7;
+
+    text-align:right;
 
 }
 
 
-/* ==============================
-   AÇÕES
-============================== */
+/* ==========================
+   RESPOSTA
+========================== */
 
-.acoes{
+.area-resposta{
 
     display:flex;
 
     gap:10px;
 
-    margin-top:10px;
+    margin-top:15px;
 
 }
 
-.btn{
+.area-resposta textarea{
+
+    flex:1;
+
+    height:55px;
+
+    resize:none;
+
+    padding:11px;
+
+    border:1px solid #ddd;
+
+    border-radius:8px;
+
+    font-family:Arial,sans-serif;
+
+    outline:none;
+
+}
+
+.area-resposta textarea:focus{
+
+    border-color:#0066cc;
+
+}
+
+.btn-responder{
+
+    min-width:120px;
 
     border:none;
 
     border-radius:8px;
 
-    padding:10px 16px;
+    background:#198754;
 
     color:white;
 
@@ -380,46 +365,70 @@
 
     cursor:pointer;
 
-    font-size:14px;
-
-}
-
-.btn-responder{
-
-    background:#0066cc;
-
 }
 
 .btn-responder:hover{
-
-    background:#0055aa;
-
-}
-
-.btn-fechar{
-
-    background:#198754;
-
-}
-
-.btn-fechar:hover{
 
     background:#146c43;
 
 }
 
-.btn:disabled{
 
-    background:#999;
+/* ==========================
+   FECHAR
+========================== */
 
-    cursor:not-allowed;
+.btn-fechar{
+
+    margin-top:10px;
+
+    padding:9px 14px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#dc3545;
+
+    color:white;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+.btn-fechar:hover{
+
+    background:#bb2d3b;
 
 }
 
 
-/* ==============================
+/* ==========================
+   FECHADO
+========================== */
+
+.fechado{
+
+    background:#f7f7f7;
+
+    color:#777;
+
+    padding:12px;
+
+    text-align:center;
+
+    border-radius:8px;
+
+    margin-top:12px;
+
+}
+
+
+/* ==========================
    VAZIO
-============================== */
+========================== */
 
 .vazio{
 
@@ -431,48 +440,22 @@
 
     text-align:center;
 
-    color:#666;
-
-    box-shadow:
-        0 4px 15px
-        rgba(0,0,0,.07);
+    color:#777;
 
 }
 
 
-/* ==============================
-   ERRO
-============================== */
-
-.erro{
-
-    display:none;
-
-    background:#ffebee;
-
-    color:#c62828;
-
-    padding:14px;
-
-    border-radius:9px;
-
-    margin-bottom:20px;
-
-}
-
-
-/* ==============================
+/* ==========================
    MOBILE
-============================== */
+========================== */
 
 @media(max-width:800px){
 
-    .conteudo-suporte-admin{
+    .conteudo-admin{
 
         padding:20px;
 
     }
-
 
     .resumo{
 
@@ -480,31 +463,27 @@
 
     }
 
-
-    .chamado-topo{
-
-        flex-direction:column;
-
-    }
-
-
-    .status{
-
-        align-self:flex-start;
-
-    }
-
-
-    .acoes{
+    .chamado-cabecalho{
 
         flex-direction:column;
 
     }
 
+    .area-resposta{
 
-    .btn{
+        flex-direction:column;
 
-        width:100%;
+    }
+
+    .btn-responder{
+
+        height:45px;
+
+    }
+
+    .bolha{
+
+        max-width:90%;
 
     }
 
@@ -518,12 +497,11 @@
 <body>
 
 
-<!-- =====================================================
+<!-- ==================================================
      SIDEBAR
-===================================================== -->
+================================================== -->
 
 <div class="sidebar">
-
 
     <div class="logo-area">
 
@@ -541,123 +519,74 @@
 
     <nav>
 
-
         <a href="index.html">
             📊 Dashboard
         </a>
-
 
         <a href="imoveis.html">
             🏠 Imóveis
         </a>
 
-
         <a href="obras.html">
             🏢 Obras
         </a>
-
 
         <a href="inspecoes.html">
             📋 Inspeções
         </a>
 
-
-        <a
-            href="estoque.html"
-            id="menuEstoque"
-        >
-
+        <a href="estoque.html">
             📦 Estoque
-
-            <span
-                id="badgeEstoque"
-                class="menu-badge"
-                style="display:none;"
-            >
-                0
-            </span>
-
         </a>
-
 
         <a href="relatorios.html">
             📄 Relatórios
         </a>
 
-
         <a href="ia.html">
             🤖 Inteligência Artificial
         </a>
 
-
         <hr>
-
 
         <a href="equipe.html">
             👥 Equipe
         </a>
 
-
         <a href="perfil.html">
             👤 Meu Perfil
         </a>
-
 
         <a
             class="admin-only"
             href="usuarios.html"
         >
-
             ⚙️ Controle de Usuários
-
         </a>
 
-
         <hr>
-
 
         <a href="suporte.html">
             💬 Falar Com Suporte
         </a>
 
-
         <a
             class="admin-only ativo"
             href="suporte_admin.html"
         >
-
             🛠️ Chamados de Suporte
-
         </a>
 
-
-        <a
-            href="notificacoes.html"
-            id="menuNotificacoes"
-        >
-
+        <a href="notificacoes.html">
             🔔 Notificações
-
-            <span
-                id="badgeNotificacoes"
-                class="menu-badge"
-                style="display:none;"
-            >
-                0
-            </span>
-
         </a>
-
 
         <a
             href="#"
             onclick="sair()"
         >
-
             🚪 Sair
-
         </a>
-
 
     </nav>
 
@@ -665,231 +594,210 @@
 
 
 
-<!-- =====================================================
+<!-- ==================================================
      CONTEÚDO
-===================================================== -->
+================================================== -->
 
 <div class="main">
 
-
-    <div class="conteudo-suporte-admin">
-
-
-        <div class="cabecalho">
-
-            <h1>
-                🛠️ Chamados de Suporte
-            </h1>
-
-            <p>
-                Gerencie as solicitações enviadas pelos usuários.
-            </p>
-
-        </div>
+<div class="conteudo-admin">
 
 
+    <div class="cabecalho">
 
-        <div
-            id="mensagemErro"
-            class="erro"
-        ></div>
+        <h1>
+            🛠️ Chamados de Suporte
+        </h1>
 
-
-
-        <!-- RESUMO -->
-
-        <div class="resumo">
-
-
-            <div class="resumo-card">
-
-                <h3>
-                    🔴 Abertos
-                </h3>
-
-                <strong id="totalAbertos">
-                    0
-                </strong>
-
-            </div>
-
-
-            <div class="resumo-card">
-
-                <h3>
-                    🟡 Em atendimento
-                </h3>
-
-                <strong id="totalAtendimento">
-                    0
-                </strong>
-
-            </div>
-
-
-            <div class="resumo-card">
-
-                <h3>
-                    🟢 Fechados
-                </h3>
-
-                <strong id="totalFechados">
-                    0
-                </strong>
-
-            </div>
-
-
-        </div>
-
-
-
-        <!-- LISTA -->
-
-        <div
-            id="listaChamados"
-            class="lista-chamados"
-        >
-
-        </div>
-
+        <p>
+            Atendimento aos usuários em tempo real.
+        </p>
 
     </div>
+
+
+
+    <!-- RESUMO -->
+
+    <div class="resumo">
+
+        <div class="resumo-card">
+
+            <h3>
+                🔴 Abertos
+            </h3>
+
+            <strong id="totalAbertos">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="resumo-card">
+
+            <h3>
+                🟡 Em atendimento
+            </h3>
+
+            <strong id="totalAtendimento">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="resumo-card">
+
+            <h3>
+                🟢 Fechados
+            </h3>
+
+            <strong id="totalFechados">
+                0
+            </strong>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- CHAMADOS -->
+
+    <div
+        id="listaChamados"
+        class="lista-chamados"
+    >
+
+        <div class="vazio">
+            ⏳ Carregando chamados...
+        </div>
+
+    </div>
+
+
+</div>
 
 </div>
 
 
-
-<!-- =====================================================
-     SUPABASE
-===================================================== -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="js/supabase.js"></script>
 
 
-
 <script>
 
 
-let chamados = [];
+let usuarioADM = null;
+
+let canalRealtime = null;
 
 
+/* ==================================================
+   ESCAPAR
+================================================== */
 
-/* =====================================================
+function escapar(texto){
+
+    if(
+        texto === null ||
+        texto === undefined
+    ){
+
+        return "";
+
+    }
+
+    return String(texto)
+
+        .replace(/&/g,"&amp;")
+
+        .replace(/</g,"&lt;")
+
+        .replace(/>/g,"&gt;")
+
+        .replace(/"/g,"&quot;")
+
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* ==================================================
    VERIFICAR ADM
-===================================================== */
+================================================== */
 
 async function verificarADM(){
 
-    try{
+    const {
 
-        const {
-
-            data:{
-                session
-
-            },
-
-            error
-
-        } = await banco.auth.getSession();
-
-
-
-        if(
-            error ||
-            !session ||
-            !session.user
-        ){
-
-            window.location.href =
-                "login.html";
-
-            return false;
-
+        data:{
+            session
         }
 
+    } = await banco.auth.getSession();
 
 
-        const {
+    if(
+        !session ||
+        !session.user
+    ){
 
-            data:usuario,
+        window.location.href =
+            "login.html";
 
-            error:erroUsuario
+        return false;
 
-        } = await banco
-
-            .from("usuarios")
-
-            .select(
-                "nivel_acesso,status"
-            )
-
-            .eq(
-                "auth_id",
-                session.user.id
-            )
-
-            .maybeSingle();
+    }
 
 
-
-        if(
-            erroUsuario ||
-            !usuario
-        ){
-
-            alert(
-                "Não foi possível verificar seu acesso."
-            );
-
-            window.location.href =
-                "index.html";
-
-            return false;
-
-        }
+    usuarioADM =
+        session.user;
 
 
+    const {
 
-        if(
-            usuario.nivel_acesso !== "adm"
-        ){
+        data:usuario,
 
-            alert(
-                "⛔ Acesso restrito ao administrador."
-            );
+        error
 
-            window.location.href =
-                "index.html";
+    } = await banco
 
-            return false;
+        .from("usuarios")
 
-        }
+        .select(
+            "nivel_acesso,status"
+        )
 
+        .eq(
+            "auth_id",
+            session.user.id
+        )
 
-
-        if(
-            usuario.status !== "ativo"
-        ){
-
-            window.location.href =
-                "login.html";
-
-            return false;
-
-        }
+        .maybeSingle();
 
 
-
-        return true;
-
-
-    }catch(error){
+    if(error){
 
         console.error(error);
+
+        return false;
+
+    }
+
+
+    if(
+        !usuario ||
+        usuario.nivel_acesso !== "adm" ||
+        usuario.status !== "ativo"
+    ){
+
+        alert(
+            "⛔ Acesso restrito ao administrador."
+        );
 
         window.location.href =
             "index.html";
@@ -898,13 +806,15 @@ async function verificarADM(){
 
     }
 
+
+    return true;
+
 }
 
 
-
-/* =====================================================
+/* ==================================================
    CARREGAR CHAMADOS
-===================================================== */
+================================================== */
 
 async function carregarChamados(){
 
@@ -912,18 +822,6 @@ async function carregarChamados(){
         document.getElementById(
             "listaChamados"
         );
-
-
-    lista.innerHTML = `
-
-        <div class="vazio">
-
-            ⏳ Carregando chamados...
-
-        </div>
-
-    `;
-
 
 
     const {
@@ -934,9 +832,7 @@ async function carregarChamados(){
 
     } = await banco
 
-        .from(
-            "chamados_suporte"
-        )
+        .from("chamados_suporte")
 
         .select("*")
 
@@ -948,25 +844,15 @@ async function carregarChamados(){
         );
 
 
-
     if(error){
 
-        console.error(
-            "Erro ao carregar chamados:",
-            error
-        );
-
-
-        mostrarErro(
-            "Não foi possível carregar os chamados."
-        );
-
+        console.error(error);
 
         lista.innerHTML = `
 
             <div class="vazio">
 
-                ❌ Erro ao carregar chamados.
+                ❌ Não foi possível carregar os chamados.
 
             </div>
 
@@ -977,32 +863,60 @@ async function carregarChamados(){
     }
 
 
-
-    chamados =
-        data || [];
-
-
-    atualizarResumo();
+    atualizarResumo(
+        data || []
+    );
 
 
-    mostrarChamados();
+    if(
+        !data ||
+        data.length === 0
+    ){
+
+        lista.innerHTML = `
+
+            <div class="vazio">
+
+                🎉 Nenhum chamado no momento.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    lista.innerHTML = "";
+
+
+    for(
+        const chamado of data
+    ){
+
+        await criarCard(
+            chamado
+        );
+
+    }
 
 }
 
 
-
-/* =====================================================
+/* ==================================================
    RESUMO
-===================================================== */
+================================================== */
 
-function atualizarResumo(){
+function atualizarResumo(
+    chamados
+){
 
     let abertos = 0;
 
     let atendimento = 0;
 
     let fechados = 0;
-
 
 
     chamados.forEach(
@@ -1012,34 +926,25 @@ function atualizarResumo(){
                 chamado.status ===
                 "aberto"
             ){
-
                 abertos++;
-
             }
-
 
             if(
                 chamado.status ===
                 "atendimento"
             ){
-
                 atendimento++;
-
             }
-
 
             if(
                 chamado.status ===
                 "fechado"
             ){
-
                 fechados++;
-
             }
 
         }
     );
-
 
 
     document.getElementById(
@@ -1062,12 +967,13 @@ function atualizarResumo(){
 }
 
 
+/* ==================================================
+   CRIAR CARD
+================================================== */
 
-/* =====================================================
-   MOSTRAR CHAMADOS
-===================================================== */
-
-function mostrarChamados(){
+async function criarCard(
+    chamado
+){
 
     const lista =
         document.getElementById(
@@ -1075,319 +981,427 @@ function mostrarChamados(){
         );
 
 
+    let classe =
+        "status-aberto";
+
+    let texto =
+        "🔴 Aberto";
+
 
     if(
-        chamados.length === 0
+        chamado.status ===
+        "atendimento"
     ){
 
-        lista.innerHTML = `
+        classe =
+            "status-atendimento";
 
-            <div class="vazio">
-
-                <h2>
-                    🎉 Nenhum chamado
-                </h2>
-
-                <p>
-                    Não existem solicitações de suporte.
-                </p>
-
-            </div>
-
-        `;
-
-        return;
+        texto =
+            "🟡 Em atendimento";
 
     }
 
 
+    if(
+        chamado.status ===
+        "fechado"
+    ){
 
-    lista.innerHTML = "";
+        classe =
+            "status-fechado";
 
+        texto =
+            "🟢 Fechado";
 
-
-    chamados.forEach(
-        chamado => {
-
-
-            let classeStatus =
-                "status-aberto";
-
-
-            let textoStatus =
-                "🔴 Aberto";
+    }
 
 
-
-            if(
-                chamado.status ===
-                "atendimento"
-            ){
-
-                classeStatus =
-                    "status-atendimento";
-
-                textoStatus =
-                    "🟡 Em atendimento";
-
-            }
+    const data =
+        chamado.data_criacao
+        ?
+        new Date(
+            chamado.data_criacao
+        ).toLocaleString("pt-BR")
+        :
+        "";
 
 
-
-            if(
-                chamado.status ===
-                "fechado"
-            ){
-
-                classeStatus =
-                    "status-fechado";
-
-                textoStatus =
-                    "🟢 Fechado";
-
-            }
+    const card =
+        document.createElement(
+            "div"
+        );
 
 
-
-            const data =
-                chamado.data_criacao
-                ?
-                new Date(
-                    chamado.data_criacao
-                ).toLocaleString(
-                    "pt-BR"
-                )
-                :
-                "";
+    card.className =
+        "chamado";
 
 
-
-            const card =
-                document.createElement(
-                    "div"
-                );
+    card.dataset.id =
+        chamado.id;
 
 
-            card.className =
-                "chamado";
+    card.innerHTML = `
 
+        <div class="chamado-cabecalho">
 
+            <div>
 
-            card.innerHTML = `
+                <h2>
+                    ${escapar(
+                        chamado.assunto
+                    )}
+                </h2>
 
-                <div class="chamado-topo">
+                <div class="info">
 
+                    👤
+                    ${escapar(
+                        chamado.nome
+                    )}
 
-                    <div>
+                    <br>
 
-                        <h2>
-                            ${escapar(
-                                chamado.assunto
-                            )}
-                        </h2>
+                    📧
+                    ${escapar(
+                        chamado.email
+                    )}
 
+                    <br>
 
-                        <div
-                            class="informacoes"
-                        >
-
-                            👤
-                            ${escapar(
-                                chamado.nome
-                            )}
-
-                            <br>
-
-                            📧
-                            ${escapar(
-                                chamado.email
-                            )}
-
-                            <br>
-
-                            📅
-                            ${data}
-
-                        </div>
-
-                    </div>
-
-
-                    <span
-                        class="status ${classeStatus}"
-                    >
-
-                        ${textoStatus}
-
-                    </span>
-
-
-                </div>
-
-
-
-                <span class="tipo">
-
+                    🏷️
                     ${escapar(
                         chamado.tipo
                     )}
 
-                </span>
+                    <br>
+
+                    📅
+                    ${data}
+
+                </div>
+
+            </div>
 
 
+            <span
+                class="status ${classe}"
+            >
 
-                <div
-                    class="mensagem-chamado"
-                >
+                ${texto}
 
-                    <strong>
-                        Mensagem:
-                    </strong>
+            </span>
 
-                    <br><br>
+        </div>
 
-                    ${escapar(
-                        chamado.mensagem
-                    )}
+
+        <div class="chat">
+
+            <div
+                class="lista-mensagens"
+                id="mensagens-${chamado.id}"
+            >
+
+                ⏳ Carregando conversa...
+
+            </div>
+
+
+            ${
+                chamado.status !== "fechado"
+
+                ?
+
+                `
+
+                <div class="area-resposta">
+
+                    <textarea
+                        id="resposta-${chamado.id}"
+                        placeholder="Digite sua resposta..."
+                    ></textarea>
+
+                    <button
+                        class="btn-responder"
+                        onclick="enviarMensagem(${chamado.id})"
+                    >
+
+                        📨 Responder
+
+                    </button>
 
                 </div>
 
 
+                <button
+                    class="btn-fechar"
+                    onclick="fecharChamado(${chamado.id})"
+                >
 
-                ${
-                    chamado.resposta
-                    ?
+                    🔒 Fechar chamado
 
-                    `
+                </button>
 
-                    <div
-                        class="resposta-existente"
-                    >
+                `
 
-                        <strong>
-                            💬 Resposta do suporte:
-                        </strong>
+                :
 
-                        ${escapar(
-                            chamado.resposta
-                        )}
+                `
 
-                    </div>
+                <div class="fechado">
 
-                    `
+                    🔒 Este chamado está fechado.
 
-                    :
+                </div>
 
-                    ""
+                `
 
-                }
+            }
 
+        </div>
 
-
-                ${
-                    chamado.status !==
-                    "fechado"
-
-                    ?
-
-                    `
-
-                    <div
-                        class="campo-resposta"
-                    >
-
-                        <textarea
-                            id="resposta-${chamado.id}"
-                            placeholder="Digite a resposta para o usuário..."
-                        ></textarea>
+    `;
 
 
-                    </div>
+    lista.appendChild(
+        card
+    );
 
 
-                    <div class="acoes">
-
-
-                        <button
-                            class="btn btn-responder"
-                            onclick="responderChamado(${chamado.id})"
-                        >
-
-                            💬 Responder
-
-                        </button>
-
-
-                        <button
-                            class="btn btn-fechar"
-                            onclick="fecharChamado(${chamado.id})"
-                        >
-
-                            ✅ Fechar chamado
-
-                        </button>
-
-
-                    </div>
-
-                    `
-
-                    :
-
-                    ""
-
-                }
-
-            `;
-
-
-
-            lista.appendChild(
-                card
-            );
-
-        }
+    await carregarMensagens(
+        chamado.id
     );
 
 }
 
 
+/* ==================================================
+   CARREGAR MENSAGENS
+================================================== */
 
-/* =====================================================
-   RESPONDER
-===================================================== */
+async function carregarMensagens(
+    chamadoId
+){
 
-async function responderChamado(id){
+    const elemento =
+        document.getElementById(
+            `mensagens-${chamadoId}`
+        );
+
+
+    if(!elemento){
+        return;
+    }
+
+
+    const {
+
+        data,
+
+        error
+
+    } = await banco
+
+        .from("mensagens_suporte")
+
+        .select("*")
+
+        .eq(
+            "chamado_id",
+            chamadoId
+        )
+
+        .order(
+            "data_criacao",
+            {
+                ascending:true
+            }
+        );
+
+
+    if(error){
+
+        console.error(error);
+
+        elemento.innerHTML =
+            "❌ Erro ao carregar mensagens.";
+
+        return;
+
+    }
+
+
+    elemento.innerHTML = "";
+
+
+    if(
+        !data ||
+        data.length === 0
+    ){
+
+        elemento.innerHTML =
+            "Nenhuma mensagem.";
+
+        return;
+
+    }
+
+
+    data.forEach(
+        mensagem => {
+
+            adicionarMensagem(
+                mensagem
+            );
+
+        }
+    );
+
+
+    elemento.scrollTop =
+        elemento.scrollHeight;
+
+}
+
+
+/* ==================================================
+   ADICIONAR MENSAGEM
+================================================== */
+
+function adicionarMensagem(
+    mensagem
+){
+
+    const elemento =
+        document.getElementById(
+            `mensagens-${mensagem.chamado_id}`
+        );
+
+
+    if(!elemento){
+        return;
+    }
+
+
+    if(
+        elemento.querySelector(
+            `[data-mensagem-id="${mensagem.id}"]`
+        )
+    ){
+
+        return;
+
+    }
+
+
+    const bolha =
+        document.createElement(
+            "div"
+        );
+
+
+    bolha.className =
+        mensagem.remetente_tipo === "adm"
+
+        ?
+
+        "bolha bolha-adm"
+
+        :
+
+        "bolha bolha-usuario";
+
+
+    bolha.dataset.mensagemId =
+        mensagem.id;
+
+
+    const data =
+        mensagem.data_criacao
+        ?
+        new Date(
+            mensagem.data_criacao
+        ).toLocaleString("pt-BR")
+        :
+        "";
+
+
+    bolha.innerHTML = `
+
+        <div class="bolha-nome">
+
+            ${
+                mensagem.remetente_tipo === "adm"
+
+                ?
+
+                "🛠️ Você - Suporte"
+
+                :
+
+                "👤 Usuário"
+
+            }
+
+        </div>
+
+
+        ${escapar(
+            mensagem.mensagem
+        )}
+
+
+        <div class="bolha-data">
+
+            ${data}
+
+        </div>
+
+    `;
+
+
+    elemento.appendChild(
+        bolha
+    );
+
+
+    elemento.scrollTop =
+        elemento.scrollHeight;
+
+}
+
+
+/* ==================================================
+   ENVIAR RESPOSTA DO ADM
+================================================== */
+
+async function enviarMensagem(
+    chamadoId
+){
 
     const campo =
         document.getElementById(
-            "resposta-" + id
+            `resposta-${chamadoId}`
         );
 
 
     if(!campo){
-
         return;
-
     }
 
 
-
-    const resposta =
+    const texto =
         campo.value.trim();
 
 
-
-    if(!resposta){
+    if(!texto){
 
         alert(
-            "Digite uma resposta antes de enviar."
+            "Digite uma mensagem."
         );
 
         return;
 
     }
-
 
 
     const {
@@ -1396,17 +1410,54 @@ async function responderChamado(id){
 
     } = await banco
 
-        .from(
-            "chamados_suporte"
-        )
+        .from("mensagens_suporte")
+
+        .insert({
+
+            chamado_id:
+                chamadoId,
+
+            usuario_id:
+                await obterUsuarioDoChamado(
+                    chamadoId
+                ),
+
+            remetente_id:
+                usuarioADM.id,
+
+            remetente_tipo:
+                "adm",
+
+            mensagem:
+                texto
+
+        });
+
+
+    if(error){
+
+        console.error(error);
+
+        alert(
+            "❌ Não foi possível enviar a mensagem."
+        );
+
+        return;
+
+    }
+
+
+    await banco
+
+        .from("chamados_suporte")
 
         .update({
 
-            resposta:
-                resposta,
-
             status:
                 "atendimento",
+
+            resposta:
+                texto,
 
             data_resposta:
                 new Date().toISOString()
@@ -1415,41 +1466,66 @@ async function responderChamado(id){
 
         .eq(
             "id",
-            id
+            chamadoId
         );
 
+
+    campo.value = "";
+
+}
+
+
+/* ==================================================
+   PEGAR DONO DO CHAMADO
+================================================== */
+
+async function obterUsuarioDoChamado(
+    chamadoId
+){
+
+    const {
+
+        data,
+
+        error
+
+    } = await banco
+
+        .from("chamados_suporte")
+
+        .select(
+            "usuario_id"
+        )
+
+        .eq(
+            "id",
+            chamadoId
+        )
+
+        .single();
 
 
     if(error){
 
         console.error(error);
 
-        alert(
-            "❌ Não foi possível enviar a resposta."
-        );
-
-        return;
+        return null;
 
     }
 
 
-
-    alert(
-        "✅ Resposta enviada com sucesso!"
-    );
-
-
-    await carregarChamados();
+    return data.usuario_id;
 
 }
 
 
+/* ==================================================
+   FECHAR CHAMADO
+================================================== */
 
-/* =====================================================
-   FECHAR
-===================================================== */
-
-async function fecharChamado(id){
+async function fecharChamado(
+    chamadoId
+){
 
     const confirmar =
         confirm(
@@ -1458,11 +1534,8 @@ async function fecharChamado(id){
 
 
     if(!confirmar){
-
         return;
-
     }
-
 
 
     const {
@@ -1471,9 +1544,7 @@ async function fecharChamado(id){
 
     } = await banco
 
-        .from(
-            "chamados_suporte"
-        )
+        .from("chamados_suporte")
 
         .update({
 
@@ -1484,9 +1555,8 @@ async function fecharChamado(id){
 
         .eq(
             "id",
-            id
+            chamadoId
         );
-
 
 
     if(error){
@@ -1502,86 +1572,124 @@ async function fecharChamado(id){
     }
 
 
-
-    await carregarChamados();
+    carregarChamados();
 
 }
 
 
+/* ==================================================
+   REALTIME
+================================================== */
 
-/* =====================================================
-   ESCAPAR TEXTO
-===================================================== */
+function iniciarRealtime(){
 
-function escapar(texto){
+    if(canalRealtime){
 
-    if(
-        texto === null ||
-        texto === undefined
-    ){
-
-        return "";
+        banco.removeChannel(
+            canalRealtime
+        );
 
     }
 
 
-    return String(texto)
+    canalRealtime =
 
-        .replace(
-            /&/g,
-            "&amp;"
+        banco
+
+        .channel(
+            "suporte-admin-tempo-real"
         )
 
-        .replace(
-            /</g,
-            "&lt;"
+
+        /* NOVA MENSAGEM */
+
+        .on(
+
+            "postgres_changes",
+
+            {
+
+                event:"INSERT",
+
+                schema:"public",
+
+                table:"mensagens_suporte"
+
+            },
+
+            payload => {
+
+                const mensagem =
+                    payload.new;
+
+
+                adicionarMensagem(
+                    mensagem
+                );
+
+            }
+
         )
 
-        .replace(
-            />/g,
-            "&gt;"
+
+        /* ALTERAÇÃO DO CHAMADO */
+
+        .on(
+
+            "postgres_changes",
+
+            {
+
+                event:"UPDATE",
+
+                schema:"public",
+
+                table:"chamados_suporte"
+
+            },
+
+            payload => {
+
+                carregarChamados();
+
+            }
+
         )
 
-        .replace(
-            /"/g,
-            "&quot;"
+
+        /* NOVO CHAMADO */
+
+        .on(
+
+            "postgres_changes",
+
+            {
+
+                event:"INSERT",
+
+                schema:"public",
+
+                table:"chamados_suporte"
+
+            },
+
+            payload => {
+
+                carregarChamados();
+
+            }
+
         )
 
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+
+        .subscribe();
 
 }
 
 
-
-/* =====================================================
-   ERRO
-===================================================== */
-
-function mostrarErro(mensagem){
-
-    const elemento =
-        document.getElementById(
-            "mensagemErro"
-        );
-
-
-    elemento.innerText =
-        mensagem;
-
-
-    elemento.style.display =
-        "block";
-
-}
-
-
-
-/* =====================================================
+/* ==================================================
    INICIAR
-===================================================== */
+================================================== */
 
 async function iniciar(){
 
@@ -1590,19 +1698,39 @@ async function iniciar(){
 
 
     if(!autorizado){
-
         return;
-
     }
 
 
     await carregarChamados();
+
+
+    iniciarRealtime();
 
 }
 
 
 iniciar();
 
+
+/* ==================================================
+   LIMPAR
+================================================== */
+
+window.addEventListener(
+    "beforeunload",
+    function(){
+
+        if(canalRealtime){
+
+            banco.removeChannel(
+                canalRealtime
+            );
+
+        }
+
+    }
+);
 
 </script>
 
