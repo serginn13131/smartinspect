@@ -5,17 +5,11 @@
 
 <meta charset="UTF-8">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Falar com Suporte - SmartInspect AI</title>
 
-<link
-    rel="stylesheet"
-    href="css/style.css"
->
+<link rel="stylesheet" href="css/style.css">
 
 <style>
 
@@ -28,9 +22,9 @@ body{
 }
 
 
-/* =====================================================
+/* ================================
    CONTEÚDO
-===================================================== */
+================================ */
 
 .conteudo-suporte{
 
@@ -43,9 +37,9 @@ body{
 }
 
 
-/* =====================================================
-   CABEÇALHO
-===================================================== */
+/* ================================
+   TÍTULO
+================================ */
 
 .titulo-suporte{
 
@@ -70,9 +64,9 @@ body{
 }
 
 
-/* =====================================================
+/* ================================
    CARD
-===================================================== */
+================================ */
 
 .card-suporte{
 
@@ -89,9 +83,9 @@ body{
 }
 
 
-/* =====================================================
-   INFORMAÇÕES
-===================================================== */
+/* ================================
+   CABEÇALHO
+================================ */
 
 .info-chamado{
 
@@ -121,7 +115,7 @@ body{
 
 .info-chamado p{
 
-    margin:6px 0 0;
+    margin:7px 0 0;
 
     color:#666;
 
@@ -130,9 +124,9 @@ body{
 }
 
 
-/* =====================================================
+/* ================================
    STATUS
-===================================================== */
+================================ */
 
 .status{
 
@@ -171,9 +165,9 @@ body{
 }
 
 
-/* =====================================================
+/* ================================
    CHAT
-===================================================== */
+================================ */
 
 .chat{
 
@@ -186,9 +180,9 @@ body{
 }
 
 
-/* =====================================================
+/* ================================
    MENSAGENS
-===================================================== */
+================================ */
 
 .mensagens{
 
@@ -203,9 +197,9 @@ body{
 }
 
 
-/* =====================================================
+/* ================================
    BALÕES
-===================================================== */
+================================ */
 
 .mensagem{
 
@@ -256,9 +250,9 @@ body{
 }
 
 
-/* =====================================================
+/* ================================
    ARQUIVO
-===================================================== */
+================================ */
 
 .mensagem-arquivo{
 
@@ -270,18 +264,18 @@ body{
 
     border-radius:8px;
 
-    background:rgba(0,0,0,.08);
-
-    text-decoration:none;
+    background:rgba(0,0,0,.10);
 
     color:inherit;
+
+    text-decoration:none;
 
 }
 
 
-/* =====================================================
+/* ================================
    DIGITANDO
-===================================================== */
+================================ */
 
 .digitando{
 
@@ -300,9 +294,9 @@ body{
 }
 
 
-/* =====================================================
+/* ================================
    ENVIO
-===================================================== */
+================================ */
 
 .area-envio{
 
@@ -347,9 +341,9 @@ body{
 }
 
 
-/* =====================================================
+/* ================================
    ARQUIVO
-===================================================== */
+================================ */
 
 .btn-arquivo{
 
@@ -359,9 +353,9 @@ body{
 
     display:flex;
 
-    align-items:center;
-
     justify-content:center;
+
+    align-items:center;
 
     border:none;
 
@@ -384,9 +378,9 @@ body{
 }
 
 
-/* =====================================================
+/* ================================
    ENVIAR
-===================================================== */
+================================ */
 
 .btn-enviar{
 
@@ -423,13 +417,13 @@ body{
 }
 
 
-/* =====================================================
+/* ================================
    RESOLVIDO
-===================================================== */
+================================ */
 
 .chamado-resolvido{
 
-    padding:15px 20px;
+    padding:15px;
 
     background:#d1e7dd;
 
@@ -442,9 +436,9 @@ body{
 }
 
 
-/* =====================================================
+/* ================================
    VAZIO
-===================================================== */
+================================ */
 
 .mensagem-vazia{
 
@@ -463,9 +457,9 @@ body{
 }
 
 
-/* =====================================================
+/* ================================
    AVISO
-===================================================== */
+================================ */
 
 .aviso{
 
@@ -492,9 +486,9 @@ body{
 }
 
 
-/* =====================================================
+/* ================================
    RESPONSIVO
-===================================================== */
+================================ */
 
 @media(max-width:900px){
 
@@ -550,9 +544,9 @@ body{
 <body>
 
 
-<!-- =====================================================
+<!-- =========================================
      SIDEBAR
-===================================================== -->
+========================================= -->
 
 <div class="sidebar">
 
@@ -642,11 +636,12 @@ body{
 </div>
 
 
-<!-- =====================================================
+<!-- =========================================
      CONTEÚDO
-===================================================== -->
+========================================= -->
 
 <div class="conteudo-suporte">
+
 
     <div class="titulo-suporte">
 
@@ -655,7 +650,7 @@ body{
         </h1>
 
         <p>
-            Converse com a equipe de suporte do SmartInspect AI.
+            Converse diretamente com a equipe do SmartInspect AI.
         </p>
 
     </div>
@@ -663,10 +658,10 @@ body{
 
     <div class="card-suporte">
 
-        <div
-            id="infoChamado"
-            class="info-chamado"
-        >
+
+        <!-- CABEÇALHO -->
+
+        <div class="info-chamado">
 
             <div>
 
@@ -675,10 +670,11 @@ body{
                 </h2>
 
                 <p id="dadosChamado">
-                    Aguarde...
+                    Carregando atendimento...
                 </p>
 
             </div>
+
 
             <span
                 id="statusChamado"
@@ -690,7 +686,10 @@ body{
         </div>
 
 
+        <!-- CHAT -->
+
         <div class="chat">
+
 
             <div
                 id="mensagens"
@@ -699,20 +698,18 @@ body{
 
                 <div class="mensagem-vazia">
 
-                    <div>
+                    ⏳
 
-                        ⏳
+                    <br><br>
 
-                        <br><br>
-
-                        Carregando atendimento...
-
-                    </div>
+                    Carregando mensagens...
 
                 </div>
 
             </div>
 
+
+            <!-- DIGITANDO -->
 
             <div
                 id="digitando"
@@ -724,10 +721,13 @@ body{
             </div>
 
 
+            <!-- ÁREA DE ENVIO -->
+
             <div
                 id="areaEnvio"
                 class="area-envio"
             >
+
 
                 <label
                     class="btn-arquivo"
@@ -754,7 +754,6 @@ body{
                 <button
                     id="btnEnviar"
                     class="btn-enviar"
-                    type="button"
                     onclick="enviarMensagem()"
                 >
 
@@ -764,12 +763,17 @@ body{
 
             </div>
 
+
         </div>
 
     </div>
 
 </div>
 
+
+<!-- =========================================
+     SUPABASE
+========================================= -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -788,20 +792,16 @@ let canalRealtime = null;
 
 let canalDigitando = null;
 
-let canalPresenca = null;
-
-let digitandoTimeout = null;
-
-let mensagensConhecidas = new Set();
+let timeoutDigitando = null;
 
 
 /* =====================================================
    ESCAPAR HTML
 ===================================================== */
 
-function escapeHtml(text){
+function escapar(texto){
 
-    return String(text || "")
+    return String(texto || "")
 
         .replace(/&/g,"&amp;")
 
@@ -820,7 +820,7 @@ function escapeHtml(text){
    DATA
 ===================================================== */
 
-function formatarData(data){
+function dataBR(data){
 
     if(!data){
 
@@ -835,24 +835,70 @@ function formatarData(data){
 
 
 /* =====================================================
+   MOSTRAR AVISO
+===================================================== */
+
+function aviso(texto){
+
+    const div =
+        document.createElement("div");
+
+    div.className = "aviso";
+
+    div.textContent = texto;
+
+    document.body.appendChild(div);
+
+    setTimeout(
+        () => div.remove(),
+        4000
+    );
+
+}
+
+
+/* =====================================================
    USUÁRIO
 ===================================================== */
 
-function pegarUsuario(){
+async function obterUsuario(){
 
-    try{
+    /*
+    IMPORTANTE:
 
-        return JSON.parse(
-            localStorage.getItem("usuario") || "{}"
+    Agora usamos o Supabase Auth
+    diretamente.
+
+    Não dependemos somente
+    do localStorage.
+    */
+
+    const {
+        data,
+        error
+    } = await banco.auth.getUser();
+
+
+    if(error){
+
+        console.error(
+            "Erro ao obter usuário:",
+            error
         );
 
-    }
-
-    catch{
-
-        return {};
+        return null;
 
     }
+
+
+    if(!data || !data.user){
+
+        return null;
+
+    }
+
+
+    return data.user;
 
 }
 
@@ -863,11 +909,11 @@ function pegarUsuario(){
 
 async function carregarChamado(){
 
-    const usuario =
-        pegarUsuario();
+    const authUser =
+        await obterUsuario();
 
 
-    if(!usuario.email){
+    if(!authUser){
 
         window.location.href =
             "login.html";
@@ -877,15 +923,24 @@ async function carregarChamado(){
     }
 
 
-    const {data,error} =
+    /*
+    Busca o chamado pelo
+    e-mail autenticado.
+    */
 
-        await banco
+    const {
+        data,
+        error
+    } = await banco
 
         .from("solicitacoes_suporte")
 
         .select("*")
 
-        .eq("email",usuario.email)
+        .eq(
+            "email",
+            authUser.email
+        )
 
         .order(
             "data_criacao",
@@ -895,14 +950,13 @@ async function carregarChamado(){
         )
 
         .limit(1)
-
         .maybeSingle();
 
 
     if(error){
 
         console.error(
-            "Erro ao buscar chamado:",
+            "Erro chamado:",
             error
         );
 
@@ -936,9 +990,8 @@ async function carregarChamado(){
 
     iniciarRealtime();
 
-    iniciarDigitando();
 
-    iniciarPresenca();
+    iniciarDigitando();
 
 }
 
@@ -969,9 +1022,9 @@ function atualizarCabecalho(){
     ).textContent =
 
         "📧 " +
-        chamadoAtual.email +
+        (chamadoAtual.email || "") +
         " • " +
-        formatarData(
+        dataBR(
             chamadoAtual.data_criacao
         );
 
@@ -987,8 +1040,9 @@ function atualizarCabecalho(){
         );
 
 
-    elemento.style.display =
-        "inline-block";
+    elemento.className =
+        "status status-" +
+        status;
 
 
     if(status === "pendente"){
@@ -998,14 +1052,18 @@ function atualizarCabecalho(){
 
     }
 
-    else if(status === "atendimento"){
+    else if(
+        status === "atendimento"
+    ){
 
         elemento.textContent =
             "🔵 Em atendimento";
 
     }
 
-    else if(status === "resolvido"){
+    else if(
+        status === "resolvido"
+    ){
 
         elemento.textContent =
             "🟢 Resolvido";
@@ -1020,12 +1078,7 @@ function atualizarCabecalho(){
     }
 
 
-    elemento.className =
-        "status status-" +
-        status;
-
-
-    const areaEnvio =
+    const area =
         document.getElementById(
             "areaEnvio"
         );
@@ -1033,35 +1086,33 @@ function atualizarCabecalho(){
 
     if(status === "resolvido"){
 
-        areaEnvio.style.display =
+        area.style.display =
             "none";
 
 
-        let aviso =
-            document.getElementById(
+        if(
+            !document.getElementById(
                 "avisoResolvido"
-            );
+            )
+        ){
 
-
-        if(!aviso){
-
-            aviso =
+            const div =
                 document.createElement(
                     "div"
                 );
 
-            aviso.id =
+            div.id =
                 "avisoResolvido";
 
-            aviso.className =
+            div.className =
                 "chamado-resolvido";
 
-            aviso.textContent =
+            div.textContent =
                 "✅ Este chamado foi resolvido.";
 
             document
                 .querySelector(".chat")
-                .appendChild(aviso);
+                .appendChild(div);
 
         }
 
@@ -1069,19 +1120,17 @@ function atualizarCabecalho(){
 
     else{
 
-        areaEnvio.style.display =
+        area.style.display =
             "flex";
 
-
-        const aviso =
+        const avisoResolvido =
             document.getElementById(
                 "avisoResolvido"
             );
 
+        if(avisoResolvido){
 
-        if(aviso){
-
-            aviso.remove();
+            avisoResolvido.remove();
 
         }
 
@@ -1111,22 +1160,14 @@ async function carregarMensagens(){
 
     area.innerHTML = "";
 
-    mensagensConhecidas.clear();
-
 
     /*
-    ==========================================
     MENSAGEM ORIGINAL
-    ==========================================
     */
 
     if(chamadoAtual.mensagem){
 
         adicionarMensagem({
-
-            id:
-                "chamado-original-" +
-                chamadoAtual.id,
 
             mensagem:
                 chamadoAtual.mensagem,
@@ -1135,7 +1176,10 @@ async function carregarMensagens(){
                 "usuario",
 
             data_criacao:
-                chamadoAtual.data_criacao
+                chamadoAtual.data_criacao,
+
+            tipo:
+                "texto"
 
         });
 
@@ -1143,14 +1187,13 @@ async function carregarMensagens(){
 
 
     /*
-    ==========================================
     HISTÓRICO
-    ==========================================
     */
 
-    const {data,error} =
-
-        await banco
+    const {
+        data,
+        error
+    } = await banco
 
         .from("suporte_mensagens")
 
@@ -1172,7 +1215,7 @@ async function carregarMensagens(){
     if(error){
 
         console.error(
-            "Erro nas mensagens:",
+            "Erro mensagens:",
             error
         );
 
@@ -1184,13 +1227,10 @@ async function carregarMensagens(){
     if(data){
 
         data.forEach(
-            mensagem => {
-
+            mensagem =>
                 adicionarMensagem(
                     mensagem
-                );
-
-            }
+                )
         );
 
     }
@@ -1207,25 +1247,6 @@ async function carregarMensagens(){
 
 function adicionarMensagem(msg){
 
-    if(
-        msg.id &&
-        mensagensConhecidas.has(msg.id)
-    ){
-
-        return;
-
-    }
-
-
-    if(msg.id){
-
-        mensagensConhecidas.add(
-            msg.id
-        );
-
-    }
-
-
     const area =
         document.getElementById(
             "mensagens"
@@ -1238,22 +1259,21 @@ function adicionarMensagem(msg){
         );
 
 
-    const tipo =
-
-        msg.remetente_tipo === "adm"
-
-        ? "adm"
-
-        : "usuario";
+    const ehAdm =
+        msg.remetente_tipo === "adm";
 
 
     div.className =
         "mensagem " +
-        tipo;
+        (
+            ehAdm
+            ? "adm"
+            : "usuario"
+        );
 
 
     let conteudo =
-        escapeHtml(
+        escapar(
             msg.mensagem
         );
 
@@ -1266,9 +1286,10 @@ function adicionarMensagem(msg){
         conteudo += `
 
             <a
-                href="${escapeHtml(msg.url)}"
-                target="_blank"
                 class="mensagem-arquivo"
+                href="${escapar(msg.url)}"
+                target="_blank"
+                rel="noopener"
             >
 
                 📎 Abrir arquivo
@@ -1287,14 +1308,14 @@ function adicionarMensagem(msg){
         <small>
 
             ${
-                tipo === "adm"
+                ehAdm
                 ? "👨‍💼 Suporte"
                 : "👤 Você"
             }
 
             •
 
-            ${formatarData(
+            ${dataBR(
                 msg.data_criacao
             )}
 
@@ -1326,7 +1347,7 @@ async function enviarMensagem(){
         "resolvido"
     ){
 
-        mostrarAviso(
+        aviso(
             "✅ Este chamado já foi resolvido."
         );
 
@@ -1359,19 +1380,27 @@ async function enviarMensagem(){
 
 
     const usuario =
-        pegarUsuario();
+        await obterUsuario();
 
 
-    botao.disabled =
-        true;
+    if(!usuario){
 
-    botao.textContent =
-        "⏳";
+        window.location.href =
+            "login.html";
+
+        return;
+
+    }
 
 
-    const {data,error} =
+    botao.disabled = true;
 
-        await banco
+    botao.textContent = "⏳";
+
+
+    const {
+        error
+    } = await banco
 
         .from("suporte_mensagens")
 
@@ -1384,7 +1413,7 @@ async function enviarMensagem(){
                 "usuario",
 
             remetente_id:
-                usuario.auth_id || null,
+                usuario.id,
 
             mensagem:
                 texto,
@@ -1395,21 +1424,19 @@ async function enviarMensagem(){
             lido:
                 false
 
-        })
-
-        .select()
-        .single();
+        });
 
 
     if(error){
 
         console.error(
-            "Erro ao enviar:",
+            "Erro enviar:",
             error
         );
 
-        mostrarAviso(
-            "❌ Não foi possível enviar."
+        aviso(
+            "❌ " +
+            error.message
         );
 
     }
@@ -1419,20 +1446,14 @@ async function enviarMensagem(){
         campo.value = "";
 
         /*
-        Adiciona imediatamente na tela.
-        O Realtime não vai duplicar porque
-        usamos o ID da mensagem.
+        O Realtime vai receber
+        a mensagem automaticamente.
         */
-
-        adicionarMensagem(data);
-
-        rolarChat();
 
     }
 
 
-    botao.disabled =
-        false;
+    botao.disabled = false;
 
     botao.textContent =
         "📨 Enviar";
@@ -1466,7 +1487,7 @@ document
 
 
 /* =====================================================
-   REALTIME DO CHAMADO
+   REALTIME
 ===================================================== */
 
 function iniciarRealtime(){
@@ -1487,12 +1508,10 @@ function iniciarRealtime(){
     }
 
 
-    canalRealtime =
-
-        banco
+    canalRealtime = banco
 
         .channel(
-            "usuario-chamado-" +
+            "suporte-" +
             chamadoAtual.id +
             "-" +
             Date.now()
@@ -1500,9 +1519,7 @@ function iniciarRealtime(){
 
 
         /*
-        ======================================
         NOVAS MENSAGENS
-        ======================================
         */
 
         .on(
@@ -1515,7 +1532,8 @@ function iniciarRealtime(){
 
                 schema:"public",
 
-                table:"suporte_mensagens",
+                table:
+                    "suporte_mensagens",
 
                 filter:
                     "chamado_id=eq." +
@@ -1526,28 +1544,34 @@ function iniciarRealtime(){
             payload => {
 
                 console.log(
-                    "📨 Nova mensagem:",
+                    "NOVA MENSAGEM:",
                     payload.new
                 );
 
 
                 /*
-                Se for ADM,
-                mostra imediatamente.
+                Não precisamos diferenciar
+                usuário/ADM aqui.
+
+                Se chegou pelo Realtime,
+                adicionamos na tela.
                 */
 
+                adicionarMensagem(
+                    payload.new
+                );
+
+
+                rolarChat();
+
+
                 if(
-                    payload.new.remetente_tipo ===
+                    payload.new
+                    .remetente_tipo ===
                     "adm"
                 ){
 
-                    adicionarMensagem(
-                        payload.new
-                    );
-
-                    rolarChat();
-
-                    mostrarAviso(
+                    aviso(
                         "💬 Nova resposta do suporte"
                     );
 
@@ -1559,9 +1583,7 @@ function iniciarRealtime(){
 
 
         /*
-        ======================================
         ALTERAÇÃO DO CHAMADO
-        ======================================
         */
 
         .on(
@@ -1586,7 +1608,8 @@ function iniciarRealtime(){
             payload => {
 
                 console.log(
-                    "🔄 Chamado atualizado"
+                    "CHAMADO ATUALIZADO:",
+                    payload.new
                 );
 
 
@@ -1602,7 +1625,7 @@ function iniciarRealtime(){
                     "resolvido"
                 ){
 
-                    mostrarAviso(
+                    aviso(
                         "✅ Seu chamado foi resolvido."
                     );
 
@@ -1614,16 +1637,14 @@ function iniciarRealtime(){
 
 
         .subscribe(
-
             status => {
 
                 console.log(
-                    "📡 Realtime:",
+                    "STATUS REALTIME:",
                     status
                 );
 
             }
-
         );
 
 }
@@ -1651,12 +1672,10 @@ function iniciarDigitando(){
     }
 
 
-    canalDigitando =
-
-        banco
+    canalDigitando = banco
 
         .channel(
-            "digitando-chamado-" +
+            "digitando-" +
             chamadoAtual.id
         )
 
@@ -1667,7 +1686,6 @@ function iniciarDigitando(){
 
             {
                 event:"digitando"
-
             },
 
             payload => {
@@ -1693,42 +1711,6 @@ function iniciarDigitando(){
 
 
 /* =====================================================
-   INDICADOR DIGITANDO DO USUÁRIO
-===================================================== */
-
-document
-.getElementById("resposta")
-.addEventListener(
-    "input",
-    function(){
-
-        if(
-            !canalDigitando ||
-            !chamadoAtual
-        ){
-
-            return;
-
-        }
-
-
-        canalDigitando.send({
-
-            type:"broadcast",
-
-            event:"digitando",
-
-            payload:{
-                tipo:"usuario"
-            }
-
-        });
-
-    }
-);
-
-
-/* =====================================================
    MOSTRAR DIGITANDO
 ===================================================== */
 
@@ -1745,103 +1727,19 @@ function mostrarDigitando(){
 
 
     clearTimeout(
-        digitandoTimeout
+        timeoutDigitando
     );
 
 
-    digitandoTimeout =
-
+    timeoutDigitando =
         setTimeout(
-            function(){
+            () => {
 
                 elemento.style.display =
                     "none";
 
             },
             2500
-        );
-
-}
-
-
-/* =====================================================
-   PRESENÇA
-===================================================== */
-
-function iniciarPresenca(){
-
-    if(!chamadoAtual){
-
-        return;
-
-    }
-
-
-    if(canalPresenca){
-
-        banco.removeChannel(
-            canalPresenca
-        );
-
-    }
-
-
-    canalPresenca =
-
-        banco
-
-        .channel(
-            "presenca-suporte-" +
-            chamadoAtual.id
-        );
-
-
-    canalPresenca
-
-        .on(
-
-            "presence",
-
-            {
-                event:"sync"
-
-            },
-
-            function(){
-
-                console.log(
-                    "🟢 Presença sincronizada"
-                );
-
-            }
-
-        )
-
-        .subscribe(
-            async status => {
-
-                if(
-                    status ===
-                    "SUBSCRIBED"
-                ){
-
-                    await canalPresenca
-                        .track({
-
-                            tipo:
-                                "usuario",
-
-                            online:true,
-
-                            horario:
-                                new Date()
-                                    .toISOString()
-
-                        });
-
-                }
-
-            }
         );
 
 }
@@ -1861,13 +1759,6 @@ document
 
 async function enviarArquivo(){
 
-    if(!chamadoAtual){
-
-        return;
-
-    }
-
-
     const input =
         document.getElementById(
             "arquivo"
@@ -1885,11 +1776,25 @@ async function enviarArquivo(){
     }
 
 
+    if(!chamadoAtual){
+
+        return;
+
+    }
+
+
     const usuario =
-        pegarUsuario();
+        await obterUsuario();
 
 
-    const nome =
+    if(!usuario){
+
+        return;
+
+    }
+
+
+    const nomeSeguro =
 
         Date.now() +
         "_" +
@@ -1903,17 +1808,21 @@ async function enviarArquivo(){
 
         chamadoAtual.id +
         "/" +
-        nome;
+        nomeSeguro;
 
 
-    mostrarAviso(
-        "📎 Enviando arquivo..."
+    aviso(
+        "⏳ Enviando arquivo..."
     );
 
 
-    const {error} =
+    /*
+    UPLOAD
+    */
 
-        await banco.storage
+    const {
+        error
+    } = await banco.storage
 
         .from("suporte")
 
@@ -1925,74 +1834,13 @@ async function enviarArquivo(){
 
     if(error){
 
-        console.error(error);
-
-        mostrarAviso(
-            "❌ Erro ao enviar arquivo."
-        );
-
-        input.value = "";
-
-        return;
-
-    }
-
-
-    const {data:urlData} =
-
-        banco.storage
-
-        .from("suporte")
-
-        .getPublicUrl(
-            caminho
-        );
-
-
-    const {data:mensagem,error:erroMensagem} =
-
-        await banco
-
-        .from("suporte_mensagens")
-
-        .insert({
-
-            chamado_id:
-                chamadoAtual.id,
-
-            remetente_tipo:
-                "usuario",
-
-            remetente_id:
-                usuario.auth_id || null,
-
-            mensagem:
-                "📎 Arquivo enviado: " +
-                arquivo.name,
-
-            tipo:
-                "arquivo",
-
-            lido:
-                false,
-
-            url:
-                urlData.publicUrl
-
-        })
-
-        .select()
-        .single();
-
-
-    if(erroMensagem){
-
         console.error(
-            erroMensagem
+            error
         );
 
-        mostrarAviso(
-            "❌ Erro ao registrar arquivo."
+        aviso(
+            "❌ Erro no upload: " +
+            error.message
         );
 
         input.value = "";
@@ -2003,132 +1851,86 @@ async function enviarArquivo(){
 
 
     /*
-    Salva também em suporte_anexos
+    URL PÚBLICA
     */
 
-    const {error:erroAnexo} =
+    const {
+        data:urlData
+    } = banco.storage
 
-        await banco
+        .from("suporte")
 
-        .from("suporte_anexos")
+        .getPublicUrl(
+            caminho
+        );
+
+
+    const url =
+        urlData.publicUrl;
+
+
+    /*
+    SALVAR MENSAGEM
+    */
+
+    const {
+        error:erroMensagem
+    } = await banco
+
+        .from(
+            "suporte_mensagens"
+        )
 
         .insert({
 
             chamado_id:
                 chamadoAtual.id,
 
-            mensagem_id:
-                mensagem.id,
+            remetente_tipo:
+                "usuario",
 
-            nome_arquivo:
+            remetente_id:
+                usuario.id,
+
+            mensagem:
+                "📎 " +
                 arquivo.name,
 
-            caminho:
-                caminho,
+            tipo:
+                "arquivo",
 
             url:
-                urlData.publicUrl,
+                url,
 
-            tipo:
-                arquivo.type,
-
-            tamanho:
-                arquivo.size
+            lido:
+                false
 
         });
 
 
-    if(erroAnexo){
+    if(erroMensagem){
 
         console.error(
-            "Erro no anexo:",
-            erroAnexo
+            erroMensagem
         );
+
+        aviso(
+            "❌ Erro ao salvar arquivo."
+        );
+
+        input.value = "";
+
+        return;
 
     }
 
 
-    adicionarMensagem(
-        mensagem
-    );
-
-    rolarChat();
-
-
-    input.value = "";
-
-
-    mostrarAviso(
+    aviso(
         "✅ Arquivo enviado!"
     );
 
-}
 
-
-/* =====================================================
-   AVISO
-===================================================== */
-
-function mostrarAviso(texto){
-
-    const aviso =
-        document.createElement(
-            "div"
-        );
-
-
-    aviso.className =
-        "aviso";
-
-
-    aviso.textContent =
-        texto;
-
-
-    document.body.appendChild(
-        aviso
-    );
-
-
-    setTimeout(
-        function(){
-
-            aviso.remove();
-
-        },
-        4000
-    );
-
-
-    if(
-        "Notification" in window &&
-        Notification.permission ===
-        "granted"
-    ){
-
-        new Notification(
-            "SmartInspect AI",
-            {
-                body:texto
-            }
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   NOTIFICAÇÃO DO NAVEGADOR
-===================================================== */
-
-if(
-    "Notification" in window &&
-    Notification.permission ===
-    "default"
-){
-
-    Notification.requestPermission();
+    input.value = "";
 
 }
 
@@ -2148,7 +1950,7 @@ function mostrarSemChamado(){
     document.getElementById(
         "dadosChamado"
     ).textContent =
-        "Você ainda não possui um atendimento.";
+        "Você ainda não possui atendimento.";
 
 
     document.getElementById(
@@ -2170,11 +1972,6 @@ function mostrarSemChamado(){
                 <br><br>
 
                 Você ainda não possui um chamado.
-
-                <br><br>
-
-                Crie uma solicitação para
-                falar com o suporte.
 
             </div>
 
@@ -2198,6 +1995,18 @@ function mostrarSemChamado(){
 function mostrarErro(erro){
 
     document.getElementById(
+        "assuntoChamado"
+    ).textContent =
+        "Erro no atendimento";
+
+
+    document.getElementById(
+        "dadosChamado"
+    ).textContent =
+        "Verifique o console do navegador.";
+
+
+    document.getElementById(
         "mensagens"
     ).innerHTML = `
 
@@ -2209,11 +2018,12 @@ function mostrarErro(erro){
 
                 <br><br>
 
-                Ocorreu um erro.
+                Não foi possível carregar
+                o atendimento.
 
                 <br><br>
 
-                ${escapeHtml(erro)}
+                ${escapar(erro)}
 
             </div>
 
@@ -2237,7 +2047,7 @@ function rolarChat(){
 
 
     setTimeout(
-        function(){
+        () => {
 
             area.scrollTop =
                 area.scrollHeight;
@@ -2255,11 +2065,25 @@ function rolarChat(){
 
 async function sair(){
 
-    if(typeof banco !== "undefined"){
+    if(canalRealtime){
 
-        await banco.auth.signOut();
+        await banco.removeChannel(
+            canalRealtime
+        );
 
     }
+
+
+    if(canalDigitando){
+
+        await banco.removeChannel(
+            canalDigitando
+        );
+
+    }
+
+
+    await banco.auth.signOut();
 
 
     localStorage.removeItem(
@@ -2271,42 +2095,6 @@ async function sair(){
         "login.html";
 
 }
-
-
-/* =====================================================
-   LIMPEZA
-===================================================== */
-
-window.addEventListener(
-    "beforeunload",
-    function(){
-
-        if(canalRealtime){
-
-            banco.removeChannel(
-                canalRealtime
-            );
-
-        }
-
-        if(canalDigitando){
-
-            banco.removeChannel(
-                canalDigitando
-            );
-
-        }
-
-        if(canalPresenca){
-
-            banco.removeChannel(
-                canalPresenca
-            );
-
-        }
-
-    }
-);
 
 
 /* =====================================================
