@@ -13,113 +13,198 @@
 
 <style>
 
-.conteudo-suporte {
-    padding: 30px;
-    max-width: 900px;
-    margin: auto;
+*{
+    box-sizing:border-box;
 }
 
-.titulo-suporte {
-    margin-bottom: 25px;
+.conteudo-suporte{
+
+    padding:30px;
+
+    max-width:900px;
+
+    margin:auto;
+
 }
 
-.titulo-suporte h1 {
-    margin: 0;
-    font-size: 28px;
+.titulo-suporte{
+
+    margin-bottom:25px;
+
 }
 
-.titulo-suporte p {
-    margin-top: 8px;
-    color: #666;
+.titulo-suporte h1{
+
+    margin:0;
+
+    font-size:28px;
+
 }
 
-.card-suporte {
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+.titulo-suporte p{
+
+    margin-top:8px;
+
+    color:#666;
+
 }
 
-.campo {
-    margin-bottom: 20px;
+.card-suporte{
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:15px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,0.08);
+
 }
 
-.campo label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 7px;
+.campo{
+
+    margin-bottom:20px;
+
+}
+
+.campo label{
+
+    display:block;
+
+    font-weight:600;
+
+    margin-bottom:7px;
+
 }
 
 .campo input,
 .campo select,
-.campo textarea {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 13px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 15px;
-    outline: none;
+.campo textarea{
+
+    width:100%;
+
+    box-sizing:border-box;
+
+    padding:13px;
+
+    border:1px solid #ddd;
+
+    border-radius:8px;
+
+    font-size:15px;
+
+    outline:none;
+
 }
 
 .campo input:focus,
 .campo select:focus,
-.campo textarea:focus {
-    border-color: #0066cc;
+.campo textarea:focus{
+
+    border-color:#0066cc;
+
+    box-shadow:0 0 0 2px rgba(0,102,204,.10);
+
 }
 
-.campo textarea {
-    height: 150px;
-    resize: vertical;
+.campo textarea{
+
+    height:150px;
+
+    resize:vertical;
+
 }
 
-.btn-suporte {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 8px;
-    background: #0066cc;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
+.btn-suporte{
+
+    width:100%;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#0066cc;
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
 }
 
-.btn-suporte:hover {
-    background: #0055aa;
+.btn-suporte:hover{
+
+    background:#0055aa;
+
 }
 
-.btn-suporte:disabled {
-    background: #999;
-    cursor: not-allowed;
+.btn-suporte:disabled{
+
+    background:#999;
+
+    cursor:not-allowed;
+
 }
 
-.mensagem {
-    display: none;
-    margin-top: 20px;
-    padding: 15px;
-    border-radius: 8px;
-    text-align: center;
+.mensagem{
+
+    display:none;
+
+    margin-top:20px;
+
+    padding:15px;
+
+    border-radius:8px;
+
+    text-align:center;
+
+    font-weight:bold;
+
 }
 
-.sucesso {
-    background: #e8f5e9;
-    color: #2e7d32;
+.sucesso{
+
+    background:#e8f5e9;
+
+    color:#2e7d32;
+
 }
 
-.erro {
-    background: #ffebee;
-    color: #c62828;
+.erro{
+
+    background:#ffebee;
+
+    color:#c62828;
+
 }
 
-@media (max-width: 768px) {
+.carregando{
 
-    .conteudo-suporte {
-        padding: 20px;
+    background:#fff8e1;
+
+    color:#8a6d00;
+
+    display:block;
+
+}
+
+@media(max-width:768px){
+
+    .conteudo-suporte{
+
+        padding:20px;
+
     }
 
-    .card-suporte {
-        padding: 20px;
+    .card-suporte{
+
+        padding:20px;
+
     }
 
 }
@@ -132,83 +217,178 @@
 <body>
 
 
-<!-- SIDEBAR -->
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
 
 <div class="sidebar">
 
+
     <div class="logo-area">
 
-        <img src="imagens/logo.png" class="logo">
+        <img
+            src="imagens/logo.png"
+            class="logo"
+        >
 
-        <h2>SmartInspect AI</h2>
+        <h2>
+            SmartInspect AI
+        </h2>
 
     </div>
 
 
     <nav>
 
+
         <a href="index.html">
             📊 Dashboard
         </a>
+
 
         <a href="imoveis.html">
             🏠 Imóveis
         </a>
 
+
         <a href="obras.html">
             🏢 Obras
         </a>
+
 
         <a href="inspecoes.html">
             📋 Inspeções
         </a>
 
+
         <a href="estoque.html">
             📦 Estoque
         </a>
+
 
         <a href="relatorios.html">
             📄 Relatórios
         </a>
 
+
+        <a href="ia.html">
+            🤖 Inteligência Artificial
+        </a>
+
+
+        <hr>
+
+
         <a href="equipe.html">
             👥 Equipe
         </a>
 
-        <a href="suporte.html" class="ativo">
-            💬 Falar com suporte
+
+        <a href="perfil.html">
+            👤 Meu Perfil
         </a>
+
+
+        <!-- SOMENTE ADM -->
+
+        <a
+            class="admin-only"
+            href="usuarios.html"
+        >
+
+            ⚙️ Controle de Usuários
+
+        </a>
+
+
+        <hr>
+
+
+        <a
+            href="suporte.html"
+            class="ativo"
+        >
+
+            💬 Falar Com Suporte
+
+        </a>
+
+
+        <a
+            href="notificacoes.html"
+            id="menuNotificacoes"
+        >
+
+            🔔 Notificações
+
+            <span
+                id="badgeNotificacoes"
+                class="menu-badge"
+                style="display:none;"
+            >
+                0
+            </span>
+
+        </a>
+
+
+        <a
+            href="#"
+            onclick="sair()"
+        >
+
+            🚪 Sair
+
+        </a>
+
 
     </nav>
 
 </div>
 
 
-<!-- CONTEÚDO -->
+
+<!-- =====================================================
+     CONTEÚDO
+===================================================== -->
 
 <div class="main">
 
+
     <div class="conteudo-suporte">
+
 
         <div class="titulo-suporte">
 
-            <h1>💬 Falar com suporte</h1>
+
+            <h1>
+                💬 Falar com suporte
+            </h1>
+
 
             <p>
                 Precisa de ajuda? Envie uma mensagem para nossa equipe de suporte.
             </p>
 
+
         </div>
+
 
 
         <div class="card-suporte">
 
+
             <form id="formSuporte">
 
 
+                <!-- NOME -->
+
                 <div class="campo">
 
-                    <label>Nome</label>
+                    <label>
+                        Nome
+                    </label>
+
 
                     <input
                         type="text"
@@ -220,9 +400,15 @@
                 </div>
 
 
+
+                <!-- EMAIL -->
+
                 <div class="campo">
 
-                    <label>E-mail</label>
+                    <label>
+                        E-mail
+                    </label>
+
 
                     <input
                         type="email"
@@ -234,48 +420,75 @@
                 </div>
 
 
+
+                <!-- TIPO -->
+
                 <div class="campo">
 
-                    <label>Tipo de problema</label>
+                    <label>
+                        Tipo de problema
+                    </label>
 
-                    <select id="tipo" required>
+
+                    <select
+                        id="tipo"
+                        required
+                    >
 
                         <option value="">
                             Selecione uma opção
                         </option>
 
+
                         <option value="Problema no sistema">
                             Problema no sistema
                         </option>
+
 
                         <option value="Problema no login">
                             Problema no login
                         </option>
 
+
                         <option value="Problema com inspeção">
                             Problema com inspeção
                         </option>
+
 
                         <option value="Problema com relatório">
                             Problema com relatório
                         </option>
 
+
                         <option value="Problema com fotos">
                             Problema com fotos
                         </option>
 
+
+                        <option value="Problema com estoque">
+                            Problema com estoque
+                        </option>
+
+
                         <option value="Outro">
                             Outro
                         </option>
+
 
                     </select>
 
                 </div>
 
 
+
+                <!-- ASSUNTO -->
+
                 <div class="campo">
 
-                    <label>Assunto</label>
+                    <label>
+                        Assunto
+                    </label>
+
 
                     <input
                         type="text"
@@ -287,9 +500,15 @@
                 </div>
 
 
+
+                <!-- MENSAGEM -->
+
                 <div class="campo">
 
-                    <label>Mensagem</label>
+                    <label>
+                        Mensagem
+                    </label>
+
 
                     <textarea
                         id="mensagem"
@@ -299,6 +518,9 @@
 
                 </div>
 
+
+
+                <!-- BOTÃO -->
 
                 <button
                     type="submit"
@@ -311,19 +533,33 @@
                 </button>
 
 
+
+                <!-- SUCESSO -->
+
                 <div
                     id="mensagemSucesso"
                     class="mensagem sucesso"
                 >
+
                     ✅ Mensagem enviada com sucesso!
+
+                    <br>
+
+                    Nossa equipe de suporte poderá analisar sua solicitação.
+
                 </div>
 
+
+
+                <!-- ERRO -->
 
                 <div
                     id="mensagemErro"
                     class="mensagem erro"
                 >
-                    ❌ Não foi possível enviar a mensagem.
+
+                    ❌ Não foi possível enviar sua mensagem.
+
                 </div>
 
 
@@ -336,219 +572,397 @@
 </div>
 
 
-<!-- SUPABASE -->
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+
 
 
 <script>
 
-const SUPABASE_URL =
-"https://iibdvkxztgrlrwzqbfrg.supabase.co";
 
-const SUPABASE_KEY =
-"sb_publishable_qMjvqXKJW_5onSUZjymiSw_0KfZi44D";
+/* =====================================================
+   CARREGAR USUÁRIO
+===================================================== */
 
-const supabaseClient =
-supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
+async function carregarUsuario(){
+
+    try{
 
 
-async function carregarUsuario() {
+        const {
 
-    const {
-        data: {
-            user
-        },
-        error
-    } = await supabaseClient.auth.getUser();
+            data:{
+                session
 
+            },
 
-    if (error || !user) {
+            error
 
-        alert("Sua sessão expirou. Faça login novamente.");
-
-        window.location.href = "login.html";
-
-        return;
-
-    }
+        } = await banco.auth.getSession();
 
 
-    document.getElementById("email").value =
-        user.email || "";
+
+        if(error){
+
+            console.error(
+                "Erro ao verificar sessão:",
+                error
+            );
+
+            return;
+
+        }
 
 
-    const {
-        data: perfil,
-        error: erroPerfil
-    } = await supabaseClient
-        .from("usuarios")
-        .select("nome")
-        .eq("auth_id", user.id)
-        .maybeSingle();
+
+        if(!session || !session.user){
+
+            alert(
+                "Sua sessão expirou. Faça login novamente."
+            );
+
+            window.location.href =
+                "login.html";
+
+            return;
+
+        }
 
 
-    if (!erroPerfil && perfil) {
 
-        document.getElementById("nome").value =
-            perfil.nome || "";
+        const user =
+            session.user;
+
+
+
+        /*
+        PREENCHE EMAIL
+        */
+
+        document
+        .getElementById("email")
+        .value =
+            user.email || "";
+
+
+
+        /*
+        BUSCAR NOME DO USUÁRIO
+        */
+
+        const {
+
+            data:perfil,
+
+            error:erroPerfil
+
+        } = await banco
+
+            .from("usuarios")
+
+            .select("nome")
+
+            .eq(
+                "auth_id",
+                user.id
+            )
+
+            .maybeSingle();
+
+
+
+        if(
+            !erroPerfil &&
+            perfil
+        ){
+
+            document
+            .getElementById("nome")
+            .value =
+                perfil.nome || "";
+
+        }
+
+
+    }catch(error){
+
+        console.error(
+            "Erro:",
+            error
+        );
 
     }
 
 }
 
 
+
+/* =====================================================
+   INICIAR
+===================================================== */
+
 carregarUsuario();
 
 
+
+/* =====================================================
+   ENVIAR SUPORTE
+===================================================== */
+
 document
 .getElementById("formSuporte")
-.addEventListener("submit", async function(event) {
+.addEventListener(
+    "submit",
+    async function(event){
 
-    event.preventDefault();
-
-
-    const btn =
-        document.getElementById("btnEnviar");
-
-    const mensagemSucesso =
-        document.getElementById("mensagemSucesso");
-
-    const mensagemErro =
-        document.getElementById("mensagemErro");
+        event.preventDefault();
 
 
-    mensagemSucesso.style.display = "none";
-    mensagemErro.style.display = "none";
 
-
-    btn.disabled = true;
-
-    btn.innerText = "Enviando...";
-
-
-    try {
-
-
-        const {
-            data: {
-                user
-            },
-            error: erroUsuario
-        } = await supabaseClient.auth.getUser();
-
-
-        if (erroUsuario || !user) {
-
-            throw new Error(
-                "Usuário não está logado."
+        const btn =
+            document.getElementById(
+                "btnEnviar"
             );
 
-        }
 
-
-        const nome =
-            document.getElementById("nome").value.trim();
-
-        const email =
-            document.getElementById("email").value.trim();
-
-        const tipo =
-            document.getElementById("tipo").value;
-
-        const assunto =
-            document.getElementById("assunto").value.trim();
-
-        const mensagem =
-            document.getElementById("mensagem").value.trim();
-
-
-        const {
-            error
-        } = await supabaseClient
-            .from("chamados_suporte")
-            .insert([{
-
-                usuario_id: user.id,
-
-                nome: nome,
-
-                email: email,
-
-                tipo: tipo,
-
-                assunto: assunto,
-
-                mensagem: mensagem,
-
-                status: "aberto"
-
-            }]);
-
-
-        if (error) {
-
-            console.error(
-                "Erro Supabase:",
-                error
+        const sucesso =
+            document.getElementById(
+                "mensagemSucesso"
             );
 
-            throw error;
 
-        }
-
-
-        mensagemSucesso.style.display =
-            "block";
+        const erro =
+            document.getElementById(
+                "mensagemErro"
+            );
 
 
-        document
-            .getElementById("formSuporte")
-            .reset();
+
+        sucesso.style.display =
+            "none";
 
 
-        document.getElementById("email").value =
-            user.email || "";
+        erro.style.display =
+            "none";
+
+
+
+        btn.disabled =
+            true;
 
 
         btn.innerText =
-            "✅ Mensagem enviada";
+            "⏳ Enviando...";
 
 
-        setTimeout(function() {
 
-            btn.disabled = false;
+        try{
+
+
+            /*
+            PEGAR SESSÃO
+            */
+
+            const {
+
+                data:{
+                    session
+
+                },
+
+                error:erroSessao
+
+            } = await banco.auth.getSession();
+
+
+
+            if(
+                erroSessao ||
+                !session ||
+                !session.user
+            ){
+
+                throw new Error(
+                    "Sessão não encontrada."
+                );
+
+            }
+
+
+
+            const user =
+                session.user;
+
+
+
+            /*
+            PEGAR CAMPOS
+            */
+
+            const nome =
+                document
+                .getElementById("nome")
+                .value
+                .trim();
+
+
+            const email =
+                document
+                .getElementById("email")
+                .value
+                .trim();
+
+
+            const tipo =
+                document
+                .getElementById("tipo")
+                .value;
+
+
+            const assunto =
+                document
+                .getElementById("assunto")
+                .value
+                .trim();
+
+
+            const mensagem =
+                document
+                .getElementById("mensagem")
+                .value
+                .trim();
+
+
+
+            /*
+            SALVAR NO SUPABASE
+            */
+
+            const {
+
+                error
+
+            } = await banco
+
+                .from(
+                    "chamados_suporte"
+                )
+
+                .insert({
+
+                    usuario_id:
+                        user.id,
+
+                    nome:
+                        nome,
+
+                    email:
+                        email,
+
+                    tipo:
+                        tipo,
+
+                    assunto:
+                        assunto,
+
+                    mensagem:
+                        mensagem,
+
+                    status:
+                        "aberto"
+
+                });
+
+
+
+            /*
+            VERIFICAR ERRO
+            */
+
+            if(error){
+
+                console.error(
+                    "Erro Supabase:",
+                    error
+                );
+
+                throw error;
+
+            }
+
+
+
+            /*
+            SUCESSO
+            */
+
+            sucesso.style.display =
+                "block";
+
+
+            document
+            .getElementById(
+                "formSuporte"
+            )
+            .reset();
+
+
+
+            /*
+            MANTER EMAIL
+            */
+
+            document
+            .getElementById("email")
+            .value =
+                user.email || "";
+
+
+
+            btn.disabled =
+                false;
+
 
             btn.innerText =
                 "📨 Enviar mensagem";
 
-        }, 3000);
 
 
-    } catch (erro) {
+        }catch(error){
 
 
-        console.error(
-            "Erro ao enviar suporte:",
-            erro
-        );
+            console.error(
+                "Erro ao enviar chamado:",
+                error
+            );
 
 
-        mensagemErro.style.display =
-            "block";
+            erro.innerHTML =
+                "❌ Não foi possível enviar o chamado.<br><small>Verifique o console (F12) para mais detalhes.</small>";
 
 
-        btn.disabled = false;
+            erro.style.display =
+                "block";
 
-        btn.innerText =
-            "📨 Enviar mensagem";
+
+            btn.disabled =
+                false;
+
+
+            btn.innerText =
+                "📨 Enviar mensagem";
+
+
+        }
 
     }
-
-});
+);
 
 </script>
 
