@@ -17,15 +17,27 @@
     box-sizing:border-box;
 }
 
+
+/* ==============================
+   CONTEÚDO
+============================== */
+
 .conteudo-suporte{
 
     padding:30px;
 
-    max-width:900px;
+    width:100%;
 
-    margin:auto;
+    max-width:1100px;
+
+    margin:0 auto;
 
 }
+
+
+/* ==============================
+   CABEÇALHO
+============================== */
 
 .titulo-suporte{
 
@@ -49,21 +61,35 @@
 
 }
 
+
+/* ==============================
+   CARDS
+============================== */
+
 .card-suporte{
 
     background:white;
 
-    padding:30px;
+    padding:25px;
 
     border-radius:15px;
 
-    box-shadow:0 4px 15px rgba(0,0,0,0.08);
+    box-shadow:
+        0 4px 15px
+        rgba(0,0,0,.08);
+
+    margin-bottom:25px;
 
 }
 
+
+/* ==============================
+   CAMPOS
+============================== */
+
 .campo{
 
-    margin-bottom:20px;
+    margin-bottom:18px;
 
 }
 
@@ -85,7 +111,7 @@
 
     box-sizing:border-box;
 
-    padding:13px;
+    padding:12px;
 
     border:1px solid #ddd;
 
@@ -95,6 +121,8 @@
 
     outline:none;
 
+    font-family:Arial,sans-serif;
+
 }
 
 .campo input:focus,
@@ -103,23 +131,34 @@
 
     border-color:#0066cc;
 
-    box-shadow:0 0 0 2px rgba(0,102,204,.10);
+    box-shadow:
+        0 0 0 2px
+        rgba(0,102,204,.10);
 
 }
 
 .campo textarea{
 
-    height:150px;
+    height:120px;
+
+    min-height:120px;
+
+    max-height:250px;
 
     resize:vertical;
 
 }
 
+
+/* ==============================
+   BOTÃO
+============================== */
+
 .btn-suporte{
 
     width:100%;
 
-    padding:14px;
+    padding:13px;
 
     border:none;
 
@@ -151,13 +190,18 @@
 
 }
 
+
+/* ==============================
+   MENSAGEM
+============================== */
+
 .mensagem{
 
     display:none;
 
-    margin-top:20px;
+    margin-top:15px;
 
-    padding:15px;
+    padding:13px;
 
     border-radius:8px;
 
@@ -169,6 +213,8 @@
 
 .sucesso{
 
+    display:block;
+
     background:#e8f5e9;
 
     color:#2e7d32;
@@ -177,21 +223,244 @@
 
 .erro{
 
+    display:block;
+
     background:#ffebee;
 
     color:#c62828;
 
 }
 
-.carregando{
+
+/* ==============================
+   MEUS CHAMADOS
+============================== */
+
+.titulo-chamados{
+
+    margin-bottom:18px;
+
+}
+
+.titulo-chamados h2{
+
+    margin:0;
+
+    font-size:21px;
+
+}
+
+
+/* ==============================
+   LISTA
+============================== */
+
+.lista-chamados{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+}
+
+
+/* ==============================
+   CHAMADO
+============================== */
+
+.chamado{
+
+    border:1px solid #e2e2e2;
+
+    border-radius:12px;
+
+    padding:18px;
+
+    background:#fff;
+
+}
+
+.chamado-topo{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    gap:15px;
+
+    margin-bottom:12px;
+
+}
+
+.chamado h3{
+
+    margin:0 0 6px;
+
+    font-size:17px;
+
+    word-break:break-word;
+
+}
+
+.info-chamado{
+
+    color:#777;
+
+    font-size:13px;
+
+    line-height:1.5;
+
+}
+
+
+/* ==============================
+   STATUS
+============================== */
+
+.status{
+
+    padding:6px 11px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+    white-space:nowrap;
+
+}
+
+.status-aberto{
+
+    background:#ffebee;
+
+    color:#c62828;
+
+}
+
+.status-atendimento{
 
     background:#fff8e1;
 
     color:#8a6d00;
 
-    display:block;
+}
+
+.status-fechado{
+
+    background:#e8f5e9;
+
+    color:#2e7d32;
 
 }
+
+
+/* ==============================
+   TIPO
+============================== */
+
+.tipo{
+
+    display:inline-block;
+
+    background:#eef5ff;
+
+    color:#1f6feb;
+
+    padding:5px 9px;
+
+    border-radius:6px;
+
+    font-size:12px;
+
+    margin-bottom:10px;
+
+}
+
+
+/* ==============================
+   MENSAGEM DO USUÁRIO
+============================== */
+
+.mensagem-chamado{
+
+    background:#f7f7f7;
+
+    padding:13px;
+
+    border-radius:8px;
+
+    white-space:pre-wrap;
+
+    line-height:1.5;
+
+    max-height:160px;
+
+    overflow-y:auto;
+
+    margin-bottom:12px;
+
+}
+
+
+/* ==============================
+   RESPOSTA DO ADM
+============================== */
+
+.resposta-suporte{
+
+    background:#e8f5e9;
+
+    border-left:4px solid #198754;
+
+    padding:13px;
+
+    border-radius:8px;
+
+    white-space:pre-wrap;
+
+    line-height:1.5;
+
+}
+
+.resposta-suporte strong{
+
+    display:block;
+
+    margin-bottom:7px;
+
+    color:#198754;
+
+}
+
+
+/* ==============================
+   SEM CHAMADOS
+============================== */
+
+.sem-chamados{
+
+    text-align:center;
+
+    padding:25px;
+
+    color:#777;
+
+    background:#f8f8f8;
+
+    border-radius:10px;
+
+}
+
+
+/* ==============================
+   MOBILE
+============================== */
 
 @media(max-width:768px){
 
@@ -204,6 +473,18 @@
     .card-suporte{
 
         padding:20px;
+
+    }
+
+    .chamado-topo{
+
+        flex-direction:column;
+
+    }
+
+    .status{
+
+        align-self:flex-start;
 
     }
 
@@ -223,7 +504,6 @@
 
 <div class="sidebar">
 
-
     <div class="logo-area">
 
         <img
@@ -240,79 +520,79 @@
 
     <nav>
 
-
         <a href="index.html">
             📊 Dashboard
         </a>
-
 
         <a href="imoveis.html">
             🏠 Imóveis
         </a>
 
-
         <a href="obras.html">
             🏢 Obras
         </a>
-
 
         <a href="inspecoes.html">
             📋 Inspeções
         </a>
 
+        <a
+            href="estoque.html"
+            id="menuEstoque"
+        >
 
-        <a href="estoque.html">
             📦 Estoque
-        </a>
 
+            <span
+                id="badgeEstoque"
+                class="menu-badge"
+                style="display:none;"
+            >
+                0
+            </span>
+
+        </a>
 
         <a href="relatorios.html">
             📄 Relatórios
         </a>
 
-
         <a href="ia.html">
             🤖 Inteligência Artificial
         </a>
 
-
         <hr>
-
 
         <a href="equipe.html">
             👥 Equipe
         </a>
 
-
         <a href="perfil.html">
             👤 Meu Perfil
         </a>
-
-
-        <!-- SOMENTE ADM -->
 
         <a
             class="admin-only"
             href="usuarios.html"
         >
-
             ⚙️ Controle de Usuários
-
         </a>
 
-
         <hr>
-
 
         <a
             href="suporte.html"
             class="ativo"
         >
-
             💬 Falar Com Suporte
-
         </a>
 
+        <a
+            class="admin-only"
+            href="suporte_admin.html"
+        >
+            🛠️ Chamados de Suporte
+        </a>
 
         <a
             href="notificacoes.html"
@@ -331,16 +611,12 @@
 
         </a>
 
-
         <a
             href="#"
             onclick="sair()"
         >
-
             🚪 Sair
-
         </a>
-
 
     </nav>
 
@@ -354,41 +630,46 @@
 
 <div class="main">
 
-
     <div class="conteudo-suporte">
 
 
         <div class="titulo-suporte">
 
-
             <h1>
                 💬 Falar com suporte
             </h1>
-
 
             <p>
                 Precisa de ajuda? Envie uma mensagem para nossa equipe de suporte.
             </p>
 
-
         </div>
 
 
 
+        <!-- =================================================
+             NOVO CHAMADO
+        ================================================== -->
+
         <div class="card-suporte">
+
+
+            <h2>
+                📨 Novo chamado
+            </h2>
+
+
+            <br>
 
 
             <form id="formSuporte">
 
-
-                <!-- NOME -->
 
                 <div class="campo">
 
                     <label>
                         Nome
                     </label>
-
 
                     <input
                         type="text"
@@ -401,14 +682,11 @@
 
 
 
-                <!-- EMAIL -->
-
                 <div class="campo">
 
                     <label>
                         E-mail
                     </label>
-
 
                     <input
                         type="email"
@@ -421,14 +699,11 @@
 
 
 
-                <!-- TIPO -->
-
                 <div class="campo">
 
                     <label>
                         Tipo de problema
                     </label>
-
 
                     <select
                         id="tipo"
@@ -439,41 +714,29 @@
                             Selecione uma opção
                         </option>
 
-
                         <option value="Problema no sistema">
                             Problema no sistema
                         </option>
-
 
                         <option value="Problema no login">
                             Problema no login
                         </option>
 
-
                         <option value="Problema com inspeção">
                             Problema com inspeção
                         </option>
-
 
                         <option value="Problema com relatório">
                             Problema com relatório
                         </option>
 
-
                         <option value="Problema com fotos">
                             Problema com fotos
                         </option>
 
-
-                        <option value="Problema com estoque">
-                            Problema com estoque
-                        </option>
-
-
                         <option value="Outro">
                             Outro
                         </option>
-
 
                     </select>
 
@@ -481,14 +744,11 @@
 
 
 
-                <!-- ASSUNTO -->
-
                 <div class="campo">
 
                     <label>
                         Assunto
                     </label>
-
 
                     <input
                         type="text"
@@ -501,14 +761,11 @@
 
 
 
-                <!-- MENSAGEM -->
-
                 <div class="campo">
 
                     <label>
                         Mensagem
                     </label>
-
 
                     <textarea
                         id="mensagem"
@@ -519,8 +776,6 @@
                 </div>
 
 
-
-                <!-- BOTÃO -->
 
                 <button
                     type="submit"
@@ -533,39 +788,51 @@
                 </button>
 
 
-
-                <!-- SUCESSO -->
-
                 <div
-                    id="mensagemSucesso"
-                    class="mensagem sucesso"
-                >
-
-                    ✅ Mensagem enviada com sucesso!
-
-                    <br>
-
-                    Nossa equipe de suporte poderá analisar sua solicitação.
-
-                </div>
-
-
-
-                <!-- ERRO -->
-
-                <div
-                    id="mensagemErro"
-                    class="mensagem erro"
-                >
-
-                    ❌ Não foi possível enviar sua mensagem.
-
-                </div>
+                    id="mensagemResultado"
+                    class="mensagem"
+                ></div>
 
 
             </form>
 
+
         </div>
+
+
+
+        <!-- =================================================
+             MEUS CHAMADOS
+        ================================================== -->
+
+        <div class="card-suporte">
+
+
+            <div class="titulo-chamados">
+
+                <h2>
+                    📋 Meus chamados
+                </h2>
+
+            </div>
+
+
+            <div
+                id="listaChamados"
+                class="lista-chamados"
+            >
+
+                <div class="sem-chamados">
+
+                    ⏳ Carregando seus chamados...
+
+                </div>
+
+            </div>
+
+
+        </div>
+
 
     </div>
 
@@ -587,115 +854,99 @@
 
 
 /* =====================================================
-   CARREGAR USUÁRIO
+   PEGAR USUÁRIO LOGADO
+===================================================== */
+
+async function pegarUsuario(){
+
+    const {
+
+        data:{
+            session
+
+        }
+
+    } = await banco.auth.getSession();
+
+
+    if(
+        !session ||
+        !session.user
+    ){
+
+        window.location.href =
+            "login.html";
+
+        return null;
+
+    }
+
+
+    return session.user;
+
+}
+
+
+
+/* =====================================================
+   CARREGAR DADOS DO USUÁRIO
 ===================================================== */
 
 async function carregarUsuario(){
 
-    try{
+    const authUser =
+        await pegarUsuario();
 
 
-        const {
+    if(!authUser){
 
-            data:{
-                session
+        return;
 
-            },
-
-            error
-
-        } = await banco.auth.getSession();
+    }
 
 
+    const {
 
-        if(error){
+        data:usuario,
 
-            console.error(
-                "Erro ao verificar sessão:",
-                error
-            );
+        error
 
-            return;
+    } = await banco
 
-        }
+        .from("usuarios")
 
+        .select("*")
 
+        .eq(
+            "auth_id",
+            authUser.id
+        )
 
-        if(!session || !session.user){
-
-            alert(
-                "Sua sessão expirou. Faça login novamente."
-            );
-
-            window.location.href =
-                "login.html";
-
-            return;
-
-        }
+        .maybeSingle();
 
 
+    if(error){
 
-        const user =
-            session.user;
+        console.error(error);
 
+        return;
 
-
-        /*
-        PREENCHE EMAIL
-        */
-
-        document
-        .getElementById("email")
-        .value =
-            user.email || "";
+    }
 
 
+    if(usuario){
 
-        /*
-        BUSCAR NOME DO USUÁRIO
-        */
+        document.getElementById(
+            "nome"
+        ).value =
+            usuario.nome || "";
 
-        const {
-
-            data:perfil,
-
-            error:erroPerfil
-
-        } = await banco
-
-            .from("usuarios")
-
-            .select("nome")
-
-            .eq(
-                "auth_id",
-                user.id
-            )
-
-            .maybeSingle();
-
-
-
-        if(
-            !erroPerfil &&
-            perfil
-        ){
-
-            document
-            .getElementById("nome")
-            .value =
-                perfil.nome || "";
-
-        }
-
-
-    }catch(error){
-
-        console.error(
-            "Erro:",
-            error
-        );
+        document.getElementById(
+            "email"
+        ).value =
+            usuario.email ||
+            authUser.email ||
+            "";
 
     }
 
@@ -704,15 +955,7 @@ async function carregarUsuario(){
 
 
 /* =====================================================
-   INICIAR
-===================================================== */
-
-carregarUsuario();
-
-
-
-/* =====================================================
-   ENVIAR SUPORTE
+   ENVIAR CHAMADO
 ===================================================== */
 
 document
@@ -724,218 +967,129 @@ document
         event.preventDefault();
 
 
-
         const btn =
             document.getElementById(
                 "btnEnviar"
             );
 
 
-        const sucesso =
+        const resultado =
             document.getElementById(
-                "mensagemSucesso"
+                "mensagemResultado"
             );
 
 
-        const erro =
-            document.getElementById(
-                "mensagemErro"
-            );
+        const authUser =
+            await pegarUsuario();
+
+
+        if(!authUser){
+
+            return;
+
+        }
+
+
+        const nome =
+            document
+            .getElementById("nome")
+            .value
+            .trim();
+
+
+        const email =
+            document
+            .getElementById("email")
+            .value
+            .trim();
+
+
+        const tipo =
+            document
+            .getElementById("tipo")
+            .value;
+
+
+        const assunto =
+            document
+            .getElementById("assunto")
+            .value
+            .trim();
+
+
+        const mensagem =
+            document
+            .getElementById("mensagem")
+            .value
+            .trim();
 
 
 
-        sucesso.style.display =
-            "none";
+        if(
+            !nome ||
+            !email ||
+            !tipo ||
+            !assunto ||
+            !mensagem
+        ){
+
+            resultado.innerHTML =
+                "⚠️ Preencha todos os campos.";
+
+            resultado.className =
+                "mensagem erro";
+
+            return;
+
+        }
 
 
-        erro.style.display =
-            "none";
 
+        btn.disabled = true;
 
-
-        btn.disabled =
-            true;
-
-
-        btn.innerText =
+        btn.innerHTML =
             "⏳ Enviando...";
 
 
 
-        try{
+        const {
 
+            error
 
-            /*
-            PEGAR SESSÃO
-            */
+        } = await banco
 
-            const {
-
-                data:{
-                    session
-
-                },
-
-                error:erroSessao
-
-            } = await banco.auth.getSession();
-
-
-
-            if(
-                erroSessao ||
-                !session ||
-                !session.user
-            ){
-
-                throw new Error(
-                    "Sessão não encontrada."
-                );
-
-            }
-
-
-
-            const user =
-                session.user;
-
-
-
-            /*
-            PEGAR CAMPOS
-            */
-
-            const nome =
-                document
-                .getElementById("nome")
-                .value
-                .trim();
-
-
-            const email =
-                document
-                .getElementById("email")
-                .value
-                .trim();
-
-
-            const tipo =
-                document
-                .getElementById("tipo")
-                .value;
-
-
-            const assunto =
-                document
-                .getElementById("assunto")
-                .value
-                .trim();
-
-
-            const mensagem =
-                document
-                .getElementById("mensagem")
-                .value
-                .trim();
-
-
-
-            /*
-            SALVAR NO SUPABASE
-            */
-
-            const {
-
-                error
-
-            } = await banco
-
-                .from(
-                    "chamados_suporte"
-                )
-
-                .insert({
-
-                    usuario_id:
-                        user.id,
-
-                    nome:
-                        nome,
-
-                    email:
-                        email,
-
-                    tipo:
-                        tipo,
-
-                    assunto:
-                        assunto,
-
-                    mensagem:
-                        mensagem,
-
-                    status:
-                        "aberto"
-
-                });
-
-
-
-            /*
-            VERIFICAR ERRO
-            */
-
-            if(error){
-
-                console.error(
-                    "Erro Supabase:",
-                    error
-                );
-
-                throw error;
-
-            }
-
-
-
-            /*
-            SUCESSO
-            */
-
-            sucesso.style.display =
-                "block";
-
-
-            document
-            .getElementById(
-                "formSuporte"
+            .from(
+                "chamados_suporte"
             )
-            .reset();
+
+            .insert({
+
+                usuario_id:
+                    authUser.id,
+
+                nome:
+                    nome,
+
+                email:
+                    email,
+
+                tipo:
+                    tipo,
+
+                assunto:
+                    assunto,
+
+                mensagem:
+                    mensagem,
+
+                status:
+                    "aberto"
+
+            });
 
 
 
-            /*
-            MANTER EMAIL
-            */
-
-            document
-            .getElementById("email")
-            .value =
-                user.email || "";
-
-
-
-            btn.disabled =
-                false;
-
-
-            btn.innerText =
-                "📨 Enviar mensagem";
-
-
-
-        }catch(error){
-
+        if(error){
 
             console.error(
                 "Erro ao enviar chamado:",
@@ -943,26 +1097,421 @@ document
             );
 
 
-            erro.innerHTML =
-                "❌ Não foi possível enviar o chamado.<br><small>Verifique o console (F12) para mais detalhes.</small>";
+            resultado.innerHTML =
+                "❌ Não foi possível enviar o chamado.";
+
+            resultado.className =
+                "mensagem erro";
 
 
-            erro.style.display =
-                "block";
+            btn.disabled = false;
 
-
-            btn.disabled =
-                false;
-
-
-            btn.innerText =
+            btn.innerHTML =
                 "📨 Enviar mensagem";
 
+            return;
 
         }
 
+
+
+        resultado.innerHTML =
+            "✅ Chamado enviado com sucesso!";
+
+        resultado.className =
+            "mensagem sucesso";
+
+
+        document
+        .getElementById(
+            "assunto"
+        )
+        .value = "";
+
+
+        document
+        .getElementById(
+            "mensagem"
+        )
+        .value = "";
+
+
+        btn.disabled = false;
+
+        btn.innerHTML =
+            "📨 Enviar mensagem";
+
+
+        await carregarChamados();
+
     }
 );
+
+
+
+/* =====================================================
+   CARREGAR MEUS CHAMADOS
+===================================================== */
+
+async function carregarChamados(){
+
+    const lista =
+        document.getElementById(
+            "listaChamados"
+        );
+
+
+    const authUser =
+        await pegarUsuario();
+
+
+    if(!authUser){
+
+        return;
+
+    }
+
+
+    const {
+
+        data,
+
+        error
+
+    } = await banco
+
+        .from(
+            "chamados_suporte"
+        )
+
+        .select("*")
+
+        .eq(
+            "usuario_id",
+            authUser.id
+        )
+
+        .order(
+            "data_criacao",
+            {
+                ascending:false
+            }
+        );
+
+
+
+    if(error){
+
+        console.error(
+            "Erro ao carregar chamados:",
+            error
+        );
+
+
+        lista.innerHTML = `
+
+            <div class="sem-chamados">
+
+                ❌ Não foi possível carregar seus chamados.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    mostrarChamados(
+        data || []
+    );
+
+}
+
+
+
+/* =====================================================
+   MOSTRAR CHAMADOS
+===================================================== */
+
+function mostrarChamados(chamados){
+
+    const lista =
+        document.getElementById(
+            "listaChamados"
+        );
+
+
+    if(
+        chamados.length === 0
+    ){
+
+        lista.innerHTML = `
+
+            <div class="sem-chamados">
+
+                📭 Você ainda não possui chamados.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    lista.innerHTML = "";
+
+
+
+    chamados.forEach(
+        chamado => {
+
+
+            let classeStatus =
+                "status-aberto";
+
+
+            let textoStatus =
+                "🔴 Aberto";
+
+
+
+            if(
+                chamado.status ===
+                "atendimento"
+            ){
+
+                classeStatus =
+                    "status-atendimento";
+
+                textoStatus =
+                    "🟡 Em atendimento";
+
+            }
+
+
+
+            if(
+                chamado.status ===
+                "fechado"
+            ){
+
+                classeStatus =
+                    "status-fechado";
+
+                textoStatus =
+                    "🟢 Fechado";
+
+            }
+
+
+
+            const data =
+                chamado.data_criacao
+                ?
+                new Date(
+                    chamado.data_criacao
+                ).toLocaleString(
+                    "pt-BR"
+                )
+                :
+                "";
+
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "chamado";
+
+
+
+            card.innerHTML = `
+
+                <div class="chamado-topo">
+
+                    <div>
+
+                        <h3>
+
+                            ${escapar(
+                                chamado.assunto
+                            )}
+
+                        </h3>
+
+                        <div
+                            class="info-chamado"
+                        >
+
+                            📅 ${data}
+
+                        </div>
+
+                    </div>
+
+
+                    <span
+                        class="status ${classeStatus}"
+                    >
+
+                        ${textoStatus}
+
+                    </span>
+
+                </div>
+
+
+                <span class="tipo">
+
+                    ${escapar(
+                        chamado.tipo
+                    )}
+
+                </span>
+
+
+                <div
+                    class="mensagem-chamado"
+                >
+
+                    <strong>
+                        📨 Você:
+                    </strong>
+
+                    <br><br>
+
+                    ${escapar(
+                        chamado.mensagem
+                    )}
+
+                </div>
+
+
+                ${
+                    chamado.resposta
+
+                    ?
+
+                    `
+
+                    <div
+                        class="resposta-suporte"
+                    >
+
+                        <strong>
+                            💬 Resposta do suporte
+                        </strong>
+
+                        ${escapar(
+                            chamado.resposta
+                        )}
+
+                    </div>
+
+                    `
+
+                    :
+
+                    `
+
+                    <div
+                        class="info-chamado"
+                    >
+
+                        ⏳ Aguardando resposta da equipe de suporte...
+
+                    </div>
+
+                    `
+
+                }
+
+            `;
+
+
+            lista.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   SEGURANÇA
+===================================================== */
+
+function escapar(texto){
+
+    if(
+        texto === null ||
+        texto === undefined
+    ){
+
+        return "";
+
+    }
+
+
+    return String(texto)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+
+/* =====================================================
+   INICIAR
+===================================================== */
+
+async function iniciar(){
+
+    await carregarUsuario();
+
+    await carregarChamados();
+
+}
+
+
+iniciar();
+
 
 </script>
 
