@@ -1,14 +1,24 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Atendimento - SmartInspect AI</title>
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-<link rel="stylesheet" href="css/style.css">
+<title>
+    Atendimento - SmartInspect AI
+</title>
+
+<link
+    rel="stylesheet"
+    href="css/style.css"
+>
 
 <style>
 
@@ -20,9 +30,10 @@ body{
     margin:0;
 }
 
-/* ================================
+
+/* =====================================================
    CONTEÚDO
-================================ */
+===================================================== */
 
 .conteudo-atendimento{
 
@@ -32,15 +43,10 @@ body{
 
 }
 
-/* ================================
+
+/* =====================================================
    TÍTULO
-================================ */
-
-.titulo-atendimento{
-
-    margin-bottom:25px;
-
-}
+===================================================== */
 
 .titulo-atendimento h1{
 
@@ -58,15 +64,16 @@ body{
 
 }
 
-/* ================================
+
+/* =====================================================
    LAYOUT
-================================ */
+===================================================== */
 
 .layout-suporte{
 
     display:grid;
 
-    grid-template-columns:340px 1fr;
+    grid-template-columns:350px 1fr;
 
     gap:20px;
 
@@ -74,9 +81,10 @@ body{
 
 }
 
-/* ================================
-   LISTA DE CHAMADOS
-================================ */
+
+/* =====================================================
+   LISTA
+===================================================== */
 
 .lista-chamados{
 
@@ -84,11 +92,14 @@ body{
 
     border-radius:15px;
 
-    box-shadow:0 4px 15px rgba(0,0,0,.08);
+    box-shadow:
+        0 4px 15px
+        rgba(0,0,0,.08);
 
     overflow-y:auto;
 
 }
+
 
 .chamado{
 
@@ -98,15 +109,17 @@ body{
 
     cursor:pointer;
 
-    transition:.2s;
+    position:relative;
 
 }
+
 
 .chamado:hover{
 
     background:#f5f8fc;
 
 }
+
 
 .chamado.ativo{
 
@@ -116,13 +129,15 @@ body{
 
 }
 
+
 .chamado h3{
 
-    margin:0 0 8px;
+    margin:0 0 7px;
 
     font-size:16px;
 
 }
+
 
 .chamado p{
 
@@ -133,6 +148,38 @@ body{
     font-size:13px;
 
 }
+
+
+.badge-nao-lido{
+
+    position:absolute;
+
+    right:15px;
+
+    top:15px;
+
+    background:#dc3545;
+
+    color:white;
+
+    min-width:22px;
+
+    height:22px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:11px;
+
+    font-weight:bold;
+
+}
+
 
 .status{
 
@@ -150,6 +197,7 @@ body{
 
 }
 
+
 .status-pendente{
 
     background:#fff3cd;
@@ -157,6 +205,7 @@ body{
     color:#856404;
 
 }
+
 
 .status-atendimento{
 
@@ -166,6 +215,7 @@ body{
 
 }
 
+
 .status-resolvido{
 
     background:#d1e7dd;
@@ -174,9 +224,10 @@ body{
 
 }
 
-/* ================================
+
+/* =====================================================
    CHAT
-================================ */
+===================================================== */
 
 .chat{
 
@@ -184,7 +235,9 @@ body{
 
     border-radius:15px;
 
-    box-shadow:0 4px 15px rgba(0,0,0,.08);
+    box-shadow:
+        0 4px 15px
+        rgba(0,0,0,.08);
 
     overflow:hidden;
 
@@ -193,6 +246,7 @@ body{
     flex-direction:column;
 
 }
+
 
 .chat-vazio{
 
@@ -210,6 +264,7 @@ body{
 
 }
 
+
 .chat-area{
 
     display:none;
@@ -220,9 +275,10 @@ body{
 
 }
 
-/* ================================
+
+/* =====================================================
    HEADER
-================================ */
+===================================================== */
 
 .chat-header{
 
@@ -230,7 +286,14 @@ body{
 
     border-bottom:1px solid #eee;
 
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
 }
+
 
 .chat-header h2{
 
@@ -239,6 +302,7 @@ body{
     font-size:19px;
 
 }
+
 
 .chat-header p{
 
@@ -250,9 +314,42 @@ body{
 
 }
 
-/* ================================
+
+/* =====================================================
+   ONLINE
+===================================================== */
+
+.online{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    color:#198754;
+
+    font-size:13px;
+
+}
+
+
+.online-bola{
+
+    width:9px;
+
+    height:9px;
+
+    border-radius:50%;
+
+    background:#198754;
+
+}
+
+
+/* =====================================================
    CONTROLES
-================================ */
+===================================================== */
 
 .controles{
 
@@ -260,7 +357,14 @@ body{
 
     border-bottom:1px solid #eee;
 
+    display:flex;
+
+    gap:10px;
+
+    align-items:center;
+
 }
+
 
 .controles select{
 
@@ -272,9 +376,29 @@ body{
 
 }
 
-/* ================================
+
+.btn-resolver{
+
+    padding:8px 14px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#198754;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+}
+
+
+/* =====================================================
    MENSAGENS
-================================ */
+===================================================== */
 
 .mensagens{
 
@@ -287,6 +411,7 @@ body{
     background:#f5f7fa;
 
 }
+
 
 .mensagem{
 
@@ -304,6 +429,7 @@ body{
 
 }
 
+
 .mensagem.usuario{
 
     background:white;
@@ -314,6 +440,7 @@ body{
 
 }
 
+
 .mensagem.adm{
 
     background:#0066cc;
@@ -323,6 +450,7 @@ body{
     margin-left:auto;
 
 }
+
 
 .mensagem small{
 
@@ -336,9 +464,59 @@ body{
 
 }
 
-/* ================================
+
+/* =====================================================
+   DIGITANDO
+===================================================== */
+
+.digitando{
+
+    display:none;
+
+    padding:5px 20px 10px;
+
+    color:#777;
+
+    font-size:13px;
+
+    font-style:italic;
+
+}
+
+
+/* =====================================================
+   ANEXOS
+===================================================== */
+
+.anexo{
+
+    display:block;
+
+    margin-top:10px;
+
+    padding:8px 10px;
+
+    border-radius:7px;
+
+    background:rgba(255,255,255,.2);
+
+    text-decoration:none;
+
+    color:inherit;
+
+}
+
+
+.input-arquivo{
+
+    display:none;
+
+}
+
+
+/* =====================================================
    RESPOSTA
-================================ */
+===================================================== */
 
 .area-resposta{
 
@@ -348,9 +526,12 @@ body{
 
     display:flex;
 
-    gap:10px;
+    gap:8px;
+
+    align-items:center;
 
 }
+
 
 .area-resposta textarea{
 
@@ -372,19 +553,44 @@ body{
 
 }
 
+
 .area-resposta textarea:focus{
 
     border-color:#0066cc;
 
 }
 
-.area-resposta button{
+
+.btn-anexo{
+
+    width:45px;
+
+    height:45px;
 
     border:none;
 
     border-radius:8px;
 
-    padding:0 22px;
+    background:#6c757d;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+}
+
+
+.area-resposta button.enviar{
+
+    height:45px;
+
+    border:none;
+
+    border-radius:8px;
+
+    padding:0 20px;
 
     background:#0066cc;
 
@@ -396,29 +602,10 @@ body{
 
 }
 
-.area-resposta button:hover{
 
-    background:#0055aa;
-
-}
-
-/* ================================
-   SEM CHAMADOS
-================================ */
-
-.sem-chamados{
-
-    padding:30px;
-
-    text-align:center;
-
-    color:#777;
-
-}
-
-/* ================================
-   RESPONSIVO
-================================ */
+/* =====================================================
+   MOBILE
+===================================================== */
 
 @media(max-width:900px){
 
@@ -532,6 +719,15 @@ body{
             class="ativo"
         >
             💬 Atendimento
+
+            <span
+                id="badgeChamados"
+                class="badge-nao-lido"
+                style="display:none;"
+            >
+                0
+            </span>
+
         </a>
 
         <a href="notificacoes.html">
@@ -564,7 +760,7 @@ body{
         </h1>
 
         <p>
-            Atenda os usuários do SmartInspect AI em tempo real.
+            Atendimento aos usuários em tempo real.
         </p>
 
     </div>
@@ -574,7 +770,7 @@ body{
 
 
         <!-- =================================================
-             LISTA
+             CHAMADOS
         ================================================== -->
 
         <div
@@ -584,7 +780,7 @@ body{
 
             <div class="sem-chamados">
 
-                ⏳ Carregando chamados...
+                ⏳ Carregando...
 
             </div>
 
@@ -610,7 +806,7 @@ body{
                     </h2>
 
                     <p>
-                        Selecione um chamado para começar.
+                        Selecione um chamado.
                     </p>
 
                 </div>
@@ -626,13 +822,26 @@ body{
 
                 <div class="chat-header">
 
-                    <h2 id="chatAssunto">
-                        -
-                    </h2>
+                    <div>
 
-                    <p id="chatUsuario">
-                        -
-                    </p>
+                        <h2 id="chatAssunto">
+                            -
+                        </h2>
+
+                        <p id="chatUsuario">
+                            -
+                        </p>
+
+                    </div>
+
+
+                    <div class="online">
+
+                        <span class="online-bola"></span>
+
+                        Online
+
+                    </div>
 
                 </div>
 
@@ -658,6 +867,16 @@ body{
 
                     </select>
 
+
+                    <button
+                        class="btn-resolver"
+                        onclick="resolverChamado()"
+                    >
+
+                        ✅ Resolver
+
+                    </button>
+
                 </div>
 
 
@@ -667,7 +886,35 @@ body{
                 ></div>
 
 
+                <div
+                    id="digitando"
+                    class="digitando"
+                >
+
+                    💬 Usuário está digitando...
+
+                </div>
+
+
                 <div class="area-resposta">
+
+
+                    <label
+                        class="btn-anexo"
+                        title="Enviar arquivo"
+                    >
+
+                        📎
+
+                        <input
+                            type="file"
+                            id="arquivo"
+                            class="input-arquivo"
+                            onchange="enviarArquivo()"
+                        >
+
+                    </label>
+
 
                     <textarea
                         id="resposta"
@@ -677,10 +924,14 @@ body{
 
                     <button
                         id="btnEnviar"
+                        class="enviar"
                         onclick="enviarResposta()"
                     >
+
                         📨 Enviar
+
                     </button>
+
 
                 </div>
 
@@ -715,6 +966,69 @@ let chamadoSelecionado = null;
 
 let canalRealtime = null;
 
+let canalDigitando = null;
+
+let contadorNaoLidos = 0;
+
+
+/* =====================================================
+   ESCAPE
+===================================================== */
+
+function escapeHtml(text){
+
+    return String(text || "")
+
+        .replace(/&/g,"&amp;")
+
+        .replace(/</g,"&lt;")
+
+        .replace(/>/g,"&gt;")
+
+        .replace(/"/g,"&quot;")
+
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   DATA
+===================================================== */
+
+function formatarData(data){
+
+    if(!data){
+
+        return "";
+
+    }
+
+    return new Date(data)
+        .toLocaleString("pt-BR");
+
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+function statusTexto(status){
+
+    if(status === "pendente")
+        return "🟡 Pendente";
+
+    if(status === "atendimento")
+        return "🔵 Em atendimento";
+
+    if(status === "resolvido")
+        return "🟢 Resolvido";
+
+    return status;
+
+}
+
 
 /* =====================================================
    CARREGAR CHAMADOS
@@ -728,36 +1042,37 @@ async function carregarChamados(){
         );
 
 
-    const { data, error } = await banco
+    const {data,error} =
 
-        .from(
-            "solicitacoes_suporte"
-        )
+        await banco
 
-        .select("*")
+            .from(
+                "solicitacoes_suporte"
+            )
 
-        .order(
-            "data_criacao",
-            {
-                ascending:false
-            }
-        );
+            .select("*")
+
+            .order(
+                "data_criacao",
+                {
+                    ascending:false
+                }
+            );
 
 
     if(error){
 
-        console.error(
-            "ERRO CHAMADOS:",
-            error
-        );
-
+        console.error(error);
 
         lista.innerHTML = `
 
-            <div class="sem-chamados">
+            <div style="
+                padding:30px;
+                text-align:center;
+                color:#dc3545;
+            ">
 
-                ❌ Não foi possível carregar
-                os chamados.
+                ❌ Erro ao carregar chamados.
 
                 <br><br>
 
@@ -772,8 +1087,11 @@ async function carregarChamados(){
     }
 
 
-    chamados = data || [];
+    chamados =
+        data || [];
 
+
+    calcularNaoLidos();
 
     renderizarChamados();
 
@@ -781,7 +1099,45 @@ async function carregarChamados(){
 
 
 /* =====================================================
-   RENDERIZAR CHAMADOS
+   CONTADOR
+===================================================== */
+
+function calcularNaoLidos(){
+
+    contadorNaoLidos =
+
+        chamados.filter(
+            chamado =>
+                chamado.lido_adm !== true
+        ).length;
+
+
+    const badge =
+        document.getElementById(
+            "badgeChamados"
+        );
+
+
+    if(contadorNaoLidos > 0){
+
+        badge.style.display =
+            "flex";
+
+        badge.textContent =
+            contadorNaoLidos;
+
+    }else{
+
+        badge.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =====================================================
+   RENDERIZAR
 ===================================================== */
 
 function renderizarChamados(){
@@ -796,9 +1152,13 @@ function renderizarChamados(){
 
         lista.innerHTML = `
 
-            <div class="sem-chamados">
+            <div style="
+                padding:30px;
+                text-align:center;
+                color:#777;
+            ">
 
-                📭 Nenhum chamado aberto.
+                📭 Nenhum chamado.
 
             </div>
 
@@ -812,97 +1172,111 @@ function renderizarChamados(){
     lista.innerHTML = "";
 
 
-    chamados.forEach(
-        chamado => {
+    chamados.forEach(chamado => {
 
 
-            const div =
-                document.createElement(
-                    "div"
-                );
-
-
-            div.className =
-                "chamado";
-
-
-            if(
-                chamadoSelecionado &&
-                chamadoSelecionado.id ===
-                    chamado.id
-            ){
-
-                div.classList.add(
-                    "ativo"
-                );
-
-            }
-
-
-            const status =
-                chamado.status ||
-                "pendente";
-
-
-            div.innerHTML = `
-
-                <h3>
-
-                    ${escapeHtml(
-                        chamado.assunto
-                    )}
-
-                </h3>
-
-                <p>
-
-                    👤
-
-                    ${escapeHtml(
-                        chamado.nome
-                    )}
-
-                </p>
-
-                <p>
-
-                    📧
-
-                    ${escapeHtml(
-                        chamado.email
-                    )}
-
-                </p>
-
-                <span
-                    class="status status-${status}"
-                >
-
-                    ${statusTexto(
-                        status
-                    )}
-
-                </span>
-
-            `;
-
-
-            div.addEventListener(
-                "click",
-                function(){
-
-                    abrirChamado(
-                        chamado
-                    );
-
-                }
+        const div =
+            document.createElement(
+                "div"
             );
 
 
-            lista.appendChild(div);
+        div.className =
+            "chamado";
+
+
+        if(
+            chamadoSelecionado &&
+            chamadoSelecionado.id ===
+                chamado.id
+        ){
+
+            div.classList.add(
+                "ativo"
+            );
 
         }
-    );
+
+
+        const naoLido =
+            chamado.lido_adm !== true;
+
+
+        div.innerHTML = `
+
+            ${naoLido ? `
+
+                <span
+                    class="badge-nao-lido"
+                >
+                    !
+                </span>
+
+            ` : ""}
+
+
+            <h3>
+
+                ${escapeHtml(
+                    chamado.assunto
+                )}
+
+            </h3>
+
+
+            <p>
+
+                👤
+
+                ${escapeHtml(
+                    chamado.nome
+                )}
+
+            </p>
+
+
+            <p>
+
+                📧
+
+                ${escapeHtml(
+                    chamado.email
+                )}
+
+            </p>
+
+
+            <span
+                class="status status-${escapeHtml(
+                    chamado.status ||
+                    "pendente"
+                )}"
+            >
+
+                ${statusTexto(
+                    chamado.status ||
+                    "pendente"
+                )}
+
+            </span>
+
+        `;
+
+
+        div.onclick = () => {
+
+            abrirChamado(
+                chamado
+            );
+
+        };
+
+
+        lista.appendChild(
+            div
+        );
+
+    });
 
 }
 
@@ -955,7 +1329,82 @@ async function abrirChamado(chamado){
         "pendente";
 
 
+    await marcarChamadoLido();
+
+
     await carregarMensagens();
+
+
+    iniciarCanalDigitando();
+
+}
+
+
+/* =====================================================
+   MARCAR LIDO
+===================================================== */
+
+async function marcarChamadoLido(){
+
+    if(!chamadoSelecionado){
+
+        return;
+
+    }
+
+
+    const {error} =
+
+        await banco
+
+            .from(
+                "solicitacoes_suporte"
+            )
+
+            .update({
+
+                lido_adm:true
+
+            })
+
+            .eq(
+                "id",
+                chamadoSelecionado.id
+            );
+
+
+    if(error){
+
+        console.error(
+            "Erro marcar lido:",
+            error
+        );
+
+        return;
+
+    }
+
+
+    chamadoSelecionado.lido_adm =
+        true;
+
+
+    chamados =
+        chamados.map(
+            item =>
+
+                item.id ===
+                chamadoSelecionado.id
+
+                ? chamadoSelecionado
+
+                : item
+        );
+
+
+    calcularNaoLidos();
+
+    renderizarChamados();
 
 }
 
@@ -981,13 +1430,11 @@ async function carregarMensagens(){
 
     container.innerHTML = `
 
-        <div
-            style="
-                text-align:center;
-                padding:30px;
-                color:#777;
-            "
-        >
+        <div style="
+            text-align:center;
+            padding:30px;
+            color:#777;
+        ">
 
             ⏳ Carregando mensagens...
 
@@ -996,53 +1443,42 @@ async function carregarMensagens(){
     `;
 
 
-    console.log(
-        "Chamado:",
-        chamadoSelecionado.id
-    );
+    const {data,error} =
 
+        await banco
 
-    const { data, error } = await banco
+            .from(
+                "suporte_mensagens"
+            )
 
-        .from(
-            "suporte_mensagens"
-        )
+            .select("*")
 
-        .select("*")
+            .eq(
+                "chamado_id",
+                chamadoSelecionado.id
+            )
 
-        .eq(
-            "chamado_id",
-            chamadoSelecionado.id
-        )
-
-        .order(
-            "data_criacao",
-            {
-                ascending:true
-            }
-        );
+            .order(
+                "data_criacao",
+                {
+                    ascending:true
+                }
+            );
 
 
     if(error){
 
-        console.error(
-            "ERRO MENSAGENS:",
-            error
-        );
-
+        console.error(error);
 
         container.innerHTML = `
 
-            <div
-                style="
-                    text-align:center;
-                    padding:30px;
-                    color:#d32f2f;
-                "
-            >
+            <div style="
+                padding:30px;
+                text-align:center;
+                color:#dc3545;
+            ">
 
-                ❌ Erro ao carregar
-                mensagens.
+                ❌ Erro ao carregar mensagens.
 
                 <br><br>
 
@@ -1059,18 +1495,14 @@ async function carregarMensagens(){
     }
 
 
-    console.log(
-        "MENSAGENS:",
-        data
-    );
-
-
     container.innerHTML = "";
 
 
-    /* ==============================================
-       MENSAGEM ORIGINAL
-    ============================================== */
+    /*
+    ==========================================
+    MENSAGEM ORIGINAL
+    ==========================================
+    */
 
     adicionarMensagemNaTela({
 
@@ -1086,20 +1518,19 @@ async function carregarMensagens(){
     });
 
 
-    /* ==============================================
-       RESPOSTAS
-    ============================================== */
+    /*
+    ==========================================
+    HISTÓRICO COMPLETO
+    ==========================================
+    */
 
-    if(
-        data &&
-        data.length > 0
-    ){
+    if(data){
 
         data.forEach(
-            msg => {
+            mensagem => {
 
                 adicionarMensagemNaTela(
-                    msg
+                    mensagem
                 );
 
             }
@@ -1132,12 +1563,13 @@ function adicionarMensagemNaTela(msg){
 
 
     const tipo =
+
         msg.remetente_tipo ===
-            "adm"
+        "adm"
 
-            ? "adm"
+        ? "adm"
 
-            : "usuario";
+        : "usuario";
 
 
     div.className =
@@ -1150,6 +1582,7 @@ function adicionarMensagemNaTela(msg){
         ${escapeHtml(
             msg.mensagem
         )}
+
 
         <small>
 
@@ -1224,10 +1657,11 @@ async function enviarResposta(){
 
 
     botao.textContent =
-        "⏳ Enviando...";
+        "⏳";
 
 
     const usuario =
+
         JSON.parse(
             localStorage.getItem(
                 "usuario"
@@ -1235,7 +1669,7 @@ async function enviarResposta(){
         );
 
 
-    const { data, error } =
+    const {error} =
 
         await banco
 
@@ -1256,72 +1690,38 @@ async function enviarResposta(){
                     null,
 
                 mensagem:
-                    mensagem
+                    mensagem,
 
-            })
+                tipo:
+                    "texto"
 
-            .select()
-            .single();
+            });
 
 
     if(error){
 
-        console.error(
-            "ERRO AO ENVIAR:",
-            error
-        );
-
+        console.error(error);
 
         alert(
             "❌ Erro ao enviar:\n\n" +
             error.message
         );
 
+    }else{
 
-        botao.disabled =
-            false;
-
-
-        botao.textContent =
-            "📨 Enviar";
+        campo.value = "";
 
 
-        return;
+        if(
+            chamadoSelecionado.status ===
+            "pendente"
+        ){
 
-    }
-
-
-    campo.value = "";
-
-
-    /*
-    O Realtime vai mostrar
-    automaticamente a mensagem.
-    */
-
-
-    if(
-        chamadoSelecionado.status ===
-        "pendente"
-    ){
-
-        await banco
-
-            .from(
-                "solicitacoes_suporte"
-            )
-
-            .update({
-
-                status:
-                    "atendimento"
-
-            })
-
-            .eq(
-                "id",
-                chamadoSelecionado.id
+            await alterarStatusAutomatico(
+                "atendimento"
             );
+
+        }
 
     }
 
@@ -1332,6 +1732,74 @@ async function enviarResposta(){
 
     botao.textContent =
         "📨 Enviar";
+
+}
+
+
+/* =====================================================
+   ENTER PARA ENVIAR
+===================================================== */
+
+document
+.getElementById("resposta")
+.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key === "Enter" &&
+            !event.shiftKey
+        ){
+
+            event.preventDefault();
+
+            enviarResposta();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   STATUS AUTOMÁTICO
+===================================================== */
+
+async function alterarStatusAutomatico(
+    status
+){
+
+    if(!chamadoSelecionado){
+
+        return;
+
+    }
+
+
+    await banco
+
+        .from(
+            "solicitacoes_suporte"
+        )
+
+        .update({
+
+            status:
+                status
+
+        })
+
+        .eq(
+            "id",
+            chamadoSelecionado.id
+        );
+
+
+    chamadoSelecionado.status =
+        status;
+
+
+    carregarChamados();
 
 }
 
@@ -1355,7 +1823,8 @@ async function alterarStatus(){
         ).value;
 
 
-    const { error } =
+    const {error} =
+
         await banco
 
             .from(
@@ -1377,12 +1846,8 @@ async function alterarStatus(){
 
     if(error){
 
-        console.error(
-            error
-        );
-
         alert(
-            "❌ Erro ao alterar status."
+            "❌ Não foi possível alterar."
         );
 
         return;
@@ -1392,6 +1857,85 @@ async function alterarStatus(){
 
     chamadoSelecionado.status =
         status;
+
+
+    carregarChamados();
+
+}
+
+
+/* =====================================================
+   RESOLVER
+===================================================== */
+
+async function resolverChamado(){
+
+    if(!chamadoSelecionado){
+
+        return;
+
+    }
+
+
+    const usuario =
+
+        JSON.parse(
+            localStorage.getItem(
+                "usuario"
+            ) || "{}"
+        );
+
+
+    const {error} =
+
+        await banco
+
+            .from(
+                "solicitacoes_suporte"
+            )
+
+            .update({
+
+                status:
+                    "resolvido",
+
+                resolvido_em:
+                    new Date()
+                    .toISOString(),
+
+                resolvido_por:
+                    usuario.auth_id ||
+                    null
+
+            })
+
+            .eq(
+                "id",
+                chamadoSelecionado.id
+            );
+
+
+    if(error){
+
+        console.error(error);
+
+        alert(
+            "❌ Erro ao resolver."
+        );
+
+        return;
+
+    }
+
+
+    chamadoSelecionado.status =
+        "resolvido";
+
+
+    document.getElementById(
+        "statusChamado"
+    ).value =
+        "resolvido";
 
 
     carregarChamados();
@@ -1419,12 +1963,14 @@ function iniciarRealtime(){
         banco
 
             .channel(
-                "smartinspect-suporte"
+                "smartinspect-atendimento"
             )
 
 
             /*
-            NOVOS CHAMADOS
+            ======================================
+            CHAMADOS
+            ======================================
             */
 
             .on(
@@ -1442,22 +1988,17 @@ function iniciarRealtime(){
 
                 },
 
-                async payload => {
+                payload => {
 
 
                     console.log(
-                        "REALTIME CHAMADO:",
+                        "Realtime chamado:",
                         payload
                     );
 
 
-                    await carregarChamados();
+                    carregarChamados();
 
-
-                    /*
-                    Se o chamado aberto
-                    foi atualizado
-                    */
 
                     if(
                         chamadoSelecionado &&
@@ -1483,7 +2024,9 @@ function iniciarRealtime(){
 
 
             /*
-            NOVAS MENSAGENS
+            ======================================
+            MENSAGENS
+            ======================================
             */
 
             .on(
@@ -1505,7 +2048,7 @@ function iniciarRealtime(){
 
 
                     console.log(
-                        "REALTIME MENSAGEM:",
+                        "Realtime mensagem:",
                         payload
                     );
 
@@ -1516,16 +2059,38 @@ function iniciarRealtime(){
                             chamadoSelecionado.id
                     ){
 
-                        /*
-                        Evita duplicar
-                        */
-
                         adicionarMensagemNaTela(
                             payload.new
                         );
 
 
                         rolarChat();
+
+                    }
+
+
+                    /*
+                    AVISO
+                    */
+
+                    if(
+                        Notification.permission ===
+                        "granted"
+                    ){
+
+                        new Notification(
+                            "💬 Nova mensagem - SmartInspect AI",
+                            {
+                                body:
+                                    payload.new.mensagem
+                            }
+                        );
+
+                    }
+
+                    else{
+
+                        mostrarAvisoNovaMensagem();
 
                     }
 
@@ -1538,12 +2103,370 @@ function iniciarRealtime(){
                 status => {
 
                     console.log(
-                        "STATUS REALTIME:",
+                        "Realtime:",
                         status
                     );
 
                 }
             );
+
+}
+
+
+/* =====================================================
+   AVISO
+===================================================== */
+
+function mostrarAvisoNovaMensagem(){
+
+    const aviso =
+        document.createElement(
+            "div"
+        );
+
+
+    aviso.style.position =
+        "fixed";
+
+    aviso.style.right =
+        "20px";
+
+    aviso.style.bottom =
+        "20px";
+
+    aviso.style.background =
+        "#0066cc";
+
+    aviso.style.color =
+        "white";
+
+    aviso.style.padding =
+        "15px 20px";
+
+    aviso.style.borderRadius =
+        "10px";
+
+    aviso.style.zIndex =
+        "99999";
+
+    aviso.innerHTML =
+        "🔔 Nova mensagem recebida!";
+
+
+    document.body.appendChild(
+        aviso
+    );
+
+
+    setTimeout(
+        () => {
+
+            aviso.remove();
+
+        },
+        4000
+    );
+
+}
+
+
+/* =====================================================
+   PEDIR NOTIFICAÇÃO
+===================================================== */
+
+if(
+    "Notification" in window &&
+    Notification.permission ===
+        "default"
+){
+
+    Notification.requestPermission();
+
+}
+
+
+/* =====================================================
+   DIGITANDO
+===================================================== */
+
+function iniciarCanalDigitando(){
+
+    if(!chamadoSelecionado){
+
+        return;
+
+    }
+
+
+    if(canalDigitando){
+
+        banco.removeChannel(
+            canalDigitando
+        );
+
+    }
+
+
+    canalDigitando =
+
+        banco
+
+            .channel(
+                "digitando-" +
+                chamadoSelecionado.id
+            )
+
+
+            .on(
+
+                "broadcast",
+
+                {
+                    event:
+                        "digitando"
+
+                },
+
+                payload => {
+
+
+                    if(
+                        payload.payload &&
+                        payload.payload.tipo ===
+                            "usuario"
+                    ){
+
+                        mostrarDigitando();
+
+                    }
+
+                }
+
+            )
+
+
+            .subscribe();
+
+}
+
+
+function mostrarDigitando(){
+
+    const elemento =
+        document.getElementById(
+            "digitando"
+        );
+
+
+    elemento.style.display =
+        "block";
+
+
+    clearTimeout(
+        window.timerDigitando
+    );
+
+
+    window.timerDigitando =
+
+        setTimeout(
+            () => {
+
+                elemento.style.display =
+                    "none";
+
+            },
+            2000
+        );
+
+}
+
+
+/* =====================================================
+   ARQUIVO
+===================================================== */
+
+async function enviarArquivo(){
+
+    if(!chamadoSelecionado){
+
+        return;
+
+    }
+
+
+    const input =
+        document.getElementById(
+            "arquivo"
+        );
+
+
+    const arquivo =
+        input.files[0];
+
+
+    if(!arquivo){
+
+        return;
+
+    }
+
+
+    /*
+    ==========================================
+    BUCKET
+    ==========================================
+
+    Crie no Supabase Storage:
+
+    suporte
+
+    ==========================================
+    */
+
+
+    const nome =
+        Date.now() +
+        "_" +
+        arquivo.name
+        .replace(
+            /[^a-zA-Z0-9._-]/g,
+            "_"
+        );
+
+
+    const caminho =
+
+        chamadoSelecionado.id +
+        "/" +
+        nome;
+
+
+    const {error} =
+
+        await banco.storage
+
+            .from("suporte")
+
+            .upload(
+                caminho,
+                arquivo
+            );
+
+
+    if(error){
+
+        console.error(error);
+
+        alert(
+            "❌ Erro ao enviar arquivo.\n\n" +
+            error.message
+        );
+
+        input.value = "";
+
+        return;
+
+    }
+
+
+    const {data:urlData} =
+
+        banco.storage
+
+            .from("suporte")
+
+            .getPublicUrl(
+                caminho
+            );
+
+
+    const usuario =
+
+        JSON.parse(
+            localStorage.getItem(
+                "usuario"
+            ) || "{}"
+        );
+
+
+    const {data:mensagem,error:erroMsg} =
+
+        await banco
+
+            .from(
+                "suporte_mensagens"
+            )
+
+            .insert({
+
+                chamado_id:
+                    chamadoSelecionado.id,
+
+                remetente_tipo:
+                    "adm",
+
+                remetente_id:
+                    usuario.auth_id ||
+                    null,
+
+                mensagem:
+                    "📎 Arquivo enviado: " +
+                    arquivo.name,
+
+                tipo:
+                    "arquivo"
+
+            })
+
+            .select()
+            .single();
+
+
+    if(erroMsg){
+
+        console.error(
+            erroMsg
+        );
+
+        return;
+
+    }
+
+
+    await banco
+
+        .from(
+            "suporte_anexos"
+        )
+
+        .insert({
+
+            chamado_id:
+                chamadoSelecionado.id,
+
+            mensagem_id:
+                mensagem.id,
+
+            nome_arquivo:
+                arquivo.name,
+
+            caminho:
+                caminho,
+
+            url:
+                urlData.publicUrl,
+
+            tipo:
+                arquivo.type,
+
+            tamanho:
+                arquivo.size
+
+        });
+
+
+    input.value = "";
 
 }
 
@@ -1561,132 +2484,13 @@ function rolarChat(){
 
 
     setTimeout(
-        function(){
+        () => {
 
             container.scrollTop =
                 container.scrollHeight;
 
         },
         50
-    );
-
-}
-
-
-/* =====================================================
-   ENTER
-===================================================== */
-
-document
-    .getElementById(
-        "resposta"
-    )
-    .addEventListener(
-        "keydown",
-        function(event){
-
-            if(
-                event.key === "Enter" &&
-                !event.shiftKey
-            ){
-
-                event.preventDefault();
-
-                enviarResposta();
-
-            }
-
-        }
-    );
-
-
-/* =====================================================
-   STATUS TEXTO
-===================================================== */
-
-function statusTexto(status){
-
-    if(status === "pendente"){
-
-        return "🟡 Pendente";
-
-    }
-
-
-    if(status === "atendimento"){
-
-        return "🔵 Em atendimento";
-
-    }
-
-
-    if(status === "resolvido"){
-
-        return "🟢 Resolvido";
-
-    }
-
-
-    return status;
-
-}
-
-
-/* =====================================================
-   DATA
-===================================================== */
-
-function formatarData(data){
-
-    if(!data){
-
-        return "";
-
-    }
-
-
-    return new Date(
-        data
-    ).toLocaleString(
-        "pt-BR"
-    );
-
-}
-
-
-/* =====================================================
-   SEGURANÇA
-===================================================== */
-
-function escapeHtml(text){
-
-    return String(
-        text || ""
-    )
-
-    .replace(
-        /&/g,
-        "&amp;"
-    )
-
-    .replace(
-        /</g,
-        "&lt;"
-    )
-
-    .replace(
-        />/g,
-        "&gt;"
-    )
-
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-
-    .replace(
-        /'/g,
-        "&#039;"
     );
 
 }
