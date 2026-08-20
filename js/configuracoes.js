@@ -1,20 +1,13 @@
-
-
-// ============================================================
-// SMARTINSPECT AI
-// CONFIGURAÇÕES GLOBAIS
-// ============================================================
-
+```javascript
 (function () {
 
     "use strict";
 
+    const CHAVE =
+        "smartinspect_configuracoes";
 
-    // ========================================================
-    // CONFIGURAÇÕES PADRÃO
-    // ========================================================
 
-    const configuracoesPadrao = {
+    const PADRAO = {
 
         idioma: "pt-BR",
 
@@ -32,45 +25,37 @@
 
         destaqueFoco: false,
 
-        textoMaior: false,
-
-        leitorTela: false
+        textoMaior: false
 
     };
 
 
-    // ========================================================
-    // PEGAR CONFIGURAÇÕES SALVAS
-    // ========================================================
+    // ==================================================
+    // CARREGAR
+    // ==================================================
 
-    function obterConfiguracoes() {
+    function carregar() {
 
         try {
 
             const salvo =
-                localStorage.getItem(
-                    "smartinspect_configuracoes"
-                );
+                localStorage.getItem(CHAVE);
 
 
             if (!salvo) {
 
                 return {
-                    ...configuracoesPadrao
+                    ...PADRAO
                 };
 
             }
 
 
-            const configuracoes =
-                JSON.parse(salvo);
-
-
             return {
 
-                ...configuracoesPadrao,
+                ...PADRAO,
 
-                ...configuracoes
+                ...JSON.parse(salvo)
 
             };
 
@@ -84,7 +69,7 @@
 
 
             return {
-                ...configuracoesPadrao
+                ...PADRAO
             };
 
         }
@@ -92,30 +77,17 @@
     }
 
 
-    // ========================================================
-    // CONFIGURAÇÕES ATUAIS
-    // ========================================================
-
-    let configuracoes =
-        obterConfiguracoes();
-
-
-    // ========================================================
+    // ==================================================
     // SALVAR
-    // ========================================================
+    // ==================================================
 
-    function salvarConfiguracoesLocal() {
+    function salvar(config) {
 
         try {
 
             localStorage.setItem(
-
-                "smartinspect_configuracoes",
-
-                JSON.stringify(
-                    configuracoes
-                )
-
+                CHAVE,
+                JSON.stringify(config)
             );
 
         } catch (erro) {
@@ -130,296 +102,183 @@
     }
 
 
-    // ========================================================
-    // APLICAR CONFIGURAÇÕES
-    // ========================================================
+    // ==================================================
+    // APLICAR
+    // ==================================================
 
-    function aplicarConfiguracoes() {
+    function aplicar() {
 
-        configuracoes =
-            obterConfiguracoes();
-
+        const config = carregar();
 
         const html =
             document.documentElement;
 
-        const body =
-            document.body;
 
-
-        if (!html || !body) {
-
-            return;
-
-        }
-
-
-        // ====================================================
-        // LIMPAR ESTADOS
-        // ====================================================
-
-        html.classList.remove(
-            "smartinspect-contraste"
-        );
-
-        html.classList.remove(
-            "smartinspect-fonte-legivel"
-        );
-
-        html.classList.remove(
-            "smartinspect-espacamento"
-        );
-
-        html.classList.remove(
-            "smartinspect-sem-animacao"
-        );
-
-        html.classList.remove(
-            "smartinspect-modo-escuro"
-        );
-
-        html.classList.remove(
-            "smartinspect-foco"
-        );
-
-
-        body.classList.remove(
-            "smartinspect-texto-maior"
-        );
-
-
-        // ====================================================
-        // TAMANHO DA FONTE
-        // ====================================================
+        // Remove classes antigas
 
         html.classList.remove(
             "fonte-pequena",
             "fonte-media",
             "fonte-grande",
-            "fonte-muito-grande"
+            "fonte-muito-grande",
+            "smart-contraste",
+            "smart-fonte-legivel",
+            "smart-espacamento",
+            "smart-sem-animacao",
+            "smart-modo-escuro",
+            "smart-foco",
+            "smart-texto-maior"
         );
 
 
-        switch (
-            configuracoes.tamanhoFonte
-        ) {
-
-            case "pequeno":
-
-                html.classList.add(
-                    "fonte-pequena"
-                );
-
-                break;
-
-
-            case "grande":
-
-                html.classList.add(
-                    "fonte-grande"
-                );
-
-                break;
-
-
-            case "muito-grande":
-
-                html.classList.add(
-                    "fonte-muito-grande"
-                );
-
-                break;
-
-
-            default:
-
-                html.classList.add(
-                    "fonte-media"
-                );
-
-                break;
-
-        }
-
-
-        // ====================================================
-        // TEXTO MAIOR
-        // ====================================================
+        // ==================================================
+        // TAMANHO
+        // ==================================================
 
         if (
-            configuracoes.textoMaior
-        ) {
-
-            body.classList.add(
-                "smartinspect-texto-maior"
-            );
-
-        }
-
-
-        // ====================================================
-        // ALTO CONTRASTE
-        // ====================================================
-
-        if (
-            configuracoes.altoContraste
+            config.tamanhoFonte ===
+            "pequeno"
         ) {
 
             html.classList.add(
-                "smartinspect-contraste"
+                "fonte-pequena"
             );
 
         }
 
-
-        // ====================================================
-        // FONTE LEGÍVEL
-        // ====================================================
-
-        if (
-            configuracoes.fonteLegivel
+        else if (
+            config.tamanhoFonte ===
+            "grande"
         ) {
 
             html.classList.add(
-                "smartinspect-fonte-legivel"
+                "fonte-grande"
             );
 
         }
 
-
-        // ====================================================
-        // ESPAÇAMENTO
-        // ====================================================
-
-        if (
-            configuracoes.espacamento
+        else if (
+            config.tamanhoFonte ===
+            "muito-grande"
         ) {
 
             html.classList.add(
-                "smartinspect-espacamento"
+                "fonte-muito-grande"
+            );
+
+        }
+
+        else {
+
+            html.classList.add(
+                "fonte-media"
             );
 
         }
 
 
-        // ====================================================
-        // REDUZIR ANIMAÇÕES
-        // ====================================================
+        // ==================================================
+        // ACESSIBILIDADE
+        // ==================================================
 
         if (
-            configuracoes.reduzirAnimacoes
+            config.altoContraste
         ) {
 
             html.classList.add(
-                "smartinspect-sem-animacao"
+                "smart-contraste"
             );
 
         }
 
 
-        // ====================================================
-        // MODO ESCURO
-        // ====================================================
-
         if (
-            configuracoes.modoEscuro
+            config.fonteLegivel
         ) {
 
             html.classList.add(
-                "smartinspect-modo-escuro"
+                "smart-fonte-legivel"
             );
 
         }
 
 
-        // ====================================================
-        // DESTAQUE DE FOCO
-        // ====================================================
-
         if (
-            configuracoes.destaqueFoco
+            config.espacamento
         ) {
 
             html.classList.add(
-                "smartinspect-foco"
+                "smart-espacamento"
             );
 
         }
 
 
-        // ====================================================
+        if (
+            config.reduzirAnimacoes
+        ) {
+
+            html.classList.add(
+                "smart-sem-animacao"
+            );
+
+        }
+
+
+        if (
+            config.modoEscuro
+        ) {
+
+            html.classList.add(
+                "smart-modo-escuro"
+            );
+
+        }
+
+
+        if (
+            config.destaqueFoco
+        ) {
+
+            html.classList.add(
+                "smart-foco"
+            );
+
+        }
+
+
+        if (
+            config.textoMaior
+        ) {
+
+            html.classList.add(
+                "smart-texto-maior"
+            );
+
+        }
+
+
+        // ==================================================
         // IDIOMA
-        // ====================================================
+        // ==================================================
 
         html.setAttribute(
             "lang",
-            configuracoes.idioma || "pt-BR"
+            config.idioma || "pt-BR"
         );
 
     }
 
 
-    // ========================================================
-    // ALTERAR UMA CONFIGURAÇÃO
-    // ========================================================
-
-    function alterarConfiguracao(
-        nome,
-        valor
-    ) {
-
-        configuracoes =
-            obterConfiguracoes();
-
-
-        configuracoes[nome] =
-            valor;
-
-
-        salvarConfiguracoesLocal();
-
-
-        aplicarConfiguracoes();
-
-
-        // Dispara evento para outras partes
-        // do sistema perceberem a alteração
-
-        window.dispatchEvent(
-            new CustomEvent(
-                "smartinspect-configuracao-alterada",
-                {
-                    detail: configuracoes
-                }
-            )
-        );
-
-    }
-
-
-    // ========================================================
-    // PEGAR UMA CONFIGURAÇÃO
-    // ========================================================
-
-    function obterConfiguracao(
-        nome
-    ) {
-
-        const atual =
-            obterConfiguracoes();
-
-
-        return atual[nome];
-
-    }
-
-
-    // ========================================================
-    // SALVAR CONFIGURAÇÕES
-    // ========================================================
+    // ==================================================
+    // SALVAR CONFIGURAÇÕES DA TELA
+    // ==================================================
 
     window.salvarConfiguracoes =
         function () {
+
+            const config = carregar();
+
 
             const idioma =
                 document.getElementById(
@@ -477,7 +336,7 @@
 
             if (idioma) {
 
-                configuracoes.idioma =
+                config.idioma =
                     idioma.value;
 
             }
@@ -485,7 +344,7 @@
 
             if (tamanhoFonte) {
 
-                configuracoes.tamanhoFonte =
+                config.tamanhoFonte =
                     tamanhoFonte.value;
 
             }
@@ -493,7 +352,7 @@
 
             if (altoContraste) {
 
-                configuracoes.altoContraste =
+                config.altoContraste =
                     altoContraste.checked;
 
             }
@@ -501,7 +360,7 @@
 
             if (fonteLegivel) {
 
-                configuracoes.fonteLegivel =
+                config.fonteLegivel =
                     fonteLegivel.checked;
 
             }
@@ -509,7 +368,7 @@
 
             if (espacamento) {
 
-                configuracoes.espacamento =
+                config.espacamento =
                     espacamento.checked;
 
             }
@@ -517,7 +376,7 @@
 
             if (reduzirAnimacoes) {
 
-                configuracoes.reduzirAnimacoes =
+                config.reduzirAnimacoes =
                     reduzirAnimacoes.checked;
 
             }
@@ -525,7 +384,7 @@
 
             if (modoEscuro) {
 
-                configuracoes.modoEscuro =
+                config.modoEscuro =
                     modoEscuro.checked;
 
             }
@@ -533,7 +392,7 @@
 
             if (destaqueFoco) {
 
-                configuracoes.destaqueFoco =
+                config.destaqueFoco =
                     destaqueFoco.checked;
 
             }
@@ -541,37 +400,34 @@
 
             if (textoMaior) {
 
-                configuracoes.textoMaior =
+                config.textoMaior =
                     textoMaior.checked;
 
             }
 
 
-            salvarConfiguracoesLocal();
+            salvar(config);
 
-
-            aplicarConfiguracoes();
+            aplicar();
 
 
             alert(
-                "✅ Configurações salvas com sucesso!"
+                "✅ Configurações salvas!"
             );
-
 
         };
 
 
-    // ========================================================
-    // RESETAR
-    // ========================================================
+    // ==================================================
+    // RESTAURAR
+    // ==================================================
 
     window.restaurarConfiguracoes =
         function () {
 
-
             const confirmar =
                 confirm(
-                    "Deseja restaurar todas as configurações padrão?"
+                    "Deseja restaurar as configurações padrão?"
                 );
 
 
@@ -582,22 +438,15 @@
             }
 
 
-            configuracoes = {
-
-                ...configuracoesPadrao
-
-            };
+            salvar({
+                ...PADRAO
+            });
 
 
-            salvarConfiguracoesLocal();
+            aplicar();
 
 
-            aplicarConfiguracoes();
-
-
-            // Atualizar controles da página
-
-            atualizarControles();
+            atualizarCampos();
 
 
             alert(
@@ -607,11 +456,14 @@
         };
 
 
-    // ========================================================
-    // ATUALIZAR CONTROLES
-    // ========================================================
+    // ==================================================
+    // ATUALIZAR CAMPOS
+    // ==================================================
 
-    function atualizarControles() {
+    function atualizarCampos() {
+
+        const config =
+            carregar();
 
 
         const idioma =
@@ -629,7 +481,7 @@
         if (idioma) {
 
             idioma.value =
-                configuracoes.idioma;
+                config.idioma;
 
         }
 
@@ -637,98 +489,75 @@
         if (tamanhoFonte) {
 
             tamanhoFonte.value =
-                configuracoes.tamanhoFonte;
+                config.tamanhoFonte;
 
         }
 
 
-        const controles = {
+        const campos = [
 
-            altoContraste:
-                configuracoes.altoContraste,
+            "altoContraste",
 
-            fonteLegivel:
-                configuracoes.fonteLegivel,
+            "fonteLegivel",
 
-            espacamento:
-                configuracoes.espacamento,
+            "espacamento",
 
-            reduzirAnimacoes:
-                configuracoes.reduzirAnimacoes,
+            "reduzirAnimacoes",
 
-            modoEscuro:
-                configuracoes.modoEscuro,
+            "modoEscuro",
 
-            destaqueFoco:
-                configuracoes.destaqueFoco,
+            "destaqueFoco",
 
-            textoMaior:
-                configuracoes.textoMaior
+            "textoMaior"
 
-        };
+        ];
 
 
-        Object.keys(controles)
-            .forEach(
-                nome => {
+        campos.forEach(
+            function (nome) {
 
-                    const elemento =
-                        document.getElementById(
-                            nome
+                const campo =
+                    document.getElementById(
+                        nome
+                    );
+
+
+                if (campo) {
+
+                    campo.checked =
+                        Boolean(
+                            config[nome]
                         );
 
-
-                    if (elemento) {
-
-                        elemento.checked =
-                            controles[nome];
-
-                    }
-
                 }
-            );
+
+            }
+        );
 
     }
 
 
-    // ========================================================
-    // MUDANÇA DE PÁGINA
-    // ========================================================
+    // ==================================================
+    // API GLOBAL
+    // ==================================================
 
-    window.addEventListener(
-        "pageshow",
-        function () {
+    window.SmartInspectConfiguracoes = {
 
-            aplicarConfiguracoes();
+        carregar: carregar,
 
-        }
-    );
+        salvar: salvar,
 
+        aplicar: aplicar,
 
-    // ========================================================
-    // OUTRA ABA ALTEROU CONFIGURAÇÕES
-    // ========================================================
+        restaurar:
+            restaurarConfiguracoes
 
-    window.addEventListener(
-        "storage",
-        function (evento) {
-
-            if (
-                evento.key ===
-                "smartinspect_configuracoes"
-            ) {
-
-                aplicarConfiguracoes();
-
-            }
-
-        }
-    );
+    };
 
 
-    // ========================================================
-    // INICIALIZAR
-    // ========================================================
+    // ==================================================
+    // INICIALIZAÇÃO
+    // ==================================================
 
     if (
         document.readyState ===
@@ -739,44 +568,22 @@
             "DOMContentLoaded",
             function () {
 
-                aplicarConfiguracoes();
+                aplicar();
 
-                atualizarControles();
+                atualizarCampos();
 
             }
         );
 
-    } else {
-
-        aplicarConfiguracoes();
-
-        atualizarControles();
-
     }
 
+    else {
 
-    // ========================================================
-    // DISPONIBILIZAR FUNÇÕES
-    // ========================================================
+        aplicar();
 
-    window.SmartInspectConfiguracoes = {
+        atualizarCampos();
 
-        obter:
-            obterConfiguracoes,
-
-        obterConfiguracao:
-            obterConfiguracao,
-
-        alterar:
-            alterarConfiguracao,
-
-        aplicar:
-            aplicarConfiguracoes,
-
-        restaurar:
-            restaurarConfiguracoes
-
-    };
+    }
 
 
 })();
