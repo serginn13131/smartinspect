@@ -1,590 +1,120 @@
+(() => {
+  "use strict";
 
-(function () {
+  const CHAVE = "smartinspect_configuracoes";
+  const PADRAO = {
+    idioma: "pt-BR",
+    modoEscuro: false,
+    altoContraste: false,
+    sublinharLinks: false,
+    alertasVisuais: true,
+    notificacoesTexto: true,
+    fonte: "media"
+  };
 
-    "use strict";
+  let fonteSelecionada = PADRAO.fonte;
 
-    const CHAVE =
-        "smartinspect_configuracoes";
+  function lerConfiguracoes() {
+    try {
+      const salvo = localStorage.getItem(CHAVE);
+      return salvo ? { ...PADRAO, ...JSON.parse(salvo) } : { ...PADRAO };
+    } catch (erro) {
+      console.error("Erro ao carregar configurações:", erro);
+      return { ...PADRAO };
+    }
+  }
 
+  function salvarConfiguracoesNoStorage(configuracoes) {
+    try {
+      localStorage.setItem(CHAVE, JSON.stringify(configuracoes));
+    } catch (erro) {
+      console.error("Erro ao salvar configurações:", erro);
+    }
+  }
 
-    const PADRAO = {
+  function selecionarFonte(tamanho) {
+    fonteSelecionada = ["pequena", "media", "grande", "muito-grande"].includes(tamanho)
+      ? tamanho
+      : PADRAO.fonte;
 
-        idioma: "pt-BR",
+    document.querySelectorAll(".btn-tamanho").forEach((botao) => botao.classList.remove("ativo"));
+    const id = `fonte${fonteSelecionada.charAt(0).toUpperCase()}${fonteSelecionada.slice(1).replace("-", "")}`;
+    document.getElementById(id)?.classList.add("ativo");
+  }
 
-        tamanhoFonte: "medio",
+  function aplicarConfiguracoes(config) {
+    const corpo = document.body;
+    corpo.classList.remove("fonte-pequena", "fonte-media", "fonte-grande", "fonte-muito-grande");
+    corpo.classList.add(`fonte-${fonteSelecionada}`);
+    corpo.classList.toggle("modo-escuro", config.modoEscuro === true);
+    corpo.classList.toggle("alto-contraste", config.altoContraste === true);
+    corpo.classList.toggle("sublinhar-links", config.sublinharLinks === true);
+    document.documentElement.lang = config.idioma || PADRAO.idioma;
+  }
 
-        altoContraste: false,
-
-        fonteLegivel: false,
-
-        espacamento: false,
-
-        reduzirAnimacoes: false,
-
-        modoEscuro: false,
-
-        destaqueFoco: false,
-
-        textoMaior: false
-
+  function preencherCampos(config) {
+    const definirValor = (id, valor) => {
+      const campo = document.getElementById(id);
+      if (campo) campo.value = valor;
+    };
+    const definirMarcacao = (id, valor) => {
+      const campo = document.getElementById(id);
+      if (campo) campo.checked = valor === true;
     };
 
-
-    // ==================================================
-    // CARREGAR
-    // ==================================================
-
-    function carregar() {
-
-        try {
-
-            const salvo =
-                localStorage.getItem(CHAVE);
-
-
-            if (!salvo) {
-
-                return {
-                    ...PADRAO
-                };
-
-            }
-
-
-            return {
-
-                ...PADRAO,
-
-                ...JSON.parse(salvo)
-
-            };
-
-
-        } catch (erro) {
-
-            console.error(
-                "Erro ao carregar configurações:",
-                erro
-            );
-
-
-            return {
-                ...PADRAO
-            };
-
-        }
-
-    }
-
-
-    // ==================================================
-    // SALVAR
-    // ==================================================
-
-    function salvar(config) {
-
-        try {
-
-            localStorage.setItem(
-                CHAVE,
-                JSON.stringify(config)
-            );
-
-        } catch (erro) {
-
-            console.error(
-                "Erro ao salvar configurações:",
-                erro
-            );
-
-        }
-
-    }
-
-
-    // ==================================================
-    // APLICAR
-    // ==================================================
-
-    function aplicar() {
-
-        const config = carregar();
-
-        const html =
-            document.documentElement;
-
-
-        // Remove classes antigas
-
-        html.classList.remove(
-            "fonte-pequena",
-            "fonte-media",
-            "fonte-grande",
-            "fonte-muito-grande",
-            "smart-contraste",
-            "smart-fonte-legivel",
-            "smart-espacamento",
-            "smart-sem-animacao",
-            "smart-modo-escuro",
-            "smart-foco",
-            "smart-texto-maior"
-        );
-
-
-        // ==================================================
-        // TAMANHO
-        // ==================================================
-
-        if (
-            config.tamanhoFonte ===
-            "pequeno"
-        ) {
-
-            html.classList.add(
-                "fonte-pequena"
-            );
-
-        }
-
-        else if (
-            config.tamanhoFonte ===
-            "grande"
-        ) {
-
-            html.classList.add(
-                "fonte-grande"
-            );
-
-        }
-
-        else if (
-            config.tamanhoFonte ===
-            "muito-grande"
-        ) {
-
-            html.classList.add(
-                "fonte-muito-grande"
-            );
-
-        }
-
-        else {
-
-            html.classList.add(
-                "fonte-media"
-            );
-
-        }
-
-
-        // ==================================================
-        // ACESSIBILIDADE
-        // ==================================================
-
-        if (
-            config.altoContraste
-        ) {
-
-            html.classList.add(
-                "smart-contraste"
-            );
-
-        }
-
-
-        if (
-            config.fonteLegivel
-        ) {
-
-            html.classList.add(
-                "smart-fonte-legivel"
-            );
-
-        }
-
-
-        if (
-            config.espacamento
-        ) {
-
-            html.classList.add(
-                "smart-espacamento"
-            );
-
-        }
-
-
-        if (
-            config.reduzirAnimacoes
-        ) {
-
-            html.classList.add(
-                "smart-sem-animacao"
-            );
-
-        }
-
-
-        if (
-            config.modoEscuro
-        ) {
-
-            html.classList.add(
-                "smart-modo-escuro"
-            );
-
-        }
-
-
-        if (
-            config.destaqueFoco
-        ) {
-
-            html.classList.add(
-                "smart-foco"
-            );
-
-        }
-
-
-        if (
-            config.textoMaior
-        ) {
-
-            html.classList.add(
-                "smart-texto-maior"
-            );
-
-        }
-
-
-        // ==================================================
-        // IDIOMA
-        // ==================================================
-
-        html.setAttribute(
-            "lang",
-            config.idioma || "pt-BR"
-        );
-
-    }
-
-
-    // ==================================================
-    // SALVAR CONFIGURAÇÕES DA TELA
-    // ==================================================
-
-    window.salvarConfiguracoes =
-        function () {
-
-            const config = carregar();
-
-
-            const idioma =
-                document.getElementById(
-                    "idioma"
-                );
-
-
-            const tamanhoFonte =
-                document.getElementById(
-                    "tamanhoFonte"
-                );
-
-
-            const altoContraste =
-                document.getElementById(
-                    "altoContraste"
-                );
-
-
-            const fonteLegivel =
-                document.getElementById(
-                    "fonteLegivel"
-                );
-
-
-            const espacamento =
-                document.getElementById(
-                    "espacamento"
-                );
-
-
-            const reduzirAnimacoes =
-                document.getElementById(
-                    "reduzirAnimacoes"
-                );
-
-
-            const modoEscuro =
-                document.getElementById(
-                    "modoEscuro"
-                );
-
-
-            const destaqueFoco =
-                document.getElementById(
-                    "destaqueFoco"
-                );
-
-
-            const textoMaior =
-                document.getElementById(
-                    "textoMaior"
-                );
-
-
-            if (idioma) {
-
-                config.idioma =
-                    idioma.value;
-
-            }
-
-
-            if (tamanhoFonte) {
-
-                config.tamanhoFonte =
-                    tamanhoFonte.value;
-
-            }
-
-
-            if (altoContraste) {
-
-                config.altoContraste =
-                    altoContraste.checked;
-
-            }
-
-
-            if (fonteLegivel) {
-
-                config.fonteLegivel =
-                    fonteLegivel.checked;
-
-            }
-
-
-            if (espacamento) {
-
-                config.espacamento =
-                    espacamento.checked;
-
-            }
-
-
-            if (reduzirAnimacoes) {
-
-                config.reduzirAnimacoes =
-                    reduzirAnimacoes.checked;
-
-            }
-
-
-            if (modoEscuro) {
-
-                config.modoEscuro =
-                    modoEscuro.checked;
-
-            }
-
-
-            if (destaqueFoco) {
-
-                config.destaqueFoco =
-                    destaqueFoco.checked;
-
-            }
-
-
-            if (textoMaior) {
-
-                config.textoMaior =
-                    textoMaior.checked;
-
-            }
-
-
-            salvar(config);
-
-            aplicar();
-
-
-            alert(
-                "✅ Configurações salvas!"
-            );
-
-        };
-
-
-    // ==================================================
-    // RESTAURAR
-    // ==================================================
-
-    window.restaurarConfiguracoes =
-        function () {
-
-            const confirmar =
-                confirm(
-                    "Deseja restaurar as configurações padrão?"
-                );
-
-
-            if (!confirmar) {
-
-                return;
-
-            }
-
-
-            salvar({
-                ...PADRAO
-            });
-
-
-            aplicar();
-
-
-            atualizarCampos();
-
-
-            alert(
-                "✅ Configurações restauradas!"
-            );
-
-        };
-
-
-    // ==================================================
-    // ATUALIZAR CAMPOS
-    // ==================================================
-
-    function atualizarCampos() {
-
-        const config =
-            carregar();
-
-
-        const idioma =
-            document.getElementById(
-                "idioma"
-            );
-
-
-        const tamanhoFonte =
-            document.getElementById(
-                "tamanhoFonte"
-            );
-
-
-        if (idioma) {
-
-            idioma.value =
-                config.idioma;
-
-        }
-
-
-        if (tamanhoFonte) {
-
-            tamanhoFonte.value =
-                config.tamanhoFonte;
-
-        }
-
-
-        const campos = [
-
-            "altoContraste",
-
-            "fonteLegivel",
-
-            "espacamento",
-
-            "reduzirAnimacoes",
-
-            "modoEscuro",
-
-            "destaqueFoco",
-
-            "textoMaior"
-
-        ];
-
-
-        campos.forEach(
-            function (nome) {
-
-                const campo =
-                    document.getElementById(
-                        nome
-                    );
-
-
-                if (campo) {
-
-                    campo.checked =
-                        Boolean(
-                            config[nome]
-                        );
-
-                }
-
-            }
-        );
-
-    }
-
-
-    // ==================================================
-    // API GLOBAL
-    // ==================================================
-
-    window.SmartInspectConfiguracoes = {
-
-        carregar: carregar,
-
-        salvar: salvar,
-
-        aplicar: aplicar,
-
-        restaurar:
-            restaurarConfiguracoes
-
+    definirValor("idioma", config.idioma);
+    definirMarcacao("modoEscuro", config.modoEscuro);
+    definirMarcacao("altoContraste", config.altoContraste);
+    definirMarcacao("sublinharLinks", config.sublinharLinks);
+    definirMarcacao("alertasVisuais", config.alertasVisuais !== false);
+    definirMarcacao("notificacoesTexto", config.notificacoesTexto !== false);
+    selecionarFonte(config.fonte);
+    aplicarConfiguracoes(config);
+  }
+
+  window.selecionarFonte = selecionarFonte;
+
+  window.salvarConfiguracoes = () => {
+    const config = {
+      idioma: document.getElementById("idioma")?.value || PADRAO.idioma,
+      modoEscuro: document.getElementById("modoEscuro")?.checked === true,
+      altoContraste: document.getElementById("altoContraste")?.checked === true,
+      sublinharLinks: document.getElementById("sublinharLinks")?.checked === true,
+      alertasVisuais: document.getElementById("alertasVisuais")?.checked !== false,
+      notificacoesTexto: document.getElementById("notificacoesTexto")?.checked !== false,
+      fonte: fonteSelecionada
     };
 
-
-    // ==================================================
-    // INICIALIZAÇÃO
-    // ==================================================
-
-    if (
-        document.readyState ===
-        "loading"
-    ) {
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            function () {
-
-                aplicar();
-
-                atualizarCampos();
-
-            }
-        );
-
+    salvarConfiguracoesNoStorage(config);
+    aplicarConfiguracoes(config);
+    const mensagem = document.getElementById("mensagemConfiguracao");
+    if (mensagem) {
+      mensagem.style.display = "block";
+      window.setTimeout(() => { mensagem.style.display = "none"; }, 3000);
     }
+  };
 
-    else {
+  window.restaurarConfiguracoes = () => {
+    if (!window.confirm("Deseja restaurar as configurações padrão?")) return;
+    salvarConfiguracoesNoStorage({ ...PADRAO });
+    preencherCampos(PADRAO);
+    window.alert("Configurações restauradas.");
+  };
 
-        aplicar();
+  window.SmartInspectConfiguracoes = {
+    carregar: lerConfiguracoes,
+    salvar: salvarConfiguracoesNoStorage,
+    aplicar: () => aplicarConfiguracoes(lerConfiguracoes()),
+    restaurar: window.restaurarConfiguracoes
+  };
 
-        atualizarCampos();
+  function iniciar() {
+    preencherCampos(lerConfiguracoes());
+  }
 
-    }
-
-
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", iniciar, { once: true });
+  } else {
+    iniciar();
+  }
 })();
-```
