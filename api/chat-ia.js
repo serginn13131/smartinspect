@@ -1,14 +1,24 @@
 
+// ==========================================
+// SMARTINSPECT AI
+// API DE INTELIGÊNCIA ARTIFICIAL
+// VERCEL + GROQ
+// ==========================================
+
 export default async function handler(req, res) {
 
     // ==========================================
-    // SOMENTE POST
+    // PERMITIR SOMENTE POST
     // ==========================================
 
     if (req.method !== "POST") {
 
         return res.status(405).json({
+
+            sucesso: false,
+
             erro: "Método não permitido."
+
         });
 
     }
@@ -17,7 +27,7 @@ export default async function handler(req, res) {
     try {
 
         // ==========================================
-        // VERIFICAR CHAVE
+        // PEGAR CHAVE DA VERCEL
         // ==========================================
 
         const apiKey =
@@ -26,10 +36,17 @@ export default async function handler(req, res) {
 
         if (!apiKey) {
 
+            console.error(
+                "GROQ_API_KEY não encontrada."
+            );
+
+
             return res.status(500).json({
 
+                sucesso: false,
+
                 erro:
-                    "GROQ_API_KEY não encontrada na Vercel."
+                    "A GROQ_API_KEY não está configurada na Vercel."
 
             });
 
@@ -37,16 +54,21 @@ export default async function handler(req, res) {
 
 
         // ==========================================
-        // MENSAGEM
+        // PEGAR MENSAGEM
         // ==========================================
 
         const mensagem =
             req.body?.mensagem;
 
 
-        if (!mensagem) {
+        if (
+            !mensagem ||
+            typeof mensagem !== "string"
+        ) {
 
             return res.status(400).json({
+
+                sucesso: false,
 
                 erro:
                     "Nenhuma mensagem foi enviada."
@@ -57,108 +79,171 @@ export default async function handler(req, res) {
 
 
         // ==========================================
-        // GROQ
+        // CHAMAR GROQ
         // ==========================================
 
-        const resposta = await fetch(
+        const resposta =
+            await fetch(
 
-            "https://api.groq.com/openai/v1/chat/completions",
+                "https://api.groq.com/openai/v1/chat/completions",
 
-            {
+                {
 
-                method: "POST",
+                    method: "POST",
 
-                headers: {
+                    headers: {
 
-                    "Authorization":
-                        `Bearer ${apiKey}`,
+                        "Authorization":
+                            `Bearer ${apiKey}`,
 
-                    "Content-Type":
-                        "application/json"
+                        "Content-Type":
+                            "application/json"
 
-                },
+                    },
 
-                body: JSON.stringify({
+                    body: JSON.stringify({
 
-                    model:
-                        "llama-3.3-70b-versatile",
+                        model:
+                            "llama-3.3-70b-versatile",
 
-                    messages: [
+                        temperature:
+                            0.3,
 
-                        {
+                        max_tokens:
+                            1200,
 
-                            role: "system",
+                        messages: [
 
-                            content:
-                                "Você é o SmartInspect AI, um especialista em construção civil. Responda em português do Brasil. Seja técnico, objetivo e organizado. Não invente normas técnicas."
+                            {
 
-                        },
+                                role: "system",
 
-                        {
+                                content: `
+Você é o SmartInspect AI.
 
-                            role: "user",
+Você é um assistente especializado em construção civil.
 
-                            content:
-                                mensagem
+Seu objetivo é auxiliar engenheiros,
+arquitetos, técnicos e inspetores.
 
-                        }
+Conhecimentos principais:
 
-                    ]
+- Inspeções prediais
+- Inspeções de obras
+- Patologias da construção
+- Fissuras
+- Trincas
+- Infiltrações
+- Umidade
+- Concreto
+- Estruturas
+- Alvenaria
+- Revestimentos
+- Instalações
+- Acabamentos
+- Manutenção predial
+- Materiais de construção
+- Segurança
+- Normas técnicas
 
-                })
+Responda sempre em português do Brasil.
 
-            }
+Seja técnico, claro e objetivo.
 
-        );
+Quando necessário, organize a resposta em:
+
+Causa provável
+Riscos
+Recomendação
+Próximos passos
+
+Não invente números de normas técnicas.
+
+Quando não tiver certeza de alguma informação,
+deixe isso claro.
+`
+
+                            },
+
+                            {
+
+                                role: "user",
+
+                                content:
+                                    mensagem
+
+                            }
+
+                        ]
+
+                    })
+
+                }
+
+            );
 
 
         // ==========================================
-        // LER RESPOSTA DA GROQ
+        // LER RESPOSTA
         // ==========================================
 
         const texto =
             await resposta.text();
 
 
-        let dados = null;
-
-
-        try {
-
-            dados =
-                JSON.parse(texto);
-
-        } catch {
-
-            dados = null;
-
-        }
+        console.log(
+            "Groq status:",
+            resposta.status
+        );
 
 
         // ==========================================
-        // GROQ DEU ERRO
+        // ERRO DA GROQ
         // ==========================================
 
         if (!resposta.ok) {
 
             console.error(
-                "ERRO GROQ:",
-                resposta.status,
+                "Erro Groq:",
                 texto
             );
+
+
+            let erroGroq =
+                texto;
+
+
+            try {
+
+                const jsonErro =
+                    JSON.parse(texto);
+
+
+                erroGroq =
+                    jsonErro?.error?.message ||
+                    texto;
+
+            }
+
+            catch {
+
+                // Mantém texto original
+
+            }
 
 
             return res.status(502).json({
 
                 sucesso: false,
 
+                erro:
+                    "A Groq recusou a solicitação.",
+
                 status_groq:
                     resposta.status,
 
                 erro_groq:
-                    dados?.error?.message ||
-                    texto ||
-                    "Erro desconhecido da Groq."
+                    erroGroq
 
             });
 
@@ -166,24 +251,59 @@ export default async function handler(req, res) {
 
 
         // ==========================================
-        // PEGAR RESPOSTA
+        // CONVERTER JSON
         // ==========================================
 
-        const respostaIA =
-            dados?.choices?.[0]?.message?.content;
+        let dados;
 
 
-        if (!respostaIA) {
+        try {
+
+            dados =
+                JSON.parse(texto);
+
+        }
+
+        catch {
 
             return res.status(502).json({
 
                 sucesso: false,
 
                 erro:
-                    "A Groq respondeu, mas não enviou o texto da IA.",
+                    "A Groq retornou uma resposta inválida."
 
-                resposta_groq:
-                    dados
+            });
+
+        }
+
+
+        // ==========================================
+        // PEGAR RESPOSTA DA IA
+        // ==========================================
+
+        const respostaIA =
+            dados
+                ?.choices
+                ?. [0]
+                ?.message
+                ?.content;
+
+
+        if (!respostaIA) {
+
+            console.error(
+                "Resposta inesperada da Groq:",
+                dados
+            );
+
+
+            return res.status(502).json({
+
+                sucesso: false,
+
+                erro:
+                    "A Groq não retornou uma resposta de texto."
 
             });
 
@@ -209,7 +329,7 @@ export default async function handler(req, res) {
     catch (erro) {
 
         console.error(
-            "ERRO API:",
+            "Erro interno da API:",
             erro
         );
 
@@ -220,7 +340,7 @@ export default async function handler(req, res) {
 
             erro:
                 erro?.message ||
-                String(erro)
+                "Erro interno no servidor."
 
         });
 
