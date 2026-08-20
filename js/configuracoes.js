@@ -1,4 +1,4 @@
-```javascript
+
 // ==========================================
 // SMARTINSPECT AI
 // CONFIGURAÇÕES DO USUÁRIO
