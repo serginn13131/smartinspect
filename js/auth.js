@@ -3,17 +3,31 @@
 // AUTENTICAÇÃO E PERMISSÕES
 // ======================================
 
+
+// ======================================
+// PEGAR USUÁRIO
+// ======================================
+
 function getUsuario() {
-    const usuario = localStorage.getItem("usuario");
+
+    const usuario =
+        localStorage.getItem("usuario");
 
     if (!usuario) {
         return null;
     }
 
     try {
+
         return JSON.parse(usuario);
+
     } catch (erro) {
-        console.error("Erro ao ler usuário:", erro);
+
+        console.error(
+            "Erro ao ler usuário:",
+            erro
+        );
+
         return null;
     }
 }
@@ -24,10 +38,15 @@ function getUsuario() {
 // ======================================
 
 function verificarLogin() {
-    const usuario = getUsuario();
+
+    const usuario =
+        getUsuario();
 
     if (!usuario) {
-        window.location.href = "login.html";
+
+        window.location.href =
+            "login.html";
+
         return false;
     }
 
@@ -39,9 +58,36 @@ function verificarLogin() {
 // SAIR
 // ======================================
 
-function sair() {
-    localStorage.removeItem("usuario");
-    window.location.href = "login.html";
+async function sair() {
+
+    try {
+
+        if (
+            typeof banco !== "undefined" &&
+            banco.auth
+        ) {
+
+            await banco.auth.signOut();
+
+        }
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao sair:",
+            erro
+        );
+
+    }
+
+
+    localStorage.removeItem(
+        "usuario"
+    );
+
+
+    window.location.href =
+        "login.html";
 }
 
 
@@ -51,57 +97,150 @@ function sair() {
 
 const permissoes = {
 
+    // ----------------------------------
+    // ADMINISTRADOR
+    // ----------------------------------
+
     adm: [
+
         "index",
+
         "obras",
+
         "imoveis",
+
         "criar",
+
         "usuarios",
+
         "inspecoes",
+
         "estoque",
+
         "ia",
+
         "detalhes_inspecao",
+
         "relatorios",
+
         "equipe",
-        "solicitacoes",
+
+        "suporte",
+
+        "atendimento",
+
         "notificacoes",
+
         "perfil"
+
     ],
+
+
+    // ----------------------------------
+    // ENGENHEIRO
+    // ----------------------------------
 
     engenheiro: [
+
         "index",
+
         "obras",
+
         "imoveis",
+
         "criar",
+
         "inspecoes",
+
         "estoque",
+
         "ia",
+
         "relatorios",
+
+        "equipe",
+
+        "suporte",
+
+        "notificacoes",
+
         "perfil"
+
     ],
+
+
+    // ----------------------------------
+    // INSPETOR
+    // ----------------------------------
 
     inspetor: [
+
         "index",
+
         "obras",
+
         "inspecoes",
+
         "ia",
+
         "relatorios",
+
+        "equipe",
+
+        "suporte",
+
+        "notificacoes",
+
         "perfil"
+
     ],
+
+
+    // ----------------------------------
+    // TÉCNICO
+    // ----------------------------------
 
     tecnico: [
+
         "index",
+
         "obras",
+
         "inspecoes",
+
         "estoque",
+
+        "equipe",
+
+        "suporte",
+
+        "notificacoes",
+
         "perfil"
+
     ],
 
+
+    // ----------------------------------
+    // USUÁRIO
+    // ----------------------------------
+
     usuario: [
+
         "index",
+
         "inspecoes",
+
+        "equipe",
+
+        "suporte",
+
+        "notificacoes",
+
         "perfil"
+
     ]
+
 };
 
 
@@ -111,21 +250,78 @@ const permissoes = {
 
 function temPermissao(pagina) {
 
-    const usuario = getUsuario();
+    const usuario =
+        getUsuario();
 
     if (!usuario) {
+
         return false;
+
     }
 
-    const cargo = usuario.nivel_acesso;
+
+    const cargo =
+        usuario.nivel_acesso;
+
 
     if (!permissoes[cargo]) {
-        console.warn("Cargo sem permissões:", cargo);
+
+        console.warn(
+            "Cargo sem permissões:",
+            cargo
+        );
+
         return false;
+
     }
 
-    return permissoes[cargo].includes(pagina);
+
+    return permissoes[cargo]
+        .includes(pagina);
+
 }
+
+
+// ======================================
+// MAPA DAS PÁGINAS
+// ======================================
+
+const paginasEspeciais = {
+
+    "movimentar_estoque":
+        "estoque",
+
+    "novo_imovel":
+        "imoveis",
+
+    "nova_obra":
+        "obras",
+
+    "nova_inspecao":
+        "inspecoes",
+
+    "novo_estoque":
+        "estoque",
+
+    "novo_relatorio":
+        "relatorios",
+
+    "detalhes_inspecao":
+        "detalhes_inspecao",
+
+    "usuarios":
+        "usuarios",
+
+    "suporte":
+        "suporte",
+
+    "atendimento":
+        "atendimento",
+
+    "notificacoes":
+        "notificacoes"
+
+};
 
 
 // ======================================
@@ -134,103 +330,198 @@ function temPermissao(pagina) {
 
 function controlarMenu() {
 
-    const links = document.querySelectorAll(".sidebar a");
+    const usuario =
+        getUsuario();
+
+    if (!usuario) {
+
+        return;
+
+    }
+
+
+    const links =
+        document.querySelectorAll(
+            ".sidebar a"
+        );
+
 
     links.forEach(link => {
 
-        const href = link.getAttribute("href");
+        let href =
+            link.getAttribute("href");
 
-        if (!href || href === "#") {
+
+        if (
+            !href ||
+            href === "#" ||
+            href.startsWith("javascript:")
+        ) {
+
             return;
+
         }
 
-        let pagina = href
-            .replace(".html", "")
-            .replace("#", "")
-            .trim();
+
+        let pagina =
+            href
+
+                .split("/")
+                .pop()
+
+                .replace(
+                    ".html",
+                    ""
+                )
+
+                .trim();
+
+
+        if (
+            paginasEspeciais[pagina]
+        ) {
+
+            pagina =
+                paginasEspeciais[pagina];
+
+        }
+
 
         if (
             pagina &&
             !temPermissao(pagina)
         ) {
-            link.style.display = "none";
+
+            link.style.display =
+                "none";
+
         }
 
     });
+
 }
-
-
-// ======================================
-// PÁGINAS INTERNAS
-// ======================================
-
-const paginasEspeciais = {
-
-    "movimentar_estoque": "estoque",
-    "novo_imovel": "imoveis",
-    "nova_obra": "obras",
-    "nova_inspecao": "inspecoes",
-    "novo_estoque": "estoque",
-    "novo_relatorio": "relatorios",
-    "usuarios": "usuarios",
-    "solicitacoes": "solicitacoes"
-};
 
 
 // ======================================
 // PROTEGER PÁGINA
 // ======================================
 
-function protegerPagina(pagina) {
+function protegerPagina(
+    pagina
+) {
 
-    const usuario = getUsuario();
+    const usuario =
+        getUsuario();
+
 
     if (!usuario) {
-        window.location.href = "login.html";
-        return false;
-    }
 
-    if (paginasEspeciais[pagina]) {
-        pagina = paginasEspeciais[pagina];
-    }
-
-    if (!temPermissao(pagina)) {
-
-        alert("❌ Você não tem permissão para acessar esta área");
-
-        window.location.href = "index.html";
+        window.location.href =
+            "login.html";
 
         return false;
+
     }
+
+
+    if (
+        paginasEspeciais[pagina]
+    ) {
+
+        pagina =
+            paginasEspeciais[pagina];
+
+    }
+
+
+    if (
+        !temPermissao(pagina)
+    ) {
+
+        alert(
+            "❌ Você não tem permissão para acessar esta área."
+        );
+
+
+        window.location.href =
+            "index.html";
+
+
+        return false;
+
+    }
+
 
     return true;
+
 }
 
 
 // ======================================
-// INICIALIZAÇÃO
+// INICIALIZAR PERMISSÕES
 // ======================================
 
-document.addEventListener("DOMContentLoaded", () => {
+function inicializarPermissoes() {
 
     controlarMenu();
 
-    const arquivoAtual = window.location.pathname
-        .split("/")
-        .pop();
 
-    const paginaAtual = arquivoAtual
-        .replace(".html", "")
-        .trim();
+    const arquivoAtual =
+        window.location.pathname
+            .split("/")
+            .pop();
+
+
+    const paginaAtual =
+        arquivoAtual
+            .replace(
+                ".html",
+                ""
+            )
+            .trim();
+
 
     if (
+
         paginaAtual !== "" &&
+
         paginaAtual !== "login" &&
+
         paginaAtual !== "cadastro"
+
     ) {
 
-        protegerPagina(paginaAtual);
+        protegerPagina(
+            paginaAtual
+        );
 
     }
 
-});
+}
+
+
+// ======================================
+// IMPORTANTE
+// SIDEBAR É CARREGADA DEPOIS
+// ======================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        /*
+         * A sidebar agora é carregada
+         * pelo sidebar.js.
+         *
+         * Por isso não tentamos
+         * controlar .sidebar antes
+         * dela existir.
+         */
+
+        setTimeout(
+            inicializarPermissoes,
+            300
+        );
+
+    }
+);
