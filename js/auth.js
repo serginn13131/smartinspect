@@ -1,363 +1,431 @@
-async function carregarSidebar() {
+```javascript
+// ======================================
+// SMARTINSPECT AI
+// AUTENTICAÇÃO E PERMISSÕES
+// ======================================
 
-    const menu =
-        document.querySelector(".menu-container");
 
-    if (!menu) return;
+// ======================================
+// PEGAR USUÁRIO
+// ======================================
 
+function getUsuario() {
+
+    const usuario =
+        localStorage.getItem("usuario");
+
+    if (!usuario) {
+        return null;
+    }
 
     try {
 
-        const resposta =
-            await fetch(
-                "componentes/sidebar.html"
-            );
+        return JSON.parse(usuario);
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao ler usuário:",
+            erro
+        );
+
+        return null;
+
+    }
+
+}
 
 
-        if (!resposta.ok) {
+// ======================================
+// VERIFICAR LOGIN
+// ======================================
 
-            console.error(
-                "Erro ao carregar sidebar:",
-                resposta.status
-            );
+function verificarLogin() {
+
+    const usuario =
+        getUsuario();
+
+    if (!usuario) {
+
+        window.location.href =
+            "login.html";
+
+        return false;
+
+    }
+
+    return true;
+
+}
+
+
+// ======================================
+// SAIR
+// ======================================
+
+function sair() {
+
+    localStorage.removeItem("usuario");
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+// ======================================
+// PERMISSÕES
+// ======================================
+
+const permissoes = {
+
+    // ==================================
+    // ADM
+    // ==================================
+
+    adm: [
+
+        "index",
+
+        "obras",
+
+        "imoveis",
+
+        "criar",
+
+        "usuarios",
+
+        "inspecoes",
+
+        "estoque",
+
+        "ia",
+
+        "detalhes_inspecao",
+
+        "relatorios",
+
+        "equipe",
+
+        "solicitacoes",
+
+        "notificacoes",
+
+        "perfil",
+
+        "configuracoes",
+
+        "atendimento"
+
+    ],
+
+
+    // ==================================
+    // ENGENHEIRO
+    // ==================================
+
+    engenheiro: [
+
+        "index",
+
+        "obras",
+
+        "imoveis",
+
+        "criar",
+
+        "inspecoes",
+
+        "estoque",
+
+        "ia",
+
+        "relatorios",
+
+        "perfil",
+
+        "configuracoes"
+
+    ],
+
+
+    // ==================================
+    // INSPETOR
+    // ==================================
+
+    inspetor: [
+
+        "index",
+
+        "obras",
+
+        "inspecoes",
+
+        "ia",
+
+        "relatorios",
+
+        "perfil",
+
+        "configuracoes"
+
+    ],
+
+
+    // ==================================
+    // TÉCNICO
+    // ==================================
+
+    tecnico: [
+
+        "index",
+
+        "obras",
+
+        "inspecoes",
+
+        "estoque",
+
+        "perfil",
+
+        "configuracoes"
+
+    ],
+
+
+    // ==================================
+    // USUÁRIO
+    // ==================================
+
+    usuario: [
+
+        "index",
+
+        "inspecoes",
+
+        "perfil",
+
+        "configuracoes"
+
+    ]
+
+};
+
+
+// ======================================
+// VERIFICAR PERMISSÃO
+// ======================================
+
+function temPermissao(pagina) {
+
+    const usuario =
+        getUsuario();
+
+    if (!usuario) {
+
+        return false;
+
+    }
+
+    const cargo =
+        usuario.nivel_acesso;
+
+    if (!permissoes[cargo]) {
+
+        console.warn(
+            "Cargo sem permissões:",
+            cargo
+        );
+
+        return false;
+
+    }
+
+    return permissoes[cargo]
+        .includes(pagina);
+
+}
+
+
+// ======================================
+// CONTROLAR MENU
+// ======================================
+
+function controlarMenu() {
+
+    const links =
+        document.querySelectorAll(
+            ".sidebar a"
+        );
+
+    links.forEach(link => {
+
+        const href =
+            link.getAttribute("href");
+
+        if (
+            !href ||
+            href === "#"
+        ) {
 
             return;
 
         }
 
-
-        const html =
-            await resposta.text();
-
-
-        menu.innerHTML =
-            html;
-
-
-        // ==========================================
-        // INICIALIZAR BADGES
-        // ==========================================
-
-        inicializarBadgesSidebar();
-
-
-        // ==========================================
-        // CONTROLAR MENU POR CARGO
-        // ==========================================
+        let pagina =
+            href
+                .replace(".html", "")
+                .replace("#", "")
+                .trim();
 
         if (
-            typeof controlarMenu === "function"
+            pagina &&
+            !temPermissao(pagina)
         ) {
+
+            link.style.display =
+                "none";
+
+        }
+
+    });
+
+}
+
+
+// ======================================
+// PÁGINAS ESPECIAIS
+// ======================================
+
+const paginasEspeciais = {
+
+    "movimentar_estoque":
+        "estoque",
+
+    "novo_imovel":
+        "imoveis",
+
+    "nova_obra":
+        "obras",
+
+    "nova_inspecao":
+        "inspecoes",
+
+    "novo_estoque":
+        "estoque",
+
+    "novo_relatorio":
+        "relatorios",
+
+    "usuarios":
+        "usuarios",
+
+    "solicitacoes":
+        "solicitacoes",
+
+    "atendimento":
+        "atendimento",
+
+    "configuracoes":
+        "configuracoes"
+
+};
+
+
+// ======================================
+// PROTEGER PÁGINA
+// ======================================
+
+function protegerPagina(pagina) {
+
+    const usuario =
+        getUsuario();
+
+    if (!usuario) {
+
+        window.location.href =
+            "login.html";
+
+        return false;
+
+    }
+
+    if (
+        paginasEspeciais[pagina]
+    ) {
+
+        pagina =
+            paginasEspeciais[pagina];
+
+    }
+
+    if (
+        !temPermissao(pagina)
+    ) {
+
+        alert(
+            "❌ Você não tem permissão para acessar esta área"
+        );
+
+        window.location.href =
+            "index.html";
+
+        return false;
+
+    }
+
+    return true;
+
+}
+
+
+// ======================================
+// INICIALIZAÇÃO
+// ======================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        /*
+         * A sidebar é carregada
+         * separadamente pelo sidebar.js.
+         *
+         * Por isso damos um pequeno
+         * tempo para ela aparecer.
+         */
+
+        setTimeout(() => {
 
             controlarMenu();
 
-        }
+        }, 300);
 
 
-    } catch (erro) {
-
-        console.error(
-            "Erro ao carregar sidebar:",
-            erro
-        );
-
-    }
-
-}
+        const arquivoAtual =
+            window.location.pathname
+                .split("/")
+                .pop();
 
 
-// ==========================================
-// INICIALIZAR BADGES
-// ==========================================
-
-function inicializarBadgesSidebar() {
-
-    carregarBadgeNotificacoes();
-
-    carregarBadgeEstoque();
-
-
-    // Atualiza a cada 30 segundos
-
-    setInterval(() => {
-
-        carregarBadgeNotificacoes();
-
-        carregarBadgeEstoque();
-
-    }, 30000);
-
-}
-
-
-// ==========================================
-// 🔔 NOTIFICAÇÕES
-// ==========================================
-
-async function carregarBadgeNotificacoes() {
-
-    const badge =
-        document.getElementById(
-            "badgeNotificacoes"
-        );
-
-
-    if (!badge) return;
-
-
-    try {
-
-        if (
-            typeof banco === "undefined"
-        ) {
-
-            return;
-
-        }
-
-
-        let usuario = null;
+        const paginaAtual =
+            arquivoAtual
+                .replace(".html", "")
+                .trim();
 
 
         if (
-            typeof getUsuario === "function"
+            paginaAtual !== "" &&
+            paginaAtual !== "login" &&
+            paginaAtual !== "cadastro"
         ) {
 
-            usuario =
-                getUsuario();
-
-        }
-
-
-        if (!usuario) {
-
-            badge.style.display =
-                "none";
-
-            return;
-
-        }
-
-
-        const {
-            count,
-            error
-        } = await banco
-
-            .from("notificacoes")
-
-            .select(
-                "id",
-                {
-                    count: "exact",
-                    head: true
-                }
-            )
-
-            .eq(
-                "usuario_id",
-                usuario.id
-            )
-
-            .eq(
-                "lida",
-                false
+            protegerPagina(
+                paginaAtual
             );
 
-
-        if (error) {
-
-            console.error(
-                "Erro ao contar notificações:",
-                error
-            );
-
-            return;
-
         }
-
-
-        atualizarBadge(
-            badge,
-            count || 0
-        );
-
-
-    } catch (erro) {
-
-        console.error(
-            "Erro no badge de notificações:",
-            erro
-        );
 
     }
-
-}
-
-
-// ==========================================
-// 📦 ESTOQUE
-// ==========================================
-
-async function carregarBadgeEstoque() {
-
-    const badge =
-        document.getElementById(
-            "badgeEstoque"
-        );
-
-
-    if (!badge) return;
-
-
-    try {
-
-        if (
-            typeof banco === "undefined"
-        ) {
-
-            return;
-
-        }
-
-
-        const {
-            data,
-            error
-        } = await banco
-
-            .from("estoque")
-
-            .select("*");
-
-
-        if (error) {
-
-            console.error(
-                "Erro ao consultar estoque:",
-                error
-            );
-
-            return;
-
-        }
-
-
-        if (!data) {
-
-            atualizarBadge(
-                badge,
-                0
-            );
-
-            return;
-
-        }
-
-
-        let quantidadeBaixo = 0;
-
-
-        data.forEach(item => {
-
-
-            const quantidade =
-                Number(
-
-                    item.quantidade ??
-                    item.estoque_atual ??
-                    item.estoque ??
-                    item.qtd ??
-                    0
-
-                );
-
-
-            const minimo =
-                Number(
-
-                    item.estoque_minimo ??
-                    item.quantidade_minima ??
-                    item.minimo ??
-                    item.estoque_min ??
-                    0
-
-                );
-
-
-            if (
-                minimo > 0 &&
-                quantidade <= minimo
-            ) {
-
-                quantidadeBaixo++;
-
-            }
-
-        });
-
-
-        atualizarBadge(
-            badge,
-            quantidadeBaixo
-        );
-
-
-    } catch (erro) {
-
-        console.error(
-            "Erro no badge de estoque:",
-            erro
-        );
-
-    }
-
-}
-
-
-// ==========================================
-// BADGE
-// ==========================================
-
-function atualizarBadge(
-    badge,
-    quantidade
-) {
-
-    if (!badge) return;
-
-
-    quantidade =
-        Number(quantidade) || 0;
-
-
-    if (quantidade <= 0) {
-
-        badge.style.display =
-            "none";
-
-        badge.textContent =
-            "";
-
-        return;
-
-    }
-
-
-    badge.textContent =
-        quantidade > 99
-            ? "99+"
-            : quantidade;
-
-
-    badge.style.display =
-        "inline-flex";
-
-}
-
-
-// ==========================================
-// INICIAR
-// ==========================================
-
-carregarSidebar();
+);
+```
