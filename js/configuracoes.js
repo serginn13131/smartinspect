@@ -1,46 +1,79 @@
-```javascript
-// ======================================================
+
+
+// ============================================================
 // SMARTINSPECT AI
-// CONFIGURAÇÕES GLOBAIS DE ACESSIBILIDADE
-// ======================================================
+// CONFIGURAÇÕES GLOBAIS
+// ============================================================
 
 (function () {
 
     "use strict";
 
-    const CHAVE = "smartinspect_configuracoes";
 
-    const PADRAO = {
-        fonte: "100",
-        tema: "claro",
-        contraste: false,
-        espaco: false,
+    // ========================================================
+    // CONFIGURAÇÕES PADRÃO
+    // ========================================================
+
+    const configuracoesPadrao = {
+
+        idioma: "pt-BR",
+
+        tamanhoFonte: "medio",
+
+        altoContraste: false,
+
         fonteLegivel: false,
-        animacoes: true,
-        foco: true,
-        acessibilidadeAuditiva: false
+
+        espacamento: false,
+
+        reduzirAnimacoes: false,
+
+        modoEscuro: false,
+
+        destaqueFoco: false,
+
+        textoMaior: false,
+
+        leitorTela: false
+
     };
 
 
-    // ==================================================
-    // LER CONFIGURAÇÕES
-    // ==================================================
+    // ========================================================
+    // PEGAR CONFIGURAÇÕES SALVAS
+    // ========================================================
 
     function obterConfiguracoes() {
 
         try {
 
             const salvo =
-                localStorage.getItem(CHAVE);
+                localStorage.getItem(
+                    "smartinspect_configuracoes"
+                );
+
 
             if (!salvo) {
-                return { ...PADRAO };
+
+                return {
+                    ...configuracoesPadrao
+                };
+
             }
 
+
+            const configuracoes =
+                JSON.parse(salvo);
+
+
             return {
-                ...PADRAO,
-                ...JSON.parse(salvo)
+
+                ...configuracoesPadrao,
+
+                ...configuracoes
+
             };
+
 
         } catch (erro) {
 
@@ -49,24 +82,40 @@
                 erro
             );
 
-            return { ...PADRAO };
+
+            return {
+                ...configuracoesPadrao
+            };
 
         }
 
     }
 
 
-    // ==================================================
-    // SALVAR CONFIGURAÇÕES
-    // ==================================================
+    // ========================================================
+    // CONFIGURAÇÕES ATUAIS
+    // ========================================================
 
-    function salvarConfiguracoesGlobais(config) {
+    let configuracoes =
+        obterConfiguracoes();
+
+
+    // ========================================================
+    // SALVAR
+    // ========================================================
+
+    function salvarConfiguracoesLocal() {
 
         try {
 
             localStorage.setItem(
-                CHAVE,
-                JSON.stringify(config)
+
+                "smartinspect_configuracoes",
+
+                JSON.stringify(
+                    configuracoes
+                )
+
             );
 
         } catch (erro) {
@@ -81,387 +130,605 @@
     }
 
 
-    // ==================================================
-    // CRIAR ESTILO GLOBAL
-    // ==================================================
-
-    function criarEstiloGlobal() {
-
-        if (
-            document.getElementById(
-                "smartinspect-acessibilidade"
-            )
-        ) {
-            return;
-        }
-
-
-        const style =
-            document.createElement("style");
-
-
-        style.id =
-            "smartinspect-acessibilidade";
-
-
-        style.innerHTML = `
-
-            /* =========================================
-               TAMANHO DA FONTE
-            ========================================= */
-
-            html {
-                font-size: var(--smartinspect-font-size, 100%);
-            }
-
-
-            /* =========================================
-               FONTE MAIS LEGÍVEL
-            ========================================= */
-
-            body.smart-fonte-legivel,
-            body.smart-fonte-legivel * {
-
-                font-family:
-                    Arial,
-                    Verdana,
-                    sans-serif !important;
-
-            }
-
-
-            /* =========================================
-               MODO ESCURO
-            ========================================= */
-
-            body.smart-tema-escuro {
-
-                background:#121212 !important;
-                color:#f1f1f1 !important;
-
-            }
-
-
-            body.smart-tema-escuro .card,
-            body.smart-tema-escuro .usuario-card,
-            body.smart-tema-escuro .resumo-card,
-            body.smart-tema-escuro .chamado,
-            body.smart-tema-escuro .config-card,
-            body.smart-tema-escuro .content,
-            body.smart-tema-escuro .main {
-
-                background:#1e1e1e !important;
-                color:#f1f1f1 !important;
-
-            }
-
-
-            body.smart-tema-escuro input,
-            body.smart-tema-escuro textarea,
-            body.smart-tema-escuro select {
-
-                background:#292929 !important;
-                color:#fff !important;
-                border-color:#555 !important;
-
-            }
-
-
-            body.smart-tema-escuro p,
-            body.smart-tema-escuro span,
-            body.smart-tema-escuro label {
-
-                color:#ddd;
-
-            }
-
-
-            /* =========================================
-               ALTO CONTRASTE
-            ========================================= */
-
-            body.smart-alto-contraste {
-
-                background:#000 !important;
-                color:#fff !important;
-
-            }
-
-
-            body.smart-alto-contraste * {
-
-                border-color:#fff !important;
-
-            }
-
-
-            body.smart-alto-contraste a {
-
-                color:#ffff00 !important;
-
-            }
-
-
-            body.smart-alto-contraste button {
-
-                background:#ffff00 !important;
-                color:#000 !important;
-
-            }
-
-
-            /* =========================================
-               ESPAÇAMENTO
-            ========================================= */
-
-            body.smart-espacamento * {
-
-                letter-spacing:.04em;
-
-                line-height:1.7;
-
-            }
-
-
-            /* =========================================
-               DESATIVAR ANIMAÇÕES
-            ========================================= */
-
-            body.smart-sem-animacoes *,
-            body.smart-sem-animacoes *::before,
-            body.smart-sem-animacoes *::after {
-
-                animation:none !important;
-                transition:none !important;
-                scroll-behavior:auto !important;
-
-            }
-
-
-            /* =========================================
-               FOCO PARA ACESSIBILIDADE
-            ========================================= */
-
-            body.smart-foco-acessivel
-            button:focus,
-            body.smart-foco-acessivel
-            a:focus,
-            body.smart-foco-acessivel
-            input:focus,
-            body.smart-foco-acessivel
-            select:focus,
-            body.smart-foco-acessivel
-            textarea:focus {
-
-                outline:
-                    3px solid #ffcc00 !important;
-
-                outline-offset:3px !important;
-
-            }
-
-
-            /* =========================================
-               AVISOS VISUAIS PARA ACESSIBILIDADE AUDITIVA
-            ========================================= */
-
-            #smartinspect-alerta-visual {
-
-                position:fixed;
-
-                top:20px;
-
-                right:20px;
-
-                z-index:999999;
-
-                background:#0066cc;
-
-                color:#fff;
-
-                padding:14px 18px;
-
-                border-radius:10px;
-
-                box-shadow:
-                    0 5px 20px rgba(0,0,0,.25);
-
-                display:none;
-
-                max-width:350px;
-
-                font-weight:bold;
-
-            }
-
-        `;
-
-
-        document.head.appendChild(style);
-
-    }
-
-
-    // ==================================================
+    // ========================================================
     // APLICAR CONFIGURAÇÕES
-    // ==================================================
+    // ========================================================
 
     function aplicarConfiguracoes() {
 
-        const config =
+        configuracoes =
             obterConfiguracoes();
 
 
-        criarEstiloGlobal();
-
+        const html =
+            document.documentElement;
 
         const body =
             document.body;
 
 
-        if (!body) {
+        if (!html || !body) {
+
             return;
+
         }
 
 
-        // ==========================================
-        // TAMANHO
-        // ==========================================
+        // ====================================================
+        // LIMPAR ESTADOS
+        // ====================================================
 
-        let tamanho =
-            Number(config.fonte);
+        html.classList.remove(
+            "smartinspect-contraste"
+        );
+
+        html.classList.remove(
+            "smartinspect-fonte-legivel"
+        );
+
+        html.classList.remove(
+            "smartinspect-espacamento"
+        );
+
+        html.classList.remove(
+            "smartinspect-sem-animacao"
+        );
+
+        html.classList.remove(
+            "smartinspect-modo-escuro"
+        );
+
+        html.classList.remove(
+            "smartinspect-foco"
+        );
 
 
-        if (!tamanho || tamanho < 75) {
-            tamanho = 75;
+        body.classList.remove(
+            "smartinspect-texto-maior"
+        );
+
+
+        // ====================================================
+        // TAMANHO DA FONTE
+        // ====================================================
+
+        html.classList.remove(
+            "fonte-pequena",
+            "fonte-media",
+            "fonte-grande",
+            "fonte-muito-grande"
+        );
+
+
+        switch (
+            configuracoes.tamanhoFonte
+        ) {
+
+            case "pequeno":
+
+                html.classList.add(
+                    "fonte-pequena"
+                );
+
+                break;
+
+
+            case "grande":
+
+                html.classList.add(
+                    "fonte-grande"
+                );
+
+                break;
+
+
+            case "muito-grande":
+
+                html.classList.add(
+                    "fonte-muito-grande"
+                );
+
+                break;
+
+
+            default:
+
+                html.classList.add(
+                    "fonte-media"
+                );
+
+                break;
+
         }
 
 
-        if (tamanho > 150) {
-            tamanho = 150;
-        }
+        // ====================================================
+        // TEXTO MAIOR
+        // ====================================================
 
+        if (
+            configuracoes.textoMaior
+        ) {
 
-        document.documentElement.style
-            .setProperty(
-                "--smartinspect-font-size",
-                tamanho + "%"
+            body.classList.add(
+                "smartinspect-texto-maior"
             );
 
-
-        // ==========================================
-        // TEMA
-        // ==========================================
-
-        body.classList.toggle(
-            "smart-tema-escuro",
-            config.tema === "escuro"
-        );
+        }
 
 
-        // ==========================================
-        // CONTRASTE
-        // ==========================================
+        // ====================================================
+        // ALTO CONTRASTE
+        // ====================================================
 
-        body.classList.toggle(
-            "smart-alto-contraste",
-            config.contraste === true
-        );
+        if (
+            configuracoes.altoContraste
+        ) {
 
+            html.classList.add(
+                "smartinspect-contraste"
+            );
 
-        // ==========================================
-        // ESPAÇAMENTO
-        // ==========================================
-
-        body.classList.toggle(
-            "smart-espacamento",
-            config.espaco === true
-        );
+        }
 
 
-        // ==========================================
+        // ====================================================
         // FONTE LEGÍVEL
-        // ==========================================
+        // ====================================================
 
-        body.classList.toggle(
-            "smart-fonte-legivel",
-            config.fonteLegivel === true
-        );
+        if (
+            configuracoes.fonteLegivel
+        ) {
 
+            html.classList.add(
+                "smartinspect-fonte-legivel"
+            );
 
-        // ==========================================
-        // ANIMAÇÕES
-        // ==========================================
-
-        body.classList.toggle(
-            "smart-sem-animacoes",
-            config.animacoes === false
-        );
+        }
 
 
-        // ==========================================
-        // FOCO
-        // ==========================================
+        // ====================================================
+        // ESPAÇAMENTO
+        // ====================================================
 
-        body.classList.toggle(
-            "smart-foco-acessivel",
-            config.foco !== false
+        if (
+            configuracoes.espacamento
+        ) {
+
+            html.classList.add(
+                "smartinspect-espacamento"
+            );
+
+        }
+
+
+        // ====================================================
+        // REDUZIR ANIMAÇÕES
+        // ====================================================
+
+        if (
+            configuracoes.reduzirAnimacoes
+        ) {
+
+            html.classList.add(
+                "smartinspect-sem-animacao"
+            );
+
+        }
+
+
+        // ====================================================
+        // MODO ESCURO
+        // ====================================================
+
+        if (
+            configuracoes.modoEscuro
+        ) {
+
+            html.classList.add(
+                "smartinspect-modo-escuro"
+            );
+
+        }
+
+
+        // ====================================================
+        // DESTAQUE DE FOCO
+        // ====================================================
+
+        if (
+            configuracoes.destaqueFoco
+        ) {
+
+            html.classList.add(
+                "smartinspect-foco"
+            );
+
+        }
+
+
+        // ====================================================
+        // IDIOMA
+        // ====================================================
+
+        html.setAttribute(
+            "lang",
+            configuracoes.idioma || "pt-BR"
         );
 
     }
 
 
-    // ==================================================
-    // FUNÇÃO PÚBLICA
-    // ==================================================
+    // ========================================================
+    // ALTERAR UMA CONFIGURAÇÃO
+    // ========================================================
 
-    window.SmartInspectConfiguracoes = {
+    function alterarConfiguracao(
+        nome,
+        valor
+    ) {
 
-        obter: obterConfiguracoes,
-
-        salvar: function (novasConfiguracoes) {
-
-            const atual =
-                obterConfiguracoes();
+        configuracoes =
+            obterConfiguracoes();
 
 
-            const novas = {
+        configuracoes[nome] =
+            valor;
 
-                ...atual,
 
-                ...novasConfiguracoes
+        salvarConfiguracoesLocal();
+
+
+        aplicarConfiguracoes();
+
+
+        // Dispara evento para outras partes
+        // do sistema perceberem a alteração
+
+        window.dispatchEvent(
+            new CustomEvent(
+                "smartinspect-configuracao-alterada",
+                {
+                    detail: configuracoes
+                }
+            )
+        );
+
+    }
+
+
+    // ========================================================
+    // PEGAR UMA CONFIGURAÇÃO
+    // ========================================================
+
+    function obterConfiguracao(
+        nome
+    ) {
+
+        const atual =
+            obterConfiguracoes();
+
+
+        return atual[nome];
+
+    }
+
+
+    // ========================================================
+    // SALVAR CONFIGURAÇÕES
+    // ========================================================
+
+    window.salvarConfiguracoes =
+        function () {
+
+            const idioma =
+                document.getElementById(
+                    "idioma"
+                );
+
+
+            const tamanhoFonte =
+                document.getElementById(
+                    "tamanhoFonte"
+                );
+
+
+            const altoContraste =
+                document.getElementById(
+                    "altoContraste"
+                );
+
+
+            const fonteLegivel =
+                document.getElementById(
+                    "fonteLegivel"
+                );
+
+
+            const espacamento =
+                document.getElementById(
+                    "espacamento"
+                );
+
+
+            const reduzirAnimacoes =
+                document.getElementById(
+                    "reduzirAnimacoes"
+                );
+
+
+            const modoEscuro =
+                document.getElementById(
+                    "modoEscuro"
+                );
+
+
+            const destaqueFoco =
+                document.getElementById(
+                    "destaqueFoco"
+                );
+
+
+            const textoMaior =
+                document.getElementById(
+                    "textoMaior"
+                );
+
+
+            if (idioma) {
+
+                configuracoes.idioma =
+                    idioma.value;
+
+            }
+
+
+            if (tamanhoFonte) {
+
+                configuracoes.tamanhoFonte =
+                    tamanhoFonte.value;
+
+            }
+
+
+            if (altoContraste) {
+
+                configuracoes.altoContraste =
+                    altoContraste.checked;
+
+            }
+
+
+            if (fonteLegivel) {
+
+                configuracoes.fonteLegivel =
+                    fonteLegivel.checked;
+
+            }
+
+
+            if (espacamento) {
+
+                configuracoes.espacamento =
+                    espacamento.checked;
+
+            }
+
+
+            if (reduzirAnimacoes) {
+
+                configuracoes.reduzirAnimacoes =
+                    reduzirAnimacoes.checked;
+
+            }
+
+
+            if (modoEscuro) {
+
+                configuracoes.modoEscuro =
+                    modoEscuro.checked;
+
+            }
+
+
+            if (destaqueFoco) {
+
+                configuracoes.destaqueFoco =
+                    destaqueFoco.checked;
+
+            }
+
+
+            if (textoMaior) {
+
+                configuracoes.textoMaior =
+                    textoMaior.checked;
+
+            }
+
+
+            salvarConfiguracoesLocal();
+
+
+            aplicarConfiguracoes();
+
+
+            alert(
+                "✅ Configurações salvas com sucesso!"
+            );
+
+
+        };
+
+
+    // ========================================================
+    // RESETAR
+    // ========================================================
+
+    window.restaurarConfiguracoes =
+        function () {
+
+
+            const confirmar =
+                confirm(
+                    "Deseja restaurar todas as configurações padrão?"
+                );
+
+
+            if (!confirmar) {
+
+                return;
+
+            }
+
+
+            configuracoes = {
+
+                ...configuracoesPadrao
 
             };
 
 
-            salvarConfiguracoesGlobais(
-                novas
-            );
+            salvarConfiguracoesLocal();
 
 
             aplicarConfiguracoes();
 
-        },
 
-        aplicar:
-            aplicarConfiguracoes,
+            // Atualizar controles da página
 
-        restaurar: function () {
+            atualizarControles();
 
-            salvarConfiguracoesGlobais(
-                { ...PADRAO }
+
+            alert(
+                "✅ Configurações restauradas!"
             );
+
+        };
+
+
+    // ========================================================
+    // ATUALIZAR CONTROLES
+    // ========================================================
+
+    function atualizarControles() {
+
+
+        const idioma =
+            document.getElementById(
+                "idioma"
+            );
+
+
+        const tamanhoFonte =
+            document.getElementById(
+                "tamanhoFonte"
+            );
+
+
+        if (idioma) {
+
+            idioma.value =
+                configuracoes.idioma;
+
+        }
+
+
+        if (tamanhoFonte) {
+
+            tamanhoFonte.value =
+                configuracoes.tamanhoFonte;
+
+        }
+
+
+        const controles = {
+
+            altoContraste:
+                configuracoes.altoContraste,
+
+            fonteLegivel:
+                configuracoes.fonteLegivel,
+
+            espacamento:
+                configuracoes.espacamento,
+
+            reduzirAnimacoes:
+                configuracoes.reduzirAnimacoes,
+
+            modoEscuro:
+                configuracoes.modoEscuro,
+
+            destaqueFoco:
+                configuracoes.destaqueFoco,
+
+            textoMaior:
+                configuracoes.textoMaior
+
+        };
+
+
+        Object.keys(controles)
+            .forEach(
+                nome => {
+
+                    const elemento =
+                        document.getElementById(
+                            nome
+                        );
+
+
+                    if (elemento) {
+
+                        elemento.checked =
+                            controles[nome];
+
+                    }
+
+                }
+            );
+
+    }
+
+
+    // ========================================================
+    // MUDANÇA DE PÁGINA
+    // ========================================================
+
+    window.addEventListener(
+        "pageshow",
+        function () {
 
             aplicarConfiguracoes();
 
         }
+    );
 
-    };
+
+    // ========================================================
+    // OUTRA ABA ALTEROU CONFIGURAÇÕES
+    // ========================================================
+
+    window.addEventListener(
+        "storage",
+        function (evento) {
+
+            if (
+                evento.key ===
+                "smartinspect_configuracoes"
+            ) {
+
+                aplicarConfiguracoes();
+
+            }
+
+        }
+    );
 
 
-    // ==================================================
-    // APLICAR AUTOMATICAMENTE
-    // ==================================================
+    // ========================================================
+    // INICIALIZAR
+    // ========================================================
 
     if (
         document.readyState ===
@@ -470,14 +737,46 @@
 
         document.addEventListener(
             "DOMContentLoaded",
-            aplicarConfiguracoes
+            function () {
+
+                aplicarConfiguracoes();
+
+                atualizarControles();
+
+            }
         );
 
     } else {
 
         aplicarConfiguracoes();
 
+        atualizarControles();
+
     }
+
+
+    // ========================================================
+    // DISPONIBILIZAR FUNÇÕES
+    // ========================================================
+
+    window.SmartInspectConfiguracoes = {
+
+        obter:
+            obterConfiguracoes,
+
+        obterConfiguracao:
+            obterConfiguracao,
+
+        alterar:
+            alterarConfiguracao,
+
+        aplicar:
+            aplicarConfiguracoes,
+
+        restaurar:
+            restaurarConfiguracoes
+
+    };
 
 
 })();
