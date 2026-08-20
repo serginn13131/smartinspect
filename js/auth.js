@@ -132,6 +132,7 @@ const permissoes = {
         "notificacoes",
 
         "perfil"
+        "configuracoes"
 
     ],
 
