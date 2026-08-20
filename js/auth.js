@@ -3,17 +3,33 @@
 // AUTENTICAÇÃO E PERMISSÕES
 // ======================================
 
+
+// ======================================
+// PEGAR USUÁRIO
+// ======================================
+
 function getUsuario() {
-    const usuario = localStorage.getItem("usuario");
+
+    const usuario =
+        localStorage.getItem("usuario");
 
     if (!usuario) {
         return null;
     }
 
     try {
+
         return JSON.parse(usuario);
+
     } catch (erro) {
-        console.error("Erro ao ler usuário:", erro);
+
+        console.error(
+            "Erro ao ler usuário:",
+            erro
+        );
+
+        localStorage.removeItem("usuario");
+
         return null;
     }
 }
@@ -24,10 +40,14 @@ function getUsuario() {
 // ======================================
 
 function verificarLogin() {
+
     const usuario = getUsuario();
 
     if (!usuario) {
-        window.location.href = "login.html";
+
+        window.location.href =
+            "login.html";
+
         return false;
     }
 
@@ -40,8 +60,11 @@ function verificarLogin() {
 // ======================================
 
 function sair() {
+
     localStorage.removeItem("usuario");
-    window.location.href = "login.html";
+
+    window.location.href =
+        "login.html";
 }
 
 
@@ -65,7 +88,10 @@ const permissoes = {
         "equipe",
         "solicitacoes",
         "notificacoes",
-        "perfil"
+        "perfil",
+        "suporte",
+        "atendimento",
+        "configuracoes"
     ],
 
     engenheiro: [
@@ -77,8 +103,10 @@ const permissoes = {
         "estoque",
         "ia",
         "relatorios",
-        "perfil"
-                "configuracoes"
+        "perfil",
+        "notificacoes",
+        "suporte",
+        "configuracoes"
     ],
 
     inspetor: [
@@ -87,7 +115,10 @@ const permissoes = {
         "inspecoes",
         "ia",
         "relatorios",
-        "perfil"
+        "perfil",
+        "notificacoes",
+        "suporte",
+        "configuracoes"
     ],
 
     tecnico: [
@@ -95,14 +126,21 @@ const permissoes = {
         "obras",
         "inspecoes",
         "estoque",
-        "perfil"
+        "perfil",
+        "notificacoes",
+        "suporte",
+        "configuracoes"
     ],
 
     usuario: [
         "index",
         "inspecoes",
-        "perfil"
+        "perfil",
+        "notificacoes",
+        "suporte",
+        "configuracoes"
     ]
+
 };
 
 
@@ -118,14 +156,22 @@ function temPermissao(pagina) {
         return false;
     }
 
-    const cargo = usuario.nivel_acesso;
+    const cargo =
+        usuario.nivel_acesso;
 
     if (!permissoes[cargo]) {
-        console.warn("Cargo sem permissões:", cargo);
+
+        console.warn(
+            "Cargo sem permissões:",
+            cargo
+        );
+
         return false;
     }
 
-    return permissoes[cargo].includes(pagina);
+    return permissoes[cargo].includes(
+        pagina
+    );
 }
 
 
@@ -135,26 +181,36 @@ function temPermissao(pagina) {
 
 function controlarMenu() {
 
-    const links = document.querySelectorAll(".sidebar a");
+    const links =
+        document.querySelectorAll(
+            ".sidebar a"
+        );
 
     links.forEach(link => {
 
-        const href = link.getAttribute("href");
+        const href =
+            link.getAttribute("href");
 
-        if (!href || href === "#") {
+        if (
+            !href ||
+            href === "#"
+        ) {
             return;
         }
 
-        let pagina = href
-            .replace(".html", "")
-            .replace("#", "")
-            .trim();
+        let pagina =
+            href
+                .replace(".html", "")
+                .replace("#", "")
+                .trim();
 
         if (
             pagina &&
             !temPermissao(pagina)
         ) {
-            link.style.display = "none";
+
+            link.style.display =
+                "none";
         }
 
     });
@@ -162,19 +218,41 @@ function controlarMenu() {
 
 
 // ======================================
-// PÁGINAS INTERNAS
+// PÁGINAS ESPECIAIS
 // ======================================
 
 const paginasEspeciais = {
 
-    "movimentar_estoque": "estoque",
-    "novo_imovel": "imoveis",
-    "nova_obra": "obras",
-    "nova_inspecao": "inspecoes",
-    "novo_estoque": "estoque",
-    "novo_relatorio": "relatorios",
-    "usuarios": "usuarios",
-    "solicitacoes": "solicitacoes"
+    "movimentar_estoque":
+        "estoque",
+
+    "novo_imovel":
+        "imoveis",
+
+    "nova_obra":
+        "obras",
+
+    "nova_inspecao":
+        "inspecoes",
+
+    "novo_estoque":
+        "estoque",
+
+    "novo_relatorio":
+        "relatorios",
+
+    "usuarios":
+        "usuarios",
+
+    "solicitacoes":
+        "solicitacoes",
+
+    "suporte_admin":
+        "atendimento",
+
+    "atendimento":
+        "atendimento"
+
 };
 
 
@@ -184,22 +262,35 @@ const paginasEspeciais = {
 
 function protegerPagina(pagina) {
 
-    const usuario = getUsuario();
+    const usuario =
+        getUsuario();
 
     if (!usuario) {
-        window.location.href = "login.html";
+
+        window.location.href =
+            "login.html";
+
         return false;
     }
 
-    if (paginasEspeciais[pagina]) {
-        pagina = paginasEspeciais[pagina];
+    if (
+        paginasEspeciais[pagina]
+    ) {
+
+        pagina =
+            paginasEspeciais[pagina];
     }
 
-    if (!temPermissao(pagina)) {
+    if (
+        !temPermissao(pagina)
+    ) {
 
-        alert("❌ Você não tem permissão para acessar esta área");
+        alert(
+            "❌ Você não tem permissão para acessar esta área."
+        );
 
-        window.location.href = "index.html";
+        window.location.href =
+            "index.html";
 
         return false;
     }
@@ -212,26 +303,32 @@ function protegerPagina(pagina) {
 // INICIALIZAÇÃO
 // ======================================
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-    controlarMenu();
+        controlarMenu();
 
-    const arquivoAtual = window.location.pathname
-        .split("/")
-        .pop();
+        const arquivoAtual =
+            window.location.pathname
+                .split("/")
+                .pop();
 
-    const paginaAtual = arquivoAtual
-        .replace(".html", "")
-        .trim();
+        const paginaAtual =
+            arquivoAtual
+                .replace(".html", "")
+                .trim();
 
-    if (
-        paginaAtual !== "" &&
-        paginaAtual !== "login" &&
-        paginaAtual !== "cadastro"
-    ) {
+        if (
+            paginaAtual !== "" &&
+            paginaAtual !== "login" &&
+            paginaAtual !== "cadastro"
+        ) {
 
-        protegerPagina(paginaAtual);
+            protegerPagina(
+                paginaAtual
+            );
+        }
 
     }
-
-});
+);
