@@ -1,5 +1,5 @@
-```html
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 
 <head>
@@ -19,85 +19,63 @@
 
 body{
     margin:0;
-    transition:
-        background .2s,
-        color .2s;
+    font-family:Arial,sans-serif;
+    background:#f5f7fa;
 }
 
-.conteudo-config{
-
+.content{
     margin-left:260px;
     padding:30px;
-    max-width:1100px;
-
+    min-height:100vh;
 }
 
-.cabecalho-config{
+.configuracoes-container{
+    max-width:1000px;
+    margin:auto;
+}
+
+.cabecalho{
     margin-bottom:25px;
 }
 
-.cabecalho-config h1{
+.cabecalho h1{
     margin:0;
-    font-size:28px;
+    font-size:30px;
 }
 
-.cabecalho-config p{
+.cabecalho p{
     color:#666;
     margin-top:8px;
 }
 
-
-/* ==============================
-   CARDS
-============================== */
-
 .config-card{
-
     background:white;
-    border-radius:15px;
-    padding:22px;
+    border-radius:16px;
+    padding:24px;
     margin-bottom:20px;
-
-    box-shadow:
-        0 4px 15px rgba(0,0,0,.08);
-
+    box-shadow:0 4px 15px rgba(0,0,0,.07);
 }
 
 .config-card h2{
-
-    margin:0 0 6px;
+    margin:0 0 8px;
     font-size:20px;
-
 }
 
 .config-card > p{
-
-    margin-top:0;
     color:#777;
-    font-size:14px;
-
+    margin-bottom:20px;
 }
 
-
-/* ==============================
-   OPÇÕES
-============================== */
-
-.config-opcao{
-
+.config-item{
     display:flex;
     justify-content:space-between;
     align-items:center;
-
     gap:20px;
-
     padding:17px 0;
-
     border-bottom:1px solid #eee;
-
 }
 
-.config-opcao:last-child{
+.config-item:last-child{
     border-bottom:none;
 }
 
@@ -108,6 +86,7 @@ body{
 .config-info strong{
     display:block;
     margin-bottom:5px;
+    font-size:16px;
 }
 
 .config-info span{
@@ -115,347 +94,228 @@ body{
     font-size:13px;
 }
 
-
-/* ==============================
-   SELECT
-============================== */
-
-.config-select{
-
+.config-item select{
     min-width:180px;
-
-    padding:10px 12px;
-
-    border:1px solid #ccc;
-
+    padding:10px;
+    border:1px solid #ddd;
     border-radius:8px;
-
     background:white;
-
     font-size:14px;
-
 }
 
-
-/* ==============================
-   SWITCH
-============================== */
-
 .switch{
-
     position:relative;
-
     width:52px;
     height:28px;
-
     flex-shrink:0;
-
 }
 
 .switch input{
-
     opacity:0;
     width:0;
     height:0;
-
 }
 
 .slider{
-
     position:absolute;
-
     inset:0;
-
     background:#ccc;
-
     border-radius:30px;
-
     cursor:pointer;
-
     transition:.2s;
-
 }
 
 .slider:before{
-
     content:"";
-
     position:absolute;
-
     width:22px;
     height:22px;
-
     left:3px;
     top:3px;
-
     background:white;
-
     border-radius:50%;
-
     transition:.2s;
-
-    box-shadow:0 1px 4px #0003;
-
 }
 
 .switch input:checked + .slider{
-
     background:#0066cc;
-
 }
 
 .switch input:checked + .slider:before{
-
     transform:translateX(24px);
-
 }
 
-
-/* ==============================
-   ACESSIBILIDADE
-============================== */
-
-.acessibilidade{
-
-    border-left:5px solid #0066cc;
-
+.tamanhos{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
 }
 
-
-/* ==============================
-   AVISO AUDITIVO
-============================== */
-
-.aviso-acessibilidade{
-
-    background:#eaf4ff;
-
-    border-radius:10px;
-
-    padding:15px;
-
-    margin-top:15px;
-
-    color:#084298;
-
-    font-size:14px;
-
+.btn-tamanho{
+    border:1px solid #ccc;
+    background:white;
+    padding:9px 15px;
+    border-radius:8px;
+    cursor:pointer;
 }
 
+.btn-tamanho:hover{
+    border-color:#0066cc;
+}
 
-/* ==============================
-   BOTÃO
-============================== */
+.btn-tamanho.ativo{
+    background:#0066cc;
+    color:white;
+    border-color:#0066cc;
+}
+
+.acoes{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    border:none;
+    border-radius:9px;
+    padding:12px 20px;
+    font-weight:bold;
+    cursor:pointer;
+}
 
 .btn-salvar{
-
-    background:#0066cc;
-
+    background:#198754;
     color:white;
-
-    border:none;
-
-    border-radius:9px;
-
-    padding:12px 20px;
-
-    font-weight:bold;
-
-    cursor:pointer;
-
 }
 
 .btn-salvar:hover{
-    background:#0055aa;
+    background:#146c43;
 }
 
-
-/* ==============================
-   MENSAGEM
-============================== */
-
-.mensagem-config{
-
-    display:none;
-
-    margin-top:15px;
-
-    padding:12px;
-
-    border-radius:8px;
-
-    background:#d1e7dd;
-
-    color:#0f5132;
-
-    font-weight:bold;
-
-}
-
-
-/* ==============================
-   MODO ESCURO
-============================== */
-
-body.tema-escuro{
-
-    background:#121212;
-    color:#eee;
-
-}
-
-body.tema-escuro .config-card{
-
-    background:#1e1e1e;
-    color:#eee;
-
-}
-
-body.tema-escuro .config-info span,
-body.tema-escuro .cabecalho-config p{
-
-    color:#bbb;
-
-}
-
-body.tema-escuro .config-opcao{
-
-    border-color:#333;
-
-}
-
-body.tema-escuro .config-select{
-
-    background:#2a2a2a;
+.btn-restaurar{
+    background:#6c757d;
     color:white;
-    border-color:#555;
-
 }
 
+.btn-restaurar:hover{
+    background:#565e64;
+}
 
-/* ==============================
-   ALTO CONTRASTE
-============================== */
+.mensagem{
+    display:none;
+    margin-top:15px;
+    padding:12px;
+    border-radius:8px;
+    background:#d1e7dd;
+    color:#0f5132;
+}
+
+.acessibilidade-info{
+    background:#eef6ff;
+    border-left:4px solid #0066cc;
+    padding:15px;
+    border-radius:8px;
+    color:#444;
+    line-height:1.6;
+}
+
+/* ======================================
+   CONFIGURAÇÕES APLICADAS
+====================================== */
+
+body.fonte-pequena{
+    font-size:90%;
+}
+
+body.fonte-media{
+    font-size:100%;
+}
+
+body.fonte-grande{
+    font-size:115%;
+}
+
+body.fonte-muito-grande{
+    font-size:130%;
+}
 
 body.alto-contraste{
-
     background:#000 !important;
     color:#fff !important;
-
 }
 
 body.alto-contraste .config-card{
-
-    background:#000 !important;
+    background:#111 !important;
     color:#fff !important;
-
-    border:2px solid #fff;
-
+    border:1px solid #fff;
 }
 
 body.alto-contraste .config-info span,
-body.alto-contraste .cabecalho-config p{
-
+body.alto-contraste .cabecalho p,
+body.alto-contraste .config-card > p{
     color:#fff !important;
-
 }
 
-
-/* ==============================
-   FONTE
-============================== */
-
-body.fonte-grande{
-    font-size:18px;
+body.alto-contraste select,
+body.alto-contraste .btn-tamanho{
+    background:#000;
+    color:#fff;
+    border-color:#fff;
 }
 
-body.fonte-extra-grande{
-    font-size:21px;
+body.sublinhar-links a{
+    text-decoration:underline !important;
 }
 
-
-/* ==============================
-   REDUZIR ANIMAÇÕES
-============================== */
-
-body.reduzir-animacoes *,
-body.reduzir-animacoes *::before,
-body.reduzir-animacoes *::after{
-
-    animation-duration:0.01ms !important;
-    animation-iteration-count:1 !important;
-
-    transition-duration:0.01ms !important;
-
-    scroll-behavior:auto !important;
-
+body.modo-escuro{
+    background:#121212 !important;
+    color:#eee;
 }
 
-
-/* ==============================
-   ALERTA VISUAL
-============================== */
-
-.alerta-visual{
-
-    position:fixed;
-
-    top:20px;
-    right:20px;
-
-    z-index:99999;
-
-    background:#0066cc;
-
-    color:white;
-
-    padding:15px 20px;
-
-    border-radius:10px;
-
-    box-shadow:0 5px 20px #0004;
-
-    display:none;
-
-    font-weight:bold;
-
+body.modo-escuro .config-card{
+    background:#1e1e1e;
+    color:#eee;
 }
 
+body.modo-escuro .config-info span,
+body.modo-escuro .cabecalho p,
+body.modo-escuro .config-card > p{
+    color:#bbb;
+}
 
-/* ==============================
+body.modo-escuro select,
+body.modo-escuro .btn-tamanho{
+    background:#292929;
+    color:#fff;
+    border-color:#555;
+}
+
+/* ======================================
    RESPONSIVO
-============================== */
+====================================== */
 
-@media(max-width:900px){
+@media(max-width:800px){
 
-    .conteudo-config{
-
+    .content{
         margin-left:0;
         padding:20px;
-
     }
 
-}
-
-@media(max-width:600px){
-
-    .conteudo-config{
-
-        padding:12px;
-
-    }
-
-    .config-opcao{
-
-        align-items:flex-start;
+    .config-item{
         flex-direction:column;
-
+        align-items:flex-start;
     }
 
-    .config-select{
-
+    .config-item select{
         width:100%;
+    }
 
+    .tamanhos{
+        width:100%;
+    }
+
+    .btn-tamanho{
+        flex:1;
     }
 
 }
@@ -464,436 +324,344 @@ body.reduzir-animacoes *::after{
 
 </head>
 
-
 <body>
-
 
 <!-- SIDEBAR -->
 
 <div class="menu-container"></div>
 
-
-<!-- ALERTA VISUAL -->
-
-<div
-    id="alertaVisual"
-    class="alerta-visual"
->
-    🔔 Nova notificação
-</div>
-
-
 <!-- CONTEÚDO -->
 
-<div class="conteudo-config">
+<div class="content">
 
+<div class="configuracoes-container">
 
-    <div class="cabecalho-config">
+<div class="cabecalho">
 
-        <h1>
-            ⚙️ Configurações
-        </h1>
+<h1>⚙️ Configurações</h1>
 
-        <p>
-            Personalize o SmartInspect AI de acordo com suas preferências.
-        </p>
-
-    </div>
-
-
-    <!-- =========================
-         APARÊNCIA
-    ========================== -->
-
-    <div class="config-card">
-
-        <h2>
-            🎨 Aparência
-        </h2>
-
-        <p>
-            Personalize a aparência do sistema.
-        </p>
-
-
-        <div class="config-opcao">
-
-            <div class="config-info">
-
-                <strong>
-                    🌙 Tema
-                </strong>
-
-                <span>
-                    Escolha como o sistema será exibido.
-                </span>
-
-            </div>
-
-
-            <select
-                id="tema"
-                class="config-select"
-            >
-
-                <option value="claro">
-                    ☀️ Claro
-                </option>
-
-                <option value="escuro">
-                    🌙 Escuro
-                </option>
-
-                <option value="automatico">
-                    💻 Automático
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <div class="config-opcao">
-
-            <div class="config-info">
-
-                <strong>
-                    🔤 Tamanho da fonte
-                </strong>
-
-                <span>
-                    Ajuste o tamanho dos textos.
-                </span>
-
-            </div>
-
-
-            <select
-                id="fonte"
-                class="config-select"
-            >
-
-                <option value="normal">
-                    Normal
-                </option>
-
-                <option value="grande">
-                    Grande
-                </option>
-
-                <option value="extra-grande">
-                    Extra grande
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <div class="config-opcao">
-
-            <div class="config-info">
-
-                <strong>
-                    ✨ Reduzir animações
-                </strong>
-
-                <span>
-                    Reduz efeitos e movimentos da interface.
-                </span>
-
-            </div>
-
-
-            <label class="switch">
-
-                <input
-                    type="checkbox"
-                    id="reduzirAnimacoes"
-                >
-
-                <span class="slider"></span>
-
-            </label>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         ACESSIBILIDADE
-    ========================== -->
-
-    <div class="config-card acessibilidade">
-
-        <h2>
-            ♿ Acessibilidade
-        </h2>
-
-        <p>
-            Recursos para tornar o SmartInspect AI mais acessível.
-        </p>
-
-
-        <div class="config-opcao">
-
-            <div class="config-info">
-
-                <strong>
-                    👂 Modo para deficiência auditiva
-                </strong>
-
-                <span>
-                    Prioriza alertas visuais e informações em texto.
-                </span>
-
-            </div>
-
-
-            <label class="switch">
-
-                <input
-                    type="checkbox"
-                    id="modoAuditivo"
-                >
-
-                <span class="slider"></span>
-
-            </label>
-
-        </div>
-
-
-        <div class="config-opcao">
-
-            <div class="config-info">
-
-                <strong>
-                    🔔 Alertas visuais
-                </strong>
-
-                <span>
-                    Mostra avisos na tela em vez de depender somente de sons.
-                </span>
-
-            </div>
-
-
-            <label class="switch">
-
-                <input
-                    type="checkbox"
-                    id="alertasVisuais"
-                    checked
-                >
-
-                <span class="slider"></span>
-
-            </label>
-
-        </div>
-
-
-        <div class="config-opcao">
-
-            <div class="config-info">
-
-                <strong>
-                    🎨 Alto contraste
-                </strong>
-
-                <span>
-                    Aumenta o contraste entre textos e elementos.
-                </span>
-
-            </div>
-
-
-            <label class="switch">
-
-                <input
-                    type="checkbox"
-                    id="altoContraste"
-                >
-
-                <span class="slider"></span>
-
-            </label>
-
-        </div>
-
-
-        <div class="aviso-acessibilidade">
-
-            💡 <strong>Modo auditivo:</strong>
-            quando ativado, informações importantes como novas mensagens,
-            notificações e alertas serão apresentadas visualmente.
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         IDIOMA
-    ========================== -->
-
-    <div class="config-card">
-
-        <h2>
-            🌐 Idioma
-        </h2>
-
-        <p>
-            Escolha o idioma da interface.
-        </p>
-
-
-        <div class="config-opcao">
-
-            <div class="config-info">
-
-                <strong>
-                    Idioma do sistema
-                </strong>
-
-                <span>
-                    A tradução completa será aplicada gradualmente às páginas.
-                </span>
-
-            </div>
-
-
-            <select
-                id="idioma"
-                class="config-select"
-            >
-
-                <option value="pt-BR">
-                    🇧🇷 Português
-                </option>
-
-                <option value="en">
-                    🇺🇸 English
-                </option>
-
-                <option value="es">
-                    🇪🇸 Español
-                </option>
-
-            </select>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         NOTIFICAÇÕES
-    ========================== -->
-
-    <div class="config-card">
-
-        <h2>
-            🔔 Notificações
-        </h2>
-
-        <p>
-            Controle como você recebe avisos do sistema.
-        </p>
-
-
-        <div class="config-opcao">
-
-            <div class="config-info">
-
-                <strong>
-                    🔔 Notificações
-                </strong>
-
-                <span>
-                    Receber notificações do SmartInspect AI.
-                </span>
-
-            </div>
-
-
-            <label class="switch">
-
-                <input
-                    type="checkbox"
-                    id="notificacoes"
-                    checked
-                >
-
-                <span class="slider"></span>
-
-            </label>
-
-        </div>
-
-
-        <div class="config-opcao">
-
-            <div class="config-info">
-
-                <strong>
-                    📦 Alertas de estoque
-                </strong>
-
-                <span>
-                    Avisar quando um item atingir o estoque mínimo.
-                </span>
-
-            </div>
-
-
-            <label class="switch">
-
-                <input
-                    type="checkbox"
-                    id="alertasEstoque"
-                    checked
-                >
-
-                <span class="slider"></span>
-
-            </label>
-
-        </div>
-
-    </div>
-
-
-    <!-- SALVAR -->
-
-    <div class="config-card">
-
-        <button
-            class="btn-salvar"
-            onclick="salvarConfiguracoes()"
-        >
-
-            💾 Salvar configurações
-
-        </button>
-
-
-        <div
-            id="mensagemConfig"
-            class="mensagem-config"
-        >
-
-            ✅ Configurações salvas!
-
-        </div>
-
-    </div>
-
+<p>
+Personalize o SmartInspect AI de acordo com suas necessidades.
+</p>
 
 </div>
 
+<!-- ======================================
+     APARÊNCIA
+====================================== -->
+
+<div class="config-card">
+
+<h2>🎨 Aparência</h2>
+
+<p>
+Personalize a forma como o sistema é apresentado.
+</p>
+
+<div class="config-item">
+
+<div class="config-info">
+
+<strong>🌙 Modo escuro</strong>
+
+<span>
+Reduz o brilho da interface para utilização em ambientes escuros.
+</span>
+
+</div>
+
+<label class="switch">
+
+<input
+type="checkbox"
+id="modoEscuro"
+
+>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+<div class="config-item">
+
+<div class="config-info">
+
+<strong>⚫ Alto contraste</strong>
+
+<span>
+Aumenta o contraste das informações para facilitar a leitura.
+</span>
+
+</div>
+
+<label class="switch">
+
+<input
+type="checkbox"
+id="altoContraste"
+
+>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+<div class="config-item">
+
+<div class="config-info">
+
+<strong>🔗 Sublinhar links</strong>
+
+<span>
+Deixa os links mais fáceis de identificar.
+</span>
+
+</div>
+
+<label class="switch">
+
+<input
+type="checkbox"
+id="sublinharLinks"
+
+>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+<div class="config-item">
+
+<div class="config-info">
+
+<strong>🔠 Tamanho da fonte</strong>
+
+<span>
+Escolha o tamanho das letras do sistema.
+</span>
+
+</div>
+
+<div class="tamanhos">
+
+<button
+class="btn-tamanho"
+onclick="selecionarFonte('pequena')"
+id="fontePequena"
+
+>
+
+A- </button>
+
+<button
+class="btn-tamanho"
+onclick="selecionarFonte('media')"
+id="fonteMedia"
+
+>
+
+A </button>
+
+<button
+class="btn-tamanho"
+onclick="selecionarFonte('grande')"
+id="fonteGrande"
+
+>
+
+A+ </button>
+
+<button
+class="btn-tamanho"
+onclick="selecionarFonte('muito-grande')"
+id="fonteMuitoGrande"
+
+>
+
+A++ </button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ======================================
+     IDIOMA
+====================================== -->
+
+<div class="config-card">
+
+<h2>🌐 Idioma</h2>
+
+<p>
+Escolha o idioma preferido para a interface.
+</p>
+
+<div class="config-item">
+
+<div class="config-info">
+
+<strong>Idioma do sistema</strong>
+
+<span>
+O idioma selecionado será utilizado pelo SmartInspect AI.
+</span>
+
+</div>
+
+<select id="idioma">
+
+<option value="pt-BR">
+🇧🇷 Português (Brasil)
+</option>
+
+<option value="en">
+🇺🇸 English
+</option>
+
+<option value="es">
+🇪🇸 Español
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+<!-- ======================================
+     ACESSIBILIDADE
+====================================== -->
+
+<div class="config-card">
+
+<h2>♿ Acessibilidade</h2>
+
+<p>
+Recursos para tornar o SmartInspect AI mais acessível.
+</p>
+
+<div class="acessibilidade-info">
+
+<strong>👂 Inclusão para pessoas com deficiência auditiva</strong>
+
+<br>
+
+O sistema priorizará informações visuais para avisos,
+notificações e eventos importantes, evitando depender
+exclusivamente de sons.
+
+</div>
+
+<div class="config-item">
+
+<div class="config-info">
+
+<strong>🔔 Alertas visuais</strong>
+
+<span>
+Exibe alertas visuais quando uma notificação importante ocorrer.
+</span>
+
+</div>
+
+<label class="switch">
+
+<input
+type="checkbox"
+id="alertasVisuais"
+checked
+
+>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+<div class="config-item">
+
+<div class="config-info">
+
+<strong>💬 Notificações em texto</strong>
+
+<span>
+Exibe mensagens importantes por escrito.
+</span>
+
+</div>
+
+<label class="switch">
+
+<input
+type="checkbox"
+id="notificacoesTexto"
+checked
+
+>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+</div>
+
+<!-- ======================================
+     AÇÕES
+====================================== -->
+
+<div class="config-card">
+
+<h2>💾 Salvar configurações</h2>
+
+<p>
+Suas preferências serão salvas neste dispositivo.
+</p>
+
+<div class="acoes">
+
+<button
+class="btn btn-salvar"
+onclick="salvarConfiguracoes()"
+
+>
+
+💾 Salvar configurações </button>
+
+<button
+class="btn btn-restaurar"
+onclick="restaurarConfiguracoes()"
+
+>
+
+♻️ Restaurar padrão </button>
+
+</div>
+
+<div
+id="mensagemConfiguracao"
+class="mensagem"
+>
+✅ Configurações salvas com sucesso!
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- SUPABASE -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -903,10 +671,305 @@ body.reduzir-animacoes *::after{
 
 <script src="js/sidebar.js"></script>
 
-<script src="js/configuracoes.js"></script>
+<script>
 
+/* ======================================
+   VARIÁVEL DA FONTE
+====================================== */
+
+let fonteSelecionada = "media";
+
+
+/* ======================================
+   SELECIONAR FONTE
+====================================== */
+
+function selecionarFonte(tamanho){
+
+    fonteSelecionada = tamanho;
+
+    document.querySelectorAll(".btn-tamanho")
+        .forEach(botao => {
+            botao.classList.remove("ativo");
+        });
+
+    const botao = document.getElementById(
+        "fonte" +
+        tamanho.charAt(0).toUpperCase() +
+        tamanho.slice(1).replace("-","")
+    );
+
+    if(botao){
+        botao.classList.add("ativo");
+    }
+
+}
+
+
+/* ======================================
+   APLICAR CONFIGURAÇÕES
+====================================== */
+
+function aplicarConfiguracoes(config){
+
+    document.body.classList.remove(
+        "fonte-pequena",
+        "fonte-media",
+        "fonte-grande",
+        "fonte-muito-grande"
+    );
+
+    document.body.classList.add(
+        "fonte-" + fonteSelecionada
+    );
+
+
+    document.body.classList.toggle(
+        "modo-escuro",
+        config.modoEscuro === true
+    );
+
+
+    document.body.classList.toggle(
+        "alto-contraste",
+        config.altoContraste === true
+    );
+
+
+    document.body.classList.toggle(
+        "sublinhar-links",
+        config.sublinharLinks === true
+    );
+
+}
+
+
+/* ======================================
+   SALVAR
+====================================== */
+
+function salvarConfiguracoes(){
+
+    const configuracoes = {
+
+        idioma:
+            document.getElementById("idioma").value,
+
+        modoEscuro:
+            document.getElementById("modoEscuro").checked,
+
+        altoContraste:
+            document.getElementById("altoContraste").checked,
+
+        sublinharLinks:
+            document.getElementById("sublinharLinks").checked,
+
+        alertasVisuais:
+            document.getElementById("alertasVisuais").checked,
+
+        notificacoesTexto:
+            document.getElementById("notificacoesTexto").checked,
+
+        fonte:
+            fonteSelecionada
+
+    };
+
+
+    localStorage.setItem(
+        "smartinspect_configuracoes",
+        JSON.stringify(configuracoes)
+    );
+
+
+    aplicarConfiguracoes(
+        configuracoes
+    );
+
+
+    const mensagem =
+        document.getElementById(
+            "mensagemConfiguracao"
+        );
+
+    mensagem.style.display = "block";
+
+    setTimeout(() => {
+
+        mensagem.style.display = "none";
+
+    },3000);
+
+}
+
+
+/* ======================================
+   CARREGAR
+====================================== */
+
+function carregarConfiguracoes(){
+
+    const salvo =
+        localStorage.getItem(
+            "smartinspect_configuracoes"
+        );
+
+
+    let config;
+
+
+    if(salvo){
+
+        try{
+
+            config = JSON.parse(salvo);
+
+        }catch(e){
+
+            config = null;
+
+        }
+
+    }
+
+
+    if(!config){
+
+        config = {
+
+            idioma:"pt-BR",
+
+            modoEscuro:false,
+
+            altoContraste:false,
+
+            sublinharLinks:false,
+
+            alertasVisuais:true,
+
+            notificacoesTexto:true,
+
+            fonte:"media"
+
+        };
+
+    }
+
+
+    document.getElementById("idioma").value =
+        config.idioma || "pt-BR";
+
+
+    document.getElementById("modoEscuro").checked =
+        config.modoEscuro === true;
+
+
+    document.getElementById("altoContraste").checked =
+        config.altoContraste === true;
+
+
+    document.getElementById("sublinharLinks").checked =
+        config.sublinharLinks === true;
+
+
+    document.getElementById("alertasVisuais").checked =
+        config.alertasVisuais !== false;
+
+
+    document.getElementById("notificacoesTexto").checked =
+        config.notificacoesTexto !== false;
+
+
+    fonteSelecionada =
+        config.fonte || "media";
+
+
+    selecionarFonte(
+        fonteSelecionada
+    );
+
+
+    aplicarConfiguracoes(
+        config
+    );
+
+}
+
+
+/* ======================================
+   RESTAURAR PADRÃO
+====================================== */
+
+function restaurarConfiguracoes(){
+
+    localStorage.removeItem(
+        "smartinspect_configuracoes"
+    );
+
+
+    fonteSelecionada = "media";
+
+
+    document.getElementById("idioma").value =
+        "pt-BR";
+
+
+    document.getElementById("modoEscuro").checked =
+        false;
+
+
+    document.getElementById("altoContraste").checked =
+        false;
+
+
+    document.getElementById("sublinharLinks").checked =
+        false;
+
+
+    document.getElementById("alertasVisuais").checked =
+        true;
+
+
+    document.getElementById("notificacoesTexto").checked =
+        true;
+
+
+    selecionarFonte("media");
+
+
+    aplicarConfiguracoes({
+
+        modoEscuro:false,
+
+        altoContraste:false,
+
+        sublinharLinks:false
+
+    });
+
+
+    alert(
+        "♻️ Configurações restauradas."
+    );
+
+}
+
+
+/* ======================================
+   INICIAR
+====================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        carregarConfiguracoes();
+
+    }
+);
+
+</script>
 
 </body>
 
 </html>
-```
