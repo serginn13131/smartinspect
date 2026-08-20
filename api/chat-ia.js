@@ -1,41 +1,31 @@
 
 // ==========================================
 // SMARTINSPECT AI
-// VERCEL + GROQ
+// API VERCEL + GROQ
 // ==========================================
 
-const Groq = require("groq-sdk");
-
-
-// ==========================================
-// FUNÇÃO PRINCIPAL
-// ==========================================
-
-module.exports = async function handler(req, res) {
-
-    // ======================================
-    // MÉTODO
-    // ======================================
-
-    if (req.method !== "POST") {
-
-        return res.status(405).json({
-
-            erro: "Método não permitido."
-
-        });
-
-    }
-
+export default async function handler(req, res) {
 
     try {
 
-        // ==================================
-        // VERIFICAR API KEY
-        // ==================================
+        // ======================================
+        // VERIFICAR MÉTODO
+        // ======================================
 
-        const apiKey =
-            process.env.GROQ_API_KEY;
+        if (req.method !== "POST") {
+
+            return res.status(405).json({
+                erro: "Método não permitido."
+            });
+
+        }
+
+
+        // ======================================
+        // VERIFICAR API KEY
+        // ======================================
+
+        const apiKey = process.env.GROQ_API_KEY;
 
 
         if (!apiKey) {
@@ -44,69 +34,67 @@ module.exports = async function handler(req, res) {
                 "GROQ_API_KEY não encontrada."
             );
 
-
             return res.status(500).json({
-
                 erro:
                     "GROQ_API_KEY não configurada na Vercel."
-
             });
 
         }
 
 
-        // ==================================
-        // MENSAGEM
-        // ==================================
+        // ======================================
+        // PEGAR MENSAGEM
+        // ======================================
 
         const mensagem =
-            req.body &&
-            req.body.mensagem;
+            req.body?.mensagem;
 
 
-        if (!mensagem) {
+        if (
+            !mensagem ||
+            typeof mensagem !== "string"
+        ) {
 
             return res.status(400).json({
-
                 erro:
                     "Mensagem não informada."
-
             });
 
         }
 
 
-        // ==================================
-        // GROQ
-        // ==================================
+        // ======================================
+        // CHAMAR GROQ
+        // ======================================
 
-        const groq =
-            new Groq({
+        const resposta = await fetch(
+            "https://api.groq.com/openai/v1/chat/completions",
+            {
 
-                apiKey:
-                    apiKey
+                method: "POST",
 
-            });
+                headers: {
 
+                    "Content-Type":
+                        "application/json",
 
-        // ==================================
-        // CHAT
-        // ==================================
+                    "Authorization":
+                        "Bearer " + apiKey
 
-        const completion =
-            await groq.chat.completions.create({
+                },
 
-                model:
-                    "openai/gpt-oss-20b",
+                body: JSON.stringify({
 
-                messages: [
+                    model:
+                        "openai/gpt-oss-20b",
 
-                    {
+                    messages: [
 
-                        role:
-                            "system",
+                        {
 
-                        content: `
+                            role: "system",
+
+                            content: `
 Você é o SmartInspect AI.
 
 Você é especialista em construção civil.
@@ -133,53 +121,153 @@ Não invente normas ou informações.
 Quando não tiver certeza, informe.
 `
 
-                    },
+                        },
 
-                    {
+                        {
 
-                        role:
-                            "user",
+                            role: "user",
 
-                        content:
-                            mensagem
+                            content:
+                                mensagem
 
-                    }
+                        }
 
-                ]
+                    ]
 
-            });
+                })
 
-
-        // ==================================
-        // PEGAR TEXTO
-        // ==================================
-
-        const resposta =
-            completion
-                ?.choices?.[0]
-                ?.message?.content;
+            }
+        );
 
 
-        if (!resposta) {
+        // ======================================
+        // LER RESPOSTA DA GROQ
+        // ======================================
+
+        const texto =
+            await resposta.text();
+
+
+        console.log(
+            "Status Groq:",
+            resposta.status
+        );
+
+
+        console.log(
+            "Resposta Groq:",
+            texto
+        );
+
+
+        // ======================================
+        // ERRO GROQ
+        // ======================================
+
+        if (!resposta.ok) {
+
+            let erro = texto;
+
+
+            try {
+
+                const dadosErro =
+                    JSON.parse(texto);
+
+
+                erro =
+                    dadosErro?.error?.message ||
+                    texto;
+
+            }
+
+            catch {
+
+                // mantém erro original
+
+            }
+
 
             return res.status(502).json({
 
                 erro:
-                    "A IA não retornou uma resposta."
+                    "Erro da inteligência artificial.",
+
+                status_groq:
+                    resposta.status,
+
+                erro_groq:
+                    erro
 
             });
 
         }
 
 
-        // ==================================
+        // ======================================
+        // CONVERTER RESPOSTA
+        // ======================================
+
+        let dados;
+
+
+        try {
+
+            dados =
+                JSON.parse(texto);
+
+        }
+
+        catch {
+
+            return res.status(502).json({
+
+                erro:
+                    "A Groq retornou uma resposta inválida.",
+
+                resposta:
+                    texto
+
+            });
+
+        }
+
+
+        // ======================================
+        // PEGAR RESPOSTA DA IA
+        // ======================================
+
+        const respostaIA =
+            dados
+                ?.choices?.[0]
+                ?.message?.content;
+
+
+        if (!respostaIA) {
+
+            return res.status(502).json({
+
+                erro:
+                    "A IA não retornou uma resposta.",
+
+                dados:
+                    dados
+
+            });
+
+        }
+
+
+        // ======================================
         // SUCESSO
-        // ==================================
+        // ======================================
 
         return res.status(200).json({
 
+            sucesso: true,
+
             resposta:
-                resposta
+                respostaIA
 
         });
 
@@ -189,7 +277,7 @@ Quando não tiver certeza, informe.
     catch (erro) {
 
         console.error(
-            "ERRO GROQ:",
+            "ERRO NA FUNCTION /api/chat-ia:",
             erro
         );
 
@@ -198,11 +286,11 @@ Quando não tiver certeza, informe.
 
             erro:
                 erro?.message ||
-                "Erro interno na API."
+                "Erro interno na Function."
 
         });
 
     }
 
-};
+}
 ```
