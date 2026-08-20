@@ -1,460 +1,448 @@
 ```javascript
-// ======================================
+// ==========================================
 // SMARTINSPECT AI
-// SISTEMA DE CONFIGURAÇÕES
-// ======================================
+// CONFIGURAÇÕES DO USUÁRIO
+// ==========================================
 
+(function () {
 
-let configuracoes = {
+    "use strict";
 
-    tema: "claro",
 
-    fonte: "normal",
+    // ==========================================
+    // CONFIGURAÇÕES PADRÃO
+    // ==========================================
 
-    idioma: "pt-BR",
+    const configuracoesPadrao = {
 
-    modoAuditivo: false,
+        idioma: "pt-BR",
 
-    alertasVisuais: true,
+        tamanhoFonte: "normal",
 
-    altoContraste: false,
+        altoContraste: false,
 
-    reduzirAnimacoes: false,
+        reduzirAnimacoes: false,
 
-    notificacoes: true,
+        leituraFacilitada: false,
 
-    alertasEstoque: true
-
-};
-
-
-// ======================================
-// CARREGAR CONFIGURAÇÕES
-// ======================================
-
-function carregarConfiguracoes(){
-
-    try{
-
-        const salvas =
-            localStorage.getItem(
-                "smartinspect_configuracoes"
-            );
-
-
-        if(salvas){
-
-            configuracoes =
-                {
-
-                    ...configuracoes,
-
-                    ...JSON.parse(salvas)
-
-                };
-
-        }
-
-    }
-
-    catch(erro){
-
-        console.error(
-            "Erro ao carregar configurações:",
-            erro
-        );
-
-    }
-
-
-    preencherInterface();
-
-    aplicarConfiguracoes();
-
-}
-
-
-// ======================================
-// PREENCHER INTERFACE
-// ======================================
-
-function preencherInterface(){
-
-    const tema =
-        document.getElementById("tema");
-
-    const fonte =
-        document.getElementById("fonte");
-
-    const idioma =
-        document.getElementById("idioma");
-
-    const modoAuditivo =
-        document.getElementById("modoAuditivo");
-
-    const alertasVisuais =
-        document.getElementById("alertasVisuais");
-
-    const altoContraste =
-        document.getElementById("altoContraste");
-
-    const reduzirAnimacoes =
-        document.getElementById("reduzirAnimacoes");
-
-    const notificacoes =
-        document.getElementById("notificacoes");
-
-    const alertasEstoque =
-        document.getElementById("alertasEstoque");
-
-
-    if(tema)
-        tema.value =
-            configuracoes.tema;
-
-
-    if(fonte)
-        fonte.value =
-            configuracoes.fonte;
-
-
-    if(idioma)
-        idioma.value =
-            configuracoes.idioma;
-
-
-    if(modoAuditivo)
-        modoAuditivo.checked =
-            configuracoes.modoAuditivo;
-
-
-    if(alertasVisuais)
-        alertasVisuais.checked =
-            configuracoes.alertasVisuais;
-
-
-    if(altoContraste)
-        altoContraste.checked =
-            configuracoes.altoContraste;
-
-
-    if(reduzirAnimacoes)
-        reduzirAnimacoes.checked =
-            configuracoes.reduzirAnimacoes;
-
-
-    if(notificacoes)
-        notificacoes.checked =
-            configuracoes.notificacoes;
-
-
-    if(alertasEstoque)
-        alertasEstoque.checked =
-            configuracoes.alertasEstoque;
-
-}
-
-
-// ======================================
-// APLICAR CONFIGURAÇÕES
-// ======================================
-
-function aplicarConfiguracoes(){
-
-    const body =
-        document.body;
-
-
-    // ==============================
-    // TEMA
-    // ==============================
-
-    body.classList.remove(
-        "tema-escuro"
-    );
-
-
-    if(
-        configuracoes.tema ===
-        "escuro"
-    ){
-
-        body.classList.add(
-            "tema-escuro"
-        );
-
-    }
-
-
-    if(
-        configuracoes.tema ===
-        "automatico"
-    ){
-
-        if(
-            window.matchMedia(
-                "(prefers-color-scheme: dark)"
-            ).matches
-        ){
-
-            body.classList.add(
-                "tema-escuro"
-            );
-
-        }
-
-    }
-
-
-    // ==============================
-    // FONTE
-    // ==============================
-
-    body.classList.remove(
-        "fonte-grande",
-        "fonte-extra-grande"
-    );
-
-
-    if(
-        configuracoes.fonte ===
-        "grande"
-    ){
-
-        body.classList.add(
-            "fonte-grande"
-        );
-
-    }
-
-
-    if(
-        configuracoes.fonte ===
-        "extra-grande"
-    ){
-
-        body.classList.add(
-            "fonte-extra-grande"
-        );
-
-    }
-
-
-    // ==============================
-    // CONTRASTE
-    // ==============================
-
-    body.classList.toggle(
-
-        "alto-contraste",
-
-        configuracoes.altoContraste
-
-    );
-
-
-    // ==============================
-    // ANIMAÇÕES
-    // ==============================
-
-    body.classList.toggle(
-
-        "reduzir-animacoes",
-
-        configuracoes.reduzirAnimacoes
-
-    );
-
-}
-
-
-// ======================================
-// SALVAR
-// ======================================
-
-async function salvarConfiguracoes(){
-
-    configuracoes = {
-
-        tema:
-            document.getElementById(
-                "tema"
-            ).value,
-
-        fonte:
-            document.getElementById(
-                "fonte"
-            ).value,
-
-        idioma:
-            document.getElementById(
-                "idioma"
-            ).value,
-
-        modoAuditivo:
-            document.getElementById(
-                "modoAuditivo"
-            ).checked,
-
-        alertasVisuais:
-            document.getElementById(
-                "alertasVisuais"
-            ).checked,
-
-        altoContraste:
-            document.getElementById(
-                "altoContraste"
-            ).checked,
-
-        reduzirAnimacoes:
-            document.getElementById(
-                "reduzirAnimacoes"
-            ).checked,
-
-        notificacoes:
-            document.getElementById(
-                "notificacoes"
-            ).checked,
-
-        alertasEstoque:
-            document.getElementById(
-                "alertasEstoque"
-            ).checked
+        modoSurdo: false
 
     };
 
 
-    // ==============================
-    // SALVAR LOCALMENTE
-    // ==============================
+    // ==========================================
+    // PEGAR CONFIGURAÇÕES
+    // ==========================================
 
-    localStorage.setItem(
+    function obterConfiguracoes() {
 
-        "smartinspect_configuracoes",
+        try {
 
-        JSON.stringify(
-            configuracoes
-        )
-
-    );
-
-
-    // ==============================
-    // APLICAR
-    // ==============================
-
-    aplicarConfiguracoes();
+            const salvo =
+                localStorage.getItem(
+                    "smartinspect_configuracoes"
+                );
 
 
-    // ==============================
-    // AVISO
-    // ==============================
+            if (!salvo) {
 
-    const mensagem =
-        document.getElementById(
-            "mensagemConfig"
+                return {
+                    ...configuracoesPadrao
+                };
+
+            }
+
+
+            const configuracoes =
+                JSON.parse(salvo);
+
+
+            return {
+                ...configuracoesPadrao,
+                ...configuracoes
+            };
+
+
+        } catch (erro) {
+
+            console.error(
+                "Erro ao carregar configurações:",
+                erro
+            );
+
+
+            return {
+                ...configuracoesPadrao
+            };
+
+        }
+
+    }
+
+
+    // ==========================================
+    // SALVAR CONFIGURAÇÕES
+    // ==========================================
+
+    window.salvarConfiguracoes = function () {
+
+        try {
+
+            const configuracoes = {
+
+                idioma:
+                    document.getElementById(
+                        "idioma"
+                    )?.value || "pt-BR",
+
+
+                tamanhoFonte:
+                    document.getElementById(
+                        "tamanhoFonte"
+                    )?.value || "normal",
+
+
+                altoContraste:
+                    document.getElementById(
+                        "altoContraste"
+                    )?.checked || false,
+
+
+                reduzirAnimacoes:
+                    document.getElementById(
+                        "reduzirAnimacoes"
+                    )?.checked || false,
+
+
+                leituraFacilitada:
+                    document.getElementById(
+                        "leituraFacilitada"
+                    )?.checked || false,
+
+
+                modoSurdo:
+                    document.getElementById(
+                        "modoSurdo"
+                    )?.checked || false
+
+            };
+
+
+            localStorage.setItem(
+
+                "smartinspect_configuracoes",
+
+                JSON.stringify(
+                    configuracoes
+                )
+
+            );
+
+
+            aplicarConfiguracoes(
+                configuracoes
+            );
+
+
+            mostrarMensagem(
+                "✅ Configurações salvas com sucesso!"
+            );
+
+
+        } catch (erro) {
+
+            console.error(
+                "Erro ao salvar configurações:",
+                erro
+            );
+
+
+            alert(
+                "❌ Não foi possível salvar as configurações."
+            );
+
+        }
+
+    };
+
+
+    // ==========================================
+    // APLICAR CONFIGURAÇÕES
+    // ==========================================
+
+    function aplicarConfiguracoes(
+        configuracoes
+    ) {
+
+        if (!configuracoes) {
+            return;
+        }
+
+
+        // ======================================
+        // TAMANHO DA FONTE
+        // ======================================
+
+        document.documentElement.classList.remove(
+
+            "fonte-pequena",
+            "fonte-normal",
+            "fonte-grande",
+            "fonte-muito-grande"
+
         );
 
 
-    mensagem.style.display =
-        "block";
+        document.documentElement.classList.add(
+
+            "fonte-" +
+            configuracoes.tamanhoFonte
+
+        );
 
 
-    setTimeout(
-        () => {
+        // ======================================
+        // ALTO CONTRASTE
+        // ======================================
+
+        document.documentElement.classList.toggle(
+
+            "alto-contraste",
+
+            configuracoes.altoContraste === true
+
+        );
+
+
+        // ======================================
+        // REDUZIR ANIMAÇÕES
+        // ======================================
+
+        document.documentElement.classList.toggle(
+
+            "sem-animacoes",
+
+            configuracoes.reduzirAnimacoes === true
+
+        );
+
+
+        // ======================================
+        // LEITURA FACILITADA
+        // ======================================
+
+        document.documentElement.classList.toggle(
+
+            "leitura-facilitada",
+
+            configuracoes.leituraFacilitada === true
+
+        );
+
+
+        // ======================================
+        // MODO PARA DEFICIÊNCIA AUDITIVA
+        // ======================================
+
+        document.documentElement.classList.toggle(
+
+            "modo-surdo",
+
+            configuracoes.modoSurdo === true
+
+        );
+
+    }
+
+
+    // ==========================================
+    // PREENCHER FORMULÁRIO
+    // ==========================================
+
+    function carregarFormulario() {
+
+        const configuracoes =
+            obterConfiguracoes();
+
+
+        const idioma =
+            document.getElementById(
+                "idioma"
+            );
+
+
+        const tamanhoFonte =
+            document.getElementById(
+                "tamanhoFonte"
+            );
+
+
+        const altoContraste =
+            document.getElementById(
+                "altoContraste"
+            );
+
+
+        const reduzirAnimacoes =
+            document.getElementById(
+                "reduzirAnimacoes"
+            );
+
+
+        const leituraFacilitada =
+            document.getElementById(
+                "leituraFacilitada"
+            );
+
+
+        const modoSurdo =
+            document.getElementById(
+                "modoSurdo"
+            );
+
+
+        if (idioma) {
+
+            idioma.value =
+                configuracoes.idioma;
+
+        }
+
+
+        if (tamanhoFonte) {
+
+            tamanhoFonte.value =
+                configuracoes.tamanhoFonte;
+
+        }
+
+
+        if (altoContraste) {
+
+            altoContraste.checked =
+                configuracoes.altoContraste;
+
+        }
+
+
+        if (reduzirAnimacoes) {
+
+            reduzirAnimacoes.checked =
+                configuracoes.reduzirAnimacoes;
+
+        }
+
+
+        if (leituraFacilitada) {
+
+            leituraFacilitada.checked =
+                configuracoes.leituraFacilitada;
+
+        }
+
+
+        if (modoSurdo) {
+
+            modoSurdo.checked =
+                configuracoes.modoSurdo;
+
+        }
+
+
+        aplicarConfiguracoes(
+            configuracoes
+        );
+
+    }
+
+
+    // ==========================================
+    // MENSAGEM
+    // ==========================================
+
+    function mostrarMensagem(
+        texto
+    ) {
+
+        const mensagem =
+            document.getElementById(
+                "mensagemConfiguracoes"
+            );
+
+
+        if (!mensagem) {
+
+            return;
+
+        }
+
+
+        mensagem.textContent =
+            texto;
+
+
+        mensagem.style.display =
+            "block";
+
+
+        setTimeout(function () {
 
             mensagem.style.display =
                 "none";
 
-        },
-        3000
-    );
-
-
-    // ==============================
-    // FUTURO SUPABASE
-    // ==============================
-
-    /*
-       Depois vamos salvar essas
-       preferências também na tabela
-       de usuários/configurações.
-
-       Assim cada usuário terá
-       suas próprias configurações
-       em qualquer dispositivo.
-    */
-
-}
-
-
-// ======================================
-// ALERTA VISUAL
-// ======================================
-
-function mostrarAlertaVisual(
-    mensagem
-){
-
-    if(
-        !configuracoes.alertasVisuais &&
-        !configuracoes.modoAuditivo
-    ){
-
-        return;
+        }, 3000);
 
     }
 
 
-    const alerta =
-        document.getElementById(
-            "alertaVisual"
+    // ==========================================
+    // RESTAURAR PADRÃO
+    // ==========================================
+
+    window.restaurarConfiguracoes =
+        function () {
+
+            localStorage.removeItem(
+                "smartinspect_configuracoes"
+            );
+
+
+            carregarFormulario();
+
+
+            mostrarMensagem(
+                "↩️ Configurações restauradas."
+            );
+
+        };
+
+
+    // ==========================================
+    // INICIAR
+    // ==========================================
+
+    function iniciar() {
+
+        carregarFormulario();
+
+    }
+
+
+    if (
+        document.readyState ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            iniciar
         );
 
+    } else {
 
-    if(!alerta)
-        return;
-
-
-    alerta.textContent =
-        mensagem;
-
-
-    alerta.style.display =
-        "block";
-
-
-    setTimeout(
-        () => {
-
-            alerta.style.display =
-                "none";
-
-        },
-        4000
-    );
-
-}
-
-
-// ======================================
-// DISPONIBILIZAR GLOBALMENTE
-// ======================================
-
-window.mostrarAlertaVisual =
-    mostrarAlertaVisual;
-
-
-// ======================================
-// INICIAR
-// ======================================
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        carregarConfiguracoes();
+        iniciar();
 
     }
-);
+
+})();
 ```
