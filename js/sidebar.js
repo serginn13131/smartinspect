@@ -1,102 +1,357 @@
-<div class="sidebar">
+async function carregarSidebar() {
 
-    <div class="logo-area">
+    const menu = document.querySelector(".menu-container");
 
-        <img
-            src="imagens/logo.png"
-            class="logo"
-        >
+    if (!menu) return;
 
-        <h2>
-            SmartInspect AI
-        </h2>
+    try {
 
-    </div>
+        const resposta = await fetch(
+            "componentes/sidebar.html"
+        );
 
+        if (!resposta.ok) {
 
-    <nav>
+            console.error(
+                "Erro ao carregar sidebar:",
+                resposta.status
+            );
 
-        <a href="index.html">
-            📊 Dashboard
-        </a>
+            return;
+        }
 
-        <a href="imoveis.html">
-            🏠 Imóveis
-        </a>
+        const html = await resposta.text();
 
-        <a href="obras.html">
-            🏢 Obras
-        </a>
-
-        <a href="inspecoes.html">
-            📋 Inspeções
-        </a>
-
-        <a href="estoque.html">
-            📦 Estoque
-            <span id="badgeEstoque" class="sidebar-badge"></span>
-        </a>
-
-        <a href="relatorios.html">
-            📄 Relatórios
-        </a>
-
-        <a href="ia.html">
-            🤖 Inteligência Artificial
-        </a>
+        menu.innerHTML = html;
 
 
-        <hr>
+        // ==========================================
+        // DEPOIS QUE A SIDEBAR CARREGOU
+        // ==========================================
+
+        inicializarBadgesSidebar();
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar sidebar:",
+            erro
+        );
+
+    }
+
+}
 
 
-        <a href="equipe.html">
-            👥 Equipe
-        </a>
+// ==========================================
+// INICIALIZAR BADGES
+// ==========================================
 
-        <a href="perfil.html">
-            👤 Meu Perfil
-        </a>
+function inicializarBadgesSidebar() {
 
-        <a
-            class="admin-only"
-            href="usuarios.html"
-        >
-            ⚙️ Controle de Usuários
-        </a>
+    carregarBadgeNotificacoes();
 
+    carregarBadgeEstoque();
 
-        <hr>
+    // Atualiza a cada 30 segundos
+    setInterval(() => {
 
+        carregarBadgeNotificacoes();
 
-        <a href="suporte.html">
-            💬 Falar com Suporte
-        </a>
+        carregarBadgeEstoque();
 
-        <a
-            class="admin-only"
-            href="atendimento.html"
-        >
-            🛠️ Atendimento
-        </a>
+    }, 30000);
 
-        <a href="notificacoes.html">
-            🔔 Notificações
-            <span id="badgeNotificacoes" class="sidebar-badge"></span>
-        </a>
+}
 
 
-        <a href="configuracoes.html">
-            ⚙️ Configurações
-        </a>
+// ==========================================
+// 🔔 NOTIFICAÇÕES NÃO LIDAS
+// ==========================================
+
+async function carregarBadgeNotificacoes() {
+
+    const badge =
+        document.getElementById(
+            "badgeNotificacoes"
+        );
+
+    if (!badge) return;
 
 
-        <a
-            href="#"
-            onclick="sair(); return false;"
-        >
-            🚪 Sair
-        </a>
+    try {
 
-    </nav>
+        // Verifica se o banco já está disponível
+        if (
+            typeof banco === "undefined"
+        ) {
 
-</div>
+            console.warn(
+                "Supabase ainda não carregado."
+            );
+
+            return;
+
+        }
+
+
+        // ==========================================
+        // USUÁRIO LOGADO
+        // ==========================================
+
+        let usuario = null;
+
+        if (
+            typeof getUsuario === "function"
+        ) {
+
+            usuario = getUsuario();
+
+        }
+
+
+        if (!usuario) {
+
+            badge.style.display = "none";
+
+            return;
+
+        }
+
+
+        // ==========================================
+        // BUSCAR NOTIFICAÇÕES NÃO LIDAS
+        // ==========================================
+
+        const {
+            count,
+            error
+        } = await banco
+
+            .from("notificacoes")
+
+            .select(
+                "id",
+                {
+                    count: "exact",
+                    head: true
+                }
+            )
+
+            .eq(
+                "usuario_id",
+                usuario.id
+            )
+
+            .eq(
+                "lida",
+                false
+            );
+
+
+        if (error) {
+
+            console.error(
+                "Erro ao contar notificações:",
+                error
+            );
+
+            return;
+
+        }
+
+
+        atualizarBadge(
+            badge,
+            count || 0
+        );
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro no badge de notificações:",
+            erro
+        );
+
+    }
+
+}
+
+
+// ==========================================
+// 📦 ESTOQUE ABAIXO DO MÍNIMO
+// ==========================================
+
+async function carregarBadgeEstoque() {
+
+    const badge =
+        document.getElementById(
+            "badgeEstoque"
+        );
+
+    if (!badge) return;
+
+
+    try {
+
+        if (
+            typeof banco === "undefined"
+        ) {
+
+            return;
+
+        }
+
+
+        // ==========================================
+        // BUSCAR ESTOQUE
+        // ==========================================
+
+        const {
+            data,
+            error
+        } = await banco
+
+            .from("estoque")
+
+            .select("*");
+
+
+        if (error) {
+
+            console.error(
+                "Erro ao consultar estoque:",
+                error
+            );
+
+            return;
+
+        }
+
+
+        if (!data) {
+
+            atualizarBadge(
+                badge,
+                0
+            );
+
+            return;
+
+        }
+
+
+        // ==========================================
+        // IDENTIFICAR ESTOQUE BAIXO
+        // ==========================================
+
+        let quantidadeBaixo = 0;
+
+
+        data.forEach(item => {
+
+            /*
+             * Aceitamos alguns nomes de coluna
+             * para facilitar a compatibilidade
+             * com sua tabela.
+             */
+
+            const quantidade = Number(
+
+                item.quantidade ??
+                item.estoque_atual ??
+                item.estoque ??
+                item.qtd ??
+                0
+
+            );
+
+
+            const minimo = Number(
+
+                item.estoque_minimo ??
+                item.quantidade_minima ??
+                item.minimo ??
+                item.estoque_min ??
+                0
+
+            );
+
+
+            if (
+                minimo > 0 &&
+                quantidade <= minimo
+            ) {
+
+                quantidadeBaixo++;
+
+            }
+
+        });
+
+
+        atualizarBadge(
+            badge,
+            quantidadeBaixo
+        );
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro no badge de estoque:",
+            erro
+        );
+
+    }
+
+}
+
+
+// ==========================================
+// ATUALIZAR BADGE
+// ==========================================
+
+function atualizarBadge(
+    badge,
+    quantidade
+) {
+
+    if (!badge) return;
+
+
+    quantidade =
+        Number(quantidade) || 0;
+
+
+    if (quantidade <= 0) {
+
+        badge.style.display =
+            "none";
+
+        badge.textContent =
+            "";
+
+        return;
+
+    }
+
+
+    badge.textContent =
+        quantidade > 99
+            ? "99+"
+            : quantidade;
+
+
+    badge.style.display =
+        "inline-flex";
+
+}
+
+
+// ==========================================
+// INICIAR
+// ==========================================
+
+carregarSidebar();
