@@ -1,67 +1,46 @@
-
-// ==========================================
+```javascript
+// ======================================================
 // SMARTINSPECT AI
-// CONFIGURAÇÕES DO USUÁRIO
-// ==========================================
+// CONFIGURAÇÕES GLOBAIS DE ACESSIBILIDADE
+// ======================================================
 
 (function () {
 
     "use strict";
 
+    const CHAVE = "smartinspect_configuracoes";
 
-    // ==========================================
-    // CONFIGURAÇÕES PADRÃO
-    // ==========================================
-
-    const configuracoesPadrao = {
-
-        idioma: "pt-BR",
-
-        tamanhoFonte: "normal",
-
-        altoContraste: false,
-
-        reduzirAnimacoes: false,
-
-        leituraFacilitada: false,
-
-        modoSurdo: false
-
+    const PADRAO = {
+        fonte: "100",
+        tema: "claro",
+        contraste: false,
+        espaco: false,
+        fonteLegivel: false,
+        animacoes: true,
+        foco: true,
+        acessibilidadeAuditiva: false
     };
 
 
-    // ==========================================
-    // PEGAR CONFIGURAÇÕES
-    // ==========================================
+    // ==================================================
+    // LER CONFIGURAÇÕES
+    // ==================================================
 
     function obterConfiguracoes() {
 
         try {
 
             const salvo =
-                localStorage.getItem(
-                    "smartinspect_configuracoes"
-                );
-
+                localStorage.getItem(CHAVE);
 
             if (!salvo) {
-
-                return {
-                    ...configuracoesPadrao
-                };
-
+                return { ...PADRAO };
             }
 
-
-            const configuracoes =
-                JSON.parse(salvo);
-
-
             return {
-                ...configuracoesPadrao,
-                ...configuracoes
+                ...PADRAO,
+                ...JSON.parse(salvo)
             };
-
 
         } catch (erro) {
 
@@ -70,84 +49,25 @@
                 erro
             );
 
-
-            return {
-                ...configuracoesPadrao
-            };
+            return { ...PADRAO };
 
         }
 
     }
 
 
-    // ==========================================
+    // ==================================================
     // SALVAR CONFIGURAÇÕES
-    // ==========================================
+    // ==================================================
 
-    window.salvarConfiguracoes = function () {
+    function salvarConfiguracoesGlobais(config) {
 
         try {
 
-            const configuracoes = {
-
-                idioma:
-                    document.getElementById(
-                        "idioma"
-                    )?.value || "pt-BR",
-
-
-                tamanhoFonte:
-                    document.getElementById(
-                        "tamanhoFonte"
-                    )?.value || "normal",
-
-
-                altoContraste:
-                    document.getElementById(
-                        "altoContraste"
-                    )?.checked || false,
-
-
-                reduzirAnimacoes:
-                    document.getElementById(
-                        "reduzirAnimacoes"
-                    )?.checked || false,
-
-
-                leituraFacilitada:
-                    document.getElementById(
-                        "leituraFacilitada"
-                    )?.checked || false,
-
-
-                modoSurdo:
-                    document.getElementById(
-                        "modoSurdo"
-                    )?.checked || false
-
-            };
-
-
             localStorage.setItem(
-
-                "smartinspect_configuracoes",
-
-                JSON.stringify(
-                    configuracoes
-                )
-
+                CHAVE,
+                JSON.stringify(config)
             );
-
-
-            aplicarConfiguracoes(
-                configuracoes
-            );
-
-
-            mostrarMensagem(
-                "✅ Configurações salvas com sucesso!"
-            );
-
 
         } catch (erro) {
 
@@ -156,277 +76,392 @@
                 erro
             );
 
+        }
 
-            alert(
-                "❌ Não foi possível salvar as configurações."
+    }
+
+
+    // ==================================================
+    // CRIAR ESTILO GLOBAL
+    // ==================================================
+
+    function criarEstiloGlobal() {
+
+        if (
+            document.getElementById(
+                "smartinspect-acessibilidade"
+            )
+        ) {
+            return;
+        }
+
+
+        const style =
+            document.createElement("style");
+
+
+        style.id =
+            "smartinspect-acessibilidade";
+
+
+        style.innerHTML = `
+
+            /* =========================================
+               TAMANHO DA FONTE
+            ========================================= */
+
+            html {
+                font-size: var(--smartinspect-font-size, 100%);
+            }
+
+
+            /* =========================================
+               FONTE MAIS LEGÍVEL
+            ========================================= */
+
+            body.smart-fonte-legivel,
+            body.smart-fonte-legivel * {
+
+                font-family:
+                    Arial,
+                    Verdana,
+                    sans-serif !important;
+
+            }
+
+
+            /* =========================================
+               MODO ESCURO
+            ========================================= */
+
+            body.smart-tema-escuro {
+
+                background:#121212 !important;
+                color:#f1f1f1 !important;
+
+            }
+
+
+            body.smart-tema-escuro .card,
+            body.smart-tema-escuro .usuario-card,
+            body.smart-tema-escuro .resumo-card,
+            body.smart-tema-escuro .chamado,
+            body.smart-tema-escuro .config-card,
+            body.smart-tema-escuro .content,
+            body.smart-tema-escuro .main {
+
+                background:#1e1e1e !important;
+                color:#f1f1f1 !important;
+
+            }
+
+
+            body.smart-tema-escuro input,
+            body.smart-tema-escuro textarea,
+            body.smart-tema-escuro select {
+
+                background:#292929 !important;
+                color:#fff !important;
+                border-color:#555 !important;
+
+            }
+
+
+            body.smart-tema-escuro p,
+            body.smart-tema-escuro span,
+            body.smart-tema-escuro label {
+
+                color:#ddd;
+
+            }
+
+
+            /* =========================================
+               ALTO CONTRASTE
+            ========================================= */
+
+            body.smart-alto-contraste {
+
+                background:#000 !important;
+                color:#fff !important;
+
+            }
+
+
+            body.smart-alto-contraste * {
+
+                border-color:#fff !important;
+
+            }
+
+
+            body.smart-alto-contraste a {
+
+                color:#ffff00 !important;
+
+            }
+
+
+            body.smart-alto-contraste button {
+
+                background:#ffff00 !important;
+                color:#000 !important;
+
+            }
+
+
+            /* =========================================
+               ESPAÇAMENTO
+            ========================================= */
+
+            body.smart-espacamento * {
+
+                letter-spacing:.04em;
+
+                line-height:1.7;
+
+            }
+
+
+            /* =========================================
+               DESATIVAR ANIMAÇÕES
+            ========================================= */
+
+            body.smart-sem-animacoes *,
+            body.smart-sem-animacoes *::before,
+            body.smart-sem-animacoes *::after {
+
+                animation:none !important;
+                transition:none !important;
+                scroll-behavior:auto !important;
+
+            }
+
+
+            /* =========================================
+               FOCO PARA ACESSIBILIDADE
+            ========================================= */
+
+            body.smart-foco-acessivel
+            button:focus,
+            body.smart-foco-acessivel
+            a:focus,
+            body.smart-foco-acessivel
+            input:focus,
+            body.smart-foco-acessivel
+            select:focus,
+            body.smart-foco-acessivel
+            textarea:focus {
+
+                outline:
+                    3px solid #ffcc00 !important;
+
+                outline-offset:3px !important;
+
+            }
+
+
+            /* =========================================
+               AVISOS VISUAIS PARA ACESSIBILIDADE AUDITIVA
+            ========================================= */
+
+            #smartinspect-alerta-visual {
+
+                position:fixed;
+
+                top:20px;
+
+                right:20px;
+
+                z-index:999999;
+
+                background:#0066cc;
+
+                color:#fff;
+
+                padding:14px 18px;
+
+                border-radius:10px;
+
+                box-shadow:
+                    0 5px 20px rgba(0,0,0,.25);
+
+                display:none;
+
+                max-width:350px;
+
+                font-weight:bold;
+
+            }
+
+        `;
+
+
+        document.head.appendChild(style);
+
+    }
+
+
+    // ==================================================
+    // APLICAR CONFIGURAÇÕES
+    // ==================================================
+
+    function aplicarConfiguracoes() {
+
+        const config =
+            obterConfiguracoes();
+
+
+        criarEstiloGlobal();
+
+
+        const body =
+            document.body;
+
+
+        if (!body) {
+            return;
+        }
+
+
+        // ==========================================
+        // TAMANHO
+        // ==========================================
+
+        let tamanho =
+            Number(config.fonte);
+
+
+        if (!tamanho || tamanho < 75) {
+            tamanho = 75;
+        }
+
+
+        if (tamanho > 150) {
+            tamanho = 150;
+        }
+
+
+        document.documentElement.style
+            .setProperty(
+                "--smartinspect-font-size",
+                tamanho + "%"
             );
+
+
+        // ==========================================
+        // TEMA
+        // ==========================================
+
+        body.classList.toggle(
+            "smart-tema-escuro",
+            config.tema === "escuro"
+        );
+
+
+        // ==========================================
+        // CONTRASTE
+        // ==========================================
+
+        body.classList.toggle(
+            "smart-alto-contraste",
+            config.contraste === true
+        );
+
+
+        // ==========================================
+        // ESPAÇAMENTO
+        // ==========================================
+
+        body.classList.toggle(
+            "smart-espacamento",
+            config.espaco === true
+        );
+
+
+        // ==========================================
+        // FONTE LEGÍVEL
+        // ==========================================
+
+        body.classList.toggle(
+            "smart-fonte-legivel",
+            config.fonteLegivel === true
+        );
+
+
+        // ==========================================
+        // ANIMAÇÕES
+        // ==========================================
+
+        body.classList.toggle(
+            "smart-sem-animacoes",
+            config.animacoes === false
+        );
+
+
+        // ==========================================
+        // FOCO
+        // ==========================================
+
+        body.classList.toggle(
+            "smart-foco-acessivel",
+            config.foco !== false
+        );
+
+    }
+
+
+    // ==================================================
+    // FUNÇÃO PÚBLICA
+    // ==================================================
+
+    window.SmartInspectConfiguracoes = {
+
+        obter: obterConfiguracoes,
+
+        salvar: function (novasConfiguracoes) {
+
+            const atual =
+                obterConfiguracoes();
+
+
+            const novas = {
+
+                ...atual,
+
+                ...novasConfiguracoes
+
+            };
+
+
+            salvarConfiguracoesGlobais(
+                novas
+            );
+
+
+            aplicarConfiguracoes();
+
+        },
+
+        aplicar:
+            aplicarConfiguracoes,
+
+        restaurar: function () {
+
+            salvarConfiguracoesGlobais(
+                { ...PADRAO }
+            );
+
+            aplicarConfiguracoes();
 
         }
 
     };
 
 
-    // ==========================================
-    // APLICAR CONFIGURAÇÕES
-    // ==========================================
-
-    function aplicarConfiguracoes(
-        configuracoes
-    ) {
-
-        if (!configuracoes) {
-            return;
-        }
-
-
-        // ======================================
-        // TAMANHO DA FONTE
-        // ======================================
-
-        document.documentElement.classList.remove(
-
-            "fonte-pequena",
-            "fonte-normal",
-            "fonte-grande",
-            "fonte-muito-grande"
-
-        );
-
-
-        document.documentElement.classList.add(
-
-            "fonte-" +
-            configuracoes.tamanhoFonte
-
-        );
-
-
-        // ======================================
-        // ALTO CONTRASTE
-        // ======================================
-
-        document.documentElement.classList.toggle(
-
-            "alto-contraste",
-
-            configuracoes.altoContraste === true
-
-        );
-
-
-        // ======================================
-        // REDUZIR ANIMAÇÕES
-        // ======================================
-
-        document.documentElement.classList.toggle(
-
-            "sem-animacoes",
-
-            configuracoes.reduzirAnimacoes === true
-
-        );
-
-
-        // ======================================
-        // LEITURA FACILITADA
-        // ======================================
-
-        document.documentElement.classList.toggle(
-
-            "leitura-facilitada",
-
-            configuracoes.leituraFacilitada === true
-
-        );
-
-
-        // ======================================
-        // MODO PARA DEFICIÊNCIA AUDITIVA
-        // ======================================
-
-        document.documentElement.classList.toggle(
-
-            "modo-surdo",
-
-            configuracoes.modoSurdo === true
-
-        );
-
-    }
-
-
-    // ==========================================
-    // PREENCHER FORMULÁRIO
-    // ==========================================
-
-    function carregarFormulario() {
-
-        const configuracoes =
-            obterConfiguracoes();
-
-
-        const idioma =
-            document.getElementById(
-                "idioma"
-            );
-
-
-        const tamanhoFonte =
-            document.getElementById(
-                "tamanhoFonte"
-            );
-
-
-        const altoContraste =
-            document.getElementById(
-                "altoContraste"
-            );
-
-
-        const reduzirAnimacoes =
-            document.getElementById(
-                "reduzirAnimacoes"
-            );
-
-
-        const leituraFacilitada =
-            document.getElementById(
-                "leituraFacilitada"
-            );
-
-
-        const modoSurdo =
-            document.getElementById(
-                "modoSurdo"
-            );
-
-
-        if (idioma) {
-
-            idioma.value =
-                configuracoes.idioma;
-
-        }
-
-
-        if (tamanhoFonte) {
-
-            tamanhoFonte.value =
-                configuracoes.tamanhoFonte;
-
-        }
-
-
-        if (altoContraste) {
-
-            altoContraste.checked =
-                configuracoes.altoContraste;
-
-        }
-
-
-        if (reduzirAnimacoes) {
-
-            reduzirAnimacoes.checked =
-                configuracoes.reduzirAnimacoes;
-
-        }
-
-
-        if (leituraFacilitada) {
-
-            leituraFacilitada.checked =
-                configuracoes.leituraFacilitada;
-
-        }
-
-
-        if (modoSurdo) {
-
-            modoSurdo.checked =
-                configuracoes.modoSurdo;
-
-        }
-
-
-        aplicarConfiguracoes(
-            configuracoes
-        );
-
-    }
-
-
-    // ==========================================
-    // MENSAGEM
-    // ==========================================
-
-    function mostrarMensagem(
-        texto
-    ) {
-
-        const mensagem =
-            document.getElementById(
-                "mensagemConfiguracoes"
-            );
-
-
-        if (!mensagem) {
-
-            return;
-
-        }
-
-
-        mensagem.textContent =
-            texto;
-
-
-        mensagem.style.display =
-            "block";
-
-
-        setTimeout(function () {
-
-            mensagem.style.display =
-                "none";
-
-        }, 3000);
-
-    }
-
-
-    // ==========================================
-    // RESTAURAR PADRÃO
-    // ==========================================
-
-    window.restaurarConfiguracoes =
-        function () {
-
-            localStorage.removeItem(
-                "smartinspect_configuracoes"
-            );
-
-
-            carregarFormulario();
-
-
-            mostrarMensagem(
-                "↩️ Configurações restauradas."
-            );
-
-        };
-
-
-    // ==========================================
-    // INICIAR
-    // ==========================================
-
-    function iniciar() {
-
-        carregarFormulario();
-
-    }
-
+    // ==================================================
+    // APLICAR AUTOMATICAMENTE
+    // ==================================================
 
     if (
         document.readyState ===
@@ -435,14 +470,15 @@
 
         document.addEventListener(
             "DOMContentLoaded",
-            iniciar
+            aplicarConfiguracoes
         );
 
     } else {
 
-        iniciar();
+        aplicarConfiguracoes();
 
     }
+
 
 })();
 ```
