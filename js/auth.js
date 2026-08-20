@@ -78,6 +78,7 @@ const permissoes = {
         "ia",
         "relatorios",
         "perfil"
+                "configuracoes"
     ],
 
     inspetor: [
