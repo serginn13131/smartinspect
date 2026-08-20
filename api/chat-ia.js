@@ -1,4 +1,4 @@
-
+```javascript
 // ==========================================
 // SMARTINSPECT AI
 // API DE INTELIGÊNCIA ARTIFICIAL
@@ -104,7 +104,7 @@ export default async function handler(req, res) {
                     body: JSON.stringify({
 
                         model:
-                            "llama-3.3-70b-versatile",
+                            "llama-3.1-8b-instant",
 
                         temperature:
                             0.3,
@@ -131,18 +131,6 @@ Conhecimentos principais:
 - Inspeções prediais
 - Inspeções de obras
 - Patologias da construção
-- Fissuras
-- Trincas
-- Infiltrações
-- Umidade
-- Concreto
-- Estruturas
-- Alvenaria
-- Revestimentos
-- Instalações
-- Acabamentos
-- Manutenção predial
-- Materiais de construção
 - Segurança
 - Normas técnicas
 
@@ -347,3 +335,4 @@ deixe isso claro.
     }
 
 }
+
