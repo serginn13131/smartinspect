@@ -1,22 +1,14 @@
 
 export default async function handler(req, res) {
 
-    console.log("=== SMARTINSPECT AI ===");
-
-    console.log("Método:", req.method);
-
-    console.log(
-        "GROQ_API_KEY existe:",
-        !!process.env.GROQ_API_KEY
-    );
-
+    // ==========================================
+    // SOMENTE POST
+    // ==========================================
 
     if (req.method !== "POST") {
 
         return res.status(405).json({
-
             erro: "Método não permitido."
-
         });
 
     }
@@ -24,31 +16,32 @@ export default async function handler(req, res) {
 
     try {
 
-        const mensagem =
-            req.body?.mensagem;
+        // ==========================================
+        // VERIFICAR CHAVE
+        // ==========================================
+
+        const apiKey =
+            process.env.GROQ_API_KEY;
 
 
-        console.log(
-            "Mensagem recebida:",
-            !!mensagem
-        );
-
-
-        if (!process.env.GROQ_API_KEY) {
-
-            console.error(
-                "GROQ_API_KEY NÃO ENCONTRADA"
-            );
-
+        if (!apiKey) {
 
             return res.status(500).json({
 
                 erro:
-                    "GROQ_API_KEY não está disponível na função."
+                    "GROQ_API_KEY não encontrada na Vercel."
 
             });
 
         }
+
+
+        // ==========================================
+        // MENSAGEM
+        // ==========================================
+
+        const mensagem =
+            req.body?.mensagem;
 
 
         if (!mensagem) {
@@ -56,17 +49,16 @@ export default async function handler(req, res) {
             return res.status(400).json({
 
                 erro:
-                    "Mensagem não recebida."
+                    "Nenhuma mensagem foi enviada."
 
             });
 
         }
 
 
-        console.log(
-            "Chamando Groq..."
-        );
-
+        // ==========================================
+        // GROQ
+        // ==========================================
 
         const resposta = await fetch(
 
@@ -79,7 +71,7 @@ export default async function handler(req, res) {
                 headers: {
 
                     "Authorization":
-                        `Bearer ${process.env.GROQ_API_KEY}`,
+                        `Bearer ${apiKey}`,
 
                     "Content-Type":
                         "application/json"
@@ -98,7 +90,7 @@ export default async function handler(req, res) {
                             role: "system",
 
                             content:
-                                "Você é o SmartInspect AI, especialista em construção civil. Responda em português do Brasil de forma técnica e objetiva."
+                                "Você é o SmartInspect AI, um especialista em construção civil. Responda em português do Brasil. Seja técnico, objetivo e organizado. Não invente normas técnicas."
 
                         },
 
@@ -106,7 +98,8 @@ export default async function handler(req, res) {
 
                             role: "user",
 
-                            content: mensagem
+                            content:
+                                mensagem
 
                         }
 
@@ -119,35 +112,15 @@ export default async function handler(req, res) {
         );
 
 
-        console.log(
-            "Status Groq:",
-            resposta.status
-        );
-
+        // ==========================================
+        // LER RESPOSTA DA GROQ
+        // ==========================================
 
         const texto =
             await resposta.text();
 
 
-        console.log(
-            "Resposta Groq:",
-            texto
-        );
-
-
-        if (!resposta.ok) {
-
-            return res.status(502).json({
-
-                erro:
-                    `Groq retornou ${resposta.status}: ${texto}`
-
-            });
-
-        }
-
-
-        let dados;
+        let dados = null;
 
 
         try {
@@ -155,32 +128,61 @@ export default async function handler(req, res) {
             dados =
                 JSON.parse(texto);
 
+        } catch {
+
+            dados = null;
+
         }
 
-        catch (erro) {
+
+        // ==========================================
+        // GROQ DEU ERRO
+        // ==========================================
+
+        if (!resposta.ok) {
+
+            console.error(
+                "ERRO GROQ:",
+                resposta.status,
+                texto
+            );
+
 
             return res.status(502).json({
 
-                erro:
-                    "Resposta da Groq não é JSON válido."
+                sucesso: false,
+
+                status_groq:
+                    resposta.status,
+
+                erro_groq:
+                    dados?.error?.message ||
+                    texto ||
+                    "Erro desconhecido da Groq."
 
             });
 
         }
 
 
-        const resultado =
+        // ==========================================
+        // PEGAR RESPOSTA
+        // ==========================================
+
+        const respostaIA =
             dados?.choices?.[0]?.message?.content;
 
 
-        if (!resultado) {
+        if (!respostaIA) {
 
             return res.status(502).json({
 
-                erro:
-                    "A Groq não retornou conteúdo.",
+                sucesso: false,
 
-                detalhes:
+                erro:
+                    "A Groq respondeu, mas não enviou o texto da IA.",
+
+                resposta_groq:
                     dados
 
             });
@@ -188,10 +190,16 @@ export default async function handler(req, res) {
         }
 
 
+        // ==========================================
+        // SUCESSO
+        // ==========================================
+
         return res.status(200).json({
 
+            sucesso: true,
+
             resposta:
-                resultado
+                respostaIA
 
         });
 
@@ -201,12 +209,14 @@ export default async function handler(req, res) {
     catch (erro) {
 
         console.error(
-            "ERRO SMARTINSPECT:",
+            "ERRO API:",
             erro
         );
 
 
         return res.status(500).json({
+
+            sucesso: false,
 
             erro:
                 erro?.message ||
@@ -217,4 +227,3 @@ export default async function handler(req, res) {
     }
 
 }
-
