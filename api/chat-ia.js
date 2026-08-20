@@ -1,4 +1,4 @@
-```javascript
+
 // ==========================================
 // SMARTINSPECT AI
 // API DE INTELIGÊNCIA ARTIFICIAL
