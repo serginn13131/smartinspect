@@ -21,7 +21,6 @@ export default async function handler(req, res) {
 
     const { mensagem } = req.body || {};
 
-
     if (!mensagem || !mensagem.trim()) {
 
         return res.status(400).json({
@@ -32,20 +31,19 @@ export default async function handler(req, res) {
 
 
     // ==========================================
-    // VERIFICAR API KEY
+    // VERIFICAR API KEY DA GROQ
     // ==========================================
 
-    const apiKey = process.env.DEEPSEEK_API_KEY;
-
+    const apiKey = process.env.GROQ_API_KEY;
 
     if (!apiKey) {
 
         console.error(
-            "DEEPSEEK_API_KEY não configurada."
+            "GROQ_API_KEY não configurada."
         );
 
         return res.status(500).json({
-            erro: "A chave da DeepSeek não está configurada no servidor."
+            erro: "A chave da Groq não está configurada no servidor."
         });
 
     }
@@ -54,19 +52,18 @@ export default async function handler(req, res) {
     try {
 
         // ==========================================
-        // CHAMAR DEEPSEEK
+        // CHAMAR GROQ
         // ==========================================
 
         const resposta = await fetch(
-            "https://api.deepseek.com/chat/completions",
+            "https://api.groq.com/openai/v1/chat/completions",
             {
 
                 method: "POST",
 
                 headers: {
 
-                    "Content-Type":
-                        "application/json",
+                    "Content-Type": "application/json",
 
                     "Authorization":
                         `Bearer ${apiKey}`
@@ -75,7 +72,7 @@ export default async function handler(req, res) {
 
                 body: JSON.stringify({
 
-                    model: "deepseek-v4-flash",
+                    model: "openai/gpt-oss-20b",
 
                     messages: [
 
@@ -133,15 +130,14 @@ Suas respostas devem ser claras, técnicas e práticas.`
 
 
         // ==========================================
-        // LER RESPOSTA DA DEEPSEEK
+        // LER RESPOSTA DA GROQ
         // ==========================================
 
         const texto =
             await resposta.text();
 
-
         console.log(
-            "Resposta DeepSeek:",
+            "Resposta Groq:",
             texto
         );
 
@@ -158,7 +154,7 @@ Suas respostas devem ser claras, técnicas e práticas.`
             return res.status(500).json({
 
                 erro:
-                    "Resposta inválida recebida da DeepSeek."
+                    "Resposta inválida recebida da Groq."
 
             });
 
@@ -166,13 +162,13 @@ Suas respostas devem ser claras, técnicas e práticas.`
 
 
         // ==========================================
-        // ERRO DA DEEPSEEK
+        // ERRO DA GROQ
         // ==========================================
 
         if (!resposta.ok) {
 
             console.error(
-                "Erro DeepSeek:",
+                "Erro Groq:",
                 dados
             );
 
@@ -183,7 +179,7 @@ Suas respostas devem ser claras, técnicas e práticas.`
                 erro:
                     dados?.error?.message ||
                     dados?.message ||
-                    "Erro ao consultar a DeepSeek."
+                    "Erro ao consultar a Groq."
 
             });
 
@@ -191,7 +187,7 @@ Suas respostas devem ser claras, técnicas e práticas.`
 
 
         // ==========================================
-        // PEGAR RESPOSTA
+        // PEGAR RESPOSTA DA IA
         // ==========================================
 
         const respostaIA =
@@ -203,7 +199,7 @@ Suas respostas devem ser claras, técnicas e práticas.`
             return res.status(500).json({
 
                 erro:
-                    "A DeepSeek não retornou uma resposta."
+                    "A Groq não retornou uma resposta."
 
             });
 
@@ -234,7 +230,7 @@ Suas respostas devem ser claras, técnicas e práticas.`
         return res.status(500).json({
 
             erro:
-                "Erro interno ao conectar com a DeepSeek."
+                "Erro interno ao conectar com a Groq."
 
         });
 
