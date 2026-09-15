@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -127,6 +127,24 @@
 
 
 /* =========================
+   RODAPÉ CENTRALIZADO
+========================= */
+
+footer{
+    text-align:center;
+    width:100%;
+    margin:60px auto 20px auto;
+    padding:25px 0;
+    color:#666;
+    line-height:1.8;
+}
+
+footer strong{
+    color:#333;
+}
+
+
+/* =========================
    RESPONSIVO
 ========================= */
 
@@ -146,6 +164,11 @@
         height:29px;
     }
 
+    footer{
+        margin-top:40px;
+        padding:20px 10px;
+    }
+
 }
 
 </style>
@@ -156,12 +179,16 @@
 <body>
 
 
-<!-- SIDEBAR -->
+<!-- =========================
+     SIDEBAR
+========================= -->
 
 <div class="menu-container"></div>
 
 
-<!-- CONTEÚDO -->
+<!-- =========================
+     CONTEÚDO
+========================= -->
 
 <div class="content">
 
@@ -310,6 +337,7 @@
             <a
                 href="https://instagram.com/"
                 target="_blank"
+                rel="noopener noreferrer"
                 class="rede"
                 title="Instagram"
             >
@@ -327,6 +355,7 @@
             <a
                 href="https://wa.me/"
                 target="_blank"
+                rel="noopener noreferrer"
                 class="rede"
                 title="WhatsApp"
             >
@@ -360,6 +389,7 @@
             <a
                 href="https://discord.com/"
                 target="_blank"
+                rel="noopener noreferrer"
                 class="rede"
                 title="Discord"
             >
@@ -419,6 +449,7 @@
 <script>
 
 document.addEventListener("DOMContentLoaded", async function(){
+
 
     /* =========================
        LOGIN
@@ -841,7 +872,7 @@ document.addEventListener("DOMContentLoaded", async function(){
     ouvirUsuarios();
 
 
-    /* Atualiza a equipe online
+    /* Atualiza equipe online
        a cada 10 segundos */
 
     setInterval(
@@ -858,4 +889,4 @@ document.addEventListener("DOMContentLoaded", async function(){
 </body>
 
 </html>
-
+```
